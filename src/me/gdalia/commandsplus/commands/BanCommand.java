@@ -37,7 +37,7 @@ public class BanCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (args.length <= 2) {
+		if (args.length < 2) {
 			Message.BAN_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}

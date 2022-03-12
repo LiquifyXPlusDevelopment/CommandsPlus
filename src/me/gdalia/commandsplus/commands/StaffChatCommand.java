@@ -32,12 +32,12 @@ public class StaffChatCommand implements CommandExecutor{
 			
         if (!PlayerCollection.getStaffchatPlayers().contains(uuid)) {
         	PlayerCollection.getStaffchatPlayers().add(uuid);
-			Message.STAFFCHAT_ENABLE.sendFormattedMessage(player, true);
+			Message.STAFFCHAT_ENABLE.sendMessage(player, true);
 			return true;
         }
         
         PlayerCollection.getStaffchatPlayers().remove(uuid);
-		Message.STAFFCHAT_DISABLE.sendFormattedMessage(player, true);
+		Message.STAFFCHAT_DISABLE.sendMessage(player, true);
 		
 		return true;
 	}

@@ -6,9 +6,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import me.gdalia.commandsplus.Main;
-import me.gdalia.commandsplus.structs.Message;
 import me.gdalia.commandsplus.structs.PunishmentType;
 import me.gdalia.commandsplus.structs.events.PlayerPunishEvent;
+import me.gdalia.commandsplus.utils.Utils;
 
 public class PlayerPunishListener implements Listener {
 
@@ -26,6 +26,6 @@ public class PlayerPunishListener implements Listener {
 		
 		message.forEach(msg -> sb.append(msg).append("\n"));
 		
-		event.getPlayer().kickPlayer(Message.fixColor(sb.toString())); 
+		event.getPlayer().kickPlayer(Utils.color(sb.toString())); 
 	}
 }

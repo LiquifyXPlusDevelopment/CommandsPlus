@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import me.gdalia.commandsplus.Main;
 import me.gdalia.commandsplus.structs.Message;
+import me.gdalia.commandsplus.utils.Utils;
 
 @me.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "chat")
 public class ChatCommand implements CommandExecutor, TabCompleter {
@@ -42,9 +43,10 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 					cleared.sendMessage(" ");
 				Main.getInstance().getConfig().getStringList("chat.clear-template")
 					.stream()
-					.map(Message::fixColor)
+					.map(Utils::color)
 					.forEach(cleared::sendMessage);
 			});
+			return true;
 		}
 
 		case "lock": {
@@ -56,12 +58,13 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 				Main.getInstance().getConfig().set("chat.locked", false);
 				Message.UNLOCK_MESSAGE.sendMessage(sender, true);
 			}
+			return true;
 		}
 
-		default: Message.cmdUsage(cmd, sender);
+		default:
+			Message.cmdUsage(cmd, sender);
+			return true;
 		}
-		
-		return true;
 	}
 
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {

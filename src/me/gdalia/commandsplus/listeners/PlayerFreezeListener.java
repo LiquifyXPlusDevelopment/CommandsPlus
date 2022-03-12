@@ -16,6 +16,6 @@ public class PlayerFreezeListener implements Listener{
         UUID uuid = event.getPlayer().getUniqueId();
 		if(!PlayerCollection.getFreezePlayers().contains(uuid)) return;
 		event.setCancelled(true);
-		Message.FREEZE_MESSAGE.sendFormattedMessage(event.getPlayer(), true);
+		Message.FREEZE_MESSAGE.sendMessage(event.getPlayer(), true);
 	}
 }

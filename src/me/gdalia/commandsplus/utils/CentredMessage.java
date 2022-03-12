@@ -7,6 +7,7 @@ public final class CentredMessage {
     private CentredMessage() {}
 
     private final static int CENTER_PX = 154;
+
     public static String generate(String message) {
         if (message == null || message.equals("")) {
             return "";
@@ -18,7 +19,7 @@ public final class CentredMessage {
         boolean isBold = false;
 
         for (char c : message.toCharArray()) {
-            if (c == 'ยง') {
+            if (c == 'ง') {
                 previousCode = true;
             } else if (previousCode) {
                 previousCode = false;
