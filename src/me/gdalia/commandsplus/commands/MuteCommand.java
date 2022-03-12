@@ -37,7 +37,7 @@ public class MuteCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (args.length <= 2) {
+		if (args.length <= 1) {
 			Message.MUTE_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}

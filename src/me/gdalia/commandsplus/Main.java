@@ -54,11 +54,10 @@ public class Main extends JavaPlugin {
 		setInstance(this);
 		saveDefaultConfig();
 		
-		setLanguageConfig(Config.getConfig("language", null));
-        getLanguageConfig().options().copyDefaults(true);
+		setLanguageConfig(Config.getConfig("language", null, true));
         getLanguageConfig().saveConfig();
 
-		setPunishmentsConfig(Config.getConfig("punishments", null));
+		setPunishmentsConfig(Config.getConfig("punishments", null, false));
         
 		new ListenerAutoRegistration(this, false).register("me.gdalia.commandsplus.listeners");
 		new CommandAutoRegistration(this, false).register("me.gdalia.commandsplus.commands");

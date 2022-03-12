@@ -40,7 +40,7 @@ public class TempmuteCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (args.length <= 3) {
+		if (args.length <= 2) {
 			Message.TEMPMUTE_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
@@ -69,7 +69,7 @@ public class TempmuteCommand implements CommandExecutor {
             
             StringBuilder reasonBuilder = new StringBuilder();
             
-            for (int i = 2; i <= args.length; i++) 
+            for (int i = 2; i < args.length; i++) 
             	reasonBuilder.append(args[i]);
             
             Instant expiry = Instant.now().plus(duration);

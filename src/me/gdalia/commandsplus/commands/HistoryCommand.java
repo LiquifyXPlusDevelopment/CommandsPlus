@@ -42,7 +42,7 @@ public class HistoryCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (args.length < 1) {
+		if (args.length == 0) {
 			Message.HISTORY_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}

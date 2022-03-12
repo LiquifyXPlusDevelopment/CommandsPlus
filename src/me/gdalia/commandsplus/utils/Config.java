@@ -59,20 +59,21 @@ public class Config extends YamlConfiguration {
 	@Getter
 	private File file;
 	
-	public Config(String name, @Nullable String folder) {
+	public Config(String name, @Nullable String folder, boolean loadFromDefault) {
 		setName(name);
 		setFolder(folder);
 		configs.put(folder == null ? name : folder + File.separator + name, this);
-		load();
+		load(loadFromDefault);
 	}
 	
-	public static Config getConfig(String name, @Nullable String folder) {
+	public static Config getConfig(String name, @Nullable String folder, boolean loadFromDefault) {
 		String path = folder == null ? name : folder + File.separator + name;
-		return configs.containsKey(path) ? configs.get(name) : new Config(name, folder);
+		return configs.containsKey(path) ? configs.get(name) : new Config(name, folder, loadFromDefault);
 	}
 	
 	@SneakyThrows
-	protected void load() {
+	protected void load(boolean defaultConfig) {
+		if (defaultConfig) saveDefaultConfig();
 		String path = (plugin.getDataFolder() + (folder != null ? (File.separator + folder) : ""));
 		file = new File(path, name.toLowerCase() + ".yml");
 		if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
@@ -81,6 +82,12 @@ public class Config extends YamlConfiguration {
 		this.load(file);
 	}
 
+	
+	@SneakyThrows
+	public void saveDefaultConfig() {
+		plugin.saveResource(name.toLowerCase() + ".yml", false);
+	}
+	
 	@SneakyThrows
 	public void saveConfig() {
 		this.options().copyDefaults(true);

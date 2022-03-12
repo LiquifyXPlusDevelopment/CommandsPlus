@@ -29,7 +29,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         	return false;
         }
         
-		if (args.length <= 0) {
+		if (args.length == 0) {
 			player.sendMessage(Message.fixColor("&7/commandsplus [&ehelp&7/&ereload&7]"));
 			return true;
 		}

@@ -30,7 +30,7 @@ public class WarnCommand implements CommandExecutor{
 			return true;
 		}
 		
-		if (args.length < 1) {
+		if (args.length <= 1) {
 			Message.WARN_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}

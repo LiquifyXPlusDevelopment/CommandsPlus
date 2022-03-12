@@ -25,9 +25,9 @@ public enum Gamemode {
 		asCommand;
 
 	@Getter
-	private final String[] asSubCommand;
+	private final String asSubCommand;
 	
-	private Gamemode(GameMode gamemode, int integer, String permission, String commandName, String... NameAsSubCommand) {
+	private Gamemode(GameMode gamemode, int integer, String permission, String commandName, String NameAsSubCommand) {
 		this.asBukkit = gamemode;
 		this.asInteger = integer;
 		this.permission = permission;
