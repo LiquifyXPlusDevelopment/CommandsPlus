@@ -13,6 +13,11 @@ import me.gdalia.commandsplus.structs.Message;
 @me.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "gamemode")
 public class GamemodeCommand implements CommandExecutor {
 
+	/**
+	 *  /gamemode (type) (player)
+	 *  LABEL	   ARG0    ARG1
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
@@ -22,7 +27,7 @@ public class GamemodeCommand implements CommandExecutor {
             return false;
         }
         
-		if (args.length < 1) {
+		if (args.length == 0) {
 			Message.GAMEMODE_ARGUMENTS.sendMessage(sender, true);
 			return false;
 		}
@@ -47,7 +52,7 @@ public class GamemodeCommand implements CommandExecutor {
         
 		Player player = (Player)sender;
 		
-		if (args.length < 1 && Bukkit.getPlayerExact(args[1]) != null) {
+		if (args.length > 1 && Bukkit.getPlayerExact(args[1]) != null) {
 			player = Bukkit.getPlayer(args[1]);
 		} else if (Bukkit.getPlayerExact(args[1]) == null) {
 			Message.INVALID_PLAYER.sendMessage(sender, true);

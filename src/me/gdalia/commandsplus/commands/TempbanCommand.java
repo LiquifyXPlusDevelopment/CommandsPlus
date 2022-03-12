@@ -23,7 +23,8 @@ import me.gdalia.commandsplus.utils.StringUtils;
 public class TempbanCommand implements CommandExecutor {
 	
 	/**
-	 /tempban {user} {time} {reason}
+	 * /tempban {user} {time} {reason}
+	 * LABEL     ARG0   ARG1    ARG2+
 	 */
 	
     @SuppressWarnings({ "deprecation"})
@@ -41,7 +42,7 @@ public class TempbanCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (args.length <= 2) {
+		if (args.length <= 3) {
 			Message.TEMPBAN_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
@@ -71,7 +72,7 @@ public class TempbanCommand implements CommandExecutor {
             
             StringBuilder reasonBuilder = new StringBuilder();
             
-            for (int i = 3; i < args.length; i++) 
+            for (int i = 2; i <= args.length; i++) 
             	reasonBuilder.append(args[i]);
             
             Instant expiry = Instant.now().plus(duration);

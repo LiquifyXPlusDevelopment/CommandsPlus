@@ -18,7 +18,9 @@ import me.gdalia.commandsplus.structs.PunishmentType;
 public class MuteCommand implements CommandExecutor {
 	
 	/**
-	 /mute {user} {reason}
+	 * /mute {user} {reason}
+	 * LABEL  ARG0   ARG1+
+	 * 
 	 */
 	
 	@Override
@@ -35,7 +37,7 @@ public class MuteCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (args.length < 2) {
+		if (args.length <= 2) {
 			Message.MUTE_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
@@ -52,9 +54,8 @@ public class MuteCommand implements CommandExecutor {
         	
             StringBuilder reasonBuilder = new StringBuilder();
             
-            for (int i = 2; i < args.length; i++) 
+            for (int i = 2; i <= args.length; i++) 
             	reasonBuilder.append(args[i]);
-            
             
             UUID executer = null;
             if (sender instanceof Player requester) executer = requester.getUniqueId();

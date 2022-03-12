@@ -19,7 +19,8 @@ import me.gdalia.commandsplus.structs.PunishmentType;
 public class BanCommand implements CommandExecutor {
 	
 	/**
-	 /ban {user} {reason}
+	 * /ban {user} {reason}
+	 * LABEL ARG1    ARG2+
 	 */
 	
     @SuppressWarnings({ "deprecation"})
@@ -37,7 +38,7 @@ public class BanCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (args.length < 2) {
+		if (args.length <= 2) {
 			Message.BAN_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
