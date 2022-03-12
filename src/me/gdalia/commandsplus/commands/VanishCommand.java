@@ -40,7 +40,7 @@ public class VanishCommand implements CommandExecutor{
 			.stream()
 			.filter(player -> player.canSee(p) && !player.hasPermission("commandsplus.vanish.see"))
 			.forEach(player -> player.hidePlayer(Main.getInstance(), p));
-			Message.VANISH_ENABLE.sendFormattedMessage(p, true);
+			Message.VANISH_ENABLE.sendMessage(p, true);
 			return true;
         }
         
@@ -52,7 +52,7 @@ public class VanishCommand implements CommandExecutor{
 			.stream()
 			.filter(player -> !player.canSee(p))
 			.forEach(player -> player.showPlayer(Main.getInstance(), p));
-		Message.VANISH_DISABLE.sendFormattedMessage(p, true);
+		Message.VANISH_DISABLE.sendMessage(p, true);
 		return true;
 	}
 }

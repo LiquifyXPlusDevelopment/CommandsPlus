@@ -29,7 +29,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         	return false;
         }
         
-		if (args.length <= 0) {
+		if (args.length == 0) {
 			player.sendMessage(Message.fixColor("&7/commandsplus [&ehelp&7/&ereload&7]"));
 			return true;
 		}
@@ -60,6 +60,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			player.sendMessage(Message.fixColor("&e/unban [player] &7Unbanned the player from the server."));
 			player.sendMessage(Message.fixColor("&e/unmute [player] &7Unmuted the player from the server."));
 			player.sendMessage(Message.fixColor("&e/vanish [player] &7Vanish you from other players."));
+			player.sendMessage(Message.fixColor("&e/warn [player] [reason] &7Warn the player."));
 			player.sendMessage(Message.fixColor("&7-------- &b1&7/&b1&7 --------"));
 			return true;
 		}

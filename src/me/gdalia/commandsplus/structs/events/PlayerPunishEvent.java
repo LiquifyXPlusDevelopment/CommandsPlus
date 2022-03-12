@@ -7,11 +7,10 @@ import org.bukkit.event.player.PlayerEvent;
 import lombok.Getter;
 import me.gdalia.commandsplus.structs.Punishment;
 
-
 public class PlayerPunishEvent extends PlayerEvent {
 
 	private static HandlerList HANDLERS = new HandlerList();
-	
+
 	@Getter
 	private final Punishment punishment;
 
@@ -19,7 +18,11 @@ public class PlayerPunishEvent extends PlayerEvent {
 		super(player);
 		this.punishment = punishment;
 	}
-	
+
+	public static HandlerList getHandlerList() {
+		return HANDLERS;
+	}
+
 	@Override
 	public HandlerList getHandlers() {
 		return HANDLERS;

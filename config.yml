@@ -25,7 +25,7 @@ chat:
       - "&5&l&m-------------------------------------"
 
 ban-lang:
-    tempban_template:
+    tempban-template:
        - "&cYou are temporarily banned from &6yourserver.example&c."
        - ""
        - "&7Expiry: %time%"
@@ -34,7 +34,7 @@ ban-lang:
        - ""
        - "&7If you feel this punishment is unjustified, fill out a support ticket at &6www.website.com."
        
-    ban_template:
+    ban-template:
        - "&cYou are permanently banned from &6yourserver.example&c."
        - ""
        - "&7Reason: &f%reason%"
@@ -42,7 +42,7 @@ ban-lang:
        - "&7If you feel this punishment is unjustified, fill out a support ticket at &6www.website.com."
         
 kick-lang:
-    kick_template:
+    kick-template:
         - "&cYou have been kicked from &6yourserver.example&c."
         - ""
         - "&7Reason: &f%reason%"

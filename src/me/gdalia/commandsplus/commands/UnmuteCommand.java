@@ -50,7 +50,7 @@ public class UnmuteCommand implements CommandExecutor {
         		Message.PLAYER_UNMUTED.sendFormattedMessage(sender, true, target.getName());
         		Message.TARGET_UNMUTED.sendFormattedMessage(target, true, sender.getName());
         		
-        		}, () -> Message.PLAYER_NOT_BANNED.sendFormattedMessage(sender, true));
+        		}, () -> Message.PLAYER_NOT_BANNED.sendMessage(sender, true));
 		return true;
 	}
 

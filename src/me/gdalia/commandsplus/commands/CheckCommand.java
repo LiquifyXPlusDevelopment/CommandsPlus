@@ -46,7 +46,7 @@ public class CheckCommand implements CommandExecutor {
 		}
 
 		@SuppressWarnings("deprecation")
-		OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (!target.hasPlayedBefore()) {
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return true;

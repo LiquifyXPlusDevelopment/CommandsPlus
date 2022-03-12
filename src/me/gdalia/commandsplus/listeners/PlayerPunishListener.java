@@ -25,7 +25,7 @@ public class PlayerPunishListener implements Listener {
 		StringBuilder sb = new StringBuilder();
 		
 		message.forEach(msg -> sb.append(msg).append("\n"));
-		
+		System.out.println(sb.toString());
 		event.getPlayer().kickPlayer(Message.fixColor(sb.toString())); 
 	}
 }

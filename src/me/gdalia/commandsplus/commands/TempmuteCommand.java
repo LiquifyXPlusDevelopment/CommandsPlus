@@ -22,7 +22,8 @@ import me.gdalia.commandsplus.utils.StringUtils;
 public class TempmuteCommand implements CommandExecutor {
 	
 	/**
-	 /tempmute {user} {time} {reason}
+	 * /tempmute {user} {time} {reason}
+	 * LABEL      ARG0   ARG1    ARG2+
 	 */
 	
 	@Override
@@ -44,7 +45,7 @@ public class TempmuteCommand implements CommandExecutor {
 			return true;
 		}
 		
-		Player target = Bukkit.getPlayerExact(args[1]);
+		Player target = Bukkit.getPlayerExact(args[0]);
 		
         if(target == null) {
         	Message.INVALID_PLAYER.sendMessage(sender, true);
@@ -68,7 +69,7 @@ public class TempmuteCommand implements CommandExecutor {
             
             StringBuilder reasonBuilder = new StringBuilder();
             
-            for (int i = 3; i <= args.length; i++) 
+            for (int i = 2; i < args.length; i++) 
             	reasonBuilder.append(args[i]);
             
             Instant expiry = Instant.now().plus(duration);
@@ -86,8 +87,8 @@ public class TempmuteCommand implements CommandExecutor {
             punishment.setExpiry(expiry);
             
             PunishmentManager.getInstance().invoke(punishment);
-            Message.PLAYER_TEMPMUTED_MESSAGE.sendFormattedMessage(sender, true, target.getName(), expiry);
-            Message.TARGET_TEMPMUTED_MESSAGE.sendFormattedMessage(target, true, expiry);
+            Message.PLAYER_TEMPMUTED_MESSAGE.sendFormattedMessage(sender, true, target.getName(), duration);
+            Message.TARGET_TEMPMUTED_MESSAGE.sendFormattedMessage(target, true, duration);
 	
         });
         return true;

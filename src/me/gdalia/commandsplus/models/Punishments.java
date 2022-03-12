@@ -89,13 +89,13 @@ public class Punishments {
 	 * @return An optional container which could be empty or contain a punishment.
 	 */	
 	public Optional<Punishment> getActivePunishment(UUID uuid, PunishmentType... type) {
-		ConfigurationSection cs = pConfig.getConfigurationSection(uuid.toString());
 		return getHistory(uuid).stream()
-				.filter(punishment -> 
-				(punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now())) &&
-				(Arrays.asList(type).contains(punishment.getType()) && 
-				(cs.get(ConfigFields.PunishFields.OVERRIDE) == null && cs.get(ConfigFields.PunishFields.REMOVED_BY) == null)))
-				.findFirst();
+				.filter(punishment -> Arrays.asList(type).contains(punishment.getType()))
+				.filter(punishment -> punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now()))
+				.filter(punishment -> {
+					ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
+					return !cs.contains(ConfigFields.PunishFields.OVERRIDE) && !cs.contains(ConfigFields.PunishFields.REMOVED_BY);
+				}).findFirst();
 	}
 	
 	/**

@@ -32,12 +32,12 @@ public class BuildmodeCommand implements CommandExecutor{
         
         if (!PlayerCollection.getBuildmodePlayers().contains(uuid)) {
         	PlayerCollection.getBuildmodePlayers().add(uuid);
-			Message.BUILDMODE_ENABLE.sendFormattedMessage(player, true);
+			Message.BUILDMODE_ENABLE.sendMessage(player, true);
 			return true;
         }
         
         PlayerCollection.getBuildmodePlayers().remove(uuid);
-		Message.BUILDMODE_DISABLE.sendFormattedMessage(player, true);
+		Message.BUILDMODE_DISABLE.sendMessage(player, true);
 		return true;
 	}
 	

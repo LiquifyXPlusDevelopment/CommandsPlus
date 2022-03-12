@@ -16,7 +16,10 @@ import me.gdalia.commandsplus.structs.Message;
 @me.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "alts")
 public class AltsCommand implements CommandExecutor, TabCompleter {
 
-	
+	/**
+	 *  /alt (name)
+	 *  LABEL ARG0
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
@@ -33,7 +36,7 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 
 		Player player = (Player) sender;
 
-		if (args.length <= 1) {
+		if (args.length == 0) {
 			Message.DESCRIBE_PLAYER.sendMessage(sender, true);
 			return true;
 		}

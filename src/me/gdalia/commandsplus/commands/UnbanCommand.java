@@ -50,7 +50,7 @@ public class UnbanCommand implements CommandExecutor{
         		UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
         		PunishmentManager.getInstance().revoke(new PunishmentRevoke(punishment, executer));
         		Message.PLAYER_UNBANNED.sendFormattedMessage(sender, true, target.getName());
-        		}, () -> Message.PLAYER_NOT_BANNED.sendFormattedMessage(sender, true));
+        		}, () -> Message.PLAYER_NOT_BANNED.sendMessage(sender, true));
         return true;
 	}
 

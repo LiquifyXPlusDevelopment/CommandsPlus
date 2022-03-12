@@ -36,39 +36,40 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 		}
 
 		switch (args[0].toLowerCase()) {
-		case "clear": {
-			Bukkit.getOnlinePlayers().forEach(cleared -> {
-				for (int i = 0; i <= 100; i++)
-					cleared.sendMessage(" ");
-				Main.getInstance().getConfig().getStringList("chat.clear-template")
-					.stream()
-					.map(Message::fixColor)
-					.forEach(cleared::sendMessage);
-			});
-		}
+			case "clear": {
+				Bukkit.getOnlinePlayers().forEach(cleared -> {
+					for (int i = 0; i <= 100; i++) cleared.sendMessage(" ");
+					
+					Main.getInstance().getConfig().getStringList("chat.clear-template")
+						.stream()
+						.map(Message::fixColor)
+						.forEach(cleared::sendMessage);
+				});
+				return true;
+			}
+			
+			case "lock": {
+				boolean isLocked = Main.getInstance().getConfig().getBoolean("chat.locked");
+				if (!isLocked) {
+					Main.getInstance().getConfig().set("chat.locked", true);
+					Message.LOCK_MESSAGE.sendMessage(sender, true);
+				} else {
+					Main.getInstance().getConfig().set("chat.locked", false);
+					Message.UNLOCK_MESSAGE.sendMessage(sender, true);
+				}
+				return true;
+			}
 
-		case "lock": {
-			boolean isLocked = Main.getInstance().getConfig().getBoolean("chat.locked");
-			if (!isLocked) {
-				Main.getInstance().getConfig().set("chat.locked", true);
-				Message.LOCK_MESSAGE.sendMessage(sender, true);
-			} else {
-				Main.getInstance().getConfig().set("chat.locked", false);
-				Message.UNLOCK_MESSAGE.sendMessage(sender, true);
+			default: {
+				Message.cmdUsage(cmd, sender);
+				return true;
 			}
 		}
-
-		default: Message.cmdUsage(cmd, sender);
-		}
-		
-		return true;
 	}
 
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!sender.hasPermission("commandsplus.chat"))
-			return null;
-		if (args.length == 0)
-			return null;
+		if (!sender.hasPermission("commandsplus.chat")) return null;
+		if (args.length != 0) return null;
 		return List.of("clear", "lock");
 	}
 }

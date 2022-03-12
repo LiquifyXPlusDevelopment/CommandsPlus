@@ -30,7 +30,7 @@ public class KickCommand implements CommandExecutor{
 			return true;
 		}
 		
-		if (args.length < 1) {
+		if (args.length <= 1) {
 			Message.KICK_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}

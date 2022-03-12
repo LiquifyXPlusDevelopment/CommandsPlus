@@ -27,14 +27,14 @@ public class PunishmentManager {
 		
 		ConfigurationSection section = config.createSection(punishment.getPunishmentUniqueId().toString());
 		
-		section.set(ConfigFields.PunishFields.PUNISHED, punishment.getPunished());
+		section.set(ConfigFields.PunishFields.PUNISHED, punishment.getPunished().toString());
 		
-		Optional.of(punishment.getExecuter()).ifPresent(uniqueId -> 
-			section.set(ConfigFields.PunishFields.EXECUTER, punishment.getPunished()));
+		Optional.ofNullable(punishment.getExecuter()).ifPresent(uniqueId -> 
+			section.set(ConfigFields.PunishFields.EXECUTER, punishment.getPunished().toString()));
 		
 		section.set(ConfigFields.PunishFields.TYPE, punishment.getType().name());
 		
-		Optional.of(punishment.getExecuter()).ifPresent(uniqueId -> 
+		Optional.ofNullable(punishment.getExpiry()).ifPresent(uniqueId -> 
 			section.set(ConfigFields.PunishFields.EXPIRY, punishment.getExpiry().toEpochMilli()));
 		
 		section.set(ConfigFields.PunishFields.REASON, punishment.getReason());

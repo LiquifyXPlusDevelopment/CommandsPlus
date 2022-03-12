@@ -2,15 +2,15 @@ package me.gdalia.commandsplus.structs;
 
 import java.text.MessageFormat;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import me.gdalia.commandsplus.Main;
-import net.md_5.bungee.api.ChatColor;
 
 public enum Message {
 	
-	PLUGIN_PREFIX(Main.getLanguageConfig().getString("PREFIX")),
+	PLUGIN_PREFIX(Main.getInstance().getConfig().getString("PREFIX")),
 	COMMAND_NOT_EXIST(Main.getLanguageConfig().getString("COMMAND_NOT_EXIST")),
 	NO_PERMISSION(Main.getLanguageConfig().getString("NO_PERMISSION")),
 	PLAYER_CMD(Main.getLanguageConfig().getString("PLAYER_CMD")),
@@ -21,6 +21,7 @@ public enum Message {
 	FLY_SPEED(Main.getLanguageConfig().getString("FLY_SPEED")),
 	BUILDMODE_ENABLE(Main.getLanguageConfig().getString("BUILDMODE_ENABLE")),
 	BUILDMODE_DISABLE(Main.getLanguageConfig().getString("BUILDMODE_DISABLE")),
+	HISTORY_ARGUMENTS(Main.getLanguageConfig().getString("HISTORY_ARGUMENTS")),
 	STAFFCHAT_ENABLE(Main.getLanguageConfig().getString("STAFFCHAT_ENABLE")),
 	STAFFCHAT_DISABLE(Main.getLanguageConfig().getString("STAFFCHAT_DISABLE")),
 	VANISH_ENABLE(Main.getLanguageConfig().getString("VANISH_ENABLE")),
@@ -87,6 +88,10 @@ public enum Message {
 		return Message.fixColor(message);
 	}
 
+	public static String fixColor(String message) {
+		return ChatColor.translateAlternateColorCodes('&', message);
+	}
+	
 	public void sendMessage(CommandSender sender, boolean hasPrefix) {
 		String prefix = hasPrefix ? Main.getInstance().getPluginPrefix() : "";
 		sender.sendMessage(prefix + getMessage());
@@ -104,10 +109,6 @@ public enum Message {
 	
 	public static String staffChatFormat() {
 		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6» &e{message}");
-	}
-
-	public static String fixColor(String msg) {
-		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
 	
 	private Message(String message) {
