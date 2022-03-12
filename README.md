@@ -14,7 +14,7 @@ If you're using Eclipse, simply right-click on the project, click export, and ma
 
 For IntelliJ users, use the default IntelliJ [exportation system](https://www.jetbrains.com/help/idea/import-project-or-module-wizard.html). 
 
-#Issues
+# Issues
 If you're going through an issue/error that is unexplainable please open a new issue at the [Issues Tab](https://github.com/ofirtim/CommandsPlus/issues).
 
 Please make sure when you post the issue to include the following information:
