@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 
 import me.gdalia.commandsplus.Main;
 import me.gdalia.commandsplus.structs.Message;
-import me.gdalia.commandsplus.utils.Utils;
 
 @me.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "alts")
 public class AltsCommand implements CommandExecutor, TabCompleter {
@@ -62,7 +61,7 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			StringBuilder sb = new StringBuilder();
 			alts.stream()
 			.filter(x -> !x.getName().equalsIgnoreCase(target.getName()))
-			.forEach(x -> sb.append(Utils.color("&7- " + x.getName() + ".\n")));
+			.forEach(x -> sb.append(Message.fixColor("&7- " + x.getName() + ".\n")));
 			Arrays.asList(sb.toString().split("\n")).forEach(player::sendMessage);
 			return true;
 		}

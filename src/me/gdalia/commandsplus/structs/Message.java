@@ -2,11 +2,11 @@ package me.gdalia.commandsplus.structs;
 
 import java.text.MessageFormat;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import me.gdalia.commandsplus.Main;
-import me.gdalia.commandsplus.utils.Utils;
 
 public enum Message {
 	
@@ -85,9 +85,13 @@ public enum Message {
 	private final String message;
 
 	public String getMessage() {
-		return Utils.color(message);
+		return Message.fixColor(message);
 	}
 
+	public static String fixColor(String message) {
+		return ChatColor.translateAlternateColorCodes('&', message);
+	}
+	
 	public void sendMessage(CommandSender sender, boolean hasPrefix) {
 		String prefix = hasPrefix ? Main.getInstance().getPluginPrefix() : "";
 		sender.sendMessage(prefix + getMessage());
@@ -100,11 +104,11 @@ public enum Message {
 	}
 	
 	public static void cmdUsage(Command cmd, CommandSender sender) {
-		sender.sendMessage(Utils.color("&3" + cmd.getDescription() + "\n&b" + cmd.getUsage()));
+		sender.sendMessage(Message.fixColor("&3" + cmd.getDescription() + "\n&b" + cmd.getUsage()));
 	}
 	
 	public static String staffChatFormat() {
-		return Utils.color("&8[&bSTAFF&8] &7{player} &6» &e{message}");
+		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6» &e{message}");
 	}
 	
 	private Message(String message) {

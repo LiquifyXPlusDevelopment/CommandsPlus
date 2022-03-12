@@ -14,8 +14,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import me.gdalia.commandsplus.Main;
 import me.gdalia.commandsplus.Main.PlayerCollection;
 import me.gdalia.commandsplus.models.Punishments;
+import me.gdalia.commandsplus.structs.Message;
 import me.gdalia.commandsplus.structs.PunishmentType;
-import me.gdalia.commandsplus.utils.Utils;
 
 public class PlayerLogListener implements Listener {
 	
@@ -30,7 +30,7 @@ public class PlayerLogListener implements Listener {
 			StringBuilder sb = new StringBuilder();
 			Main.getInstance().getConfig().getStringList("ban-lang." + typeName + "-template").forEach(msg -> sb.append(msg).append("\n"));
 			
-			event.setKickMessage(Utils.color(sb.toString()));
+			event.setKickMessage(Message.fixColor(sb.toString()));
 		});
 	}
 	
@@ -50,7 +50,7 @@ public class PlayerLogListener implements Listener {
 				.map(Bukkit::getPlayer)
 				.forEach(x -> player.hidePlayer(Main.getInstance(), x));
 
-		String msg = PlayerCollection.getVanishPlayers().contains(uuid) ? null : Utils.color("&2&l+ &6" + player.getName() + "&7 Connected");
+		String msg = PlayerCollection.getVanishPlayers().contains(uuid) ? null : Message.fixColor("&2&l+ &6" + player.getName() + "&7 Connected");
 		event.setJoinMessage(msg);
 	}
 
@@ -64,7 +64,7 @@ public class PlayerLogListener implements Listener {
 			return;
 		}
 		
-		String msg = PlayerCollection.getVanishPlayers().contains(uuid) ? null : Utils.color("&4&l- &6" + player.getName() + "&7 Disconnected");
+		String msg = PlayerCollection.getVanishPlayers().contains(uuid) ? null : Message.fixColor("&4&l- &6" + player.getName() + "&7 Disconnected");
 		event.setQuitMessage(msg);
 	}
 }

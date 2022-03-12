@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 
 import me.gdalia.commandsplus.Main;
 import me.gdalia.commandsplus.structs.Message;
-import me.gdalia.commandsplus.utils.Utils;
 
 @me.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "chat")
 public class ChatCommand implements CommandExecutor, TabCompleter {
@@ -43,7 +42,7 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 					cleared.sendMessage(" ");
 				Main.getInstance().getConfig().getStringList("chat.clear-template")
 					.stream()
-					.map(Utils::color)
+					.map(Message::fixColor)
 					.forEach(cleared::sendMessage);
 			});
 			return true;

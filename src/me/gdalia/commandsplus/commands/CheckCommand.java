@@ -18,7 +18,6 @@ import me.gdalia.commandsplus.models.Punishments;
 import me.gdalia.commandsplus.structs.Message;
 import me.gdalia.commandsplus.structs.PunishmentType;
 import me.gdalia.commandsplus.utils.StringUtils;
-import me.gdalia.commandsplus.utils.Utils;
 
 @me.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "check")
 public class CheckCommand implements CommandExecutor {
@@ -60,23 +59,23 @@ public class CheckCommand implements CommandExecutor {
 				if (entry.getValue() instanceof String stringValue) {
 					if (StringUtils.isUniqueId(stringValue)) {
 						String name = Bukkit.getOfflinePlayer(UUID.fromString(stringValue)).getName();
-						sender.sendMessage(Utils.color("&e" + entry.getKey() + "&7: &b" + name));
+						sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + name));
 						return;
 					}
 					
 					if (PunishmentType.canBeType(stringValue)) {
 						PunishmentType type = PunishmentType.valueOf(stringValue);
-						sender.sendMessage(Utils.color("&e" + entry.getKey() + "&7: &b" + type.getDisplayName()));
+						sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + type.getDisplayName()));
 						return;
 					}
 					
-					sender.sendMessage(Utils.color("&e" + entry.getKey() + "&7: &b" + stringValue));
+					sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + stringValue));
 					return;
 					
 				} else if (entry.getValue() instanceof Long longValue) {
 					Instant expiry = Instant.ofEpochMilli(longValue);
 					String endDate = DATE_TIME_FORMATTER.format(expiry);
-					sender.sendMessage(Utils.color("&e" + entry.getKey() + "&7: &b" + endDate));
+					sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + endDate));
 					return;
 					
 				}

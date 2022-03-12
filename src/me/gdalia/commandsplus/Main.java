@@ -12,10 +12,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import me.gdalia.commandsplus.runnables.ActionBarVanishTask;
+import me.gdalia.commandsplus.structs.Message;
 import me.gdalia.commandsplus.utils.CommandAutoRegistration;
 import me.gdalia.commandsplus.utils.Config;
 import me.gdalia.commandsplus.utils.ListenerAutoRegistration;
-import me.gdalia.commandsplus.utils.Utils;
 
 /**
  * MIT License
@@ -64,17 +64,17 @@ public class Main extends JavaPlugin {
 		new CommandAutoRegistration(this, false).register("me.gdalia.commandsplus.commands");
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);
 		
-		Bukkit.getConsoleSender().sendMessage(Utils.color("&7CommandsPlus has been &aEnabled&7."));
+		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&7CommandsPlus has been &aEnabled&7."));
 	}
 	
 	
 	public void onDisable() {
-		Bukkit.getConsoleSender().sendMessage(Utils.color("&7CommandsPlus has been &cDisabled&7."));
+		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&7CommandsPlus has been &cDisabled&7."));
 	}
 	
 	
 	public String getPluginPrefix() {
-		return Utils.color(getConfig().getString("PREFIX"));
+		return Message.fixColor(getConfig().getString("PREFIX"));
 	}
 	
 	public static class MetadataValues {
