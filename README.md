@@ -22,3 +22,6 @@ Please make sure when you post the issue to include the following information:
 - Plugin version (anything that is not updated will be discarded and closed).
 - Error from console/proof of bugs.
 - Simple logics of information according to what happened that caused the bug/issue.
+
+# Authors
+OfirTIM, Gdalia
