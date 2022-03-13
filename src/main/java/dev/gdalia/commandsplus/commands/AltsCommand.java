@@ -2,6 +2,7 @@ package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
+import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,9 +18,7 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-
+	public boolean onCommand(@NonNull CommandSender sender, @NonNull Command cmd, @NonNull String label, String @NonNull [] args) {
 		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
