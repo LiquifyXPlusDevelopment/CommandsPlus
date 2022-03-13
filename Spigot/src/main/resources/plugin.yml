@@ -1,0 +1,56 @@
+name: CommandsPlus
+main: me.gdalia.commandsplus.Main
+version: 1.0.1
+api-version: 1.18
+author: [Gdalia, OfirTim]
+commands:
+  alts:
+    description: Check if the target has alts on the server.
+  ban:
+    description: Banned the player from the server.
+  buildmode:
+    description: Enable & Disable your buildmode.
+  chat:
+    description: Clear/Lock the chat.
+  check:
+    description: Check if the player is banned/muted.
+  commandsplus:
+    aliases: cp
+    description: General command for the plugin system.
+  feed:
+    description: Change the player level food to 20.
+  fly:
+    description: Enable & Disable your flight mode.
+  flyspeed:
+    description: Change your flyspeed.
+  Freeze:
+    description: Freezed the player.
+  gamemode:
+    description: Change your gamemode to the gamemode you just selected.
+  god:
+    description: Enable & Disable your god mode.
+  heal:
+    description: Change the player health to 20.
+  history:
+    description: Show all the player punishments.
+  mute:
+    description: Muted the player from the server.
+  staffchat:
+    aliases: sc
+    description: Enable & Disable your staffchat.
+  tempban:
+    description: Banned the player for a spesific time.
+  tempmute:
+    description: Muted the player for a spesific time.
+  time:
+    description: Change the time to day/night.
+  tpall:
+    description: Tp all the online players to you.
+  tphere:
+    description: Tp the player to you.
+  unban:
+    description: Unbanned the player from the server.
+  unmute:
+    description: Unmuted the player from the server.
+  vanish:
+    description: Vanish the player from other players.
