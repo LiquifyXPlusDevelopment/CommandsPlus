@@ -19,7 +19,7 @@ Haven't noticed yet? we use Gradle (Groovy based) and not Maven, means you can r
 By default our code is designed with the `SpigotAPI` (not Paper sadly), and `Lombok`.
 If you are not familiar with Lombok and its benefits ***WE HIGHLY ENCOURAGE YOU*** to read up about the [Lombok project](https://projectlombok.org).
 ### IntelliJ Users
-If you're using IntelliJ, please make sure you're having Minecraft Integrations plugin for IntelliJ installed, to make the best out of your Gradle Compiling experience for this plugin.
+If you're using IntelliJ, please make sure you're having [Minecraft Integrations Plugin](https://plugins.jetbrains.com/plugin/8327-minecraft-development) for IntelliJ installed, to make the best out of your Gradle Compiling experience for this plugin.
 
 # Issues
 If you're going through an issue/error that is unexplainable please open a new issue at the [Issues Tab](https://github.com/ofirtim/CommandsPlus/issues).
