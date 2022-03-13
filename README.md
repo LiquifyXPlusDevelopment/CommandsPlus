@@ -23,6 +23,7 @@ Please make sure when you post the issue to include the following information:
 - Error from console/proof of bugs.
 - Simple logics of information according to what happened that caused the bug/issue.
 
-# Creators
-- OfirTIM
-- Gdalia
+# Support & Contribution
+If you have downloaded the plugin, and felt like this plugin helped you through, and you're willing to help/support/Contribute, you can help the creators of this plugin by the following ways:
+- Create a pull request, if you find any interest in the plugin to make new features or found a bug that you found a fix for already.
+- Suggest new ideas and make polls, with creative members of the MC Community.
