@@ -6,20 +6,27 @@ This plugin is completely open-source, and we're happy for anyone to take on a f
 as of now, we're not looking to make the plugin a premium software plugin or anything to do with purchasing the rights to own a copy, therefor we're licensing via MIT protocol for professional causes.
 
 # Compiling
-As of now we're using standard IDE compiler, we're planning on moving the plugin into Gradle and start using the default Gradle-Wrapper Builder.
-By default our project uses Lombok & SpigotAPI, but that's about it for now.
+Compilation requires JDK 12 and up.
+2 Ways to compiling the plugin:
+- run `./gradlew build` from the terminal executed from your plugin's folder.
+- Use your IDE's standard Gradle Integration Tool to build the jar via `Tasks -> Build -> Jar` (If you're using **Eclipse** I highly encourage you to make sure all dependencies are queried inside the system, due to Eclipse not being accurate/familiar with external build tools). 
+Once the plugin compiles, grab the jar from `~/output` folder.
 
-## Building
-If you're using Eclipse, simply right-click on the project, click export, and make sure to export the plugin with the YML files.
+### Gradle Features
+Haven't noticed yet? we use Gradle (Groovy based) and not Maven, means you can redepend some dependencies into Commands+, add more stuff then there actually is, and have a lot of integrations inside this plugin, it is quite customized in the Punishment System side, and we're currently working on customizing the Command system to make it work super duper easy.
 
-For IntelliJ users, use the default IntelliJ [exportation system](https://www.jetbrains.com/help/idea/import-project-or-module-wizard.html).
+### Code default requirements
+By default our code is designed with the `SpigotAPI` (not Paper sadly), and `Lombok`.
+If you are not familiar with Lombok and its benefits ***WE HIGHLY ENCOURAGE YOU*** to read up about the [Lombok project](https://projectlombok.org).
+### IntelliJ Users
+If you're using IntelliJ, please make sure you're having Minecraft Integrations plugin for IntelliJ installed, to make the best out of your Gradle Compiling experience for this plugin.
 
 # Issues
 If you're going through an issue/error that is unexplainable please open a new issue at the [Issues Tab](https://github.com/ofirtim/CommandsPlus/issues).
 
 Please make sure when you post the issue to include the following information:
 - Server Software Version + Build Number.
-- Plugin version (anything that is not updated will be discarded and closed).
+- Plugin Version (Notice some bugs can accure due to not updating the plugin into newer versions).
 - Error from console/proof of bugs.
 - Simple logics of information according to what happened that caused the bug/issue.
 
