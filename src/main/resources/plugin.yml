@@ -5,6 +5,7 @@ api-version: 1.18
 author: [Gdalia, OfirTim]
 commands:
   alts:
+    aliases: /alts (player) (kickall/banall/check)
     description: Check if the target has alts on the server.
   ban:
     description: Banned the player from the server.
@@ -26,6 +27,7 @@ commands:
   Freeze:
     description: Freezed the player.
   gamemode:
+    aliases: gm
     description: Change your gamemode to the gamemode you just selected.
   god:
     description: Enable & Disable your god mode.
@@ -33,6 +35,8 @@ commands:
     description: Change the player health to 20.
   history:
     description: Show all the player punishments.
+  kick:
+    description: Kick the player from the server.
   mute:
     description: Muted the player from the server.
   staffchat:
@@ -54,3 +58,5 @@ commands:
     description: Unmuted the player from the server.
   vanish:
     description: Vanish the player from other players.
+  warn:
+    description: Warn the player.
