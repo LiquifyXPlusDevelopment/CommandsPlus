@@ -1,10 +1,8 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Punishment;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import java.util.UUID;
+
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -12,13 +10,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import dev.gdalia.commandsplus.models.PunishmentManager;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.structs.PunishmentType;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "ban")
+@CommandAutoRegistration.Command(value = "ban")
 public class BanCommand implements CommandExecutor {
 	
 	/**
-	 /ban {user} {reason}
+	 * /ban {user} {reason}
+	 * LABEL ARG0   ARG1+
 	 */
 	
     @SuppressWarnings({ "deprecation"})
@@ -36,7 +39,7 @@ public class BanCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (args.length <= 2) {
+		if (args.length <= 1) {
 			Message.BAN_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
@@ -53,12 +56,13 @@ public class BanCommand implements CommandExecutor {
             
             StringBuilder reasonBuilder = new StringBuilder();
             
-            for (int i = 2; i <= args.length; i++) 
+            for (int i = 1; i < args.length; i++) 
             	reasonBuilder.append(args[i]);
-
-
-            UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
-
+            
+            
+            UUID executer = null;
+            if (sender instanceof Player requester) executer = requester.getUniqueId();
+            
             Punishment punishment = new Punishment(
             			UUID.randomUUID(),
             			target.getUniqueId(),

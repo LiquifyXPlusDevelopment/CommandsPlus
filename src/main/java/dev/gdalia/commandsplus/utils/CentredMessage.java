@@ -7,6 +7,7 @@ public final class CentredMessage {
     private CentredMessage() {}
 
     private final static int CENTER_PX = 154;
+
     public static String generate(String message) {
         if (message == null || message.equals("")) {
             return "";
@@ -39,7 +40,7 @@ public final class CentredMessage {
             sb.append(" ");
             compensated += spaceLength;
         }
-        return sb + message;
+        return sb.toString() + message;
     }
 
     private enum DefaultFontSize {

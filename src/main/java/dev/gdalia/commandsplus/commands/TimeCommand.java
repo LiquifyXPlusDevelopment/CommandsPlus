@@ -1,27 +1,31 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.structs.Message;
+import java.util.List;
+
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.List;
+import dev.gdalia.commandsplus.structs.Message;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "time")
+@CommandAutoRegistration.Command(value = "time")
 public class TimeCommand implements CommandExecutor, TabCompleter{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
 		
-		if(!(sender instanceof Player player)) {
+		if(!(sender instanceof Player)) {
         	Message.PLAYER_CMD.sendMessage(sender, true);
         	return false;
         }
+		
+		Player player = (Player) sender;
 
-		if(!player.hasPermission("commandsplus.time")) {
+        if(!player.hasPermission("commandsplus.time")) {
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
         }

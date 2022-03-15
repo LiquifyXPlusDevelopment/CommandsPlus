@@ -1,13 +1,14 @@
 package dev.gdalia.commandsplus.listeners;
 
+import java.util.List;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 import dev.gdalia.commandsplus.structs.events.PlayerPunishEvent;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-
-import java.util.List;
 
 public class PlayerPunishListener implements Listener {
 
@@ -24,7 +25,7 @@ public class PlayerPunishListener implements Listener {
 		StringBuilder sb = new StringBuilder();
 		
 		message.forEach(msg -> sb.append(msg).append("\n"));
-		
+		System.out.println(sb.toString());
 		event.getPlayer().kickPlayer(Message.fixColor(sb.toString())); 
 	}
 }

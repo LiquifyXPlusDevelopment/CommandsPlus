@@ -1,16 +1,18 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.Main.PlayerCollection;
+import java.util.UUID;
+
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import dev.gdalia.commandsplus.Main.PlayerCollection;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "freeze")
+@CommandAutoRegistration.Command(value = "freeze")
 public class FreezeCommand implements CommandExecutor{
 	
 
@@ -18,7 +20,7 @@ public class FreezeCommand implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
 
-		if (!(sender instanceof Player player)) {
+		if (!(sender instanceof Player)) {
         	Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
@@ -27,6 +29,8 @@ public class FreezeCommand implements CommandExecutor{
         	Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
+
+		Player player = (Player) sender;
 
 		if (args.length == 0) {
         	Message.DESCRIBE_PLAYER.sendMessage(sender, true);

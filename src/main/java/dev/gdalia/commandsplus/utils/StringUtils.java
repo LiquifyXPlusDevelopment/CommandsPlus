@@ -7,11 +7,13 @@ import java.util.Collection;
 import java.util.UUID;
 
 /**
- * Created to manage characters for players when examining a temporary punishment for a player.
+ * 
+ * 
+ * Created to manage characters for players when examenating a temporary punishment for a player.
  * This should be functioning while players are using it correct.
  * Permitted users: Gdalia.
  * 
- * @author Voigon, OfirTIM.
+ * @authors Voigon, OfirTIM.
  */
 public class StringUtils {
 
@@ -21,18 +23,18 @@ public class StringUtils {
     
     public static Duration phraseToDuration(String phrase, Collection<ChronoUnit> supportedTimeUnits) {
         long seconds = 0;
-        StringBuilder num = new StringBuilder();
+        String num = "";
         for (int i = 0; i < phrase.length(); i++) {
             char c = phrase.charAt(i);
             if (Character.isDigit(c)) {
-                num.append(c);
+                num += c;
             } else {
                 ChronoUnit lastUnit = getFromChar(c);
                 if (supportedTimeUnits != null && !supportedTimeUnits.isEmpty() && !supportedTimeUnits.contains(lastUnit))
                     continue;
 
-                seconds += lastUnit.getDuration().getSeconds() * Integer.parseInt(num.toString());
-                num = new StringBuilder();
+                seconds += lastUnit.getDuration().getSeconds() * Integer.parseInt(num);
+                num = "";
             }
         }
         return Duration.ofSeconds(seconds);
@@ -53,8 +55,8 @@ public class StringUtils {
     
 	public static boolean isUniqueId(String uuidAsString) {
 		try {
-            UUID.fromString(uuidAsString);
-            return true;
+			UUID.fromString(uuidAsString);
+			return true;
 		} catch (IllegalArgumentException e1) {
 			return false;
 		}

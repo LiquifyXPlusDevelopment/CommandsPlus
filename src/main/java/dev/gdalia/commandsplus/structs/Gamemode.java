@@ -1,9 +1,10 @@
 package dev.gdalia.commandsplus.structs;
 
-import lombok.Getter;
+import java.util.Arrays;
+
 import org.bukkit.GameMode;
 
-import java.util.Arrays;
+import lombok.Getter;
 
 public enum Gamemode {
 	
@@ -24,9 +25,9 @@ public enum Gamemode {
 		asCommand;
 
 	@Getter
-	private final String[] asSubCommand;
+	private final String asSubCommand;
 	
-	Gamemode(GameMode gamemode, int integer, String permission, String commandName, String... NameAsSubCommand) {
+	private Gamemode(GameMode gamemode, int integer, String permission, String commandName, String NameAsSubCommand) {
 		this.asBukkit = gamemode;
 		this.asInteger = integer;
 		this.permission = permission;

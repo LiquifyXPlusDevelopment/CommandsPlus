@@ -1,11 +1,12 @@
 package dev.gdalia.commandsplus.structs;
 
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 @AllArgsConstructor
 public class PunishmentRevoke {

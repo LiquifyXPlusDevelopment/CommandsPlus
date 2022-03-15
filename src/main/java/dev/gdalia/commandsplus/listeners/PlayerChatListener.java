@@ -1,13 +1,14 @@
 package dev.gdalia.commandsplus.listeners;
 
-import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.PunishmentType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.PunishmentType;
 
 public class PlayerChatListener implements Listener {
 

@@ -1,25 +1,27 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Punishment;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import java.util.UUID;
+
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import dev.gdalia.commandsplus.models.PunishmentManager;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.structs.PunishmentType;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "kick")
+@CommandAutoRegistration.Command(value = "kick")
 public class KickCommand implements CommandExecutor{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
 		
-		if (!(sender instanceof Player player)) {
+		if (!(sender instanceof Player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
@@ -29,10 +31,12 @@ public class KickCommand implements CommandExecutor{
 			return true;
 		}
 		
-		if (args.length < 1) {
+		if (args.length <= 1) {
 			Message.KICK_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
+		
+		Player player = (Player) sender;
 
 		Player target = Bukkit.getPlayerExact(args[0]);
 		if (target == null) {

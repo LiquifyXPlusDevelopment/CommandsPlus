@@ -1,11 +1,11 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Punishment;
-import dev.gdalia.commandsplus.structs.PunishmentType;
-import dev.gdalia.commandsplus.utils.StringUtils;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
+
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -13,16 +13,19 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.UUID;
+import dev.gdalia.commandsplus.models.PunishmentManager;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.utils.StringUtils;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "tempban")
+@CommandAutoRegistration.Command(value = "tempban")
 public class TempbanCommand implements CommandExecutor {
 	
 	/**
-	 /tempban {user} {time} {reason}
+	 * /tempban {user} {time} {reason}
+	 * LABEL     ARG0   ARG1    ARG2+
 	 */
 	
     @SuppressWarnings({ "deprecation"})
@@ -45,7 +48,7 @@ public class TempbanCommand implements CommandExecutor {
 			return true;
 		}
 		
-		OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
         if(!target.hasPlayedBefore()) {
         	Message.INVALID_PLAYER.sendMessage(sender, true);
@@ -70,7 +73,7 @@ public class TempbanCommand implements CommandExecutor {
             
             StringBuilder reasonBuilder = new StringBuilder();
             
-            for (int i = 3; i <= args.length; i++) 
+            for (int i = 2; i < args.length; i++) 
             	reasonBuilder.append(args[i]);
             
             Instant expiry = Instant.now().plus(duration);
@@ -88,7 +91,7 @@ public class TempbanCommand implements CommandExecutor {
             punishment.setExpiry(expiry);
             
             PunishmentManager.getInstance().invoke(punishment);
-            Message.PLAYER_TEMPBAN_MESSAGE.sendFormattedMessage(sender, true, target.getName(), expiry);
+            Message.PLAYER_TEMPBAN_MESSAGE.sendFormattedMessage(sender, true, target.getName(), duration);
     	});
 
         return true;

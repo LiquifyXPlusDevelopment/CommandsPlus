@@ -1,8 +1,9 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.structs.Message;
-import lombok.NonNull;
+import java.util.Arrays;
+import java.util.List;
+
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,16 +11,21 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.List;
+import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.structs.Message;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "alts")
+@CommandAutoRegistration.Command(value = "alts")
 public class AltsCommand implements CommandExecutor, TabCompleter {
 
-	
+	/**
+	 *  /alt (name)
+	 *  LABEL ARG0
+	 */
 	@Override
-	public boolean onCommand(@NonNull CommandSender sender, @NonNull Command cmd, @NonNull String label, String @NonNull [] args) {
-		if (!(sender instanceof Player player)) {
+	public boolean onCommand(CommandSender sender, Command cmd,
+			String label, String[] args) {
+
+		if (!(sender instanceof Player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
@@ -29,7 +35,9 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 
-		if (args.length <= 1) {
+		Player player = (Player) sender;
+
+		if (args.length == 0) {
 			Message.DESCRIBE_PLAYER.sendMessage(sender, true);
 			return true;
 		}
@@ -46,41 +54,41 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 				.toList();
 
 		switch (args[1].toLowerCase()) {
-			case "check" -> {
+		case "check": {
 
-				if (alts.isEmpty()) {
-					Message.ALTS_CHECK.sendFormattedMessage(player, true, target.getName());
-					return true;
-				}
+			if (alts.isEmpty()) {
+				Message.ALTS_CHECK.sendFormattedMessage(player, true, target.getName());
+				return true;
+			}
 
-				Message.ALTS_ONLINE.sendFormattedMessage(player, true, target.getName());
-				StringBuilder sb = new StringBuilder();
-				alts.stream()
-						.filter(x -> !x.getName().equalsIgnoreCase(target.getName()))
-						.forEach(x -> sb.append(Message.fixColor("&7- " + x.getName() + ".\n")));
-				Arrays.asList(sb.toString().split("\n")).forEach(player::sendMessage);
-				return true;
-			}
-			case "banall" -> {
-				alts.forEach(x -> {
-					String banCommand = Main.getInstance().getConfig().getString("ban-command");
-					banCommand = banCommand.replace("{player}", x.getName());
-					Bukkit.dispatchCommand(sender, banCommand);
-				});
-				return true;
-			}
-			case "kickall" -> {
-				alts.forEach(x -> {
-					String kickCommand = Main.getInstance().getConfig().getString("kick-command");
-					kickCommand = kickCommand.replace("{player}", x.getName());
-					Bukkit.dispatchCommand(sender, kickCommand);
-				});
-				return true;
-			}
-			default -> {
-				Message.cmdUsage(cmd, sender);
-				return true;
-			}
+			Message.ALTS_ONLINE.sendFormattedMessage(player, true, target.getName());
+			StringBuilder sb = new StringBuilder();
+			alts.stream()
+			.filter(x -> !x.getName().equalsIgnoreCase(target.getName()))
+			.forEach(x -> sb.append(Message.fixColor("&7- " + x.getName() + ".\n")));
+			Arrays.asList(sb.toString().split("\n")).forEach(player::sendMessage);
+			return true;
+		}
+		case "banall": {
+			alts.forEach(x -> {
+				String banCommand = Main.getInstance().getConfig().getString("ban-command");
+				banCommand = banCommand.replace("{player}", x.getName());
+				Bukkit.dispatchCommand(sender, banCommand);
+			});
+			return true;
+		}
+		
+		case "kickall": {
+			alts.forEach(x -> {
+				String kickCommand = Main.getInstance().getConfig().getString("kick-command");
+				kickCommand = kickCommand.replace("{player}", x.getName());
+				Bukkit.dispatchCommand(sender, kickCommand);
+			});
+			return true;
+		}
+		default:
+			Message.cmdUsage(cmd, sender);
+			return true;
 		}
 	}
 	

@@ -1,21 +1,23 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "god")
+import dev.gdalia.commandsplus.Main;
+
+@CommandAutoRegistration.Command(value = "god")
 public class GodCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
 		
-		if (!(sender instanceof Player player)) {
+		if (!(sender instanceof Player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
@@ -24,6 +26,8 @@ public class GodCommand implements CommandExecutor {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
+
+		Player player = (Player) sender;
 
 		if (args.length >= 1 && Bukkit.getPlayerExact(args[1]) != null)
 			player = Bukkit.getPlayerExact(args[1]);

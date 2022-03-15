@@ -1,14 +1,15 @@
 package dev.gdalia.commandsplus.listeners;
 
-import dev.gdalia.commandsplus.structs.Message;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import dev.gdalia.commandsplus.structs.Message;
 
 
 public class UnknownCommandListener implements Listener{
@@ -16,7 +17,8 @@ public class UnknownCommandListener implements Listener{
 	@EventHandler
 	public void onInvalidCommand(PlayerCommandPreprocessEvent event) {
 		String msg = event.getMessage();
-		ArrayList<String> list = new ArrayList<>(Arrays.asList(msg.split(" ")));
+		ArrayList<String> list = new ArrayList<>();
+		list.addAll(Arrays.asList(msg.split(" ")));
 		String commandName = list.remove(0);
 		Player player = event.getPlayer();
 

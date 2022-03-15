@@ -1,20 +1,22 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "heal")
+import dev.gdalia.commandsplus.structs.Message;
+
+@CommandAutoRegistration.Command(value = "heal")
 public class HealCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
 
-		if (!(sender instanceof Player player)) {
+		if (!(sender instanceof Player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
@@ -23,6 +25,8 @@ public class HealCommand implements CommandExecutor {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
+
+		Player player = (Player) sender;
 
 		if (args.length == 0) {
 			Message.DESCRIBE_PLAYER.sendMessage(sender, true);

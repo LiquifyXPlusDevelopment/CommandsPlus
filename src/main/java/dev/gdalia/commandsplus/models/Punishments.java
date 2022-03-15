@@ -1,14 +1,19 @@
 package dev.gdalia.commandsplus.models;
 
-import dev.gdalia.commandsplus.Main;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import dev.gdalia.commandsplus.structs.Punishment;
 import dev.gdalia.commandsplus.structs.PunishmentType;
-import dev.gdalia.commandsplus.utils.Config;
-import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.time.Instant;
-import java.util.*;
+import lombok.Getter;
+import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.utils.Config;
 
 /**
  * TODO think about better ideas to make this even more better and cooler to use.
@@ -31,27 +36,30 @@ public class Punishments {
 	 * and will return the punishment if it exists inside and put it inside the local map too,
 	 * if not it will return an empty optional container. 
 	 * 
-	 * @param uuid The uuid of the punishment for instance.
+	 * @param uniqueId The uuid of the punishment for instance.
 	 * @return An Optional container that is either empty or containing a punishment.
 	 */
 	public Optional<Punishment> getPunishment(UUID uuid) {
+		Optional<Punishment> opt = Optional.empty();
 		if (punishments.containsKey(uuid))
-			return Optional.of(punishments.get(uuid));
+			opt = Optional.of(punishments.get(uuid));
 		
 		ConfigurationSection cs = pConfig.getConfigurationSection(uuid.toString());
-		if (cs == null) return Optional.empty();
-
+		if (cs == null) return opt;
+		
 		Punishment punishment = new Punishment(
 				uuid,
 				UUID.fromString(cs.getString(ConfigFields.PunishFields.PUNISHED)),
-				UUID.fromString(cs.getString(ConfigFields.PunishFields.EXECUTER)),
+				Optional.ofNullable(UUID.fromString(cs.getString(ConfigFields.PunishFields.EXECUTER))).orElse(null),
 				PunishmentType.valueOf(cs.getString(ConfigFields.PunishFields.TYPE)),
 				cs.getString(ConfigFields.PunishFields.REASON));
 		
 		Optional.of(cs.getLong(ConfigFields.PunishFields.EXPIRY)).ifPresent(expiry -> punishment.setExpiry(Instant.ofEpochMilli(expiry)));
 		punishments.put(uuid, punishment);
 		
-		return Optional.of(punishment);
+		opt = Optional.of(punishment);
+		
+		return opt;
 		//Gdalia was here
 	    //OfirTIM was here
 	}
@@ -68,8 +76,7 @@ public class Punishments {
 				.stream()
 				.map(UUID::fromString)
 				.map(this::getPunishment)
-				.filter(Optional::isPresent)
-				.filter(punishment -> punishment.get().getPunished().equals(uuid))
+				.filter(opt -> opt.isPresent())
 				.map(Optional::get)
 				.toList();
 	}
@@ -82,13 +89,13 @@ public class Punishments {
 	 * @return An optional container which could be empty or contain a punishment.
 	 */	
 	public Optional<Punishment> getActivePunishment(UUID uuid, PunishmentType... type) {
-		ConfigurationSection cs = pConfig.getConfigurationSection(uuid.toString());
 		return getHistory(uuid).stream()
-				.filter(punishment ->
-				(punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now())) &&
-				(Arrays.asList(type).contains(punishment.getType()) &&
-				(cs.get(ConfigFields.PunishFields.OVERRIDE) == null && cs.get(ConfigFields.PunishFields.REMOVED_BY) == null)))
-				.findFirst();
+				.filter(punishment -> Arrays.asList(type).contains(punishment.getType()))
+				.filter(punishment -> punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now()))
+				.filter(punishment -> {
+					ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
+					return !cs.contains(ConfigFields.PunishFields.OVERRIDE) && !cs.contains(ConfigFields.PunishFields.REMOVED_BY);
+				}).findFirst();
 	}
 	
 	/**
@@ -99,7 +106,8 @@ public class Punishments {
 	 */
 	public boolean hasPunishment(UUID uuid, PunishmentType type) {
 		return getHistory(uuid).stream()
-				.anyMatch(punishment -> punishment.getType() == type);
+				.filter(punishment -> punishment.getType() == type).findFirst()
+				.isPresent();
 	}
 	
 	/**
@@ -110,24 +118,24 @@ public class Punishments {
 	 * @param uuid The uniqueId of the punishment (NOT THE USER).
 	 * @param key the key name to create and write into.
 	 * @param value the object to insert.
-	 * @param instSave If the method should save once the key and value being written.
+	 * @param instaSave If the method should save once the key and value being written.
 	 */
-	public void writeTo(UUID uuid, String key, Object value, boolean instSave) {
+	public void writeTo(UUID uuid, String key, Object value, boolean instaSave) {
 		ConfigurationSection cs = pConfig.getConfigurationSection(uuid.toString());
 		cs.set(key, value);
-		if (instSave) pConfig.saveConfig();
+		if (instaSave) pConfig.saveConfig();
 	}
 	
 	/**
-	 * same as {@link Punishments#writeTo(UUID, String, Object, boolean)}, the usage here
+	 * same as {@link #writeTo(UUID, String, Object)}, the usage here
 	 * is for shortening code calls whenever possible
 	 * 
 	 * @param punishment The punishment to write into, if existing.
 	 * @param key the key name to create and write into.
 	 * @param value the object to insert.
-	 * @param instSave If the method should save once the key and value being written.
+	 * @param instaSave If the method should save once the key and value being written.
 	 */
-	public void writeTo(Punishment punishment, String key, Object value, boolean instSave) {
-		writeTo(punishment.getPunishmentUniqueId(), key, value, instSave);
+	public void writeTo(Punishment punishment, String key, Object value, boolean instaSave) {
+		writeTo(punishment.getPunishmentUniqueId(), key, value, instaSave);
 	}
 }

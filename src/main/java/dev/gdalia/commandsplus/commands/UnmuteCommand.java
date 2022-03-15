@@ -1,19 +1,21 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.PunishmentRevoke;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import java.util.UUID;
+
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import dev.gdalia.commandsplus.models.PunishmentManager;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.PunishmentRevoke;
+import dev.gdalia.commandsplus.structs.PunishmentType;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "unmute")
+@CommandAutoRegistration.Command(value = "unmute")
 public class UnmuteCommand implements CommandExecutor {
 
 	@Override
@@ -49,7 +51,7 @@ public class UnmuteCommand implements CommandExecutor {
         		Message.PLAYER_UNMUTED.sendFormattedMessage(sender, true, target.getName());
         		Message.TARGET_UNMUTED.sendFormattedMessage(target, true, sender.getName());
         		
-        		}, () -> Message.PLAYER_NOT_BANNED.sendFormattedMessage(sender, true));
+        		}, () -> Message.PLAYER_NOT_BANNED.sendMessage(sender, true));
 		return true;
 	}
 

@@ -1,20 +1,21 @@
 package dev.gdalia.commandsplus;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.Config;
 import dev.gdalia.commandsplus.utils.ListenerAutoRegistration;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * MIT License
@@ -29,13 +30,13 @@ import java.util.UUID;
  * copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * @author Gdalia, OfirTIM
+ * @authors Gdalia, OfirTIM
  * @since 1.0-SNAPSHOT build number #2
  */
 public class Main extends JavaPlugin {
@@ -53,14 +54,13 @@ public class Main extends JavaPlugin {
 		setInstance(this);
 		saveDefaultConfig();
 		
-		setLanguageConfig(Config.getConfig("language", null));
-        getLanguageConfig().options().copyDefaults(true);
+		setLanguageConfig(Config.getConfig("language", null, true));
         getLanguageConfig().saveConfig();
 
-		setPunishmentsConfig(Config.getConfig("punishments", null));
+		setPunishmentsConfig(Config.getConfig("punishments", null, false));
         
-		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
-		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
+		new ListenerAutoRegistration(this, false).register("me.gdalia.commandsplus.listeners");
+		new CommandAutoRegistration(this, false).register("me.gdalia.commandsplus.commands");
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);
 		
 		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&7CommandsPlus has been &aEnabled&7."));
@@ -86,7 +86,7 @@ public class Main extends JavaPlugin {
 	public static class PlayerCollection {
 		
 		@Getter
-		private static final List<UUID>
+		private static List<UUID>
 			vanishPlayers = new ArrayList<>(),
 			freezePlayers = new ArrayList<>(),
 			staffchatPlayers = new ArrayList<>(),

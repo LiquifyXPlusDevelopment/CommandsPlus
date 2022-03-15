@@ -1,19 +1,20 @@
 package dev.gdalia.commandsplus.utils;
 
-import com.google.common.reflect.ClassPath;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
-import java.util.Arrays;
+
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.google.common.reflect.ClassPath;
+
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 /**
  * MIT License
@@ -28,7 +29,7 @@ import java.util.Arrays;
  * copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -84,16 +85,16 @@ public class CommandAutoRegistration {
 
             CommandExecutor instance = createInstance(clazz);
 
-            Arrays.stream(annotation.value()).forEach(value -> {
-                PluginCommand pluginCommand = plugin.getCommand(value);
-                if (pluginCommand == null)
-                    plugin.getLogger().warning("Command /" + annotation.value() + " is not registered to this plugin!");
-                else {
-                    pluginCommand.setExecutor(instance);
-                    plugin.getLogger().info("Loaded " + (devCommand ? "dev" : "") + " command /" + annotation.value() + "!");
-                }
-            });   
+            PluginCommand pluginCommand = plugin.getCommand(annotation.value());
+            if (pluginCommand == null)
+                plugin.getLogger().warning("Command /" + annotation.value() + " is not registered to this plugin!");
+            else {
+                pluginCommand.setExecutor(instance);
+                plugin.getLogger().info("Loaded " + (devCommand ? "dev" : "") + " command /" + annotation.value() + "!");
+            }
+
         }
+
     }
 
     @SneakyThrows
@@ -106,7 +107,7 @@ public class CommandAutoRegistration {
     @Retention(RetentionPolicy.RUNTIME)
     public @interface Command {
 
-        String[] value();
+        String value();
 
         boolean devServer() default false;
 

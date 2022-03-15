@@ -1,10 +1,7 @@
 package dev.gdalia.commandsplus.listeners;
 
-import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.Main.PlayerCollection;
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,8 +11,11 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.Objects;
-import java.util.UUID;
+import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.Main.PlayerCollection;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.PunishmentType;
 
 public class PlayerLogListener implements Listener {
 	
@@ -39,7 +39,7 @@ public class PlayerLogListener implements Listener {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 		
-		if(!Main.getInstance().getConfig().getBoolean("welcome_message")) {
+		if(Main.getInstance().getConfig().getBoolean("welcome_message") == false) {
 		event.setJoinMessage(null);
 		return;
 		}
@@ -48,7 +48,6 @@ public class PlayerLogListener implements Listener {
 			PlayerCollection.getVanishPlayers()
 				.stream()
 				.map(Bukkit::getPlayer)
-				.filter(Objects::nonNull)
 				.forEach(x -> player.hidePlayer(Main.getInstance(), x));
 
 		String msg = PlayerCollection.getVanishPlayers().contains(uuid) ? null : Message.fixColor("&2&l+ &6" + player.getName() + "&7 Connected");
@@ -60,7 +59,7 @@ public class PlayerLogListener implements Listener {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 		
-		if(!Main.getInstance().getConfig().getBoolean("welcome_message")) {
+		if(Main.getInstance().getConfig().getBoolean("welcome_message") == false) {
 			event.setQuitMessage(null);
 			return;
 		}

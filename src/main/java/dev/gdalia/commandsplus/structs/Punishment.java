@@ -1,13 +1,14 @@
 package dev.gdalia.commandsplus.structs;
 
+import java.time.Instant;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
-import javax.annotation.Nullable;
-import java.time.Instant;
-import java.util.UUID;
 
 
 @RequiredArgsConstructor

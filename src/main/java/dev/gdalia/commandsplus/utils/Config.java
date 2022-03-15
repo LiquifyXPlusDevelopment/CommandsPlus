@@ -1,16 +1,5 @@
 package dev.gdalia.commandsplus.utils;
 
-import dev.gdalia.commandsplus.Main;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
-
-import javax.annotation.Nullable;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -18,6 +7,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.annotation.Nullable;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import dev.gdalia.commandsplus.Main;
 
 /**
  * MIT License
@@ -32,23 +34,23 @@ import java.util.stream.Stream;
  * copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * @author Gdalia, OfirTIM
+ * @authors Gdalia, OfirTIM
  * @since 1.0-SNAPSHOT build number #2
  */
 
 public class Config extends YamlConfiguration {
 
 	private static final Plugin plugin = Main.getInstance();
-	private static final File dataFolder = plugin.getDataFolder();
+	private static File dataFolder = plugin.getDataFolder();
 	
 	@Getter
-	private static final Map<String, Config> configs = new ConcurrentHashMap<>();
+	private static Map<String, Config> configs = new ConcurrentHashMap<>();
 	
 	@Setter
 	@Getter
@@ -57,20 +59,21 @@ public class Config extends YamlConfiguration {
 	@Getter
 	private File file;
 	
-	public Config(String name, @Nullable String folder) {
+	public Config(String name, @Nullable String folder, boolean loadFromDefault) {
 		setName(name);
 		setFolder(folder);
 		configs.put(folder == null ? name : folder + File.separator + name, this);
-		load();
+		load(loadFromDefault);
 	}
 	
-	public static Config getConfig(String name, @Nullable String folder) {
+	public static Config getConfig(String name, @Nullable String folder, boolean loadFromDefault) {
 		String path = folder == null ? name : folder + File.separator + name;
-		return configs.containsKey(path) ? configs.get(name) : new Config(name, folder);
+		return configs.containsKey(path) ? configs.get(name) : new Config(name, folder, loadFromDefault);
 	}
 	
 	@SneakyThrows
-	protected void load() {
+	protected void load(boolean defaultConfig) {
+		if (defaultConfig) saveDefaultConfig();
 		String path = (plugin.getDataFolder() + (folder != null ? (File.separator + folder) : ""));
 		file = new File(path, name.toLowerCase() + ".yml");
 		if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
@@ -79,6 +82,12 @@ public class Config extends YamlConfiguration {
 		this.load(file);
 	}
 
+	
+	@SneakyThrows
+	public void saveDefaultConfig() {
+		plugin.saveResource(name.toLowerCase() + ".yml", false);
+	}
+	
 	@SneakyThrows
 	public void saveConfig() {
 		this.options().copyDefaults(true);

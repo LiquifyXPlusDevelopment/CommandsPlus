@@ -1,10 +1,8 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.PunishmentRevoke;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import java.util.UUID;
+
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -12,9 +10,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import dev.gdalia.commandsplus.models.PunishmentManager;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.PunishmentRevoke;
+import dev.gdalia.commandsplus.structs.PunishmentType;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "unban")
+@CommandAutoRegistration.Command(value = "unban")
 public class UnbanCommand implements CommandExecutor{
 
 	@SuppressWarnings("deprecation")
@@ -49,7 +51,7 @@ public class UnbanCommand implements CommandExecutor{
         		UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
         		PunishmentManager.getInstance().revoke(new PunishmentRevoke(punishment, executer));
         		Message.PLAYER_UNBANNED.sendFormattedMessage(sender, true, target.getName());
-        		}, () -> Message.PLAYER_NOT_BANNED.sendFormattedMessage(sender, true));
+        		}, () -> Message.PLAYER_NOT_BANNED.sendMessage(sender, true));
         return true;
 	}
 

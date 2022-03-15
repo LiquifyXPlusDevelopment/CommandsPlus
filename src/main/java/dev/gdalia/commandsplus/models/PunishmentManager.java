@@ -1,22 +1,23 @@
 package dev.gdalia.commandsplus.models;
 
-import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.structs.Punishment;
+import java.time.Instant;
+import java.util.Optional;
+
 import dev.gdalia.commandsplus.structs.PunishmentRevoke;
 import dev.gdalia.commandsplus.structs.events.PlayerPunishEvent;
 import dev.gdalia.commandsplus.structs.events.PlayerPunishRevokeEvent;
-import dev.gdalia.commandsplus.utils.Config;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.time.Instant;
-import java.util.Optional;
+import lombok.Getter;
+import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.utils.Config;
 
 public class PunishmentManager {
 
 	@Getter
-	private static final PunishmentManager instance = new PunishmentManager();
+	private static PunishmentManager instance = new PunishmentManager();
 		
 	public void invoke(Punishment punishment) {
 		Config config = Main.getPunishmentsConfig();
@@ -26,14 +27,14 @@ public class PunishmentManager {
 		
 		ConfigurationSection section = config.createSection(punishment.getPunishmentUniqueId().toString());
 		
-		section.set(ConfigFields.PunishFields.PUNISHED, punishment.getPunished());
+		section.set(ConfigFields.PunishFields.PUNISHED, punishment.getPunished().toString());
 		
-		Optional.ofNullable(punishment.getExecuter()).ifPresent(uniqueId ->
-			section.set(ConfigFields.PunishFields.EXECUTER, punishment.getPunished()));
+		Optional.ofNullable(punishment.getExecuter()).ifPresent(uniqueId -> 
+			section.set(ConfigFields.PunishFields.EXECUTER, punishment.getPunished().toString()));
 		
 		section.set(ConfigFields.PunishFields.TYPE, punishment.getType().name());
 		
-		Optional.ofNullable(punishment.getExecuter()).ifPresent(uniqueId ->
+		Optional.ofNullable(punishment.getExpiry()).ifPresent(uniqueId -> 
 			section.set(ConfigFields.PunishFields.EXPIRY, punishment.getExpiry().toEpochMilli()));
 		
 		section.set(ConfigFields.PunishFields.REASON, punishment.getReason());
@@ -44,7 +45,7 @@ public class PunishmentManager {
 	}
 	
 	public void revoke(PunishmentRevoke punishment) {
-		Optional.ofNullable(punishment.getRemovedBy()).ifPresent(executer ->
+		Optional.ofNullable(punishment.getRemovedBy()).ifPresent(punisher -> 
 			Punishments.getInstance().writeTo(
 						punishment.getPunishment(),
 						ConfigFields.PunishFields.REMOVED_BY,

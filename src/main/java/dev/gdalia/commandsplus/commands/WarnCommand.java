@@ -1,9 +1,8 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Punishment;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import java.util.UUID;
+
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -11,14 +10,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import dev.gdalia.commandsplus.models.PunishmentManager;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.structs.PunishmentType;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "warn")
-public class WarnCommand implements CommandExecutor {
+@CommandAutoRegistration.Command(value = "warn")
+public class WarnCommand implements CommandExecutor{
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
@@ -28,7 +31,7 @@ public class WarnCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (args.length < 1) {
+		if (args.length <= 1) {
 			Message.WARN_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}

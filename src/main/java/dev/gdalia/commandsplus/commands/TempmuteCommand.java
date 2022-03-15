@@ -1,27 +1,30 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Punishment;
-import dev.gdalia.commandsplus.structs.PunishmentType;
-import dev.gdalia.commandsplus.utils.StringUtils;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
+
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.UUID;
+import dev.gdalia.commandsplus.models.PunishmentManager;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.utils.StringUtils;
 
-@dev.gdalia.commandsplus.utils.CommandAutoRegistration.Command(value = "tempmute")
+@CommandAutoRegistration.Command(value = "tempmute")
 public class TempmuteCommand implements CommandExecutor {
 	
 	/**
-	 /tempmute {user} {time} {reason}
+	 * /tempmute {user} {time} {reason}
+	 * LABEL      ARG0   ARG1    ARG2+
 	 */
 	
 	@Override
@@ -43,7 +46,7 @@ public class TempmuteCommand implements CommandExecutor {
 			return true;
 		}
 		
-		Player target = Bukkit.getPlayerExact(args[1]);
+		Player target = Bukkit.getPlayerExact(args[0]);
 		
         if(target == null) {
         	Message.INVALID_PLAYER.sendMessage(sender, true);
@@ -67,7 +70,7 @@ public class TempmuteCommand implements CommandExecutor {
             
             StringBuilder reasonBuilder = new StringBuilder();
             
-            for (int i = 3; i <= args.length; i++) 
+            for (int i = 2; i < args.length; i++) 
             	reasonBuilder.append(args[i]);
             
             Instant expiry = Instant.now().plus(duration);
@@ -85,8 +88,8 @@ public class TempmuteCommand implements CommandExecutor {
             punishment.setExpiry(expiry);
             
             PunishmentManager.getInstance().invoke(punishment);
-            Message.PLAYER_TEMPMUTED_MESSAGE.sendFormattedMessage(sender, true, target.getName(), expiry);
-            Message.TARGET_TEMPMUTED_MESSAGE.sendFormattedMessage(target, true, expiry);
+            Message.PLAYER_TEMPMUTED_MESSAGE.sendFormattedMessage(sender, true, target.getName(), duration);
+            Message.TARGET_TEMPMUTED_MESSAGE.sendFormattedMessage(target, true, duration);
 	
         });
         return true;
