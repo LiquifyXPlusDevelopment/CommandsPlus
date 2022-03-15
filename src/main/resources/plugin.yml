@@ -1,8 +1,8 @@
 name: CommandsPlus
-main: me.gdalia.commandsplus.Main
+main: dev.gdalia.commandsplus.Main
 version: 1.0.1
 api-version: 1.18
-author: [Gdalia, OfirTim]
+author: Gdalia, OfirTim
 commands:
   alts:
     aliases: /alts (player) (kickall/banall/check)

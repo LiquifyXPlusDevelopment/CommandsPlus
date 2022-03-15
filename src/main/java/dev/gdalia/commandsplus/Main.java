@@ -59,8 +59,8 @@ public class Main extends JavaPlugin {
 
 		setPunishmentsConfig(Config.getConfig("punishments", null, false));
         
-		new ListenerAutoRegistration(this, false).register("me.gdalia.commandsplus.listeners");
-		new CommandAutoRegistration(this, false).register("me.gdalia.commandsplus.commands");
+		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
+		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);
 		
 		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&7CommandsPlus has been &aEnabled&7."));

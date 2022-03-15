@@ -55,7 +55,7 @@ public class MuteCommand implements CommandExecutor {
         	
             StringBuilder reasonBuilder = new StringBuilder();
             
-            for (int i = 2; i <= args.length; i++) 
+            for (int i = 1; i < args.length; i++) 
             	reasonBuilder.append(args[i]);
             
             UUID executer = null;

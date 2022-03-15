@@ -44,7 +44,7 @@ public class BanCommand implements CommandExecutor {
 			return true;
 		}
 		
-		OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
         if(!target.hasPlayedBefore()) {
         	Message.INVALID_PLAYER.sendMessage(sender, true);

@@ -28,7 +28,7 @@ ban-lang:
     tempban-template:
        - "&cYou are temporarily banned from &6yourserver.example&c."
        - ""
-       - "&7Expiry: %time%"
+       - "&7Expiry: &f%time%"
        - ""
        - "&7Reason: &f%reason%"
        - ""

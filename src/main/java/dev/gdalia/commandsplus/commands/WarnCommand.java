@@ -42,11 +42,16 @@ public class WarnCommand implements CommandExecutor{
 			return true;
 		}
 		
+        StringBuilder reasonBuilder = new StringBuilder();
+		
+        for (int i = 1; i < args.length; i++) 
+        	reasonBuilder.append(args[i]);
+		
 		UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
-		Punishment punishment = new Punishment(UUID.randomUUID(), target.getUniqueId(), executer, PunishmentType.WARN, "");
+		Punishment punishment = new Punishment(UUID.randomUUID(), target.getUniqueId(), executer, PunishmentType.WARN, reasonBuilder.toString());
 		
 		PunishmentManager.getInstance().invoke(punishment);
-		Message.PLAYER_WARN_MESSAGE.sendMessage(sender, true);
+		Message.PLAYER_WARN_MESSAGE.sendFormattedMessage(sender, true, target.getName());
 		return true;
 	}
 }

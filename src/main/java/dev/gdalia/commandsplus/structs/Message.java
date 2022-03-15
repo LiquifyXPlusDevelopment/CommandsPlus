@@ -62,6 +62,7 @@ public enum Message {
 	TEMPMUTE_ARGUMENTS(Main.getLanguageConfig().getString("TEMPMUTE_ARGUMENTS")),
 	WARN_ARGUMENTS(Main.getLanguageConfig().getString("WARN_ARGUMENTS")),
 	TEMPBAN_ARGUMENTS(Main.getLanguageConfig().getString("TEMPBAN_ARGUMENTS")),
+	PLAYER_NOT_MUTED(Main.getLanguageConfig().getString("PLAYER_NOT_MUTED")),
 	MUTE_ARGUMENTS(Main.getLanguageConfig().getString("MUTE_ARGUMENTS")),
 	PLAYER_GOD_ENABLED(Main.getLanguageConfig().getString("PLAYER_GOD_ENABLED")),
 	TARGET_GOD_ENABLED(Main.getLanguageConfig().getString("TARGET_GOD_ENABLED")),
@@ -108,7 +109,7 @@ public enum Message {
 	}
 	
 	public static String staffChatFormat() {
-		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6ï¿½ &e{message}");
+		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6» &e{message}");
 	}
 	
 	private Message(String message) {
