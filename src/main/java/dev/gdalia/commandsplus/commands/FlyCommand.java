@@ -41,7 +41,7 @@ public class FlyCommand implements CommandExecutor{
 		player.setFlying(negatation);
 		
 		if (player.getName().equalsIgnoreCase(sender.getName())) Message.FLIGHT_MSG.sendFormattedMessage(sender, true, getStatusString(player));
-		else Message.FLIGHT_MSG_BY_OTHER.sendFormattedMessage(sender, true, getStatusString(player), sender.getName());
+		else Message.FLIGHT_MSG_BY_OTHER.sendFormattedMessage(player, true, getStatusString(player), sender.getName());
 		return true;
 	}
 	

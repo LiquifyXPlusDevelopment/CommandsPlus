@@ -26,23 +26,24 @@ public class HealCommand implements CommandExecutor {
 			return true;
 		}
 
-		Player player = (Player) sender;
-
-		if (args.length == 0) {
-			Message.DESCRIBE_PLAYER.sendMessage(sender, true);
-			return true;
-		}
+		Player player = (Player)sender;
 		
-		Player target = Bukkit.getPlayerExact(args[0]);
-		if (target == null) {
+		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
+			player = Bukkit.getPlayer(args[0]);
+		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
 			Message.INVALID_PLAYER.sendMessage(sender, true);
+			return false;
+		}
+		
+		if(player == sender) {
+			player.setHealth(20);
+			Message.HEAL_PLAYER.sendMessage(sender, true);
 			return true;
 		}
 		
-		target.setHealth(20);
-		Message.HEAL.sendFormattedMessage(player, true, target.getName());
-		
-		return false;
+		player.setHealth(20);
+		Message.HEAL_TARGET.sendFormattedMessage(sender, true, player.getName());
+		return true;
 	}
 	
 }

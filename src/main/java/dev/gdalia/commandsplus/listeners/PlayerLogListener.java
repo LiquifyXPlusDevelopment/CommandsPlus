@@ -44,6 +44,12 @@ public class PlayerLogListener implements Listener {
 		return;
 		}
 		
+		if(PlayerCollection.getVanishPlayers().contains(uuid) == true) 
+			Bukkit.getOnlinePlayers()
+			.stream()
+			.filter(p -> p.canSee(player) && !p.hasPermission("commandsplus.vanish.see"))
+			.forEach(p -> p.hidePlayer(Main.getInstance(), player));
+		
 		if (!player.hasPermission("commandsplus.vanish.see"))
 			PlayerCollection.getVanishPlayers()
 				.stream()

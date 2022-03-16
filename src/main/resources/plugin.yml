@@ -5,7 +5,6 @@ api-version: 1.18
 author: Gdalia, OfirTim
 commands:
   alts:
-    aliases: /alts (player) (kickall/banall/check)
     description: Check if the target has alts on the server.
   ban:
     description: Banned the player from the server.
@@ -24,7 +23,7 @@ commands:
     description: Enable & Disable your flight mode.
   flyspeed:
     description: Change your flyspeed.
-  Freeze:
+  freeze:
     description: Freezed the player.
   gamemode:
     aliases: gm
@@ -43,8 +42,10 @@ commands:
     aliases: sc
     description: Enable & Disable your staffchat.
   tempban:
+    aliases: tban
     description: Banned the player for a spesific time.
   tempmute:
+    aliases: tmute
     description: Muted the player for a spesific time.
   time:
     description: Change the time to day/night.

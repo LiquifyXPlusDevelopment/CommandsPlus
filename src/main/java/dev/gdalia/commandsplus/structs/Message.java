@@ -1,5 +1,7 @@
 package dev.gdalia.commandsplus.structs;
 
+
+
 import java.text.MessageFormat;
 
 import org.bukkit.ChatColor;
@@ -30,9 +32,11 @@ public enum Message {
 	CHANGE_THE_TIME_TO_DAY(Main.getLanguageConfig().getString("CHANGE_THE_TIME_TO_DAY")),
 	CHANGE_THE_TIME_TO_NIGHT(Main.getLanguageConfig().getString("CHANGE_THE_TIME_TO_NIGHT")),
 	CASE(Main.getLanguageConfig().getString("CASE")),
-	FEED(Main.getLanguageConfig().getString("FEED")),
+	FEED_TARGET(Main.getLanguageConfig().getString("FEED_TARGET")),
+	FEED_PLAYER(Main.getLanguageConfig().getString("FEED_PLAYER")),
     SPEED(Main.getLanguageConfig().getString("SPEED")),
-	HEAL(Main.getLanguageConfig().getString("HEAL")),
+	HEAL_PLAYER(Main.getLanguageConfig().getString("HEAL_PLAYER")),
+	HEAL_TARGET(Main.getLanguageConfig().getString("HEAL_TARGET")),
 	TPALL(Main.getLanguageConfig().getString("TPALL")),
 	PLAYER_NOT_BANNED(Main.getLanguageConfig().getString("PLAYER_NOT_BANNED")),
 	PLAYER_BANNED(Main.getLanguageConfig().getString("PLAYER_BANNED")),

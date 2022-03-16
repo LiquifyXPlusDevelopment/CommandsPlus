@@ -40,12 +40,11 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 			case "clear": {
 				Bukkit.getOnlinePlayers().forEach(cleared -> {
 					for (int i = 0; i <= 100; i++) cleared.sendMessage(" ");
-					
 					Main.getInstance().getConfig().getStringList("chat.clear-template")
 						.stream()
 						.map(Message::fixColor)
 						.forEach(cleared::sendMessage);
-				});
+					});
 				return true;
 			}
 			
