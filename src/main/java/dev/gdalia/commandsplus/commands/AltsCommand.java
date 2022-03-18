@@ -47,12 +47,17 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return true;
 		}
-
+		
 		String address = target.getAddress().toString().split(":")[0];
 		List<? extends Player> alts = Bukkit.getOnlinePlayers().stream()
 				.filter(x -> x.getAddress().toString().split(":")[0].equalsIgnoreCase(address))
 				.toList();
-
+		
+		if (args.length <= 1) {
+			player.sendMessage(Message.fixColor("&7/alts [&eplayer&7] [&echeck&7/&ebanall&7/&ekickall&7]"));
+			return false;
+		}
+		
 		switch (args[1].toLowerCase()) {
 		case "check": {
 
@@ -87,7 +92,7 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 		default:
-			Message.cmdUsage(cmd, sender);
+			player.sendMessage(Message.fixColor("&7/alts [&eplayer&7] [&echeck&7/&ebanall&7/&ekickall&7]"));
 			return true;
 		}
 	}

@@ -29,15 +29,15 @@ public class FlySpeedCommand implements CommandExecutor{
 		Player player = (Player) sender;
 
 		if (args.length == 0) {
-			Message.FLY_SPEED.sendMessage(sender, true);
+			Message.FLY_SPEED_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
 		
 		if (!StringUtils.isNumeric(args[0])) return false;
-
+		
 		float speed = Integer.parseInt(args[0]) / 10F;
 		player.setFlySpeed(speed);
-		Message.SPEED.sendFormattedMessage(player, true, speed);
+		Message.FLY_SPEED.sendFormattedMessage(player, true, speed);
 		return false;
 	}
 

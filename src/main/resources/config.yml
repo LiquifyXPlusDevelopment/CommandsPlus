@@ -12,8 +12,8 @@ PREFIX: "&7Commands&b+ &f» "
 ban-command: "ban {player} no alts online!"
 kick-command: "kick {player} no alts online!"
 
-#If you want to disable the welcome message just change to false.
-welcome_message: true
+#If you want to disable the welcome message just change to true.
+disable_welcome_message: false
 
 chat:
    locked: false

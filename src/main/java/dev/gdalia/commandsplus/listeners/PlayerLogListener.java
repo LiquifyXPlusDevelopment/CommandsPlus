@@ -39,17 +39,18 @@ public class PlayerLogListener implements Listener {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 		
-		if(Main.getInstance().getConfig().getBoolean("welcome_message") == false) {
-		event.setJoinMessage(null);
-		return;
+		if (Main.getInstance().getConfig().getBoolean("disable_welcome_message")) {
+			event.setJoinMessage(null);
+			return;
 		}
 		
-		if(PlayerCollection.getVanishPlayers().contains(uuid) == true) 
+		if (PlayerCollection.getVanishPlayers().contains(uuid)) {
 			Bukkit.getOnlinePlayers()
 			.stream()
 			.filter(p -> p.canSee(player) && !p.hasPermission("commandsplus.vanish.see"))
 			.forEach(p -> p.hidePlayer(Main.getInstance(), player));
-		
+		}
+
 		if (!player.hasPermission("commandsplus.vanish.see"))
 			PlayerCollection.getVanishPlayers()
 				.stream()
@@ -65,7 +66,7 @@ public class PlayerLogListener implements Listener {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 		
-		if(Main.getInstance().getConfig().getBoolean("welcome_message") == false) {
+		if (Main.getInstance().getConfig().getBoolean("disable_welcome_message")) {
 			event.setQuitMessage(null);
 			return;
 		}

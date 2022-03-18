@@ -15,6 +15,7 @@ public class PlayerChatListener implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		Player e = event.getPlayer();
+		if(e.hasPermission("commandsplus.chat")) return;
 		if (Main.getInstance().getConfig().getBoolean("chat.locked")) {
 			event.setCancelled(true);
 			Message.CHAT_LOCKED.sendMessage(e, true);

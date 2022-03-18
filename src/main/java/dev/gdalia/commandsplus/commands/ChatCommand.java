@@ -61,7 +61,7 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 			}
 
 			default: {
-				Message.cmdUsage(cmd, sender);
+				player.sendMessage(Message.fixColor("&7/chat [&eclear&7/&elock&7]"));
 				return true;
 			}
 		}
@@ -69,7 +69,7 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!sender.hasPermission("commandsplus.chat")) return null;
-		if (args.length != 0) return null;
+		if (args.length == 0) return null;
 		return List.of("clear", "lock");
 	}
 }

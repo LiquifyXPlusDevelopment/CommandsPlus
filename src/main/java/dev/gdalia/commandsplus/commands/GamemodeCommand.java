@@ -30,7 +30,7 @@ public class GamemodeCommand implements TabExecutor {
         if(!(sender instanceof Player)){
         	Message.PLAYER_CMD.sendMessage(sender, true);
             return false;
-        }
+        }  
         
 		if (args.length == 0) {
 			Message.GAMEMODE_ARGUMENTS.sendMessage(sender, true);
@@ -56,12 +56,11 @@ public class GamemodeCommand implements TabExecutor {
 			}
 		}
 		
-		
 		if(!sender.hasPermission(setGamemode.getPermission())) {
         	Message.NO_PERMISSION.sendMessage(sender, true);
 			return false;
 		}
-        
+		
 		Player player = (Player)sender;
 		
 		if (args.length >= 2 && Bukkit.getPlayerExact(args[1]) != null) {

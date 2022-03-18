@@ -23,7 +23,7 @@ public class StaffChatListener implements Listener{
 		if (!PlayerCollection.getStaffchatPlayers().contains(uuid)) return;
 			event.setCancelled(true);
 			Bukkit.getOnlinePlayers().stream()
-			.filter(staff -> staff.hasPermission("commandplus.staffchat.see"))
+			.filter(staff -> staff.hasPermission("commandsplus.staffchat.see"))
 			.forEach(staff -> 
 					staff.sendMessage(Message.staffChatFormat().replace("{player}", player.getName()).replace("{message}", msg)));
 			

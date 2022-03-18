@@ -47,7 +47,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			player.sendMessage(Message.fixColor("&e/fly [player] &7Enable & Disable your flight mode."));
 			player.sendMessage(Message.fixColor("&e/flyspeed [player] &7Change your fly speed."));
 			player.sendMessage(Message.fixColor("&e/Freeze [player] &7Freezed the player."));
-			player.sendMessage(Message.fixColor("&e/gamemode [player] [GameMode] &7Change your gamemode to the gamemode you selected."));
+			player.sendMessage(Message.fixColor("&e/gamemode [gamemode] [player] &7Change your gamemode to the gamemode you selected."));
 			player.sendMessage(Message.fixColor("&e/god [player] &7Enable & Disable god mode to player."));
 			player.sendMessage(Message.fixColor("&e/heal [player] &7Change the player health to 20."));
 			player.sendMessage(Message.fixColor("&e/history [player] &7Show you all the punishments."));

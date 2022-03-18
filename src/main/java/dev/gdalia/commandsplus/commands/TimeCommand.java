@@ -40,17 +40,17 @@ public class TimeCommand implements CommandExecutor, TabCompleter{
 		case "day": {
 			String day = "1000";
 			player.getWorld().setTime(1000);
-			Message.CHANGE_THE_TIME_TO_DAY.sendFormattedMessage(player, true, day);
+			Message.CHANGE_THE_TIME.sendFormattedMessage(player, true, day);
 			return true;
 			}
 		case "night": {
 			String night = "14000";
 			player.getWorld().setTime(14000);
-			Message.CHANGE_THE_TIME_TO_NIGHT.sendFormattedMessage(player, true, night);
+			Message.CHANGE_THE_TIME.sendFormattedMessage(player, true, night);
 			return true;
 			}
 		default:
-			Message.cmdUsage(cmd, sender);
+			player.sendMessage(Message.fixColor("&7/time [&eday&7/&enight&7]"));
 			return true;
 		}
 	}

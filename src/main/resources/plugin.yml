@@ -5,59 +5,59 @@ api-version: 1.18
 author: Gdalia, OfirTim
 commands:
   alts:
-    description: Check if the target has alts on the server.
+    description: Alts command.
   ban:
-    description: Banned the player from the server.
+    description: Ban command.
   buildmode:
-    description: Enable & Disable your buildmode.
+    description: Buildmode command.
   chat:
-    description: Clear/Lock the chat.
+    description: Chat command.
   check:
-    description: Check if the player is banned/muted.
+    description: Check command.
   commandsplus:
     aliases: cp
-    description: General command for the plugin system.
+    description: Commandsplus commnad.
   feed:
-    description: Change the player level food to 20.
+    description: Feed command.
   fly:
-    description: Enable & Disable your flight mode.
+    description: Fly command.
   flyspeed:
-    description: Change your flyspeed.
+    description: Flyspeed command.
   freeze:
-    description: Freezed the player.
+    description: Freeze command.
   gamemode:
     aliases: gm
-    description: Change your gamemode to the gamemode you just selected.
+    description: Gamemode command.
   god:
-    description: Enable & Disable your god mode.
+    description: God command.
   heal:
-    description: Change the player health to 20.
+    description: Heal command.
   history:
-    description: Show all the player punishments.
+    description: History command.
   kick:
-    description: Kick the player from the server.
+    description: Kick command.
   mute:
-    description: Muted the player from the server.
+    description: Mute command.
   staffchat:
     aliases: sc
-    description: Enable & Disable your staffchat.
+    description: Staffchat command.
   tempban:
     aliases: tban
-    description: Banned the player for a spesific time.
+    description: Tempban command.
   tempmute:
     aliases: tmute
-    description: Muted the player for a spesific time.
+    description: Tempmute command.
   time:
-    description: Change the time to day/night.
+    description: Time command.
   tpall:
-    description: Tp all the online players to you.
+    description: Tpall command.
   tphere:
-    description: Tp the player to you.
+    description: Tphere command.
   unban:
-    description: Unbanned the player from the server.
+    description: Unban command.
   unmute:
-    description: Unmuted the player from the server.
+    description: Unmute command.
   vanish:
-    description: Vanish the player from other players.
+    description: Vanish command.
   warn:
-    description: Warn the player.
+    description: Warn command.
