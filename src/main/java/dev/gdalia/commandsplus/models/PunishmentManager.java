@@ -49,7 +49,7 @@ public class PunishmentManager {
 			Punishments.getInstance().writeTo(
 						punishment.getPunishment(),
 						ConfigFields.PunishFields.REMOVED_BY,
-						punishment.getRemovedBy(),
+						punishment.getRemovedBy().toString(),
 						false));
 		
 		Punishments.getInstance().writeTo(

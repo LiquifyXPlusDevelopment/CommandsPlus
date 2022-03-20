@@ -1,11 +1,9 @@
 package dev.gdalia.commandsplus.commands;
 
-import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import dev.gdalia.commandsplus.structs.Punishment;
 import dev.gdalia.commandsplus.utils.CentredMessage;
@@ -16,12 +14,11 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 import dev.gdalia.commandsplus.utils.StringUtils;
 
@@ -47,7 +44,7 @@ public class HistoryCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (!sender.hasPermission("commandsplus.history")) {
+		if (!Permission.PERMISSION_HISTORY.hasPermission(sender)) {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}

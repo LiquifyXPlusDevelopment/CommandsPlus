@@ -19,7 +19,7 @@ public final class CentredMessage {
         boolean isBold = false;
 
         for (char c : message.toCharArray()) {
-            if (c == 'ยง') {
+            if (c == 'ง') {
                 previousCode = true;
             } else if (previousCode) {
                 previousCode = false;

@@ -67,7 +67,7 @@ public class MuteCommand implements CommandExecutor {
             			executer,
             			PunishmentType.MUTE,
             			reasonBuilder.toString());
-            
+                        
             PunishmentManager.getInstance().invoke(punishment);
             Message.PLAYER_MUTED_MESSAGE.sendFormattedMessage(sender, true, target.getName());
             Message.TARGET_MUTED_MESSAGE.sendMessage(target, true);
