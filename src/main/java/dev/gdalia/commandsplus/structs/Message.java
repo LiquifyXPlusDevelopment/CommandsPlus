@@ -50,6 +50,7 @@ public enum Message {
 	PLAYER_UNMUTED(Main.getLanguageConfig().getString("PLAYER_UNMUTED")),
 	TARGET_UNMUTED(Main.getLanguageConfig().getString("TARGET_UNMUTED")),
 	PLAYER_UNBANNED(Main.getLanguageConfig().getString("PLAYER_UNBANNED")),
+	HISTORY_DOES_NOT_EXIST(Main.getLanguageConfig().getString("HISTORY_DOES_NOT_EXIST")),
 	MUTED_MESSAGE(Main.getLanguageConfig().getString("MUTED_MESSAGE")),
 	TPHERE(Main.getLanguageConfig().getString("TPHERE")),
 	PLAYER_KICK(Main.getLanguageConfig().getString("PLAYER_KICK")),
