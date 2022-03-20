@@ -78,7 +78,7 @@ public class HistoryCommand implements CommandExecutor {
 
 			if (!List.of(PunishmentType.WARN, PunishmentType.KICK).contains(punishment.getType())) {
 				Optional.ofNullable(punishment.getExpiry()).ifPresentOrElse(instant -> {
-					sender.sendMessage(Message.fixColor("&Is permanent?: &b" + BooleanUtils.toStringYesNo(false)));
+					sender.sendMessage(Message.fixColor("&eIs permanent?: &b" + BooleanUtils.toStringYesNo(false)));
 					sender.sendMessage(Message.fixColor("&eExpiry: &b" + StringUtils.createTimeFormatter(instant, "HH:mm, dd/MM/uu")));
 				}, () -> sender.sendMessage(Message.fixColor("&Is permanent?: &b" + BooleanUtils.toStringYesNo(true))));
 			}
