@@ -1,6 +1,9 @@
 package dev.gdalia.commandsplus.utils;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
@@ -61,4 +64,11 @@ public class StringUtils {
 			return false;
 		}
 	}
+
+    public static String createTimeFormatter(Instant instant, String format) {
+        DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
+                .ofPattern(format)
+                .withZone(ZoneId.systemDefault());
+        return DATE_TIME_FORMATTER.format(instant);
+    }
 }
