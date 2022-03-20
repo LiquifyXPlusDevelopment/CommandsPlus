@@ -3,8 +3,12 @@ package dev.gdalia.commandsplus.commands;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.utils.CentredMessage;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
@@ -58,37 +62,29 @@ public class HistoryCommand implements CommandExecutor {
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return true;
 		}
-		
-		Punishments.getInstance().getHistory(target.getUniqueId()).forEach(punishment -> {
-			ConfigurationSection cs = Main.getPunishmentsConfig().getConfigurationSection(punishment.getPunishmentUniqueId().toString());
-			cs.getValues(false).entrySet().forEach(entry -> {
-				if (entry.getValue() instanceof String stringValue) {
-					if (StringUtils.isUniqueId(stringValue)) {
-						String name = Bukkit.getOfflinePlayer(UUID.fromString(stringValue)).getName();
-						sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + name));
-						return;
-					}
-					
-					if (PunishmentType.canBeType(stringValue)) {
-						PunishmentType type = PunishmentType.valueOf(stringValue);
-						sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + type.getDisplayName()));
-						return;
-					}
-					
-					sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + stringValue));
-					return;
-					
-				} else if (entry.getValue() instanceof Long longValue) {
-					Instant expiry = Instant.ofEpochMilli(longValue);
-					String endDate = DATE_TIME_FORMATTER.format(expiry);
-					sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + endDate));
-					return;
-					
-				} else if (entry.getValue() instanceof Boolean boolValue) {
-					sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + BooleanUtils.toStringYesNo(boolValue)));
-					return;
-				}
-			});
+
+		List<Punishment> history = Punishments.getInstance().getHistory(target.getUniqueId());
+
+		if (history.isEmpty()) {
+			Message.HISTORY_DOES_NOT_EXIST.sendMessage(sender, true);
+			return true;
+		}
+
+		sender.sendMessage(CentredMessage.generate("&7&m&l               |&e " + target.getName() + " punish log &7&m&l|               &r"));
+		history.forEach(punishment -> {
+			sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
+			Optional.ofNullable(punishment.getExecuter()).ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(uuid).getName())));
+			sender.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
+
+			if (!List.of(PunishmentType.WARN, PunishmentType.KICK).contains(punishment.getType())) {
+				Optional.ofNullable(punishment.getExpiry()).ifPresentOrElse(instant -> {
+					sender.sendMessage(Message.fixColor("&Is permanent?: &b" + BooleanUtils.toStringYesNo(false)));
+					sender.sendMessage(Message.fixColor("&eExpiry: &b" + StringUtils.createTimeFormatter(instant, "HH:mm, dd/MM/uu")));
+				}, () -> sender.sendMessage(Message.fixColor("&Is permanent?: &b" + BooleanUtils.toStringYesNo(true))));
+			}
+
+			sender.sendMessage(Message.fixColor("&eReason: &b" + punishment.getReason()));
+			sender.sendMessage(CentredMessage.generate("&7&m&l                    x x                    &r"));
 		});
 		return true;
 	}
