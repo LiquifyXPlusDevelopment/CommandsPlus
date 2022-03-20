@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "chat")
 public class ChatCommand implements CommandExecutor, TabCompleter {
@@ -31,7 +32,7 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 
 		Player player = (Player) sender;
 
-		if (!player.hasPermission("commandsplus.chat")) {
+		if (!Permission.PERMISSION_CHAT.hasPermission(sender)) {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return false;
 		}
@@ -73,7 +74,7 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 	}
 
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!sender.hasPermission("commandsplus.chat")) return null;
+		if (!Permission.PERMISSION_CHAT.hasPermission(sender)) return null;
 		if (args.length == 0) return null;
 		return List.of("clear", "lock");
 	}

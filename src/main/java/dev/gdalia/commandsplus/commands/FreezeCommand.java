@@ -3,6 +3,7 @@ package dev.gdalia.commandsplus.commands;
 import java.util.UUID;
 
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -29,7 +30,7 @@ public class FreezeCommand implements CommandExecutor{
 			return true;
 		}
 
-		if (!sender.hasPermission("commandsplus.freeze")) {
+		if (!Permission.PERMISSION_FREEZE.hasPermission(sender)) {
         	Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}

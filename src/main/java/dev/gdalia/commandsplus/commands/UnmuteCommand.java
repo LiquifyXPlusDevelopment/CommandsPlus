@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.models.PunishmentManager;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentRevoke;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 
@@ -32,7 +33,7 @@ public class UnmuteCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (!sender.hasPermission("commandsplus.unmute")) {
+		if (!Permission.PERMISSION_UNMUTE.hasPermission(sender)) {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}

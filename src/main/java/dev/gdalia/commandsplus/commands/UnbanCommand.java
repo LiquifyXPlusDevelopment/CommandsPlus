@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.models.PunishmentManager;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentRevoke;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 
@@ -34,7 +35,7 @@ public class UnbanCommand implements CommandExecutor{
 			return true;
 		}
 		
-		if (!sender.hasPermission("commandsplus.unban")) {
+		if (!Permission.PERMISSION_UNBAN.hasPermission(sender)) {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}

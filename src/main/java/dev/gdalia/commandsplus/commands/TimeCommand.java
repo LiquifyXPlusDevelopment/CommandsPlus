@@ -10,6 +10,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "time")
 public class TimeCommand implements CommandExecutor, TabCompleter{
@@ -30,7 +31,7 @@ public class TimeCommand implements CommandExecutor, TabCompleter{
 		
 		Player player = (Player) sender;
 
-        if(!player.hasPermission("commandsplus.time")) {
+        if(!Permission.PERMISSION_TIME.hasPermission(sender)) {
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
         }
@@ -61,7 +62,7 @@ public class TimeCommand implements CommandExecutor, TabCompleter{
 	}
 	
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("commandsplus.time")) return null;
+		if(!Permission.PERMISSION_TIME.hasPermission(sender)) return null;
 		if (args.length == 0) return null;
 		return List.of("day", "night");
 	}

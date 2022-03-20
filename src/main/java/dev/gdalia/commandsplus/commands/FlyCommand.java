@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "fly")
 public class FlyCommand implements CommandExecutor{
@@ -26,7 +27,7 @@ public class FlyCommand implements CommandExecutor{
             return false;
         }
         
-		if(!sender.hasPermission("commandsplus.fly")) {
+		if(!Permission.PERMISSION_FLY.hasPermission(sender)) {
         	Message.NO_PERMISSION.sendMessage(sender, true);
 			return false;
 		}

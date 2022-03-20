@@ -8,10 +8,10 @@ import lombok.Getter;
 
 public enum Gamemode {
 	
-	SURVIVAL(GameMode.SURVIVAL, 0, "commandsplus.gamemode.survival", "gms", "s"),
-	ADVENTURE(GameMode.ADVENTURE, 2, "commandsplus.gamemode.adventure", "gma", "a"),
-	CREATIVE(GameMode.CREATIVE, 1, "commandsplus.gamemode.creative", "gmc", "c"),
-	SPECTATOR(GameMode.SPECTATOR, 3, "commandsplus.gamemode.spectator", "gmsp", "sp");
+	SURVIVAL(GameMode.SURVIVAL, 0, Permission.PERMISSION_GAMEMODE_SURVIVAL.getPermission(), "gms", "s"),
+	ADVENTURE(GameMode.ADVENTURE, 2, Permission.PERMISSION_GAMEMODE_ADVENTURE.getPermission(), "gma", "a"),
+	CREATIVE(GameMode.CREATIVE, 1, Permission.PERMISSION_GAMEMODE_CREATIVE.getPermission(), "gmc", "c"),
+	SPECTATOR(GameMode.SPECTATOR, 3, Permission.PERMISSION_GAMEMODE_SPECTATOR.getPermission(), "gmsp", "sp");
 	
 	@Getter
 	private final GameMode asBukkit;

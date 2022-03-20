@@ -15,6 +15,7 @@ import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 
 public class PlayerLogListener implements Listener {
@@ -47,11 +48,11 @@ public class PlayerLogListener implements Listener {
 		if (PlayerCollection.getVanishPlayers().contains(uuid)) {
 			Bukkit.getOnlinePlayers()
 			.stream()
-			.filter(p -> p.canSee(player) && !p.hasPermission("commandsplus.vanish.see"))
+			.filter(p -> p.canSee(player) && !Permission.PERMISSION_VANISH_SEE.hasPermission(p))
 			.forEach(p -> p.hidePlayer(Main.getInstance(), player));
 		}
 
-		if (!player.hasPermission("commandsplus.vanish.see"))
+		if (!Permission.PERMISSION_VANISH_SEE.hasPermission(player))
 			PlayerCollection.getVanishPlayers()
 				.stream()
 				.map(Bukkit::getPlayer)

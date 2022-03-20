@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "heal")
 public class HealCommand implements CommandExecutor {
@@ -26,7 +27,7 @@ public class HealCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (!sender.hasPermission("commandsplus.heal")) {
+		if (!Permission.PERMISSION_HEAL.hasPermission(sender)) {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}

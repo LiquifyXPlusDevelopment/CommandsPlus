@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "tpall")
 public class TpallCommand implements CommandExecutor{
@@ -26,7 +27,7 @@ public class TpallCommand implements CommandExecutor{
 			return true;
 		}
 
-		if (!sender.hasPermission("commandsplus.tpall")) {
+		if (!Permission.PERMISSION_TPALL.hasPermission(sender)) {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}

@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "vanish")
 public class VanishCommand implements CommandExecutor{
@@ -32,7 +33,7 @@ public class VanishCommand implements CommandExecutor{
 
         Player p = (Player) sender;
         UUID uuid = p.getUniqueId();
-        if(!p.hasPermission("commandsplus.vanish")) {
+        if(!Permission.PERMISSION_VANISH.hasPermission(sender)) {
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
         }
@@ -44,7 +45,7 @@ public class VanishCommand implements CommandExecutor{
     		p.setFlying(true);
 			Bukkit.getOnlinePlayers()
 			.stream()
-			.filter(player -> player.canSee(p) && !player.hasPermission("commandsplus.vanish.see"))
+			.filter(player -> player.canSee(p) && !Permission.PERMISSION_VANISH_SEE.hasPermission(player))
 			.forEach(player -> player.hidePlayer(Main.getInstance(), p));
 			Message.VANISH_ENABLE.sendMessage(p, true);
 			return true;

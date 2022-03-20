@@ -1,6 +1,7 @@
 package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -27,7 +28,7 @@ public class GodCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (!sender.hasPermission("commandsplus.god")) {
+		if (!Permission.PERMISSION_GOD.hasPermission(sender)) {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}

@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import dev.gdalia.commandsplus.Main.PlayerCollection;
+import dev.gdalia.commandsplus.structs.Permission;
 
 public class BuildModeListener implements Listener {
 
@@ -17,7 +18,7 @@ public class BuildModeListener implements Listener {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 		
-		if(!player.hasPermission("commandsplus.buildmode")) return;
+		if(!Permission.PERMISSION_BUILDMODE.hasPermission(player)) return;
 		if (PlayerCollection.getBuildmodePlayers().contains(uuid))
 			event.setCancelled(true);
 	}
@@ -27,7 +28,7 @@ public class BuildModeListener implements Listener {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 		
-		if(!player.hasPermission("commandsplus.buildmode")) return;
+		if(!Permission.PERMISSION_BUILDMODE.hasPermission(player)) return;
 		if (PlayerCollection.getBuildmodePlayers().contains(uuid))
 			event.setCancelled(true);
 	}

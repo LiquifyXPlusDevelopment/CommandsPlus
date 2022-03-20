@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 import dev.gdalia.commandsplus.utils.StringUtils;
 
@@ -41,7 +42,7 @@ public class CheckCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (!sender.hasPermission("commandsplus.check")) {
+		if (!Permission.PERMISSION_CHECK.hasPermission(sender)) {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}

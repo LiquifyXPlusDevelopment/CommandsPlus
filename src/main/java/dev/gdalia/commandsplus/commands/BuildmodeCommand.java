@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "buildmode")
 public class BuildmodeCommand implements CommandExecutor{
@@ -31,7 +32,7 @@ public class BuildmodeCommand implements CommandExecutor{
 		Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
 
-        if(!player.hasPermission("commandsplus.buildmode")) {
+        if(!Permission.PERMISSION_BUILDMODE.hasPermission(sender)) {
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
         }

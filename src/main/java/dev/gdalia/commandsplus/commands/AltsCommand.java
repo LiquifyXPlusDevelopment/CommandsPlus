@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "alts")
 public class AltsCommand implements CommandExecutor, TabCompleter {
@@ -30,7 +31,7 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 
-		if (!sender.hasPermission("commandsplus.alts")) {
+		if (!Permission.PERMISSION_ALTS.hasPermission(sender)) {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
@@ -99,7 +100,7 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("commandsplus.alts")) return null;
+		if(!Permission.PERMISSION_ALTS.hasPermission(sender)) return null;
 		if (args.length == 1) return null;
 		return List.of("check", "banall", "kickall");
 	}

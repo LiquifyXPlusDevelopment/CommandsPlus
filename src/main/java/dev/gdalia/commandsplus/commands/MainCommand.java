@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "commandsplus")
 public class MainCommand implements CommandExecutor, TabCompleter {
@@ -30,7 +31,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         }
 		
 		Player player = (Player) sender;
-        if(!player.hasPermission("commandsplus.admin")) {
+        if(!Permission.PERMISSION_MAIN.hasPermission(sender)) {
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
         }
@@ -87,7 +88,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("commandsplus.admin")) return null;
+		if(!Permission.PERMISSION_MAIN.hasPermission(sender)) return null;
 		if (args.length == 0) return null;
 		return List.of("help", "reload");
 	}
