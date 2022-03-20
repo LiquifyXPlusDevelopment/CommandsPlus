@@ -12,6 +12,11 @@ import dev.gdalia.commandsplus.structs.Message;
 @CommandAutoRegistration.Command(value = "fly")
 public class FlyCommand implements CommandExecutor{
 
+	/**
+	 * /fly {user}
+	 * LABEL ARG0
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {

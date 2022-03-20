@@ -24,7 +24,7 @@ public class TempmuteCommand implements CommandExecutor {
 	
 	/**
 	 * /tempmute {user} {time} {reason}
-	 * LABEL      ARG0   ARG1    ARG2+
+	 * LABEL ARG0 ARG1 ARG2+
 	 */
 	
 	@Override

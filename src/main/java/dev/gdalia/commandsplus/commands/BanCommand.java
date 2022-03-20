@@ -21,7 +21,7 @@ public class BanCommand implements CommandExecutor {
 	
 	/**
 	 * /ban {user} {reason}
-	 * LABEL ARG0   ARG1+
+	 * LABEL ARG0 ARG1+
 	 */
 	
     @SuppressWarnings({ "deprecation"})

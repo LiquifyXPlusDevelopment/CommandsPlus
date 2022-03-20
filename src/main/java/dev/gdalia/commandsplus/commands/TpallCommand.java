@@ -12,6 +12,11 @@ import dev.gdalia.commandsplus.structs.Message;
 @CommandAutoRegistration.Command(value = "tpall")
 public class TpallCommand implements CommandExecutor{
 
+	/**
+	 * /tpall {user}
+	 * LABEL ARG0
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {

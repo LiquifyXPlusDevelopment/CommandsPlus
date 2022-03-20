@@ -15,6 +15,11 @@ import dev.gdalia.commandsplus.structs.Message;
 @CommandAutoRegistration.Command(value = "commandsplus")
 public class MainCommand implements CommandExecutor, TabCompleter {
 
+	/**
+	 * /commandsplus {help - reload}
+	 * LABEL ARG0
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
@@ -69,6 +74,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		case "reload": {
 			Main.getInstance().reloadConfig();
 			Main.getInstance().saveConfig();
+			Main.getLanguageConfig().saveConfig();
+			Main.getPunishmentsConfig().saveConfig();
 			player.sendMessage(Message.fixColor("&7CommandsPlus has been &eReloded&7."));
 			return true;
 		}

@@ -16,6 +16,11 @@ import dev.gdalia.commandsplus.structs.Message;
 @CommandAutoRegistration.Command(value = "vanish")
 public class VanishCommand implements CommandExecutor{
 	
+	/**
+	 * /vanish
+	 * LABEL
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
@@ -47,8 +52,6 @@ public class VanishCommand implements CommandExecutor{
         
         PlayerCollection.getVanishPlayers().remove(uuid);
     	PlayerCollection.getBuildmodePlayers().remove(uuid);
-		p.setAllowFlight(false);
-		p.setFlying(false);
 		Bukkit.getOnlinePlayers()
 			.stream()
 			.filter(player -> !player.canSee(p))

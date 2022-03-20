@@ -19,8 +19,8 @@ import dev.gdalia.commandsplus.structs.Message;
 public class GamemodeCommand implements TabExecutor {
 
 	/**
-	 *  /gamemode (type) (player)
-	 *  LABEL	   ARG0    ARG1
+	 *  /gamemode {type} {player}
+	 *  LABEL ARG0 ARG1
 	 */
 	
 	@Override

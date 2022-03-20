@@ -78,6 +78,7 @@ public class Punishments {
 				.map(this::getPunishment)
 				.filter(Optional::isPresent)
 				.map(Optional::get)
+				.filter(punishment -> punishment.getPunished().equals(uuid))
 				.toList();
 	}
 	

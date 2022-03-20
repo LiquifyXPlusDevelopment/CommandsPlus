@@ -16,6 +16,11 @@ import dev.gdalia.commandsplus.structs.Message;
 @CommandAutoRegistration.Command(value = "chat")
 public class ChatCommand implements CommandExecutor, TabCompleter {
 
+	/**
+	 * /chat {clear - lock}
+	 * LABEL ARG0 ARG1
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 

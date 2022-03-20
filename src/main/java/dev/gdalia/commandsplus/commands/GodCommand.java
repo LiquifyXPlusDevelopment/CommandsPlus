@@ -13,6 +13,11 @@ import dev.gdalia.commandsplus.Main;
 @CommandAutoRegistration.Command(value = "god")
 public class GodCommand implements CommandExecutor {
 
+	/**
+	 * /god {user}
+	 * LABEL ARG0
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
@@ -29,23 +34,23 @@ public class GodCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		if (args.length >= 1 && Bukkit.getPlayerExact(args[1]) != null)
-			player = Bukkit.getPlayerExact(args[1]);
-		else {
+		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
+			player = Bukkit.getPlayer(args[0]);
+		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
 			Message.INVALID_PLAYER.sendMessage(sender, true);
-			return true;
+			return false;
 		}
 		
 		if (!player.hasMetadata("godmode")) {
 			player.setMetadata("godmode", Main.MetadataValues.godModeData(true));
-			Message.TARGET_GOD_ENABLED.sendFormattedMessage(player, true, sender.getName());
-			if (!player.getName().equals(sender.getName())) Message.PLAYER_GOD_ENABLED.sendFormattedMessage(sender, true, player.getName());
+			Message.PLAYER_GOD_ENABLED.sendMessage(player, true);
+			if (!player.getName().equals(sender.getName())) Message.TARGET_GOD_ENABLED.sendFormattedMessage(sender, true, player.getName());
 			return true;
 		}
 		
 		player.removeMetadata("godmode", Main.getInstance());
-		Message.TARGET_GOD_DISABLED.sendFormattedMessage(player, true, sender.getName());
-		if (!player.getName().equals(sender.getName())) Message.PLAYER_GOD_DISABLED.sendFormattedMessage(sender, true, player.getName());
+		Message.PLAYER_GOD_DISABLED.sendMessage(player, true);
+		if (!player.getName().equals(sender.getName())) Message.TARGET_GOD_DISABLED.sendFormattedMessage(sender, true, player.getName());
 		return true;
 	}
 }

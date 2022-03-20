@@ -14,6 +14,11 @@ import dev.gdalia.commandsplus.Main.PlayerCollection;
 @CommandAutoRegistration.Command(value = "staffchat")
 public class StaffChatCommand implements CommandExecutor{
 
+	/**
+	 * /staffchat
+	 * LABEL
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {

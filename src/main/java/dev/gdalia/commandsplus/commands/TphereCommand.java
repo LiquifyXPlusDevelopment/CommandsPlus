@@ -12,6 +12,11 @@ import dev.gdalia.commandsplus.structs.Message;
 @CommandAutoRegistration.Command(value = "tphere")
 public class TphereCommand implements CommandExecutor {
 
+	/**
+	 * /tphere {user}
+	 * LABEL ARG0
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {

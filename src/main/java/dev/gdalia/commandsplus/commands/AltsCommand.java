@@ -18,8 +18,8 @@ import dev.gdalia.commandsplus.structs.Message;
 public class AltsCommand implements CommandExecutor, TabCompleter {
 
 	/**
-	 *  /alt (name)
-	 *  LABEL ARG0
+	 *  /alts {username} {check - banall - kickall}
+	 *  LABEL ARG0 ARG1
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,

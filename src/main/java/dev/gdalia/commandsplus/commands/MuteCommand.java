@@ -20,8 +20,7 @@ public class MuteCommand implements CommandExecutor {
 	
 	/**
 	 * /mute {user} {reason}
-	 * LABEL  ARG0   ARG1+
-	 * 
+	 * LABEL ARG0 ARG1+
 	 */
 	
 	@Override

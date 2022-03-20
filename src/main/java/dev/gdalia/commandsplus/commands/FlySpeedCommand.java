@@ -12,6 +12,11 @@ import dev.gdalia.commandsplus.structs.Message;
 @CommandAutoRegistration.Command(value = "flyspeed")
 public class FlySpeedCommand implements CommandExecutor{
 
+	/**
+	 * /flyspeed
+	 * LABEL
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {

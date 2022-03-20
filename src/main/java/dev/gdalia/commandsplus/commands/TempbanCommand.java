@@ -25,7 +25,7 @@ public class TempbanCommand implements CommandExecutor {
 	
 	/**
 	 * /tempban {user} {time} {reason}
-	 * LABEL     ARG0   ARG1    ARG2+
+	 * LABEL ARG0 ARG1 ARG2+
 	 */
 	
     @SuppressWarnings({ "deprecation"})

@@ -18,6 +18,11 @@ import dev.gdalia.commandsplus.structs.PunishmentType;
 @CommandAutoRegistration.Command(value = "unmute")
 public class UnmuteCommand implements CommandExecutor {
 
+	/**
+	 * /unmute {user}
+	 * LABEL ARG0
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {

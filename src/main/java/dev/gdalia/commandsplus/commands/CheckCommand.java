@@ -23,6 +23,11 @@ import dev.gdalia.commandsplus.utils.StringUtils;
 @CommandAutoRegistration.Command(value = "check")
 public class CheckCommand implements CommandExecutor {
 
+	/**
+	 * /check {user}
+	 * LABEL ARG0
+	 */
+	
 	private final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
 			.ofPattern("d MMM uuuu")
 			.withZone(ZoneId.systemDefault());

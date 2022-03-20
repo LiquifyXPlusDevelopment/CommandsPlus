@@ -14,6 +14,11 @@ import dev.gdalia.commandsplus.structs.Message;
 @CommandAutoRegistration.Command(value = "time")
 public class TimeCommand implements CommandExecutor, TabCompleter{
 
+	/**
+	 * /time {day - night}
+	 * LABEL ARG0
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {

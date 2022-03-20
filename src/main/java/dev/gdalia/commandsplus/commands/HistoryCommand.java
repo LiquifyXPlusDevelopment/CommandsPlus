@@ -24,6 +24,11 @@ import dev.gdalia.commandsplus.utils.StringUtils;
 @CommandAutoRegistration.Command(value = "history")
 public class HistoryCommand implements CommandExecutor {
 	
+	/**
+	 * /history {user}
+	 * LABEL ARG0
+	 */
+	
 	private final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
 				.ofPattern("d MMM uuuu")
 				.withZone(ZoneId.systemDefault());

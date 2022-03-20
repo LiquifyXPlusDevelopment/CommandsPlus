@@ -18,6 +18,11 @@ import dev.gdalia.commandsplus.structs.PunishmentType;
 @CommandAutoRegistration.Command(value = "warn")
 public class WarnCommand implements CommandExecutor{
 
+	/**
+	 * /warn {user} {reason}
+	 * LABEL ARG0 ARG1+
+	 */
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

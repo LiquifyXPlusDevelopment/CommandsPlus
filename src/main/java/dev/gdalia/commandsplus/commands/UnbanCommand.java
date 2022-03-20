@@ -19,6 +19,11 @@ import dev.gdalia.commandsplus.structs.PunishmentType;
 @CommandAutoRegistration.Command(value = "unban")
 public class UnbanCommand implements CommandExecutor{
 
+	/**
+	 * /unban {user}
+	 * LABEL ARG0
+	 */
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,

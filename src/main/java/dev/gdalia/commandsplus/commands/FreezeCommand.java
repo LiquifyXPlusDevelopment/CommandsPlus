@@ -15,7 +15,11 @@ import dev.gdalia.commandsplus.Main.PlayerCollection;
 @CommandAutoRegistration.Command(value = "freeze")
 public class FreezeCommand implements CommandExecutor{
 	
-
+	/**
+	 * /freeze {user}
+	 * LABEL ARG0
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {

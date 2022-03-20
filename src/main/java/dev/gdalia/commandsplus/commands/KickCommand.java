@@ -17,6 +17,11 @@ import dev.gdalia.commandsplus.structs.PunishmentType;
 @CommandAutoRegistration.Command(value = "kick")
 public class KickCommand implements CommandExecutor{
 	
+	/**
+	 * /kick {user} {reason}
+	 * LABEL ARG0 ARG1+
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {

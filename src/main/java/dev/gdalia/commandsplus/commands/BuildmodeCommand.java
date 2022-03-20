@@ -14,6 +14,11 @@ import dev.gdalia.commandsplus.structs.Message;
 @CommandAutoRegistration.Command(value = "buildmode")
 public class BuildmodeCommand implements CommandExecutor{
 
+	/**
+	 * /buildmode
+	 * LABEL
+	 */
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
