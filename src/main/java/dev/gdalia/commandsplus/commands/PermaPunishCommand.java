@@ -18,11 +18,11 @@ import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.Punishment;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 
-@CommandAutoRegistration.Command(value = "ban")
-public class BanCommand implements CommandExecutor {
+@CommandAutoRegistration.Command(value = {"ban", "kick", "warn", "mute"})
+public class PermaPunishCommand implements CommandExecutor {
 	
 	/**
-	 * /ban {user} {reason}
+	 * /punishment {user} {reason}
 	 * LABEL ARG0 ARG1+
 	 */
 	
@@ -35,8 +35,10 @@ public class BanCommand implements CommandExecutor {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
-				
-		if (!Permission.PERMISSION_BAN.hasPermission(sender)) {
+
+		PunishmentType type = PunishmentType.canBeType(cmd.getName().toUpperCase()) ? PunishmentType.valueOf(cmd.getName().toUpperCase()) : null;
+
+		if (!Permission.valueOf("PERMISSION_" + type.name()).hasPermission(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
@@ -65,9 +67,8 @@ public class BanCommand implements CommandExecutor {
             	reasonBuilder.append(args[i]);
             
             
-            UUID executer = null;
-            if (sender instanceof Player requester) executer = requester.getUniqueId();
-            
+            UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
+
             Punishment punishment = new Punishment(
             			UUID.randomUUID(),
             			target.getUniqueId(),
@@ -77,7 +78,7 @@ public class BanCommand implements CommandExecutor {
                     
             PunishmentManager.getInstance().invoke(punishment);
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-            Message.PLAYER_BAN_MESSAGE.sendFormattedMessage(sender, true, target.getName());
+            Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
     	});
         return true;
     }

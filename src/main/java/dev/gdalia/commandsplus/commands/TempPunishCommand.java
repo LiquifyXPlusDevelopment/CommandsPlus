@@ -21,8 +21,8 @@ import dev.gdalia.commandsplus.structs.Punishment;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 import dev.gdalia.commandsplus.utils.StringUtils;
 
-@CommandAutoRegistration.Command(value = "tempmute")
-public class TempmuteCommand implements CommandExecutor {
+@CommandAutoRegistration.Command(value = {"tempmute", "tempban"})
+public class TempPunishCommand implements CommandExecutor {
 	
 	/**
 	 * /tempmute {user} {time} {reason}
@@ -37,8 +37,11 @@ public class TempmuteCommand implements CommandExecutor {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
-		
-		if (!Permission.PERMISSION_TEMPMUTE.hasPermission(sender)) {
+
+		String typeString = cmd.getName().replace("temp", "").toUpperCase();
+		PunishmentType type = PunishmentType.canBeType(typeString) ? PunishmentType.valueOf(typeString) : null;
+
+		if (!Permission.valueOf("PERMISSION_" + type.name()).hasPermission(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
@@ -52,53 +55,51 @@ public class TempmuteCommand implements CommandExecutor {
 		
 		Player target = Bukkit.getPlayerExact(args[0]);
 		
-        if(target == null) {
+        if (target == null) {
         	Message.INVALID_PLAYER.sendMessage(sender, true);
         	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             return true;
         }
-        
+
         Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresentOrElse(punishment ->
     	Message.PLAYER_MUTED.sendMessage(sender, true), () -> {
-            Duration duration;
-            
-            try {
-            duration = StringUtils.phraseToDuration(args[1],
-            			ChronoUnit.SECONDS, ChronoUnit.MINUTES,
-            			ChronoUnit.HOURS, ChronoUnit.DAYS,
-            			ChronoUnit.WEEKS, ChronoUnit.MONTHS,
-            			ChronoUnit.YEARS);
-            } catch (IllegalStateException ex1) {
-            	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-    			Message.TEMPMUTE_ARGUMENTS.sendMessage(sender, true);
-            	return;
-            }
-            
-            StringBuilder reasonBuilder = new StringBuilder();
-            
-            for (int i = 2; i < args.length; i++) 
-            	reasonBuilder.append(args[i]);
-            
-            Instant expiry = Instant.now().plus(duration);
-            
-            UUID executer = null;
-            if (sender instanceof Player requester) executer = requester.getUniqueId();
-            
-            Punishment punishment = new Punishment(
-            			UUID.randomUUID(),
-            			target.getUniqueId(),
-            			executer,
-            			PunishmentType.TEMPMUTE,
-            			reasonBuilder.toString());
-            
-            punishment.setExpiry(expiry);
-            
-            PunishmentManager.getInstance().invoke(punishment);
-            Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-            Message.PLAYER_TEMPMUTED_MESSAGE.sendFormattedMessage(sender, true, target.getName(), duration);
-            Message.TARGET_TEMPMUTED_MESSAGE.sendFormattedMessage(target, true, duration);
-	
-        });
+			Duration duration;
+
+			try {
+				duration = StringUtils.phraseToDuration(args[1],
+						ChronoUnit.SECONDS, ChronoUnit.MINUTES,
+						ChronoUnit.HOURS, ChronoUnit.DAYS,
+						ChronoUnit.WEEKS, ChronoUnit.MONTHS,
+						ChronoUnit.YEARS);
+			} catch (IllegalStateException ex1) {
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
+				Message.TEMPMUTE_ARGUMENTS.sendMessage(sender, true);
+				return;
+			}
+
+			StringBuilder reasonBuilder = new StringBuilder();
+
+			for (int i = 2; i < args.length; i++)
+				reasonBuilder.append(args[i]);
+
+			Instant expiry = Instant.now().plus(duration);
+
+			UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
+
+			Punishment punishment = new Punishment(
+					UUID.randomUUID(),
+					target.getUniqueId(),
+					executer,
+					type,
+					reasonBuilder.toString());
+
+			punishment.setExpiry(expiry);
+
+			PunishmentManager.getInstance().invoke(punishment);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			String expiryAsString = StringUtils.createTimeFormatter(expiry, "HH:mm, dd/MM/uu");
+			Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, expiryAsString);
+		});
         return true;
     }
 }
