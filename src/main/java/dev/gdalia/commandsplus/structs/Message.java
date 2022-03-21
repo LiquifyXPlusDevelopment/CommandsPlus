@@ -1,7 +1,5 @@
 package dev.gdalia.commandsplus.structs;
 
-
-
 import java.text.MessageFormat;
 
 import org.bukkit.ChatColor;
@@ -121,7 +119,7 @@ public enum Message {
 	}
 	
 	public static String staffChatFormat() {
-		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6» &e{message}");
+		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6ï¿½ &e{message}");
 	}
 	
 	private Message(String message) {
