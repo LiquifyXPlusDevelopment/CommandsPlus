@@ -15,9 +15,9 @@ public enum PunishmentType {
 	WARN(false, false, "Warn", "Warned");
 	
 	@Getter
-	private boolean 
-		isPermanent,
-		isKickable;
+	private final boolean
+		permanent,
+		kickable;
 	
 	@Getter
 	private final String 
