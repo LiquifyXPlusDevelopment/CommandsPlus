@@ -72,7 +72,6 @@ public class Main extends JavaPlugin {
 		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&7CommandsPlus has been &cDisabled&7."));
 	}
 	
-	
 	public String getPluginPrefix() {
 		return Message.fixColor(getConfig().getString("PREFIX"));
 	}

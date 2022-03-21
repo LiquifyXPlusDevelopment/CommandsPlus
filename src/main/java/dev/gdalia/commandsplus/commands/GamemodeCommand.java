@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -33,6 +34,7 @@ public class GamemodeCommand implements TabExecutor {
         }  
         
 		if (args.length == 0) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.GAMEMODE_ARGUMENTS.sendMessage(sender, true);
 			return false;
 		}
@@ -44,6 +46,7 @@ public class GamemodeCommand implements TabExecutor {
 			try {
 				setGamemode = Gamemode.getFromInt(Integer.parseInt(args[0]));
 			} catch (Exception e1) {
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 	        	Message.GAMEMODE_ARGUMENTS.sendMessage(sender, true);
 				return false;
 			}
@@ -51,12 +54,14 @@ public class GamemodeCommand implements TabExecutor {
 			try {
 			setGamemode = Gamemode.getFromSubCommand(args[0].toLowerCase());
 			} catch (Exception e1) {
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 	        	Message.GAMEMODE_ARGUMENTS.sendMessage(sender, true);
 				return false;
 			}
 		}
 		
 		if(!sender.hasPermission(setGamemode.getPermission())) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.NO_PERMISSION.sendMessage(sender, true);
 			return false;
 		}
@@ -66,6 +71,7 @@ public class GamemodeCommand implements TabExecutor {
 		if (args.length >= 2 && Bukkit.getPlayerExact(args[1]) != null) {
 			player = Bukkit.getPlayer(args[1]);
 		} else if (args.length >= 2 && Bukkit.getPlayerExact(args[1]) == null) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return false;
 		}
@@ -74,6 +80,7 @@ public class GamemodeCommand implements TabExecutor {
     		boolean isSender = player.getName().equalsIgnoreCase(sender.getName());
     		Message message = isSender ? Message.GAMEMODE_ALREADY_SET : Message.GAMEMODE_ALREADY_SET_OTHER;
     		Object[] values = !isSender ? new Object[] {player.getName(), setGamemode.name()} : new Object[] {setGamemode.name()};
+    		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
     		message.sendFormattedMessage(sender, true, values);    		
     		return false;
     	}
@@ -82,11 +89,12 @@ public class GamemodeCommand implements TabExecutor {
     	player.setGameMode(setGamemode.getAsBukkit());
 		boolean isSender = player.getName().equalsIgnoreCase(sender.getName());
 		if (isSender) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.GAMEMODE_CHANGED.sendFormattedMessage(sender, true, setGamemode.name());
 			return true;
 		}
 		
-		
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		Message.GAMEMODE_CHANGED_OTHER.sendFormattedMessage(sender, true, player.getName(), setGamemode.name());
 		Message.GAMEMODE_CHANGED_BY_OTHER.sendFormattedMessage(player, true, setGamemode.name(), sender.getName());
 		return true;

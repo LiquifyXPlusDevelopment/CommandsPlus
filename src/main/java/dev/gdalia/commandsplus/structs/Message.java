@@ -5,8 +5,10 @@ package dev.gdalia.commandsplus.structs;
 import java.text.MessageFormat;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.Main;
 
@@ -28,7 +30,6 @@ public enum Message {
 	STAFFCHAT_DISABLE(Main.getLanguageConfig().getString("STAFFCHAT_DISABLE")),
 	VANISH_ENABLE(Main.getLanguageConfig().getString("VANISH_ENABLE")),
 	VANISH_DISABLE(Main.getLanguageConfig().getString("VANISH_DISABLE")),
-	CHAT_CLEARED(Main.getLanguageConfig().getString("CHAT_CLEARED")),
 	CHANGE_THE_TIME(Main.getLanguageConfig().getString("CHANGE_THE_TIME")),
 	CASE(Main.getLanguageConfig().getString("CASE")),
 	FEED_TARGET(Main.getLanguageConfig().getString("FEED_TARGET")),
@@ -54,6 +55,8 @@ public enum Message {
 	MUTED_MESSAGE(Main.getLanguageConfig().getString("MUTED_MESSAGE")),
 	TPHERE(Main.getLanguageConfig().getString("TPHERE")),
 	PLAYER_KICK(Main.getLanguageConfig().getString("PLAYER_KICK")),
+	ALTS_BANNED(Main.getLanguageConfig().getString("ALTS_BANNED")),
+	ALTS_KICKED(Main.getLanguageConfig().getString("ALTS_KICKED")),
 	LOCK_MESSAGE(Main.getLanguageConfig().getString("LOCK_MESSAGE")),
 	CHAT_LOCKED(Main.getLanguageConfig().getString("CHAT_LOCKED")),
 	PLAYER_WARN_MESSAGE(Main.getLanguageConfig().getString("PLAYER_WARN_MESSAGE")),
@@ -102,6 +105,11 @@ public enum Message {
 		sender.sendMessage(prefix + getMessage());
 
 	}
+	  public static void playSound(CommandSender sender, Sound sound, float volume, float pitch) {
+		    if (!(sender instanceof Player player)) return;
+		    if (Main.getInstance().getConfig().getBoolean("disable_sounds")) return;
+		    player.playSound(player.getLocation(), sound, volume, pitch);
+		  }
 
 	public void sendFormattedMessage(CommandSender sender, boolean hasPrefix, Object... objects) {
 		String prefix = hasPrefix ? PLUGIN_PREFIX.getMessage() : "";

@@ -8,6 +8,7 @@ import java.util.UUID;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,13 +42,15 @@ public class CheckCommand implements CommandExecutor {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
-
+		
 		if (!Permission.PERMISSION_CHECK.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
 
 		if (args.length == 0) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.DESCRIBE_PLAYER.sendMessage(sender, true);
 			return true;
 		}
@@ -55,11 +58,13 @@ public class CheckCommand implements CommandExecutor {
 		@SuppressWarnings("deprecation")
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (!target.hasPlayedBefore()) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return true;
 		}
 		
 		Punishments.getInstance().getActivePunishment(target.getUniqueId()).ifPresentOrElse(activePunish -> {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.PLAYER_ACTIVE_PUNISHMENT.sendMessage(sender, true);
 			ConfigurationSection cs = Main.getPunishmentsConfig().getConfigurationSection(activePunish.getPunishmentUniqueId().toString());
 			cs.getValues(false).entrySet().forEach(entry -> {
@@ -87,7 +92,9 @@ public class CheckCommand implements CommandExecutor {
 					
 				}
 			});
-		}, () -> Message.PLAYER_NO_ACTIVE_PUNISHMENT.sendMessage(sender, true));
+		}, () ->
+		Message.PLAYER_NO_ACTIVE_PUNISHMENT.sendMessage(sender, true));
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 		return true;
 	}
 

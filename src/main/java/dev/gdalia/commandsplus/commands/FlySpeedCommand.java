@@ -2,6 +2,7 @@ package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,14 +28,16 @@ public class FlySpeedCommand implements CommandExecutor{
 			return true;
 		}
 
+		Player player = (Player) sender;
+		
 		if (!Permission.PERMISSION_FLYSPEED.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
 
-		Player player = (Player) sender;
-
 		if (args.length == 0) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.FLY_SPEED_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
@@ -43,6 +46,7 @@ public class FlySpeedCommand implements CommandExecutor{
 		
 		float speed = Integer.parseInt(args[0]) / 10F;
 		player.setFlySpeed(speed);
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		Message.FLY_SPEED.sendFormattedMessage(player, true, speed);
 		return false;
 	}

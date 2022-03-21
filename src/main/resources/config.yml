@@ -15,16 +15,19 @@ kick-command: "kick {player} no alts online!"
 #If you want to disable the welcome message just change to true.
 disable_welcome_message: false
 
+#If you want to disable the sounds just change to true.
+disable_sounds: false
+
 chat:
    locked: false
    clear-template:
-      - "&5&l&m-------------------------------------"
+      - "&5&l&m----------------------------"
       - ""
-      - "&d&lChat has been cleared by %player%"
+      - "&d&lChat has been cleared"
       - ""
-      - "&5&l&m-------------------------------------"
+      - "&5&l&m----------------------------"
 
-ban-lang:
+punishments-lang:
     tempban-template:
        - "&cYou are temporarily banned from &6yourserver.example&c."
        - ""
@@ -41,7 +44,6 @@ ban-lang:
        - ""
        - "&7If you feel this punishment is unjustified, fill out a support ticket at &6www.website.com."
         
-kick-lang:
     kick-template:
         - "&cYou have been kicked from &6yourserver.example&c."
         - ""

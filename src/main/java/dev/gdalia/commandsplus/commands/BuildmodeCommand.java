@@ -3,6 +3,8 @@ package dev.gdalia.commandsplus.commands;
 import java.util.UUID;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,16 +35,18 @@ public class BuildmodeCommand implements CommandExecutor{
         UUID uuid = player.getUniqueId();
 
         if(!Permission.PERMISSION_BUILDMODE.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
         }
         
         if (!PlayerCollection.getBuildmodePlayers().contains(uuid)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
         	PlayerCollection.getBuildmodePlayers().add(uuid);
 			Message.BUILDMODE_ENABLE.sendMessage(player, true);
 			return true;
         }
-        
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
         PlayerCollection.getBuildmodePlayers().remove(uuid);
 		Message.BUILDMODE_DISABLE.sendMessage(player, true);
 		return true;

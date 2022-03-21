@@ -4,6 +4,7 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,6 +30,7 @@ public class GodCommand implements CommandExecutor {
 		}
 
 		if (!Permission.PERMISSION_GOD.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
@@ -38,18 +40,21 @@ public class GodCommand implements CommandExecutor {
 		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
 			player = Bukkit.getPlayer(args[0]);
 		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return false;
 		}
 		
 		if (!player.hasMetadata("godmode")) {
 			player.setMetadata("godmode", Main.MetadataValues.godModeData(true));
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.PLAYER_GOD_ENABLED.sendMessage(player, true);
 			if (!player.getName().equals(sender.getName())) Message.TARGET_GOD_ENABLED.sendFormattedMessage(sender, true, player.getName());
 			return true;
 		}
 		
 		player.removeMetadata("godmode", Main.getInstance());
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		Message.PLAYER_GOD_DISABLED.sendMessage(player, true);
 		if (!player.getName().equals(sender.getName())) Message.TARGET_GOD_DISABLED.sendFormattedMessage(sender, true, player.getName());
 		return true;

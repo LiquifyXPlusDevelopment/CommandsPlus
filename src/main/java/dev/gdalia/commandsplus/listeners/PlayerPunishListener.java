@@ -9,6 +9,7 @@ import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 import dev.gdalia.commandsplus.structs.events.PlayerPunishEvent;
+import dev.gdalia.commandsplus.utils.StringUtils;
 
 public class PlayerPunishListener implements Listener {
 
@@ -20,11 +21,12 @@ public class PlayerPunishListener implements Listener {
 		
 		String typeName = type.name().toLowerCase();
 		
-		List<String> message = Main.getInstance().getConfig().getStringList(typeName + "-lang." + typeName + "-template");
+		List<String> message = Main.getInstance().getConfig().getStringList("punishments-lang." + typeName + "-template");
 		
 		StringBuilder sb = new StringBuilder();
-		
-		message.forEach(msg -> sb.append(msg).append("\n"));
+				
+		message.forEach(msg -> sb.append(msg.replace("%reason%", event.getPunishment().getReason())
+				.replace("%time%", StringUtils.createTimeFormatter(event.getPunishment().getExpiry(), "HH:mm, dd/MM/uu"))).append("\n"));
 		System.out.println(sb.toString());
 		event.getPlayer().kickPlayer(Message.fixColor(sb.toString())); 
 	}

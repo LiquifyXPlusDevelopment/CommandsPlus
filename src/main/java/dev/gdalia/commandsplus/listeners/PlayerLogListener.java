@@ -3,6 +3,7 @@ package dev.gdalia.commandsplus.listeners;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +18,7 @@ import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.utils.StringUtils;
 
 public class PlayerLogListener implements Listener {
 	
@@ -29,7 +31,10 @@ public class PlayerLogListener implements Listener {
 			
 			String typeName = punishment.getType().name().toLowerCase();
 			StringBuilder sb = new StringBuilder();
-			Main.getInstance().getConfig().getStringList("ban-lang." + typeName + "-template").forEach(msg -> sb.append(msg).append("\n"));
+			
+			Main.getInstance().getConfig().getStringList("punishments-lang." + typeName + "-template")
+			.forEach(msg -> sb.append(msg.replace("%reason%", punishment.getReason())
+					.replace("%time%", StringUtils.createTimeFormatter(punishment.getExpiry(), "HH:mm, dd/MM/uu"))).append("\n"));
 			
 			event.setKickMessage(Message.fixColor(sb.toString()));
 		});
@@ -59,6 +64,7 @@ public class PlayerLogListener implements Listener {
 				.forEach(x -> player.hidePlayer(Main.getInstance(), x));
 
 		String msg = PlayerCollection.getVanishPlayers().contains(uuid) ? null : Message.fixColor("&2&l+ &6" + player.getName() + "&7 Connected");
+		Message.playSound(event.getPlayer(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		event.setJoinMessage(msg);
 	}
 

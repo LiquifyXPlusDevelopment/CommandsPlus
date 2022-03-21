@@ -1,5 +1,6 @@
 package dev.gdalia.commandsplus.listeners;
 
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,12 +19,14 @@ public class PlayerChatListener implements Listener {
 		Player e = event.getPlayer();
 		if(Permission.PERMISSION_CHAT.hasPermission(e)) return;
 		if (Main.getInstance().getConfig().getBoolean("chat.locked")) {
+			Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			event.setCancelled(true);
 			Message.CHAT_LOCKED.sendMessage(e, true);
 			return;
 		}
 		
 		Punishments.getInstance().getActivePunishment(e.getUniqueId(), PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresent(punishment -> {
+			Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			event.setCancelled(true);
 			Message.MUTED_MESSAGE.sendMessage(e, true);
 		});

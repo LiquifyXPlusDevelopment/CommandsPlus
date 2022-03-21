@@ -3,6 +3,8 @@ package dev.gdalia.commandsplus.commands;
 import java.util.List;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,11 +34,13 @@ public class TimeCommand implements CommandExecutor, TabCompleter{
 		Player player = (Player) sender;
 
         if(!Permission.PERMISSION_TIME.hasPermission(sender)) {
+        	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
         }
         
 		if (args.length == 0) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.CASE.sendMessage(sender, true);
 			return true;
 		}
@@ -46,12 +50,14 @@ public class TimeCommand implements CommandExecutor, TabCompleter{
 		case "day": {
 			String day = "1000";
 			player.getWorld().setTime(1000);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.CHANGE_THE_TIME.sendFormattedMessage(player, true, day);
 			return true;
 			}
 		case "night": {
 			String night = "14000";
 			player.getWorld().setTime(14000);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.CHANGE_THE_TIME.sendFormattedMessage(player, true, night);
 			return true;
 			}

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,12 +34,15 @@ public class MuteCommand implements CommandExecutor {
 			return true;
 		}
 		
+		
 		if (!Permission.PERMISSION_MUTE.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
 		
 		if (args.length <= 1) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 			Message.MUTE_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
@@ -46,6 +50,7 @@ public class MuteCommand implements CommandExecutor {
 		Player target = Bukkit.getPlayerExact(args[0]);
 		
         if(target == null) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.INVALID_PLAYER.sendMessage(sender, true);
             return true;
         }
@@ -69,6 +74,7 @@ public class MuteCommand implements CommandExecutor {
             			reasonBuilder.toString());
                         
             PunishmentManager.getInstance().invoke(punishment);
+            Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
             Message.PLAYER_MUTED_MESSAGE.sendFormattedMessage(sender, true, target.getName());
             Message.TARGET_MUTED_MESSAGE.sendMessage(target, true);
         });

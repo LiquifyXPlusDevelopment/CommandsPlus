@@ -5,6 +5,7 @@ import java.util.UUID;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,17 +34,20 @@ public class WarnCommand implements CommandExecutor{
 		}
 		
 		if (!Permission.PERMISSION_WARN.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
 		
 		if (args.length <= 1) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 			Message.WARN_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
 		
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (!target.hasPlayedBefore()) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return true;
 		}
@@ -57,6 +61,7 @@ public class WarnCommand implements CommandExecutor{
 		Punishment punishment = new Punishment(UUID.randomUUID(), target.getUniqueId(), executer, PunishmentType.WARN, reasonBuilder.toString());
 		
 		PunishmentManager.getInstance().invoke(punishment);
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		Message.PLAYER_WARN_MESSAGE.sendFormattedMessage(sender, true, target.getName());
 		return true;
 	}

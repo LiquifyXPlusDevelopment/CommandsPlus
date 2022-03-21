@@ -5,6 +5,7 @@ import java.util.List;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,20 +32,24 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 
+		Player player = (Player) sender;
+		
 		if (!Permission.PERMISSION_ALTS.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
 
-		Player player = (Player) sender;
 
 		if (args.length == 0) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.DESCRIBE_PLAYER.sendMessage(sender, true);
 			return true;
 		}
 
 		Player target = Bukkit.getPlayerExact(args[0]);
 		if (target == null) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return true;
 		}
@@ -55,6 +60,7 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 				.toList();
 		
 		if (args.length <= 1) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 			player.sendMessage(Message.fixColor("&7/alts [&eplayer&7] [&echeck&7/&ebanall&7/&ekickall&7]"));
 			return false;
 		}
@@ -63,10 +69,12 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 		case "check": {
 
 			if (alts.isEmpty()) {
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Message.ALTS_CHECK.sendFormattedMessage(player, true, target.getName());
 				return true;
 			}
 
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.ALTS_ONLINE.sendFormattedMessage(player, true, target.getName());
 			StringBuilder sb = new StringBuilder();
 			alts.stream()
@@ -76,6 +84,8 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 		case "banall": {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			Message.ALTS_BANNED.sendFormattedMessage(player, true, target.getName());
 			alts.forEach(x -> {
 				String banCommand = Main.getInstance().getConfig().getString("ban-command");
 				banCommand = banCommand.replace("{player}", x.getName());
@@ -85,6 +95,8 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 		}
 		
 		case "kickall": {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			Message.ALTS_KICKED.sendFormattedMessage(player, true, target.getName());
 			alts.forEach(x -> {
 				String kickCommand = Main.getInstance().getConfig().getString("kick-command");
 				kickCommand = kickCommand.replace("{player}", x.getName());
@@ -93,6 +105,7 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 		default:
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 			player.sendMessage(Message.fixColor("&7/alts [&eplayer&7] [&echeck&7/&ebanall&7/&ekickall&7]"));
 			return true;
 		}

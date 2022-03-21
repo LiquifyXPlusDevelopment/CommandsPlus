@@ -5,6 +5,7 @@ import java.util.UUID;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,13 +35,15 @@ public class BanCommand implements CommandExecutor {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
-		
+				
 		if (!Permission.PERMISSION_BAN.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
 		
 		if (args.length <= 1) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.BAN_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
@@ -48,6 +51,7 @@ public class BanCommand implements CommandExecutor {
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
         if(!target.hasPlayedBefore()) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.INVALID_PLAYER.sendMessage(sender, true);
             return true;
         }
@@ -72,6 +76,7 @@ public class BanCommand implements CommandExecutor {
             			reasonBuilder.toString());
                     
             PunishmentManager.getInstance().invoke(punishment);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
             Message.PLAYER_BAN_MESSAGE.sendFormattedMessage(sender, true, target.getName());
     	});
         return true;

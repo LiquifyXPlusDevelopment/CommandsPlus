@@ -8,6 +8,7 @@ import java.util.UUID;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,11 +41,13 @@ public class TempbanCommand implements CommandExecutor {
 		}
 		
 		if (!Permission.PERMISSION_TEMPBAN.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
 		
 		if (args.length <= 2) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 			Message.TEMPBAN_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
@@ -52,6 +55,7 @@ public class TempbanCommand implements CommandExecutor {
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
         if(!target.hasPlayedBefore()) {
+        	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.INVALID_PLAYER.sendMessage(sender, true);
             return true;
         }
@@ -68,6 +72,7 @@ public class TempbanCommand implements CommandExecutor {
             			ChronoUnit.WEEKS, ChronoUnit.MONTHS,
             			ChronoUnit.YEARS);
             } catch (IllegalStateException ex1) {
+            	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
     			Message.BAN_ARGUMENTS.sendMessage(sender, true);
             	return;
             }
@@ -92,6 +97,7 @@ public class TempbanCommand implements CommandExecutor {
             punishment.setExpiry(expiry);
             
             PunishmentManager.getInstance().invoke(punishment);
+            Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
             Message.PLAYER_TEMPBAN_MESSAGE.sendFormattedMessage(sender, true, target.getName(), duration);
     	});
 

@@ -3,6 +3,8 @@ package dev.gdalia.commandsplus.commands;
 import java.util.List;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,18 +33,22 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         }
 		
 		Player player = (Player) sender;
+		
         if(!Permission.PERMISSION_MAIN.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
         }
         
 		if (args.length == 0) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 			player.sendMessage(Message.fixColor("&7/commandsplus [&ehelp&7/&ereload&7]"));
 			return true;
 		}
         
 		switch (args[0].toLowerCase()) {
 		case "help": {
+			player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			player.sendMessage(Message.fixColor("&7-------- &eHelp&7 --------"));
 			player.sendMessage(Message.fixColor("&e/alts [player] [kickall/banall/check] &7Check if the player has alts on the server."));
 			player.sendMessage(Message.fixColor("&e/ban [user] [reason] &7Banned the player from the server."));
@@ -73,6 +79,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 		case "reload": {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Main.getInstance().reloadConfig();
 			Main.getInstance().saveConfig();
 			Main.getLanguageConfig().saveConfig();
@@ -81,6 +88,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 		default:
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 			player.sendMessage(Message.fixColor("&7/commandsplus [&ehelp&7/&ereload&7]"));
 			return true;
 		}

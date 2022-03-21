@@ -1,7 +1,6 @@
 package dev.gdalia.commandsplus.commands;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +10,7 @@ import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,10 +30,6 @@ public class HistoryCommand implements CommandExecutor {
 	 * LABEL ARG0
 	 */
 	
-	private final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
-				.ofPattern("d MMM uuuu")
-				.withZone(ZoneId.systemDefault());
-	
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
@@ -45,17 +41,20 @@ public class HistoryCommand implements CommandExecutor {
 		}
 		
 		if (!Permission.PERMISSION_HISTORY.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
 		
 		if (args.length == 0) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 			Message.HISTORY_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
 		
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (!target.hasPlayedBefore()) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return true;
 		}
@@ -64,9 +63,11 @@ public class HistoryCommand implements CommandExecutor {
 
 		if (history.isEmpty()) {
 			Message.HISTORY_DOES_NOT_EXIST.sendMessage(sender, true);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			return true;
 		}
-
+		
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		sender.sendMessage(CentredMessage.generate("&7&m&l               |&e " + target.getName() + " punish log &7&m&l|               &r"));
 		history.forEach(punishment -> {
 			sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
