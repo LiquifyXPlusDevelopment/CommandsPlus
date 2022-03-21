@@ -6,7 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
-import java.util.stream.Stream;
 
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
