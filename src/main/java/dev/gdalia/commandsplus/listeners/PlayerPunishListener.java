@@ -16,18 +16,24 @@ public class PlayerPunishListener implements Listener {
 	@EventHandler
 	public void onPunish(PlayerPunishEvent event) {
 		PunishmentType type = event.getPunishment().getType();
-		
-		if (!List.of(PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.KICK).contains(type)) return;
-		
-		String typeName = type.name().toLowerCase();
-		
-		List<String> message = Main.getInstance().getConfig().getStringList("punishments-lang." + typeName + "-template");
-		
-		StringBuilder sb = new StringBuilder();
-				
-		message.forEach(msg -> sb.append(msg.replace("%reason%", event.getPunishment().getReason())
-				.replace("%time%", StringUtils.createTimeFormatter(event.getPunishment().getExpiry(), "HH:mm, dd/MM/uu"))).append("\n"));
-		System.out.println(sb.toString());
-		event.getPlayer().kickPlayer(Message.fixColor(sb.toString())); 
+
+		if (List.of(PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.KICK).contains(type)) {
+			String typeName = type.name().toLowerCase();
+
+			List<String> message = Main.getInstance().getConfig().getStringList("punishments-lang." + typeName + "-template");
+
+			StringBuilder sb = new StringBuilder();
+
+			message.forEach(msg -> sb.append(msg.replace("%reason%", event.getPunishment().getReason())
+					.replace("%time%", StringUtils.createTimeFormatter(event.getPunishment().getExpiry(), "HH:mm, dd/MM/uu"))).append("\n"));
+			event.getPlayer().kickPlayer(Message.fixColor(sb.toString()));
+		}
+
+		if (List.of(PunishmentType.WARN, PunishmentType.MUTE, PunishmentType.TEMPMUTE).contains(type)) {
+			if (!type.isPermanent()) {
+				String expiryAsString = StringUtils.createTimeFormatter(event.getPunishment().getExpiry(), "HH:mm, dd/MM/uu");
+				Message.valueOf("TARGET_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(event.getPlayer(), true, expiryAsString);
+			} else Message.TARGET_MUTED_MESSAGE.sendMessage(event.getPlayer(), true);
+		}
 	}
 }
