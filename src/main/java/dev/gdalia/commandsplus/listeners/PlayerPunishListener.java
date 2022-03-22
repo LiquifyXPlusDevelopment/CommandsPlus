@@ -26,13 +26,19 @@ public class PlayerPunishListener implements Listener {
 
 			StringBuilder sb = new StringBuilder();
 						
+			if (event.getPunishment().getExpiry() == null) {
+				message.forEach(msg -> sb.append(msg.replace("%reason%", event.getPunishment().getReason())).append("\n"));
+				event.getPlayer().kickPlayer(Message.fixColor(sb.toString()));
+				return;
+			}
+			
 			String expiryAsString = StringUtils.createTimeFormatter(event.getPunishment().getExpiry(), "HH:mm, dd/MM/uu");
 			
-			message.forEach(msg -> sb.append(msg.replace("%reason%", event.getPunishment().getReason().replace("%time%", expiryAsString))).append("\n"));
+			message.forEach(msg -> sb.append(msg.replace("%time%", expiryAsString).replace("%reason%", event.getPunishment().getReason())).append("\n"));
 			event.getPlayer().kickPlayer(Message.fixColor(sb.toString()));
 		}
 		
-		if (List.of(PunishmentType.WARN, PunishmentType.MUTE, PunishmentType.TEMPMUTE).contains(type)) {
+		if (List.of(PunishmentType.MUTE, PunishmentType.TEMPMUTE).contains(type)) {
 			if (!type.isPermanent()) {
 				String expiryAsString = StringUtils.createTimeFormatter(event.getPunishment().getExpiry(), "HH:mm, dd/MM/uu");
 				Message.valueOf("TARGET_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(event.getPlayer(), true, expiryAsString);
