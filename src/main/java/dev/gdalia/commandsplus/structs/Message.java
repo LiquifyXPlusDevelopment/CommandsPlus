@@ -40,6 +40,8 @@ public enum Message {
 	PLAYER_NOT_BANNED(Main.getLanguageConfig().getString("PLAYER_NOT_BANNED")),
 	PLAYER_BANNED(Main.getLanguageConfig().getString("PLAYER_BANNED")),
 	PLAYER_MUTED(Main.getLanguageConfig().getString("PLAYER_MUTED")),
+	PLAYER_TEMPBANNED(Main.getLanguageConfig().getString("PLAYER_TEMPBANNED")),
+	PLAYER_TEMPMUTED(Main.getLanguageConfig().getString("PLAYER_TEMPMUTED")),
 	TARGET_MUTED_MESSAGE(Main.getLanguageConfig().getString("TARGET_MUTED_MESSAGE")),
 	PLAYER_MUTED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_MUTED_MESSAGE")),
 	TARGET_TEMPMUTED_MESSAGE(Main.getLanguageConfig().getString("TARGET_TEMPMUTED_MESSAGE")),

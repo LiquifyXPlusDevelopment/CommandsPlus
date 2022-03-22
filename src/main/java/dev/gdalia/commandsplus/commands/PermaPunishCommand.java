@@ -57,9 +57,9 @@ public class PermaPunishCommand implements CommandExecutor {
         	Message.INVALID_PLAYER.sendMessage(sender, true);
             return true;
         }
-        
-        Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.BAN, PunishmentType.TEMPBAN).ifPresentOrElse(punishment ->
-    	Message.PLAYER_BANNED.sendMessage(sender, true), () -> {
+      
+        Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresentOrElse(punishment ->
+    	Message.valueOf("PLAYER_" + type.name()).sendMessage(sender, true), () -> {
             
             StringBuilder reasonBuilder = new StringBuilder();
             
