@@ -45,8 +45,8 @@ public class PermaPunishCommand implements CommandExecutor {
 		}
 		
 		if (args.length <= 1) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.BAN_ARGUMENTS.sendMessage(sender, true);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
+			Message.valueOf(type.name() + "_ARGUMENTS").sendMessage(sender, true);
 			return true;
 		}
 		
@@ -73,7 +73,7 @@ public class PermaPunishCommand implements CommandExecutor {
             			UUID.randomUUID(),
             			target.getUniqueId(),
             			executer,
-            			PunishmentType.BAN,
+            			type,
             			reasonBuilder.toString());
                     
             PunishmentManager.getInstance().invoke(punishment);

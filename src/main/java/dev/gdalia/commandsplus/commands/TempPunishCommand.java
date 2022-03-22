@@ -38,7 +38,7 @@ public class TempPunishCommand implements CommandExecutor {
 			return true;
 		}
 
-		String typeString = cmd.getName().replace("temp", "").toUpperCase();
+		String typeString = cmd.getName().replace("TEMP", "").toUpperCase();
 		PunishmentType type = PunishmentType.canBeType(typeString) ? PunishmentType.valueOf(typeString) : null;
 
 		if (!Permission.valueOf("PERMISSION_" + type.name()).hasPermission(sender)) {
@@ -49,7 +49,7 @@ public class TempPunishCommand implements CommandExecutor {
 		
 		if (args.length <= 2) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			Message.TEMPMUTE_ARGUMENTS.sendMessage(sender, true);
+			Message.valueOf(type.name() + "_ARGUMENTS").sendMessage(sender, true);
 			return true;
 		}
 		
@@ -61,7 +61,7 @@ public class TempPunishCommand implements CommandExecutor {
             return true;
         }
 
-        Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresentOrElse(punishment ->
+        Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.TEMPBAN, PunishmentType.TEMPMUTE).ifPresentOrElse(punishment ->
     	Message.PLAYER_MUTED.sendMessage(sender, true), () -> {
 			Duration duration;
 
@@ -98,7 +98,7 @@ public class TempPunishCommand implements CommandExecutor {
 			PunishmentManager.getInstance().invoke(punishment);
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			String expiryAsString = StringUtils.createTimeFormatter(expiry, "HH:mm, dd/MM/uu");
-			Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, expiryAsString);
+			Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName(), expiryAsString);
 		});
         return true;
     }

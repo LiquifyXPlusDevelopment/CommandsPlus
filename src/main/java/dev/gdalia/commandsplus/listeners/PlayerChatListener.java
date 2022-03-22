@@ -11,6 +11,7 @@ import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.utils.StringUtils;
 
 public class PlayerChatListener implements Listener {
 
@@ -28,7 +29,10 @@ public class PlayerChatListener implements Listener {
 		Punishments.getInstance().getActivePunishment(e.getUniqueId(), PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresent(punishment -> {
 			Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			event.setCancelled(true);
-			Message.MUTED_MESSAGE.sendMessage(e, true);
+			if (punishment.getType() == PunishmentType.MUTE) {
+				Message.MUTED_MESSAGE.sendMessage(e, true);
+			}
+			Message.TEMPMUTED_MESSAGE.sendFormattedMessage(e, true, StringUtils.createTimeFormatter(punishment.getExpiry(), "HH:mm, dd/MM/uu"));
 		});
 	}
 }
