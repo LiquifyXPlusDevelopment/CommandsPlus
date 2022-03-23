@@ -61,8 +61,8 @@ public class TempPunishCommand implements CommandExecutor {
             return true;
         }
 
-        Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresentOrElse(punishment ->
-    	Message.valueOf("PLAYER_" + type.name()).sendMessage(sender, true), () -> {
+        Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase())).ifPresentOrElse(punishment ->
+    	Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true), () -> {
 			Duration duration;
 
 			try {

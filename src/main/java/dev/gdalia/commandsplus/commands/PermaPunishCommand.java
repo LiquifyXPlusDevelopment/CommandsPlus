@@ -57,10 +57,7 @@ public class PermaPunishCommand implements CommandExecutor {
         	Message.INVALID_PLAYER.sendMessage(sender, true);
             return true;
         }
-      
-        Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresentOrElse(punishment ->
-    	Message.valueOf("PLAYER_" + type.name()).sendMessage(sender, true), () -> {
-            
+        
             StringBuilder reasonBuilder = new StringBuilder();
             
             for (int i = 1; i < args.length; i++) 
@@ -75,11 +72,23 @@ public class PermaPunishCommand implements CommandExecutor {
             			executer,
             			type,
             			reasonBuilder.toString());
-                    
+
+        if (type == PunishmentType.WARN || type == PunishmentType.KICK) {
             PunishmentManager.getInstance().invoke(punishment);
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
             Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
-    	});
+            return true;
+        }else {
+            Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()),
+            		PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).ifPresentOrElse(punishments ->
+        	Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true), () -> {
+        		
+                PunishmentManager.getInstance().invoke(punishment);
+    			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+                Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
+        		});
+        }
+        
         return true;
     }
 }
