@@ -81,7 +81,7 @@ public class PermaPunishCommand implements CommandExecutor {
             			type,
             			reasonBuilder.toString());
             
-        if (type != PunishmentType.WARN || type != PunishmentType.KICK) {
+        if (type == PunishmentType.WARN || type == PunishmentType.KICK) {
         	PunishmentManager.getInstance().invoke(punishment);
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
             Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
