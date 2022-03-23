@@ -2,7 +2,6 @@ package dev.gdalia.commandsplus.commands;
 
 import java.util.UUID;
 
-import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -17,6 +16,7 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.Punishment;
 import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 
 @CommandAutoRegistration.Command(value = {"ban", "kick", "warn", "mute"})
 public class PermaPunishCommand implements CommandExecutor {
@@ -52,10 +52,18 @@ public class PermaPunishCommand implements CommandExecutor {
 		
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
-        if(!target.hasPlayedBefore()) {
+        if (!target.hasPlayedBefore()) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.INVALID_PLAYER.sendMessage(sender, true);
             return true;
+        }
+        
+        if (type == PunishmentType.KICK) {
+        	if (!target.isOnline()) {
+    			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+        		Message.UNKNOWN_PLAYER.sendMessage(sender, true);
+        		return false;
+        	}
         }
         
             StringBuilder reasonBuilder = new StringBuilder();
@@ -72,21 +80,21 @@ public class PermaPunishCommand implements CommandExecutor {
             			executer,
             			type,
             			reasonBuilder.toString());
-
-        if (type == PunishmentType.WARN || type == PunishmentType.KICK) {
-            PunishmentManager.getInstance().invoke(punishment);
+            
+        if (type != PunishmentType.WARN || type != PunishmentType.KICK) {
+        	PunishmentManager.getInstance().invoke(punishment);
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
             Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
             return true;
         }else {
-            Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()),
-            		PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).ifPresentOrElse(punishments ->
-        	Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true), () -> {
-        		
-                PunishmentManager.getInstance().invoke(punishment);
-    			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-                Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
-        		});
+        	Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()),
+        			PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).ifPresentOrElse(punishments ->
+        			Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true), () -> {
+        				
+        				PunishmentManager.getInstance().invoke(punishment);
+        				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+        				Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
+        			});
         }
         
         return true;

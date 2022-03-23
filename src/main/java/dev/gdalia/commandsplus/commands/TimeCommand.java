@@ -41,7 +41,7 @@ public class TimeCommand implements CommandExecutor, TabCompleter{
         
 		if (args.length == 0) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.CASE.sendMessage(sender, true);
+			Message.TIME_ARGUMENTS.sendMessage(sender, true);
 			return true;
 		}
 

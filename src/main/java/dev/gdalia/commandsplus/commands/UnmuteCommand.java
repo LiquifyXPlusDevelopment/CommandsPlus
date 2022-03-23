@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,6 +26,7 @@ public class UnmuteCommand implements CommandExecutor {
 	 * LABEL ARG0
 	 */
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
@@ -46,7 +48,7 @@ public class UnmuteCommand implements CommandExecutor {
 			return true;
 		}
 		
-		Player target = Bukkit.getPlayerExact(args[0]);
+		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         if(target == null){
         	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             Message.INVALID_PLAYER.sendMessage(sender, true);
@@ -60,7 +62,10 @@ public class UnmuteCommand implements CommandExecutor {
         		PunishmentManager.getInstance().revoke(new PunishmentRevoke(punishment, executer));
         		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
         		Message.PLAYER_UNMUTED.sendFormattedMessage(sender, true, target.getName());
-        		Message.TARGET_UNMUTED.sendFormattedMessage(target, true, sender.getName());
+        		
+        		if (target.isOnline()) {
+        			Message.TARGET_UNMUTED.sendFormattedMessage(target.getPlayer(), true, sender.getName());
+        		}
         		
         		}, () -> Message.PLAYER_NOT_MUTED.sendMessage(sender, true));
 		return true;

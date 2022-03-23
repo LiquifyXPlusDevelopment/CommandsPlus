@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,6 +30,7 @@ public class TempPunishCommand implements CommandExecutor {
 	 * LABEL ARG0 ARG1 ARG2+
 	 */
 	
+	@SuppressWarnings("deprecation")
 	@Override
     public boolean onCommand(CommandSender sender, Command cmd,
     		String label, String[] args) {
@@ -53,7 +55,7 @@ public class TempPunishCommand implements CommandExecutor {
 			return true;
 		}
 		
-		Player target = Bukkit.getPlayerExact(args[0]);
+		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
         if (target == null) {
         	Message.INVALID_PLAYER.sendMessage(sender, true);

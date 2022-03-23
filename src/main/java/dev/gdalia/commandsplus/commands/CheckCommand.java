@@ -34,7 +34,7 @@ public class CheckCommand implements CommandExecutor {
 			.ofPattern("d MMM uuuu")
 			.withZone(ZoneId.systemDefault());
 
-	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
@@ -55,7 +55,6 @@ public class CheckCommand implements CommandExecutor {
 			return true;
 		}
 
-		@SuppressWarnings("deprecation")
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (!target.hasPlayedBefore()) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);

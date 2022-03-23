@@ -19,9 +19,7 @@ public class PlayerPunishListener implements Listener {
 		
 		if (List.of(PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.KICK).contains(type)) {
 			String typeName = type.name().toLowerCase();
-			
-			if (!event.getPlayer().isOnline()) return;
-			
+						
 			List<String> message = Main.getInstance().getConfig().getStringList("punishments-lang." + typeName + "-template");
 
 			StringBuilder sb = new StringBuilder();
