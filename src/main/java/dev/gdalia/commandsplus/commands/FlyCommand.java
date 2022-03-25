@@ -12,7 +12,7 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "fly")
-public class FlyCommand implements CommandExecutor{
+public class FlyCommand implements CommandExecutor {
 
 	/**
 	 * /fly {user}

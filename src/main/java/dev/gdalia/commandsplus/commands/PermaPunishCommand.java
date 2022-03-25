@@ -58,6 +58,14 @@ public class PermaPunishCommand implements CommandExecutor {
             return true;
         }
         
+        if (type == PunishmentType.MUTE || type == PunishmentType.BAN) {
+        	if (Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()),
+        			PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).orElse(null) != null) {
+        		Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true);
+    			return false;
+        	}
+        }
+        
         if (type == PunishmentType.KICK) {
         	if (!target.isOnline()) {
     			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
@@ -81,22 +89,9 @@ public class PermaPunishCommand implements CommandExecutor {
             			type,
             			reasonBuilder.toString());
             
-        if (type == PunishmentType.WARN || type == PunishmentType.KICK) {
-        	PunishmentManager.getInstance().invoke(punishment);
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-            Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
-            return true;
-        }else {
-        	Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()),
-        			PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).ifPresentOrElse(punishments ->
-        			Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true), () -> {
-        				
-        				PunishmentManager.getInstance().invoke(punishment);
-        				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-        				Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
-        			});
-        }
-        
+	        	PunishmentManager.getInstance().invoke(punishment);
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+	            Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
         return true;
     }
 }

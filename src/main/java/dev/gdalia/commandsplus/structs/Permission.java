@@ -7,6 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum Permission {
+	
 	  PERMISSION_ALTS("commandsplus.alts"),
 	  PERMISSION_BAN("commandsplus.ban"),
 	  PERMISSION_BUILDMODE("commandsplus.buildmode"),
