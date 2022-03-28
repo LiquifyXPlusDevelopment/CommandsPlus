@@ -54,7 +54,12 @@ public class Punishments {
 				PunishmentType.valueOf(cs.getString(ConfigFields.PunishFields.TYPE)),
 				cs.getString(ConfigFields.PunishFields.REASON));
 		
-		Optional.of(cs.getLong(ConfigFields.PunishFields.EXPIRY)).ifPresent(expiry -> punishment.setExpiry(Instant.ofEpochMilli(expiry)));
+		Optional.ofNullable(cs.get(ConfigFields.PunishFields.EXPIRY))
+				.filter(expiryAsObject -> expiryAsObject instanceof Long)
+				.map(String::valueOf)
+				.map(Long::parseLong)
+				.ifPresent(expiry -> punishment.setExpiry(Instant.ofEpochMilli(expiry)));
+
 		punishments.put(uuid, punishment);
 		
 		opt = Optional.of(punishment);
