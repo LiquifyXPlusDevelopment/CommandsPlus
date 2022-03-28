@@ -57,9 +57,9 @@ public class Main extends JavaPlugin {
 		
 		setLanguageConfig(Config.getConfig("language", null, true));
         getLanguageConfig().saveConfig();
-
-		setPunishmentsConfig(Config.getConfig("punishments", null, false));
         
+		setPunishmentsConfig(Config.getConfig("punishments", null, false));
+		
 		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
 		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);

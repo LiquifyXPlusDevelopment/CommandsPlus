@@ -23,12 +23,10 @@ public class FlySpeedCommand implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String label, String[] args) {
 		
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
-
-		Player player = (Player) sender;
 		
 		if (!Permission.PERMISSION_FLYSPEED.hasPermission(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
@@ -44,10 +42,13 @@ public class FlySpeedCommand implements CommandExecutor{
 		
 		if (!StringUtils.isNumeric(args[0])) return false;
 		
-		float speed = Integer.parseInt(args[0]) / 10F;
-		player.setFlySpeed(speed);
+		float speed = Integer.parseInt(args[0]);
+		if (speed > 10.0F || speed < 0.0F) return false;
+		
+		float fspeed = speed / 10F;		
+		player.setFlySpeed(fspeed);
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.FLY_SPEED.sendFormattedMessage(player, true, speed);
+		Message.FLY_SPEED.sendFormattedMessage(player, true, fspeed);
 		return false;
 	}
 

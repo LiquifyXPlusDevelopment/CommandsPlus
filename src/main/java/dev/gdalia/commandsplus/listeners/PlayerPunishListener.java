@@ -16,10 +16,10 @@ public class PlayerPunishListener implements Listener {
 	@EventHandler
 	public void onPunish(PlayerPunishEvent event) {
 		PunishmentType type = event.getPunishment().getType();
-		
-		if (!event.getPlayer().isOnline()) return;
-		
+				
 		if (List.of(PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.KICK).contains(type)) {
+			if (!event.getPlayer().isOnline()) return;
+			
 			String typeName = type.name().toLowerCase();
 						
 			List<String> message = Main.getInstance().getConfig().getStringList("punishments-lang." + typeName + "-template");

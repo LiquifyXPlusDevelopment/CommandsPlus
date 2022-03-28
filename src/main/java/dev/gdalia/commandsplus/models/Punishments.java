@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import dev.gdalia.commandsplus.structs.Punishment;
-import dev.gdalia.commandsplus.structs.PunishmentType;
 import org.bukkit.configuration.ConfigurationSection;
 
-import lombok.Getter;
 import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.structs.PunishmentType;
 import dev.gdalia.commandsplus.utils.Config;
+import lombok.Getter;
 
 /**
  * TODO think about better ideas to make this even more better and cooler to use.
@@ -90,17 +90,17 @@ public class Punishments {
 	 * @return An optional container which could be empty or contain a punishment.
 	 */	
 	public Optional<Punishment> getActivePunishment(UUID uuid, PunishmentType... type) {
-		return getHistory(uuid).stream()
-				.filter(punishment -> {
-					if (type.length == 0) return true;
-					return Arrays.asList(type).contains(punishment.getType());
-				}).filter(punishment -> punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now()))
-				.filter(punishment -> {
-					ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
-					if (cs == null) return false;
-					return !cs.contains(ConfigFields.PunishFields.OVERRIDE) && !cs.contains(ConfigFields.PunishFields.REMOVED_BY);
-				}).findFirst();
-	}
+        return getHistory(uuid).stream()
+                .filter(punishment -> {
+                    if (type.length == 0) return true;
+                    return Arrays.asList(type).contains(punishment.getType());
+                }).filter(punishment -> punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now()))
+                .filter(punishment -> {
+                    ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
+                    if (cs == null) return false;
+                    return !cs.contains(ConfigFields.PunishFields.OVERRIDE) && !cs.contains(ConfigFields.PunishFields.REMOVED_BY);
+                }).findFirst();
+    }
 	
 	/**
 	 * makes a full deep check if the following user has a punishment of this type.
