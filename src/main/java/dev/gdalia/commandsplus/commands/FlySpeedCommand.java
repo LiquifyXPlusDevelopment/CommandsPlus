@@ -40,16 +40,22 @@ public class FlySpeedCommand implements CommandExecutor{
 			return true;
 		}
 		
+		try {
+			
 		if (!StringUtils.isNumeric(args[0])) return false;
 		
 		float speed = Integer.parseInt(args[0]);
 		if (speed > 10.0F || speed < 0.0F) return false;
 		
-		float fspeed = speed / 10F;		
+		float fspeed = speed / 10F;
 		player.setFlySpeed(fspeed);
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		Message.FLY_SPEED.sendFormattedMessage(player, true, fspeed);
-		return false;
+		return true;
+		} catch (NumberFormatException ex) {
+			Message.FLY_SPEED_ARGUMENTS.sendMessage(sender, true);
+			return false;
+		}
 	}
 
 }

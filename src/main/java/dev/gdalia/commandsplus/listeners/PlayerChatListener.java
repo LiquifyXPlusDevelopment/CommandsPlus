@@ -29,10 +29,15 @@ public class PlayerChatListener implements Listener {
 		Punishments.getInstance().getActivePunishment(e.getUniqueId(), PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresent(punishment -> {
 			Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			event.setCancelled(true);
+			
 			if (punishment.getType() == PunishmentType.MUTE) {
 				Message.MUTED_MESSAGE.sendMessage(e, true);
+				return;
 			}
-			Message.TEMPMUTED_MESSAGE.sendFormattedMessage(e, true, StringUtils.createTimeFormatter(punishment.getExpiry(), "HH:mm, dd/MM/uu"));
+			
+			String expiryAsString = StringUtils.createTimeFormatter(punishment.getExpiry(), "HH:mm, dd/MM/uu");
+			
+			Message.TEMPMUTED_MESSAGE.sendFormattedMessage(e, true, expiryAsString);
 		});
 	}
 }

@@ -123,7 +123,7 @@ public enum Message {
 	}
 	
 	public static String staffChatFormat() {
-		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6Â» &e{message}");
+		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6» &e{message}");
 	}
 	
 	private Message(String message) {

@@ -84,6 +84,8 @@ public class TempPunishCommand implements CommandExecutor {
 			for (int i = 2; i < args.length; i++)
 				reasonBuilder.append(args[i]);
 
+            String message = org.apache.commons.lang.StringUtils.join(args, " ", 2, args.length);
+			
 			Instant expiry = Instant.now().plus(duration);
 
 			UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
@@ -93,7 +95,7 @@ public class TempPunishCommand implements CommandExecutor {
 					target.getUniqueId(),
 					executer,
 					type,
-					reasonBuilder.toString());
+					message);
 
 			punishment.setExpiry(expiry);
 

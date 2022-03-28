@@ -2,6 +2,7 @@ package dev.gdalia.commandsplus.commands;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -79,7 +80,8 @@ public class PermaPunishCommand implements CommandExecutor {
             
             for (int i = 1; i < args.length; i++) 
             	reasonBuilder.append(args[i]);
-            
+                        
+            String message = StringUtils.join(args, " ", 1, args.length);
             
             UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
 
@@ -88,7 +90,7 @@ public class PermaPunishCommand implements CommandExecutor {
             			target.getUniqueId(),
             			executer,
             			type,
-            			reasonBuilder.toString());
+            			message);
             
 	        	PunishmentManager.getInstance().invoke(punishment);
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
