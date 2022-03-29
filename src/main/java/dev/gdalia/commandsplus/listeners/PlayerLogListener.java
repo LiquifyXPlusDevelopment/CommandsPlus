@@ -26,8 +26,8 @@ public class PlayerLogListener implements Listener {
 	@EventHandler
 	public void onPreJoin(AsyncPlayerPreLoginEvent event) {
 		UUID uniqueId = event.getUniqueId();
-		
-		Punishments.getInstance().getActivePunishment(uniqueId, PunishmentType.TEMPBAN, PunishmentType.BAN).ifPresent(punishment -> {
+				
+		Punishments.getInstance().getActivePunishment(uniqueId, PunishmentType.TEMPBAN, PunishmentType.BAN).ifPresent(punishment -> {			
 			event.setLoginResult(Result.KICK_BANNED);
 			
 			String typeName = punishment.getType().name().toLowerCase();

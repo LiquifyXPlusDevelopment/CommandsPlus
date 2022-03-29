@@ -18,8 +18,8 @@ public class PlayerChatListener implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		Player e = event.getPlayer();
-		if(Permission.PERMISSION_CHAT.hasPermission(e)) return;
 		if (Main.getInstance().getConfig().getBoolean("chat.locked")) {
+			if (Permission.PERMISSION_CHAT.hasPermission(e)) return;
 			Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			event.setCancelled(true);
 			Message.CHAT_LOCKED.sendMessage(e, true);

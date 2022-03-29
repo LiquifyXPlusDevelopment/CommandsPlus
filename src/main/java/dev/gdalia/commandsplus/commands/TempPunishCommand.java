@@ -62,7 +62,7 @@ public class TempPunishCommand implements CommandExecutor {
         	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             return true;
         }
-
+        
         Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase())).ifPresentOrElse(punishment ->
     	Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true), () -> {
 			Duration duration;
