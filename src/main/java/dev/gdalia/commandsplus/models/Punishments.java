@@ -55,9 +55,8 @@ public class Punishments {
 				cs.getString(ConfigFields.PunishFields.REASON));
 		
 		Optional.ofNullable(cs.get(ConfigFields.PunishFields.EXPIRY))
-				.filter(expiryAsObject -> expiryAsObject instanceof Long)
-				.map(String::valueOf)
-				.map(Long::parseLong)
+				.filter(long.class::isInstance)
+				.map(long.class::cast)
 				.ifPresent(expiry -> punishment.setExpiry(Instant.ofEpochMilli(expiry)));
 
 		punishments.put(uuid, punishment);
