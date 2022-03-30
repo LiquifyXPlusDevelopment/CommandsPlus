@@ -106,6 +106,6 @@ public class StringUtils {
         if (sb.isEmpty()) sb.append(seconds == 0 ? "" : seconds + "s");
         else sb.append(seconds == 0 ? "" : ", " + seconds + "s");
 
-        return sb.append("").toString();
+        return sb.toString();
     }
 }
