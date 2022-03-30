@@ -47,10 +47,10 @@ import dev.gdalia.commandsplus.Main;
 public class Config extends YamlConfiguration {
 
 	private static final Plugin plugin = Main.getInstance();
-	private static File dataFolder = plugin.getDataFolder();
+	private static final File dataFolder = plugin.getDataFolder();
 	
 	@Getter
-	private static Map<String, Config> configs = new ConcurrentHashMap<>();
+	private static final Map<String, Config> configs = new ConcurrentHashMap<>();
 	
 	@Setter
 	@Getter
@@ -70,7 +70,12 @@ public class Config extends YamlConfiguration {
 		String path = folder == null ? name : folder + File.separator + name;
 		return configs.containsKey(path) ? configs.get(name) : new Config(name, folder, loadFromDefault);
 	}
-	
+
+	@SneakyThrows
+	public void reloadConfig() {
+		this.load(false);
+	}
+
 	@SneakyThrows
 	protected void load(boolean defaultConfig) {
 		if (defaultConfig) saveDefaultConfig();
