@@ -68,7 +68,7 @@ public class HistoryCommand implements CommandExecutor {
 		}
 		
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		sender.sendMessage(CentredMessage.generate("&7&m&l               |&e " + target.getName() + " punish log &7&m&l|               &r"));
+		sender.sendMessage(CentredMessage.generate("&7&m                    |&e " + target.getName() + " punish log &7&m|                    &r"));
 		history.forEach(punishment -> {
 			sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
 			Optional.ofNullable(punishment.getExecuter()).ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecuter()).getName())));
@@ -82,7 +82,7 @@ public class HistoryCommand implements CommandExecutor {
 			}
 
 			sender.sendMessage(Message.fixColor("&eReason: &b" + punishment.getReason()));
-			sender.sendMessage(CentredMessage.generate("&7&m&l                    x x                    &r"));
+			sender.sendMessage(CentredMessage.generate("&7&m                              x x                              &r"));
 		});
 		return true;
 	}
