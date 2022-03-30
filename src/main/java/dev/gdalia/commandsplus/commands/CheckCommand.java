@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
 
+import dev.gdalia.commandsplus.utils.CentredMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -64,6 +65,7 @@ public class CheckCommand implements CommandExecutor {
 		
 		Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresent(punishment -> {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			sender.sendMessage(CentredMessage.generate("&7&m                    |&e " + target.getName() + " punish log &7&m|                    &r"));
 			sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
 			Optional.ofNullable(punishment.getExecuter()).ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecuter()).getName())));
 			sender.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
@@ -77,6 +79,7 @@ public class CheckCommand implements CommandExecutor {
 			});
 
 			sender.sendMessage(Message.fixColor("&eReason: &b" + punishment.getReason()));
+			sender.sendMessage(CentredMessage.generate("&7&m                              x x                              &r"));
 		});
 		return true;
 	}
