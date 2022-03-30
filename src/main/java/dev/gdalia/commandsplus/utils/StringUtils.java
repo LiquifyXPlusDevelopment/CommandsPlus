@@ -16,7 +16,7 @@ import java.util.UUID;
  * This should be functioning while players are using it correct.
  * Permitted users: Gdalia.
  * 
- * @authors Voigon, OfirTIM.
+ * @author Voigon, OfirTIM.
  */
 public class StringUtils {
 
@@ -70,5 +70,34 @@ public class StringUtils {
                 .ofPattern(format)
                 .withZone(ZoneId.systemDefault());
         return DATE_TIME_FORMATTER.format(instant);
+    }
+
+    public static String formatTime(Duration duration) {
+        StringBuilder sb = new StringBuilder();
+
+        long months = duration.toDays() / 30;
+        long weeks = (duration.toDaysPart() / 7) - (months * 30);
+        long days = duration.toDaysPart() - (weeks * 7);
+        long hours = duration.toHoursPart();
+        long minutes = duration.toMinutesPart();
+        long seconds = duration.toSecondsPart();
+
+        //Appends months
+        if (sb.isEmpty()) sb.append(months == 0 ? "" : months + "M");
+        else sb.append(months == 0 ? "" : ", " + months + "M");
+
+        // Appends weeks
+        if (sb.isEmpty()) sb.append(weeks == 0 ? "" : weeks + "w");
+        else sb.append(weeks == 0 ? "" : ", " + weeks + "w");
+
+        // Appends days
+        if (sb.isEmpty()) sb.append(days == 0 ? "" : days + "d");
+        else sb.append(days == 0 ? "" : ", " + days + "d");
+
+        // Appends hours
+        if (sb.isEmpty()) sb.append(hours == 0 ? "" : hours + "h");
+        else sb.append(hours == 0 ? "" : ", " + hours + "h");
+
+        return sb.append(".").toString();
     }
 }
