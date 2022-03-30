@@ -82,8 +82,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Main.getInstance().reloadConfig();
 			Main.getLanguageConfig().reloadConfig();
-			player.sendMessage(Message.fixColor(Main.getInstance().getPluginPrefix() + "Language.yml has been reloaded!"));
-			player.sendMessage(Message.fixColor(Main.getInstance().getPluginPrefix() + "Config.yml has been reloaded!"));
+			player.sendMessage(Message.fixColor(Main.getInstance().getPluginPrefix() + "&6Language.yml&7 has been &areloaded&7!"));
+			player.sendMessage(Message.fixColor(Main.getInstance().getPluginPrefix() + "&6Config.yml&7 has been &areloaded&7!"));
 			return true;
 		}
 		default:
