@@ -1,5 +1,7 @@
 package dev.gdalia.commandsplus.listeners;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,10 +43,12 @@ public class PlayerLogListener implements Listener {
 				return;
 			}
 			
-			String expiryAsString = StringUtils.createTimeFormatter(punishment.getExpiry(), "HH:mm, dd/MM/uu");
+		    Instant one = Instant.now();
+		    Instant two = punishment.getExpiry();
+		    Duration res = Duration.between(one, two);
 			
 			message.forEach(msg -> sb.append(msg.replace("%reason%", punishment.getReason())
-					.replace("%time%", expiryAsString)).append("\n"));
+					.replace("%time%", StringUtils.formatTime(res))).append("\n"));
 			
 			event.setKickMessage(Message.fixColor(sb.toString()));
 		});

@@ -1,5 +1,7 @@
 package dev.gdalia.commandsplus.commands;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.bukkit.Bukkit;
@@ -63,11 +65,15 @@ public class CheckCommand implements CommandExecutor {
 		Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresent(punishment -> {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
-			Optional.ofNullable(punishment.getExecuter()).ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(uuid).getName())));
+			Optional.ofNullable(punishment.getExecuter()).ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecuter()).getName())));
 			sender.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
 			
 			Optional.ofNullable(punishment.getExpiry()).ifPresent(instant -> {
-			sender.sendMessage(Message.fixColor("&eExpiry: &b" + StringUtils.createTimeFormatter(instant, "HH:mm, dd/MM/uu")));
+				
+			    Instant one = Instant.now();
+			    Instant two = punishment.getExpiry();
+			    Duration res = Duration.between(one, two);
+			sender.sendMessage(Message.fixColor("&eExpiry: &b" + StringUtils.formatTime(res)));
 			});
 
 			sender.sendMessage(Message.fixColor("&eReason: &b" + punishment.getReason()));

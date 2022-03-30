@@ -1,5 +1,7 @@
 package dev.gdalia.commandsplus.listeners;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 import org.bukkit.event.EventHandler;
@@ -32,16 +34,20 @@ public class PlayerPunishListener implements Listener {
 				return;
 			}
 			
-			String expiryAsString = StringUtils.createTimeFormatter(event.getPunishment().getExpiry(), "HH:mm, dd/MM/uu");
+		    Instant one = Instant.now();
+		    Instant two = event.getPunishment().getExpiry();
+		    Duration res = Duration.between(one, two);
 			
-			message.forEach(msg -> sb.append(msg.replace("%time%", expiryAsString).replace("%reason%", event.getPunishment().getReason())).append("\n"));
+			message.forEach(msg -> sb.append(msg.replace("%time%", StringUtils.formatTime(res)).replace("%reason%", event.getPunishment().getReason())).append("\n"));
 			event.getPlayer().kickPlayer(Message.fixColor(sb.toString()));
 		}
 		
 		if (List.of(PunishmentType.MUTE, PunishmentType.TEMPMUTE).contains(type)) {
 			if (!type.isPermanent()) {
-				String expiryAsString = StringUtils.createTimeFormatter(event.getPunishment().getExpiry(), "HH:mm, dd/MM/uu");
-				Message.valueOf("TARGET_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(event.getPlayer(), true, expiryAsString);
+			    Instant one = Instant.now();
+			    Instant two = event.getPunishment().getExpiry();
+			    Duration res = Duration.between(one, two);
+				Message.valueOf("TARGET_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(event.getPlayer(), true, StringUtils.formatTime(res));
 			} else Message.TARGET_MUTED_MESSAGE.sendMessage(event.getPlayer(), true);
 		}
 	}

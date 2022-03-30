@@ -1,5 +1,8 @@
 package dev.gdalia.commandsplus.listeners;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,9 +38,11 @@ public class PlayerChatListener implements Listener {
 				return;
 			}
 			
-			String expiryAsString = StringUtils.createTimeFormatter(punishment.getExpiry(), "HH:mm, dd/MM/uu");
+		    Instant one = Instant.now();
+		    Instant two = punishment.getExpiry();
+		    Duration res = Duration.between(one, two);
 			
-			Message.TEMPMUTED_MESSAGE.sendFormattedMessage(e, true, expiryAsString);
+			Message.TEMPMUTED_MESSAGE.sendFormattedMessage(e, true, StringUtils.formatTime(res));
 		});
 	}
 }

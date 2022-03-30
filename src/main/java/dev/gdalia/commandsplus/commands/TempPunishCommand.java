@@ -101,8 +101,10 @@ public class TempPunishCommand implements CommandExecutor {
 
 			PunishmentManager.getInstance().invoke(punishment);
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			String expiryAsString = StringUtils.createTimeFormatter(expiry, "HH:mm, dd/MM/uu");
-			Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName(), expiryAsString);
+		    Instant one = Instant.now();
+		    Instant two = punishment.getExpiry();
+		    Duration res = Duration.between(one, two);
+			Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName(), StringUtils.formatTime(res));
 		});
         return true;
     }

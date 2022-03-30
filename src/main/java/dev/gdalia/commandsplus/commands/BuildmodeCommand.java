@@ -43,12 +43,12 @@ public class BuildmodeCommand implements CommandExecutor{
         if (!PlayerCollection.getBuildmodePlayers().contains(uuid)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
         	PlayerCollection.getBuildmodePlayers().add(uuid);
-			Message.BUILDMODE_ENABLE.sendMessage(player, true);
+			Message.BUILDMODE_DISABLE.sendMessage(player, true);
 			return true;
         }
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
         PlayerCollection.getBuildmodePlayers().remove(uuid);
-		Message.BUILDMODE_DISABLE.sendMessage(player, true);
+		Message.BUILDMODE_ENABLE.sendMessage(player, true);
 		return true;
 	}
 	
