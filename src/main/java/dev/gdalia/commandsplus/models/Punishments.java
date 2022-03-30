@@ -40,9 +40,8 @@ public class Punishments {
 	 * @return An Optional container that is either empty or containing a punishment.
 	 */
 	public Optional<Punishment> getPunishment(UUID uuid) {
-		Optional<Punishment> opt;
 		if (punishments.containsKey(uuid))
-			opt = Optional.of(punishments.get(uuid));
+			return Optional.of(punishments.get(uuid));
 
 		ConfigurationSection cs = pConfig.getConfigurationSection(uuid.toString());
 		if (cs == null) return Optional.empty();
@@ -61,10 +60,8 @@ public class Punishments {
 				.ifPresent(expiry -> punishment.setExpiry(Instant.ofEpochMilli(expiry)));
 
 		punishments.put(uuid, punishment);
-		
-		opt = Optional.of(punishment);
-		
-		return opt;
+
+		return Optional.of(punishment);
 		//Gdalia was here
 	    //OfirTIM was here
 	}
