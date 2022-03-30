@@ -61,7 +61,7 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 						Message.playSound(locked, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 						Main.getInstance().getConfig().set("chat.locked", !isLocked);
 						Main.getInstance().saveConfig();
-						if (!isLocked) Message.LOCK_MESSAGE.sendMessage(sender, true);
+						if (!isLocked) Message.LOCK_MESSAGE.sendMessage(locked, true);
 						else Message.UNLOCK_MESSAGE.sendMessage(locked, true);
 					});
 				return true;
