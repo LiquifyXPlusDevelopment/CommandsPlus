@@ -1,5 +1,6 @@
 package dev.gdalia.commandsplus.listeners;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -25,16 +26,25 @@ public class PlayerLogListener implements Listener {
 	@EventHandler
 	public void onPreJoin(AsyncPlayerPreLoginEvent event) {
 		UUID uniqueId = event.getUniqueId();
-		
-		Punishments.getInstance().getActivePunishment(uniqueId, PunishmentType.TEMPBAN, PunishmentType.BAN).ifPresent(punishment -> {
+				
+		Punishments.getInstance().getActivePunishment(uniqueId, PunishmentType.TEMPBAN, PunishmentType.BAN).ifPresent(punishment -> {			
 			event.setLoginResult(Result.KICK_BANNED);
 			
 			String typeName = punishment.getType().name().toLowerCase();
 			StringBuilder sb = new StringBuilder();
 			
-			Main.getInstance().getConfig().getStringList("punishments-lang." + typeName + "-template")
-			.forEach(msg -> sb.append(msg.replace("%reason%", punishment.getReason())
-					.replace("%time%", StringUtils.createTimeFormatter(punishment.getExpiry(), "HH:mm, dd/MM/uu"))).append("\n"));
+			List<String> message = Main.getInstance().getConfig().getStringList("punishments-lang." + typeName + "-template");
+			
+			if (punishment.getExpiry() == null) {
+				message.forEach(msg -> sb.append(msg.replace("%reason%", punishment.getReason())).append("\n"));
+				event.setKickMessage(Message.fixColor(sb.toString()));
+				return;
+			}
+			
+			String expiryAsString = StringUtils.createTimeFormatter(punishment.getExpiry(), "HH:mm, dd/MM/uu");
+			
+			message.forEach(msg -> sb.append(msg.replace("%reason%", punishment.getReason())
+					.replace("%time%", expiryAsString)).append("\n"));
 			
 			event.setKickMessage(Message.fixColor(sb.toString()));
 		});

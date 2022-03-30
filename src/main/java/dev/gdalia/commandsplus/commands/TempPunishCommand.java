@@ -62,7 +62,7 @@ public class TempPunishCommand implements CommandExecutor {
         	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             return true;
         }
-
+        
         Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase())).ifPresentOrElse(punishment ->
     	Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true), () -> {
 			Duration duration;
@@ -84,6 +84,8 @@ public class TempPunishCommand implements CommandExecutor {
 			for (int i = 2; i < args.length; i++)
 				reasonBuilder.append(args[i]);
 
+            String message = org.apache.commons.lang.StringUtils.join(args, " ", 2, args.length);
+			
 			Instant expiry = Instant.now().plus(duration);
 
 			UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
@@ -93,7 +95,7 @@ public class TempPunishCommand implements CommandExecutor {
 					target.getUniqueId(),
 					executer,
 					type,
-					reasonBuilder.toString());
+					message);
 
 			punishment.setExpiry(expiry);
 

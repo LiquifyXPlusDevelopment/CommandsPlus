@@ -74,11 +74,11 @@ public class HistoryCommand implements CommandExecutor {
 			Optional.ofNullable(punishment.getExecuter()).ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecuter()).getName())));
 			sender.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
 
-			if (!List.of(PunishmentType.TEMPMUTE, PunishmentType.TEMPBAN, PunishmentType.KICK, PunishmentType.WARN).contains(punishment.getType())) {
+			if (!List.of(PunishmentType.KICK, PunishmentType.WARN).contains(punishment.getType())) {
 				Optional.ofNullable(punishment.getExpiry()).ifPresentOrElse(instant -> {
-					sender.sendMessage(Message.fixColor("&eIs permanent?: &b" + BooleanUtils.toStringYesNo(true)));
+					sender.sendMessage(Message.fixColor("&eIs permanent?: &b" + BooleanUtils.toStringYesNo(false)));
 					sender.sendMessage(Message.fixColor("&eExpiry: &b" + StringUtils.createTimeFormatter(instant, "HH:mm, dd/MM/uu")));
-				}, () -> sender.sendMessage(Message.fixColor("&Is permanent?: &b" + BooleanUtils.toStringYesNo(false))));
+				}, () -> sender.sendMessage(Message.fixColor("&eIs permanent?: &b" + BooleanUtils.toStringYesNo(true))));
 			}
 
 			sender.sendMessage(Message.fixColor("&eReason: &b" + punishment.getReason()));
