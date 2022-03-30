@@ -98,6 +98,14 @@ public class StringUtils {
         if (sb.isEmpty()) sb.append(hours == 0 ? "" : hours + "h");
         else sb.append(hours == 0 ? "" : ", " + hours + "h");
 
+        // Appends minutes
+        if (sb.isEmpty()) sb.append(minutes == 0 ? "" : minutes + "m");
+        else sb.append(minutes == 0 ? "" : ", " + minutes + "m");
+
+        // Appends seconds
+        if (sb.isEmpty()) sb.append(seconds == 0 ? "" : seconds + "s");
+        else sb.append(seconds == 0 ? "" : ", " + seconds + "s");
+
         return sb.append(".").toString();
     }
 }
