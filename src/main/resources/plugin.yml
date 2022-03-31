@@ -1,6 +1,6 @@
 name: CommandsPlus
 main: dev.gdalia.commandsplus.Main
-version: 1.0.1
+version: 1.0.3
 api-version: 1.18
 author: Gdalia, OfirTim
 commands:
