@@ -1,8 +1,12 @@
 package dev.gdalia.commandsplus.listeners;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,20 +19,36 @@ import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.utils.StringUtils;
 
 public class PlayerLogListener implements Listener {
 	
 	@EventHandler
 	public void onPreJoin(AsyncPlayerPreLoginEvent event) {
 		UUID uniqueId = event.getUniqueId();
-		
-		Punishments.getInstance().getActivePunishment(uniqueId, PunishmentType.TEMPBAN, PunishmentType.TEMPBAN).ifPresent(punishment -> {
+				
+		Punishments.getInstance().getActivePunishment(uniqueId, PunishmentType.TEMPBAN, PunishmentType.BAN).ifPresent(punishment -> {			
 			event.setLoginResult(Result.KICK_BANNED);
 			
 			String typeName = punishment.getType().name().toLowerCase();
 			StringBuilder sb = new StringBuilder();
-			Main.getInstance().getConfig().getStringList("ban-lang." + typeName + "-template").forEach(msg -> sb.append(msg).append("\n"));
+			
+			List<String> message = Main.getInstance().getConfig().getStringList("punishments-lang." + typeName + "-template");
+			
+			if (punishment.getExpiry() == null) {
+				message.forEach(msg -> sb.append(msg.replace("%reason%", punishment.getReason())).append("\n"));
+				event.setKickMessage(Message.fixColor(sb.toString()));
+				return;
+			}
+			
+		    Instant one = Instant.now();
+		    Instant two = punishment.getExpiry();
+		    Duration res = Duration.between(one, two);
+			
+			message.forEach(msg -> sb.append(msg.replace("%reason%", punishment.getReason())
+					.replace("%time%", StringUtils.formatTime(res))).append("\n"));
 			
 			event.setKickMessage(Message.fixColor(sb.toString()));
 		});
@@ -47,17 +67,18 @@ public class PlayerLogListener implements Listener {
 		if (PlayerCollection.getVanishPlayers().contains(uuid)) {
 			Bukkit.getOnlinePlayers()
 			.stream()
-			.filter(p -> p.canSee(player) && !p.hasPermission("commandsplus.vanish.see"))
+			.filter(p -> p.canSee(player) && !Permission.PERMISSION_VANISH_SEE.hasPermission(p))
 			.forEach(p -> p.hidePlayer(Main.getInstance(), player));
 		}
 
-		if (!player.hasPermission("commandsplus.vanish.see"))
+		if (!Permission.PERMISSION_VANISH_SEE.hasPermission(player))
 			PlayerCollection.getVanishPlayers()
 				.stream()
 				.map(Bukkit::getPlayer)
 				.forEach(x -> player.hidePlayer(Main.getInstance(), x));
 
 		String msg = PlayerCollection.getVanishPlayers().contains(uuid) ? null : Message.fixColor("&2&l+ &6" + player.getName() + "&7 Connected");
+		Message.playSound(event.getPlayer(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		event.setJoinMessage(msg);
 	}
 

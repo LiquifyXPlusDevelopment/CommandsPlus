@@ -2,12 +2,14 @@ package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "heal")
 public class HealCommand implements CommandExecutor {
@@ -26,7 +28,8 @@ public class HealCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (!sender.hasPermission("commandsplus.heal")) {
+		if (!Permission.PERMISSION_HEAL.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
@@ -36,17 +39,20 @@ public class HealCommand implements CommandExecutor {
 		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
 			player = Bukkit.getPlayer(args[0]);
 		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return false;
 		}
 		
 		if(player == sender) {
 			player.setHealth(20);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.HEAL_PLAYER.sendMessage(sender, true);
 			return true;
 		}
 		
 		player.setHealth(20);
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		Message.HEAL_TARGET.sendFormattedMessage(sender, true, player.getName());
 		return true;
 	}

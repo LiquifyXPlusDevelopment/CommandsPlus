@@ -10,14 +10,14 @@ public enum PunishmentType {
 	BAN(true, true, "Ban", "Banned"),
 	TEMPBAN(false, true, "Tempban", "Tempbanned"),
 	MUTE(true, false, "Mute", "Muted"),
-	TEMPMUTE(false, false, "Tempmute", "Tempmmuted"),
+	TEMPMUTE(false, false, "Tempmute", "Tempmuted"),
 	KICK(false, true, "Kick", "Kicked"),
 	WARN(false, false, "Warn", "Warned");
 	
 	@Getter
-	private boolean 
-		isPermanent,
-		isKickable;
+	private final boolean
+		permanent,
+		kickable;
 	
 	@Getter
 	private final String 

@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import dev.gdalia.commandsplus.structs.Punishment;
-import dev.gdalia.commandsplus.structs.PunishmentType;
 import org.bukkit.configuration.ConfigurationSection;
 
-import lombok.Getter;
 import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.structs.PunishmentType;
 import dev.gdalia.commandsplus.utils.Config;
+import lombok.Getter;
 
 /**
  * TODO think about better ideas to make this even more better and cooler to use.
@@ -40,9 +40,8 @@ public class Punishments {
 	 * @return An Optional container that is either empty or containing a punishment.
 	 */
 	public Optional<Punishment> getPunishment(UUID uuid) {
-		Optional<Punishment> opt;
 		if (punishments.containsKey(uuid))
-			opt = Optional.of(punishments.get(uuid));
+			return Optional.of(punishments.get(uuid));
 
 		ConfigurationSection cs = pConfig.getConfigurationSection(uuid.toString());
 		if (cs == null) return Optional.empty();
@@ -54,12 +53,15 @@ public class Punishments {
 				PunishmentType.valueOf(cs.getString(ConfigFields.PunishFields.TYPE)),
 				cs.getString(ConfigFields.PunishFields.REASON));
 		
-		Optional.of(cs.getLong(ConfigFields.PunishFields.EXPIRY)).ifPresent(expiry -> punishment.setExpiry(Instant.ofEpochMilli(expiry)));
+		Optional.ofNullable(cs.get(ConfigFields.PunishFields.EXPIRY))
+		        .filter(expiryAsObject -> expiryAsObject instanceof Long)
+		        .map(String::valueOf)
+		        .map(Long::parseLong)
+				.ifPresent(expiry -> punishment.setExpiry(Instant.ofEpochMilli(expiry)));
+
 		punishments.put(uuid, punishment);
-		
-		opt = Optional.of(punishment);
-		
-		return opt;
+
+		return Optional.of(punishment);
 		//Gdalia was here
 	    //OfirTIM was here
 	}
@@ -90,15 +92,17 @@ public class Punishments {
 	 * @return An optional container which could be empty or contain a punishment.
 	 */	
 	public Optional<Punishment> getActivePunishment(UUID uuid, PunishmentType... type) {
-		return getHistory(uuid).stream()
-				.filter(punishment -> Arrays.asList(type).contains(punishment.getType()))
-				.filter(punishment -> punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now()))
-				.filter(punishment -> {
-					ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
-					if (cs == null) return false;
-					return !cs.contains(ConfigFields.PunishFields.OVERRIDE) && !cs.contains(ConfigFields.PunishFields.REMOVED_BY);
-				}).findFirst();
-	}
+        return getHistory(uuid).stream()
+                .filter(punishment -> {
+                    if (type.length == 0) return true;
+                    return Arrays.asList(type).contains(punishment.getType());
+                }).filter(punishment -> punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now()))
+                .filter(punishment -> {
+                    ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
+                    if (cs == null) return false;
+                    return !cs.contains(ConfigFields.PunishFields.OVERRIDE) && !cs.contains(ConfigFields.PunishFields.REMOVED_BY);
+                }).findFirst();
+    }
 	
 	/**
 	 * makes a full deep check if the following user has a punishment of this type.

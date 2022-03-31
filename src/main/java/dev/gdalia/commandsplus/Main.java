@@ -57,9 +57,9 @@ public class Main extends JavaPlugin {
 		
 		setLanguageConfig(Config.getConfig("language", null, true));
         getLanguageConfig().saveConfig();
-
-		setPunishmentsConfig(Config.getConfig("punishments", null, false));
         
+		setPunishmentsConfig(Config.getConfig("punishments", null, false));
+		
 		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
 		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);
@@ -71,7 +71,6 @@ public class Main extends JavaPlugin {
 	public void onDisable() {
 		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&7CommandsPlus has been &cDisabled&7."));
 	}
-	
 	
 	public String getPluginPrefix() {
 		return Message.fixColor(getConfig().getString("PREFIX"));

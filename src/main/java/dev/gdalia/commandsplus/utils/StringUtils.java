@@ -1,6 +1,9 @@
 package dev.gdalia.commandsplus.utils;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,7 +16,7 @@ import java.util.UUID;
  * This should be functioning while players are using it correct.
  * Permitted users: Gdalia.
  * 
- * @authors Voigon, OfirTIM.
+ * @author Voigon, OfirTIM.
  */
 public class StringUtils {
 
@@ -61,4 +64,48 @@ public class StringUtils {
 			return false;
 		}
 	}
+
+    public static String createTimeFormatter(Instant instant, String format) {
+        DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
+                .ofPattern(format)
+                .withZone(ZoneId.systemDefault());
+        return DATE_TIME_FORMATTER.format(instant);
+    }
+
+    public static String formatTime(Duration duration) {
+        StringBuilder sb = new StringBuilder();
+
+        long months = duration.toDays() / 30;
+        long weeks = (duration.toDaysPart() / 7) - (months * 30);
+        long days = duration.toDaysPart() - (weeks * 7);
+        long hours = duration.toHoursPart();
+        long minutes = duration.toMinutesPart();
+        long seconds = duration.toSecondsPart();
+
+        //Appends months
+        if (sb.isEmpty()) sb.append(months == 0 ? "" : months + "M");
+        else sb.append(months == 0 ? "" : ", " + months + "M");
+
+        // Appends weeks
+        if (sb.isEmpty()) sb.append(weeks == 0 ? "" : weeks + "w");
+        else sb.append(weeks == 0 ? "" : ", " + weeks + "w");
+
+        // Appends days
+        if (sb.isEmpty()) sb.append(days == 0 ? "" : days + "d");
+        else sb.append(days == 0 ? "" : ", " + days + "d");
+
+        // Appends hours
+        if (sb.isEmpty()) sb.append(hours == 0 ? "" : hours + "h");
+        else sb.append(hours == 0 ? "" : ", " + hours + "h");
+
+        // Appends minutes
+        if (sb.isEmpty()) sb.append(minutes == 0 ? "" : minutes + "m");
+        else sb.append(minutes == 0 ? "" : ", " + minutes + "m");
+
+        // Appends seconds
+        if (sb.isEmpty()) sb.append(seconds == 0 ? "" : seconds + "s");
+        else sb.append(seconds == 0 ? "" : ", " + seconds + "s");
+
+        return sb.toString();
+    }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +24,7 @@ public class UnknownCommandListener implements Listener{
 		Player player = event.getPlayer();
 
 		if (Bukkit.getServer().getHelpMap().getHelpTopic(commandName) != null) return;
+		Message.playSound(event.getPlayer(), Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 		event.setCancelled(true);
 		Message.COMMAND_NOT_EXIST.sendMessage(player, true);
 	}

@@ -1,23 +1,23 @@
 package dev.gdalia.commandsplus.commands;
 
+import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.UUID;
+import java.util.Optional;
 
-import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+import dev.gdalia.commandsplus.utils.CentredMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.StringUtils;
 
 @CommandAutoRegistration.Command(value = "check")
@@ -28,11 +28,8 @@ public class CheckCommand implements CommandExecutor {
 	 * LABEL ARG0
 	 */
 	
-	private final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
-			.ofPattern("d MMM uuuu")
-			.withZone(ZoneId.systemDefault());
 
-	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
@@ -40,53 +37,50 @@ public class CheckCommand implements CommandExecutor {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
-
-		if (!sender.hasPermission("commandsplus.check")) {
+		
+		if (!Permission.PERMISSION_CHECK.hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
 
 		if (args.length == 0) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.DESCRIBE_PLAYER.sendMessage(sender, true);
 			return true;
 		}
 
-		@SuppressWarnings("deprecation")
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (!target.hasPlayedBefore()) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return true;
 		}
 		
-		Punishments.getInstance().getActivePunishment(target.getUniqueId()).ifPresentOrElse(activePunish -> {
-			Message.PLAYER_ACTIVE_PUNISHMENT.sendMessage(sender, true);
-			ConfigurationSection cs = Main.getPunishmentsConfig().getConfigurationSection(activePunish.getPunishmentUniqueId().toString());
-			cs.getValues(false).entrySet().forEach(entry -> {
-				if (entry.getValue() instanceof String stringValue) {
-					if (StringUtils.isUniqueId(stringValue)) {
-						String name = Bukkit.getOfflinePlayer(UUID.fromString(stringValue)).getName();
-						sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + name));
-						return;
-					}
-					
-					if (PunishmentType.canBeType(stringValue)) {
-						PunishmentType type = PunishmentType.valueOf(stringValue);
-						sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + type.getDisplayName()));
-						return;
-					}
-					
-					sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + stringValue));
-					return;
-					
-				} else if (entry.getValue() instanceof Long longValue) {
-					Instant expiry = Instant.ofEpochMilli(longValue);
-					String endDate = DATE_TIME_FORMATTER.format(expiry);
-					sender.sendMessage(Message.fixColor("&e" + entry.getKey() + "&7: &b" + endDate));
-					return;
-					
-				}
+		if (Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.MUTE, PunishmentType.TEMPMUTE).orElse(null) == null) {
+			Message.PLAYER_NO_ACTIVE_PUNISHMENT.sendMessage(sender, true);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			return false;
+		}
+		
+		Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresent(punishment -> {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			sender.sendMessage(CentredMessage.generate("&7&m                    |&e " + target.getName() + " punish log &7&m|                    &r"));
+			sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
+			Optional.ofNullable(punishment.getExecuter()).ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecuter()).getName())));
+			sender.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
+			
+			Optional.ofNullable(punishment.getExpiry()).ifPresent(instant -> {
+				
+			    Instant one = Instant.now();
+			    Instant two = punishment.getExpiry();
+			    Duration res = Duration.between(one, two);
+			sender.sendMessage(Message.fixColor("&eExpiry: &b" + StringUtils.formatTime(res)));
 			});
-		}, () -> Message.PLAYER_NO_ACTIVE_PUNISHMENT.sendMessage(sender, true));
+
+			sender.sendMessage(Message.fixColor("&eReason: &b" + punishment.getReason()));
+			sender.sendMessage(CentredMessage.generate("&7&m                              x x                              &r"));
+		});
 		return true;
 	}
 

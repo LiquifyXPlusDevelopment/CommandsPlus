@@ -1,12 +1,12 @@
 package dev.gdalia.commandsplus.structs;
 
-
-
 import java.text.MessageFormat;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.Main;
 
@@ -28,9 +28,10 @@ public enum Message {
 	STAFFCHAT_DISABLE(Main.getLanguageConfig().getString("STAFFCHAT_DISABLE")),
 	VANISH_ENABLE(Main.getLanguageConfig().getString("VANISH_ENABLE")),
 	VANISH_DISABLE(Main.getLanguageConfig().getString("VANISH_DISABLE")),
-	CHAT_CLEARED(Main.getLanguageConfig().getString("CHAT_CLEARED")),
 	CHANGE_THE_TIME(Main.getLanguageConfig().getString("CHANGE_THE_TIME")),
-	CASE(Main.getLanguageConfig().getString("CASE")),
+	TEMPMUTED_MESSAGE(Main.getLanguageConfig().getString("TEMPMUTED_MESSAGE")),
+	CHAT_ARGUMENTS(Main.getLanguageConfig().getString("CHAT_ARGUMENTS")),
+	TIME_ARGUMENTS(Main.getLanguageConfig().getString("TIME_ARGUMENTS")),
 	FEED_TARGET(Main.getLanguageConfig().getString("FEED_TARGET")),
 	FEED_PLAYER(Main.getLanguageConfig().getString("FEED_PLAYER")),
     FLY_SPEED(Main.getLanguageConfig().getString("FLY_SPEED")),
@@ -40,22 +41,27 @@ public enum Message {
 	PLAYER_NOT_BANNED(Main.getLanguageConfig().getString("PLAYER_NOT_BANNED")),
 	PLAYER_BANNED(Main.getLanguageConfig().getString("PLAYER_BANNED")),
 	PLAYER_MUTED(Main.getLanguageConfig().getString("PLAYER_MUTED")),
+	PLAYER_TEMPBANNED(Main.getLanguageConfig().getString("PLAYER_TEMPBANNED")),
+	PLAYER_TEMPMUTED(Main.getLanguageConfig().getString("PLAYER_TEMPMUTED")),
 	TARGET_MUTED_MESSAGE(Main.getLanguageConfig().getString("TARGET_MUTED_MESSAGE")),
 	PLAYER_MUTED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_MUTED_MESSAGE")),
 	TARGET_TEMPMUTED_MESSAGE(Main.getLanguageConfig().getString("TARGET_TEMPMUTED_MESSAGE")),
 	PLAYER_TEMPMUTED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_TEMPMUTED_MESSAGE")),
-	PLAYER_TEMPBAN_MESSAGE(Main.getLanguageConfig().getString("PLAYER_TEMPBAN_MESSAGE")),
-	PLAYER_BAN_MESSAGE(Main.getLanguageConfig().getString("PLAYER_BAN_MESSAGE")),
+	PLAYER_TEMPBANNED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_TEMPBANNED_MESSAGE")),
+	PLAYER_BANNED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_BANNED_MESSAGE")),
 	UNMUTE_ARGUMENTS(Main.getLanguageConfig().getString("UNMUTE_ARGUMENTS")),
 	PLAYER_UNMUTED(Main.getLanguageConfig().getString("PLAYER_UNMUTED")),
 	TARGET_UNMUTED(Main.getLanguageConfig().getString("TARGET_UNMUTED")),
 	PLAYER_UNBANNED(Main.getLanguageConfig().getString("PLAYER_UNBANNED")),
+	HISTORY_DOES_NOT_EXIST(Main.getLanguageConfig().getString("HISTORY_DOES_NOT_EXIST")),
 	MUTED_MESSAGE(Main.getLanguageConfig().getString("MUTED_MESSAGE")),
 	TPHERE(Main.getLanguageConfig().getString("TPHERE")),
-	PLAYER_KICK(Main.getLanguageConfig().getString("PLAYER_KICK")),
+	PLAYER_KICKED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_KICKED_MESSAGE")),
+	ALTS_BANNED(Main.getLanguageConfig().getString("ALTS_BANNED")),
+	ALTS_KICKED(Main.getLanguageConfig().getString("ALTS_KICKED")),
 	LOCK_MESSAGE(Main.getLanguageConfig().getString("LOCK_MESSAGE")),
 	CHAT_LOCKED(Main.getLanguageConfig().getString("CHAT_LOCKED")),
-	PLAYER_WARN_MESSAGE(Main.getLanguageConfig().getString("PLAYER_WARN_MESSAGE")),
+	PLAYER_WARNED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_WARNED_MESSAGE")),
 	UNLOCK_MESSAGE(Main.getLanguageConfig().getString("UNLOCK_MESSAGE")),
 	ALTS_CHECK(Main.getLanguageConfig().getString("ALTS_CHECK")),
 	BAN_ARGUMENTS(Main.getLanguageConfig().getString("BAN_ARGUMENTS")),
@@ -101,6 +107,11 @@ public enum Message {
 		sender.sendMessage(prefix + getMessage());
 
 	}
+	  public static void playSound(CommandSender sender, Sound sound, float volume, float pitch) {
+		    if (!(sender instanceof Player player)) return;
+		    if (Main.getInstance().getConfig().getBoolean("disable_sounds")) return;
+		    player.playSound(player.getLocation(), sound, volume, pitch);
+		  }
 
 	public void sendFormattedMessage(CommandSender sender, boolean hasPrefix, Object... objects) {
 		String prefix = hasPrefix ? PLUGIN_PREFIX.getMessage() : "";
@@ -112,7 +123,7 @@ public enum Message {
 	}
 	
 	public static String staffChatFormat() {
-		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6» &e{message}");
+		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6Â» &e{message}");
 	}
 	
 	private Message(String message) {

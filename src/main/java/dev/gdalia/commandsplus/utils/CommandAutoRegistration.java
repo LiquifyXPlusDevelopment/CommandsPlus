@@ -85,12 +85,14 @@ public class CommandAutoRegistration {
 
             CommandExecutor instance = createInstance(clazz);
 
-            PluginCommand pluginCommand = plugin.getCommand(annotation.value());
-            if (pluginCommand == null)
-                plugin.getLogger().warning("Command /" + annotation.value() + " is not registered to this plugin!");
-            else {
-                pluginCommand.setExecutor(instance);
-                plugin.getLogger().info("Loaded " + (devCommand ? "dev" : "") + " command /" + annotation.value() + "!");
+            for (String pluginCommandString : annotation.value()) {
+                PluginCommand pluginCommand = plugin.getCommand(pluginCommandString);
+                if (pluginCommand == null)
+                    plugin.getLogger().warning("Command /" + pluginCommandString + " is not registered to this plugin!");
+                else {
+                    pluginCommand.setExecutor(instance);
+                    plugin.getLogger().info("Loaded " + (devCommand ? "dev" : "") + " command /" + pluginCommandString + "!");
+                }
             }
         }
     }
@@ -105,7 +107,7 @@ public class CommandAutoRegistration {
     @Retention(RetentionPolicy.RUNTIME)
     public @interface Command {
 
-        String value();
+        String[] value();
 
         boolean devServer() default false;
 

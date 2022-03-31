@@ -10,6 +10,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 public class StaffChatListener implements Listener{
 
@@ -19,11 +20,11 @@ public class StaffChatListener implements Listener{
 		UUID uuid = player.getUniqueId();
 		String msg = event.getMessage();
 		
-		if(!player.hasPermission("commandsplus.staffchat")) return;
+		if(!Permission.PERMISSION_STAFFCHAT.hasPermission(player)) return;
 		if (!PlayerCollection.getStaffchatPlayers().contains(uuid)) return;
 			event.setCancelled(true);
 			Bukkit.getOnlinePlayers().stream()
-			.filter(staff -> staff.hasPermission("commandsplus.staffchat.see"))
+			.filter(staff -> Permission.PERMISSION_STAFFCHAT_SEE.hasPermission(staff))
 			.forEach(staff -> 
 					staff.sendMessage(Message.staffChatFormat().replace("{player}", player.getName()).replace("{message}", msg)));
 			

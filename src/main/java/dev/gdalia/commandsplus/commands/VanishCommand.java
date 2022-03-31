@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 
 @CommandAutoRegistration.Command(value = "vanish")
 public class VanishCommand implements CommandExecutor{
@@ -32,7 +34,8 @@ public class VanishCommand implements CommandExecutor{
 
         Player p = (Player) sender;
         UUID uuid = p.getUniqueId();
-        if(!p.hasPermission("commandsplus.vanish")) {
+        if(!Permission.PERMISSION_VANISH.hasPermission(sender)) {
+        	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
         }
@@ -44,8 +47,9 @@ public class VanishCommand implements CommandExecutor{
     		p.setFlying(true);
 			Bukkit.getOnlinePlayers()
 			.stream()
-			.filter(player -> player.canSee(p) && !player.hasPermission("commandsplus.vanish.see"))
+			.filter(player -> player.canSee(p) && !Permission.PERMISSION_VANISH_SEE.hasPermission(player))
 			.forEach(player -> player.hidePlayer(Main.getInstance(), p));
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.VANISH_ENABLE.sendMessage(p, true);
 			return true;
         }
@@ -56,6 +60,7 @@ public class VanishCommand implements CommandExecutor{
 			.stream()
 			.filter(player -> !player.canSee(p))
 			.forEach(player -> player.showPlayer(Main.getInstance(), p));
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		Message.VANISH_DISABLE.sendMessage(p, true);
 		return true;
 	}
