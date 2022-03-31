@@ -17,6 +17,7 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentRevoke;
 import dev.gdalia.commandsplus.structs.PunishmentType;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "unban")
 public class UnbanCommand implements CommandExecutor{
@@ -28,9 +29,7 @@ public class UnbanCommand implements CommandExecutor{
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (!(sender instanceof Player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;

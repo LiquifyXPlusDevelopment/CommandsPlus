@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "time")
 public class TimeCommand implements CommandExecutor, TabCompleter{
@@ -23,17 +24,13 @@ public class TimeCommand implements CommandExecutor, TabCompleter{
 	 */
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		
-		if(!(sender instanceof Player)) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		if(!(sender instanceof Player player)) {
         	Message.PLAYER_CMD.sendMessage(sender, true);
         	return false;
         }
-		
-		Player player = (Player) sender;
 
-        if(!Permission.PERMISSION_TIME.hasPermission(sender)) {
+		if(!Permission.PERMISSION_TIME.hasPermission(sender)) {
         	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
@@ -45,29 +42,30 @@ public class TimeCommand implements CommandExecutor, TabCompleter{
 			return true;
 		}
 
-        
+
 		switch (args[0].toLowerCase()) {
-		case "day": {
-			String day = "1000";
-			player.getWorld().setTime(1000);
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.CHANGE_THE_TIME.sendFormattedMessage(player, true, day);
-			return true;
+			case "day" -> {
+				String day = "1000";
+				player.getWorld().setTime(1000);
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+				Message.CHANGE_THE_TIME.sendFormattedMessage(player, true, day);
+				return true;
 			}
-		case "night": {
-			String night = "14000";
-			player.getWorld().setTime(14000);
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.CHANGE_THE_TIME.sendFormattedMessage(player, true, night);
-			return true;
+			case "night" -> {
+				String night = "14000";
+				player.getWorld().setTime(14000);
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+				Message.CHANGE_THE_TIME.sendFormattedMessage(player, true, night);
+				return true;
 			}
-		default:
-			player.sendMessage(Message.fixColor("&7/time [&eday&7/&enight&7]"));
-			return true;
+			default -> {
+				player.sendMessage(Message.fixColor("&7/time [&eDay&7/&eNight&7]"));
+				return true;
+			}
 		}
 	}
 	
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if(!Permission.PERMISSION_TIME.hasPermission(sender)) return null;
 		if (args.length == 0) return null;
 		return List.of("day", "night");

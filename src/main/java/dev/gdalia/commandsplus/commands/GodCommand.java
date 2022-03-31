@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.Main;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "god")
 public class GodCommand implements CommandExecutor {
@@ -21,10 +22,8 @@ public class GodCommand implements CommandExecutor {
 	 */
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		
-		if (!(sender instanceof Player)) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
@@ -34,8 +33,6 @@ public class GodCommand implements CommandExecutor {
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
-
-		Player player = (Player) sender;
 
 		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
 			player = Bukkit.getPlayer(args[0]);

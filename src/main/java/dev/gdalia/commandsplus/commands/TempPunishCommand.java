@@ -21,6 +21,7 @@ import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.Punishment;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 import dev.gdalia.commandsplus.utils.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = {"tempmute", "tempban"})
 public class TempPunishCommand implements CommandExecutor {
@@ -32,9 +33,7 @@ public class TempPunishCommand implements CommandExecutor {
 	
 	@SuppressWarnings("deprecation")
 	@Override
-    public boolean onCommand(CommandSender sender, Command cmd,
-    		String label, String[] args) {
- 	
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (!(sender instanceof Player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;

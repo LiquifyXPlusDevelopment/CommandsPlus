@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "alts")
 public class AltsCommand implements CommandExecutor, TabCompleter {
@@ -24,16 +25,12 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 	 *  LABEL ARG0 ARG1
 	 */
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-
-		if (!(sender instanceof Player)) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
 
-		Player player = (Player) sender;
-		
 		if (!Permission.PERMISSION_ALTS.hasPermission(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(sender, true);
@@ -61,58 +58,60 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 		
 		if (args.length <= 1) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			player.sendMessage(Message.fixColor("&7/alts [&eplayer&7] [&echeck&7/&ebanall&7/&ekickall&7]"));
+			player.sendMessage(Message.fixColor("&7/alts [&ePlayer&7] [&eCheck&7/&eBanall&7/&eKickall&7]"));
 			return false;
 		}
-		
-		switch (args[1].toLowerCase()) {
-		case "check": {
 
-			if (alts.isEmpty()) {
+		switch (args[1].toLowerCase()) {
+			case "check" -> {
+
+				if (alts.isEmpty()) {
+					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+					Message.ALTS_CHECK.sendFormattedMessage(player, true, target.getName());
+					return true;
+				}
+
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-				Message.ALTS_CHECK.sendFormattedMessage(player, true, target.getName());
+				Message.ALTS_ONLINE.sendFormattedMessage(player, true, target.getName());
+				StringBuilder sb = new StringBuilder();
+				alts.stream()
+						.filter(x -> !x.getName().equalsIgnoreCase(target.getName()))
+						.forEach(x -> sb.append(Message.fixColor("&7- " + x.getName() + ".\n")));
+				Arrays.asList(sb.toString().split("\n")).forEach(player::sendMessage);
 				return true;
 			}
-
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.ALTS_ONLINE.sendFormattedMessage(player, true, target.getName());
-			StringBuilder sb = new StringBuilder();
-			alts.stream()
-			.filter(x -> !x.getName().equalsIgnoreCase(target.getName()))
-			.forEach(x -> sb.append(Message.fixColor("&7- " + x.getName() + ".\n")));
-			Arrays.asList(sb.toString().split("\n")).forEach(player::sendMessage);
-			return true;
-		}
-		case "banall": {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.ALTS_BANNED.sendFormattedMessage(player, true, target.getName());
-			alts.forEach(x -> {
-				String banCommand = Main.getInstance().getConfig().getString("ban-command");
-				banCommand = banCommand.replace("{player}", x.getName());
-				Bukkit.dispatchCommand(sender, banCommand);
-			});
-			return true;
-		}
-		
-		case "kickall": {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.ALTS_KICKED.sendFormattedMessage(player, true, target.getName());
-			alts.forEach(x -> {
-				String kickCommand = Main.getInstance().getConfig().getString("kick-command");
-				kickCommand = kickCommand.replace("{player}", x.getName());
-				Bukkit.dispatchCommand(sender, kickCommand);
-			});
-			return true;
-		}
-		default:
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			player.sendMessage(Message.fixColor("&7/alts [&eplayer&7] [&echeck&7/&ebanall&7/&ekickall&7]"));
-			return true;
+			case "banall" -> {
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+				Message.ALTS_BANNED.sendFormattedMessage(player, true, target.getName());
+				alts.forEach(x -> {
+					String banCommand = Main.getInstance().getConfig().getString("ban-command");
+					if (banCommand == null) return;
+					banCommand = banCommand.replace("{player}", x.getName());
+					Bukkit.dispatchCommand(sender, banCommand);
+				});
+				return true;
+			}
+			case "kickall" -> {
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+				Message.ALTS_KICKED.sendFormattedMessage(player, true, target.getName());
+				alts.forEach(x -> {
+					String kickCommand = Main.getInstance().getConfig().getString("kick-command");
+					if (kickCommand == null) return;
+					kickCommand = kickCommand.replace("{player}", x.getName());
+					Bukkit.dispatchCommand(sender, kickCommand);
+				});
+				return true;
+			}
+			default -> {
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
+				player.sendMessage(Message.fixColor("&7/alts [&ePlayer&7] [&eCheck&7/&eBanall&7/&eKickall&7]"));
+				return true;
+			}
 		}
 	}
 	
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if(!Permission.PERMISSION_ALTS.hasPermission(sender)) return null;
 		if (args.length == 1) return null;
 		return List.of("check", "banall", "kickall");

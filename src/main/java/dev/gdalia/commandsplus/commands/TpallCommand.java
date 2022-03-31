@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "tpall")
 public class TpallCommand implements CommandExecutor{
@@ -20,10 +21,8 @@ public class TpallCommand implements CommandExecutor{
 	 */
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		
-		if (!(sender instanceof Player)) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
@@ -33,8 +32,6 @@ public class TpallCommand implements CommandExecutor{
 			Message.NO_PERMISSION.sendMessage(sender, true);
 			return true;
 		}
-
-		Player player = (Player) sender;
 
 		if (args.length == 0) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
@@ -49,11 +46,10 @@ public class TpallCommand implements CommandExecutor{
 			return true;
 		}
 		
-		Bukkit.getOnlinePlayers().forEach(all -> {
-			if (all != target) {
-			all.teleport((Player) target);
-			}
-		});
+		Bukkit.getOnlinePlayers()
+				.stream()
+				.filter(all -> all.equals(target))
+				.forEach(all -> all.teleport(target));
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		Message.TPALL.sendFormattedMessage(player, true, target.getName());
 		return false;

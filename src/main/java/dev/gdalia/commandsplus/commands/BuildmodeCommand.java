@@ -13,9 +13,10 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "buildmode")
-public class BuildmodeCommand implements CommandExecutor{
+public class BuildmodeCommand implements CommandExecutor {
 
 	/**
 	 * /buildmode
@@ -23,16 +24,13 @@ public class BuildmodeCommand implements CommandExecutor{
 	 */
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		
-		if(!(sender instanceof Player)) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		if(!(sender instanceof Player player)) {
         	Message.PLAYER_CMD.sendMessage(sender, true);
         	return false;
         }
-		
-		Player player = (Player) sender;
-        UUID uuid = player.getUniqueId();
+
+		UUID uuid = player.getUniqueId();
 
         if(!Permission.PERMISSION_BUILDMODE.hasPermission(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);

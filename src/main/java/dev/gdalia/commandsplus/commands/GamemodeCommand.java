@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.structs.Gamemode;
 import dev.gdalia.commandsplus.structs.Message;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "gamemode")
 public class GamemodeCommand implements TabExecutor {
@@ -25,10 +26,8 @@ public class GamemodeCommand implements TabExecutor {
 	 */
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		
-        if(!(sender instanceof Player)){
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        if(!(sender instanceof Player player)){
         	Message.PLAYER_CMD.sendMessage(sender, true);
             return false;
         }  
@@ -39,8 +38,7 @@ public class GamemodeCommand implements TabExecutor {
 			return false;
 		}
 		
-        Gamemode setGamemode = null;
-
+        Gamemode setGamemode;
 		
 		if (StringUtils.isNumeric(args[0])) {
 			try {
@@ -65,9 +63,7 @@ public class GamemodeCommand implements TabExecutor {
         	Message.NO_PERMISSION.sendMessage(sender, true);
 			return false;
 		}
-		
-		Player player = (Player)sender;
-		
+
 		if (args.length >= 2 && Bukkit.getPlayerExact(args[1]) != null) {
 			player = Bukkit.getPlayer(args[1]);
 		} else if (args.length >= 2 && Bukkit.getPlayerExact(args[1]) == null) {
@@ -102,7 +98,7 @@ public class GamemodeCommand implements TabExecutor {
 
 	
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 		if (args.length != 1) return null;
 		List<String> subC = new ArrayList<>();
 		subC.addAll(Stream.of(Gamemode.values())

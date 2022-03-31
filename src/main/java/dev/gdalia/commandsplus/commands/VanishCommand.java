@@ -14,6 +14,7 @@ import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "vanish")
 public class VanishCommand implements CommandExecutor{
@@ -24,16 +25,13 @@ public class VanishCommand implements CommandExecutor{
 	 */
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		
-		if(!(sender instanceof Player)) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		if(!(sender instanceof Player p)) {
         	Message.PLAYER_CMD.sendMessage(sender, true);
         	return false;
         }
 
-        Player p = (Player) sender;
-        UUID uuid = p.getUniqueId();
+		UUID uuid = p.getUniqueId();
         if(!Permission.PERMISSION_VANISH.hasPermission(sender)) {
         	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.NO_PERMISSION.sendMessage(sender, true);

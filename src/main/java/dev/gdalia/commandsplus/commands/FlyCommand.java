@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "fly")
 public class FlyCommand implements CommandExecutor {
@@ -20,16 +21,12 @@ public class FlyCommand implements CommandExecutor {
 	 */
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		
-        if(!(sender instanceof Player)){
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        if(!(sender instanceof Player player)){
         	Message.PLAYER_CMD.sendMessage(sender, true);
             return false;
         }
-        
-    	Player player = (Player) sender;
-        
+
 		if(!Permission.PERMISSION_FLY.hasPermission(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.NO_PERMISSION.sendMessage(sender, true);
@@ -45,9 +42,9 @@ public class FlyCommand implements CommandExecutor {
     		player = Bukkit.getPlayer(args[0]);
     	}
     	
-		boolean negatation = !player.getAllowFlight();
-		player.setAllowFlight(negatation);
-		player.setFlying(negatation);
+		boolean negation = !player.getAllowFlight();
+		player.setAllowFlight(negation);
+		player.setFlying(negation);
 		
 		if (player.getName().equalsIgnoreCase(sender.getName())) Message.FLIGHT_MSG.sendFormattedMessage(sender, true, getStatusString(player));
 		else Message.FLIGHT_MSG_BY_OTHER.sendFormattedMessage(player, true, getStatusString(player), sender.getName());

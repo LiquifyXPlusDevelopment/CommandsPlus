@@ -21,6 +21,7 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 import dev.gdalia.commandsplus.utils.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "history")
 public class HistoryCommand implements CommandExecutor {
@@ -30,12 +31,9 @@ public class HistoryCommand implements CommandExecutor {
 	 * LABEL ARG0
 	 */
 	
-	@SuppressWarnings("deprecation")
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		
-		if (!(sender instanceof Player player)) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		if (!(sender instanceof Player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}

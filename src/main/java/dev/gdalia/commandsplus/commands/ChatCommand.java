@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "chat")
 public class ChatCommand implements CommandExecutor, TabCompleter {
@@ -24,8 +25,7 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 	 */
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return false;
@@ -68,13 +68,13 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 			}
 			default -> {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-				player.sendMessage(Message.fixColor("&7/chat [&eclear&7/&elock&7]"));
+				player.sendMessage(Message.fixColor("&7/chat [&eClear&7/&eLock&7]"));
 				return true;
 			}
 		}
 	}
 
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (!Permission.PERMISSION_CHAT.hasPermission(sender)) return null;
 		if (args.length == 0) return null;
 		return List.of("clear", "lock");

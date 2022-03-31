@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAutoRegistration.Command(value = "flyspeed")
 public class FlySpeedCommand implements CommandExecutor{
@@ -20,9 +21,7 @@ public class FlySpeedCommand implements CommandExecutor{
 	 */
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String label, String[] args) {
-		
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
@@ -47,10 +46,10 @@ public class FlySpeedCommand implements CommandExecutor{
 		float speed = Integer.parseInt(args[0]);
 		if (speed > 10.0F || speed < 0.0F) return false;
 		
-		float fspeed = speed / 10F;
-		player.setFlySpeed(fspeed);
+		float flightSpeed = speed / 10F;
+		player.setFlySpeed(flightSpeed);
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.FLY_SPEED.sendFormattedMessage(player, true, fspeed);
+		Message.FLY_SPEED.sendFormattedMessage(player, true, flightSpeed);
 		return true;
 		} catch (NumberFormatException ex) {
 			Message.FLY_SPEED_ARGUMENTS.sendMessage(sender, true);
