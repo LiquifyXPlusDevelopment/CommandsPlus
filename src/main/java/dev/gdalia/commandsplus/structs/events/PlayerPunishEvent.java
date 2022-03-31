@@ -6,10 +6,11 @@ import org.bukkit.event.player.PlayerEvent;
 
 import lombok.Getter;
 import dev.gdalia.commandsplus.structs.Punishment;
+import org.jetbrains.annotations.NotNull;
 
 public class PlayerPunishEvent extends PlayerEvent {
 
-	private static HandlerList HANDLERS = new HandlerList();
+	private static final HandlerList HANDLERS = new HandlerList();
 
 	@Getter
 	private final Punishment punishment;
@@ -24,7 +25,7 @@ public class PlayerPunishEvent extends PlayerEvent {
 	}
 
 	@Override
-	public HandlerList getHandlers() {
+	public @NotNull HandlerList getHandlers() {
 		return HANDLERS;
 	}
 }

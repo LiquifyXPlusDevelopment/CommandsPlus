@@ -6,6 +6,7 @@ import org.bukkit.event.HandlerList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import dev.gdalia.commandsplus.structs.PunishmentRevoke;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Unused, but will trigger when punishment is revoked, can be used in the
@@ -15,7 +16,7 @@ import dev.gdalia.commandsplus.structs.PunishmentRevoke;
 @AllArgsConstructor
 public class PlayerPunishRevokeEvent extends Event {
 
-	private static HandlerList HANDLERS = new HandlerList();
+	private static final HandlerList HANDLERS = new HandlerList();
 
 	@Getter
 	private final PunishmentRevoke punishment;
@@ -25,7 +26,7 @@ public class PlayerPunishRevokeEvent extends Event {
 	}
 
 	@Override
-	public HandlerList getHandlers() {
+	public @NotNull HandlerList getHandlers() {
 		return HANDLERS;
 	}
 }
