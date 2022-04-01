@@ -37,7 +37,6 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 
-
 		if (args.length == 0) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.DESCRIBE_PLAYER.sendMessage(sender, true);
@@ -50,10 +49,11 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return true;
 		}
-		
+
 		String address = target.getAddress().toString().split(":")[0];
 		List<? extends Player> alts = Bukkit.getOnlinePlayers().stream()
-				.filter(x -> x.getAddress().toString().split(":")[0].equalsIgnoreCase(address))
+				.filter(x -> x.getAddress().toString().split(":")[0].equals(address))
+				.filter(x -> !x.getName().equals(target.getName()))
 				.toList();
 		
 		if (args.length <= 1) {
@@ -64,7 +64,6 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 
 		switch (args[1].toLowerCase()) {
 			case "check" -> {
-
 				if (alts.isEmpty()) {
 					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 					Message.ALTS_CHECK.sendFormattedMessage(player, true, target.getName());
@@ -72,17 +71,15 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 				}
 
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-				Message.ALTS_ONLINE.sendFormattedMessage(player, true, target.getName());
+				Message.ALTS_ONLINE.sendFormattedMessage(sender, true, target.getName());
 				StringBuilder sb = new StringBuilder();
-				alts.stream()
-						.filter(x -> !x.getName().equalsIgnoreCase(target.getName()))
-						.forEach(x -> sb.append(Message.fixColor("&7- " + x.getName() + ".\n")));
-				Arrays.asList(sb.toString().split("\n")).forEach(player::sendMessage);
+				alts.forEach(x -> sb.append(Message.fixColor("&7- " + x.getName() + ".\n")));
+				Arrays.asList(sb.toString().split("\n")).forEach(sender::sendMessage);
 				return true;
 			}
 			case "banall" -> {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-				Message.ALTS_BANNED.sendFormattedMessage(player, true, target.getName());
+				Message.ALTS_BANNED.sendFormattedMessage(sender, true, target.getName());
 				alts.forEach(x -> {
 					String banCommand = Main.getInstance().getConfig().getString("ban-command");
 					if (banCommand == null) return;
@@ -93,7 +90,7 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			}
 			case "kickall" -> {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-				Message.ALTS_KICKED.sendFormattedMessage(player, true, target.getName());
+				Message.ALTS_KICKED.sendFormattedMessage(sender, true, target.getName());
 				alts.forEach(x -> {
 					String kickCommand = Main.getInstance().getConfig().getString("kick-command");
 					if (kickCommand == null) return;
@@ -104,7 +101,7 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			}
 			default -> {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-				player.sendMessage(Message.fixColor("&7/alts [&ePlayer&7] [&eCheck&7/&eBanall&7/&eKickall&7]"));
+				sender.sendMessage(Message.fixColor("&7/alts [&ePlayer&7] [&eCheck&7/&eBanall&7/&eKickall&7]"));
 				return true;
 			}
 		}
