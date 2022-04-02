@@ -1,0 +1,50 @@
+################################################################
+#                                                              #
+#          █▀▀ █▀█ █▀▄▀█ █▀▄▀█ ▄▀█ █▄ █ █▀▄ █▀ ▄█▄             #
+#          █▄▄ █▄█ █ ▀ █ █ ▀ █ █▀█ █ ▀█ █▄▀ ▄█  ▀              #
+#                                                              #
+#█▄▄ █▄█   █▀▀ █▀▄ ▄▀█ █   █ ▄▀█   ▄▀ █▀█ █▀▀ █ █▀█ ▀█▀ █ █▀▄▀█#
+#█▄█  █    █▄█ █▄▀ █▀█ █▄▄ █ █▀█ ▄▀   █▄█ █▀  █ █▀▄  █  █ █ ▀ █#
+#                                                              #
+################################################################
+
+PREFIX: "&7Commands&b+ &f» "
+ban-command: "ban {player} no alts online!"
+kick-command: "kick {player} no alts online!"
+
+#If you want to disable the welcome message just change to true.
+disable_welcome_message: false
+
+#If you want to disable the sounds just change to true.
+disable_sounds: false
+
+chat:
+   locked: false
+   clear-template:
+      - "&5&l&m----------------------------"
+      - ""
+      - "&d&lChat has been cleared"
+      - ""
+      - "&5&l&m----------------------------"
+
+punishments-lang:
+    tempban-template:
+       - "&cYou are temporarily banned from &6yourserver.example&c."
+       - ""
+       - "&7Expiry: &f%time%"
+       - ""
+       - "&7Reason: &f%reason%"
+       - ""
+       - "&7If you feel this punishment is unjustified, fill out a support ticket at &6www.yourwebsite.com."
+       
+    ban-template:
+       - "&cYou are permanently banned from &6yourserver.example&c."
+       - ""
+       - "&7Reason: &f%reason%"
+       - ""
+       - "&7If you feel this punishment is unjustified, fill out a support ticket at &6www.yourwebsite.com."
+        
+    kick-template:
+        - "&cYou have been kicked from &6yourserver.example&c."
+        - ""
+        - "&7Reason: &f%reason%"
