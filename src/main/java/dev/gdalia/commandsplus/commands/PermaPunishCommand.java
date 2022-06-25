@@ -30,7 +30,7 @@ public class PermaPunishCommand implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
@@ -48,7 +48,7 @@ public class PermaPunishCommand implements CommandExecutor {
 			Message.valueOf(type.name() + "_ARGUMENTS").sendMessage(sender, true);
 			return true;
 		}
-		
+
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
         if (!target.hasPlayedBefore()) {
@@ -80,8 +80,7 @@ public class PermaPunishCommand implements CommandExecutor {
             	reasonBuilder.append(args[i]);
                         
             String message = StringUtils.join(args, " ", 1, args.length);
-            
-            UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
+			UUID executer = player.getUniqueId();
 
             Punishment punishment = new Punishment(
             			UUID.randomUUID(),

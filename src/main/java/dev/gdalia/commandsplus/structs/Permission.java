@@ -38,7 +38,8 @@ public enum Permission {
 	  PERMISSION_VANISH("commandsplus.vanish"),
 	  PERMISSION_WARN("commandsplus.warn"),
 	  PERMISSION_VANISH_SEE("commandsplus.vanish.see"),
-	  PERMISSION_STAFFCHAT_SEE("commandsplus.staffchat.see");
+	  PERMISSION_STAFFCHAT_SEE("commandsplus.staffchat.see"),
+	  PERMISSION_REPORT("commandsplus.report");
 
 
 	  @Getter

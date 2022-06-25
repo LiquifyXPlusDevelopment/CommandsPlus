@@ -34,7 +34,7 @@ public class TempPunishCommand implements CommandExecutor {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
@@ -56,7 +56,7 @@ public class TempPunishCommand implements CommandExecutor {
 		
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
-        if (target == null) {
+        if (!target.hasPlayedBefore()) {
         	Message.INVALID_PLAYER.sendMessage(sender, true);
         	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             return true;
@@ -87,7 +87,7 @@ public class TempPunishCommand implements CommandExecutor {
 			
 			Instant expiry = Instant.now().plus(duration);
 
-			UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
+			UUID executer = player.getUniqueId();
 
 			Punishment punishment = new Punishment(
 					UUID.randomUUID(),

@@ -49,7 +49,7 @@ public class Main extends JavaPlugin {
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
     private static Config
-    	languageConfig, punishmentsConfig;
+    	languageConfig, punishmentsConfig, reportsConfig;
     
 	public void onEnable() {
 		setInstance(this);
@@ -59,6 +59,7 @@ public class Main extends JavaPlugin {
         getLanguageConfig().saveConfig();
         
 		setPunishmentsConfig(Config.getConfig("punishments", null, false));
+		setReportsConfig(Config.getConfig("reports", null, false));
 		
 		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
 		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
