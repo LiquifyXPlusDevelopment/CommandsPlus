@@ -1,110 +1,131 @@
 package dev.gdalia.commandsplus.inventory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
+import dev.gdalia.commandsplus.utils.EnchantGlow;
+import lombok.SneakyThrows;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ItemBuilder {
 
-	Material mat;
-	int amount;
-	short id;
-	HashMap<Enchantment, Integer> enchantments;
-	List<String> lore;
-	String name;
-	String skullOwner;
+	private ItemStack itemstack;
 
-	public ItemBuilder(Material mat) {
-		this.mat = mat;
-		enchantments = new HashMap<>();
-		amount = 1;
-		id = 0;
-		lore = new ArrayList<>();
-		name = null;
-		skullOwner = null;
+	public ItemBuilder(Material type, int amount) {
+		this.itemstack = new ItemStack(type, amount);
 	}
 
-	public static String format(String s) {
-		return ChatColor.translateAlternateColorCodes('&', s);
+	public ItemBuilder(Material type, short durability) {
+		this.itemstack = new ItemStack(type, 1, durability);
 	}
 
-	public ItemBuilder setMaterial(Material mat) {
-		this.mat = mat;
+	public ItemBuilder(ItemStack itemStack) {
+		this.itemstack = itemStack;
+	}
+	
+	public ItemBuilder(Material type, String dispName) {
+		this.itemstack = new ItemStack(type);
+		ItemMeta itemMeta = itemstack.getItemMeta();
+		itemMeta.setDisplayName(fixColor(dispName));
+		this.itemstack.setItemMeta(itemMeta);
+	}
+
+	public ItemBuilder addLoreLines(String... lines) {
+		ItemMeta itemMeta = this.itemstack.getItemMeta();
+		List<String> loreList = itemMeta.getLore() != null ? itemMeta.getLore() : new ArrayList<>();
+		Arrays.stream(lines).forEachOrdered(lore -> loreList.add(fixColor(lore)));
+		itemMeta.setLore(loreList);
+		this.itemstack.setItemMeta(itemMeta);
 		return this;
 	}
 
-	public ItemBuilder setID(short id) {
-		this.id = id;
+	public ItemBuilder setType(Material type) {
+		this.itemstack.setType(type);
 		return this;
 	}
-
-	public ItemBuilder setName(String name) {
-		this.name = format(name);
+	
+	public ItemBuilder setDisplayName(String newDisplayName) {
+		ItemMeta itemMeta = this.itemstack.getItemMeta();
+		itemMeta.setDisplayName(fixColor(newDisplayName));
+		this.itemstack.setItemMeta(itemMeta);
 		return this;
 	}
 
 	public ItemBuilder setAmount(int amount) {
-		this.amount = amount;
+		this.itemstack.setAmount(amount);
 		return this;
 	}
 
-	public ItemBuilder addEnchantment(Enchantment ench, int level) {
-		enchantments.put(ench, level);
+	public ItemBuilder setLore(List<String> newLore) {
+		this.itemstack.getItemMeta().setLore(newLore);
+		return this;
+	}
+	
+	public ItemBuilder setLoreline(String newLine, int lineToReplace) {
+		List<String> currentLore = itemstack.getItemMeta().getLore();
+		currentLore.set(lineToReplace, fixColor(newLine));
+		ItemMeta itemMeta = itemstack.getItemMeta();
+		itemMeta.setLore(currentLore);
+		itemstack.setItemMeta(itemMeta);
 		return this;
 	}
 
-	public ItemBuilder addLore(String lore) {
-		this.lore.add(format(lore));
+	public ItemBuilder addEnchantment(Enchantment enchantment, int level) {
+		this.itemstack.addUnsafeEnchantment(enchantment, level);
 		return this;
 	}
 
-	public ItemBuilder addLore(List<String> lore) {
-		List<String> newLore = new ArrayList<>();
-		lore.forEach(string -> {
-			newLore.add(format(string));
-		});
-		this.lore.addAll(newLore);
+	public ItemBuilder removeEnchantment(Enchantment enchantment) {
+		this.itemstack.removeEnchantment(enchantment);
 		return this;
 	}
 
-	public ItemBuilder skullName(String skullOwner) {
-		this.skullOwner = skullOwner;
+	@SneakyThrows
+	public ItemBuilder setArmourColor(Color color) {
+		LeatherArmorMeta itemMeta = (LeatherArmorMeta) itemstack.getItemMeta();
+		itemMeta.setColor(color);
+		this.itemstack.setItemMeta(itemMeta);
+		return this;
+	}
+	
+	public ItemBuilder setCustomModelData(int dataModel) {
+		ItemMeta im = itemstack.getItemMeta();
+		im.setCustomModelData(dataModel);
+		itemstack.setItemMeta(im);
 		return this;
 	}
 
-	public ItemStack build() {
-		ItemStack is = new ItemStack(mat);
-		is.setDurability(id);
-		is.setAmount(amount);
-		if (!enchantments.isEmpty())
-			for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet())
-				is.addEnchantment(entry.getKey(), entry.getValue());
-		ItemMeta im = is.getItemMeta();
-		if (name != null)
-			im.setDisplayName(name);
-		if (!lore.isEmpty())
-			im.setLore(lore);
-		if (skullOwner != null) {
-			is.setItemMeta(im);
-			im = is.getItemMeta();
-			SkullMeta sm = (SkullMeta) im;
-            sm.setOwningPlayer(Bukkit.getPlayer(skullOwner));
-			is.setItemMeta(sm);
-			return is;
-		}
-		is.setItemMeta(im);
-
-		return is;
+	@SneakyThrows
+	public ItemBuilder setPlayerSkull(OfflinePlayer value) {
+		itemstack.setType(Material.PLAYER_HEAD);
+		SkullMeta itemMeta = (SkullMeta) itemstack.getItemMeta();
+		itemMeta.setOwningPlayer(value);
+		itemstack.setItemMeta(itemMeta);
+		return this;
 	}
 
-
+	/**
+	 * This method requires class EnchatmentGlow.java
+	 */
+	public ItemBuilder addGlow() {
+		itemstack.addUnsafeEnchantment(EnchantGlow.getGlow(), 1);
+		return this;
+	}
+	
+	public ItemStack create() {
+		return itemstack;
+	}
+	
+	private String fixColor(String string) {
+		return ChatColor.translateAlternateColorCodes('&', string);
+	}
 }
