@@ -48,3 +48,42 @@ punishments-lang:
         - "&cYou have been kicked from &6yourserver.example&c."
         - ""
         - "&7Reason: &f%reason%"
+
+# The maximum reasons is 27 and all the reasons title need to be like this for example 'Reason1 Reason2 etc..'
+default-reasons:
+  Reason1:
+    Name: "Fly"
+    Lore: "The player is flying&7."
+    Item: "Feather"
+  Reason2:
+    Name: "Speed"
+    Lore: "The player is moving too quick&7."
+    Item: "Chainmail_leggings"
+  Reason3:
+    Name: "ForceField"
+    Lore: "The player is hitting players/entities abnormally&7."
+    Item: "Iron_sword"
+  Reason4:
+    Name: "Reach"
+    Lore: "The player is hitting players/entities from far away&7."
+    Item: "Stick"
+  Reason5:
+    Name: "RapidBowShot"
+    Lore: "The player is shooting arrows quickly&7."
+    Item: "Bow"
+  Reason6:
+    Name: "NoKnockback"
+    Lore: "The player isn't knocked back when he is hit&7."
+    Item: "Fishing_rod"
+  Reason7:
+    Name: "???"
+    Lore: "The player ??&7."
+    Item: "Chest"
+  Reason8:
+    Name: "Grief"
+    Lore: "The player griefed one of my construction&7."
+    Item: "TNT"
+  Reason9:
+    Name: "Insultes"
+    Lore: "The player is disrespectful&7."
+    Item: "Oak_Sign"
