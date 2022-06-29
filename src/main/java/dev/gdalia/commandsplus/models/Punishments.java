@@ -10,8 +10,8 @@ import java.util.UUID;
 import org.bukkit.configuration.ConfigurationSection;
 
 import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.structs.Punishment;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
 

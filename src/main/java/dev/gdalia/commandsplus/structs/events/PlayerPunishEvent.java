@@ -5,7 +5,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
 import lombok.Getter;
-import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerPunishEvent extends PlayerEvent {

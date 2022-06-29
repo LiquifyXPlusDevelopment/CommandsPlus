@@ -13,4 +13,14 @@ public class ConfigFields {
 			REMOVED_BY = "removed-by", //UUID
 			OVERRIDE = "overriden"; //BOOLEAN
 	}
+
+	public static class ReportsFields {
+
+		public static final String
+		REPORTED = "convicted", //UUID
+		REPORTER = "reporter", //UUID
+		REASON = "reason", //STRING
+		STATUS = "status", //ENUM
+		DATE = "date"; //LONG
+	}
 }

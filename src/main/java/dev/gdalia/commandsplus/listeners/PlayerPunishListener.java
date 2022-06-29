@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.structs.events.PlayerPunishEvent;
 import dev.gdalia.commandsplus.utils.StringUtils;
 

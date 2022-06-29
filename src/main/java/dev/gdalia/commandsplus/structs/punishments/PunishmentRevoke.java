@@ -1,4 +1,4 @@
-package dev.gdalia.commandsplus.structs;
+package dev.gdalia.commandsplus.structs.punishments;
 
 import java.util.UUID;
 

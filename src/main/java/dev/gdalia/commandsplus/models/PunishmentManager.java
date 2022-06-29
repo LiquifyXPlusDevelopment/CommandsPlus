@@ -3,7 +3,7 @@ package dev.gdalia.commandsplus.models;
 import java.time.Instant;
 import java.util.Optional;
 
-import dev.gdalia.commandsplus.structs.PunishmentRevoke;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentRevoke;
 import dev.gdalia.commandsplus.structs.events.PlayerPunishEvent;
 import dev.gdalia.commandsplus.structs.events.PlayerPunishRevokeEvent;
 import org.bukkit.Bukkit;
@@ -11,7 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import lombok.Getter;
 import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.utils.Config;
 
 public class PunishmentManager {

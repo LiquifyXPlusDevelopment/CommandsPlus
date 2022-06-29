@@ -1,7 +1,5 @@
 package dev.gdalia.commandsplus.inventory;
 
-import dev.gdalia.commandsplus.structs.Message;
-
 public class InventoryFields {
     public static class ReportFields {
 

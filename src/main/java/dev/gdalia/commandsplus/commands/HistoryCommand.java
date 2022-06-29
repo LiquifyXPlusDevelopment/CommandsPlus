@@ -4,7 +4,7 @@ package dev.gdalia.commandsplus.commands;
 import java.util.List;
 import java.util.Optional;
 
-import dev.gdalia.commandsplus.structs.Punishment;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.utils.CentredMessage;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.BooleanUtils;
@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.StringUtils;
 import org.jetbrains.annotations.NotNull;
 

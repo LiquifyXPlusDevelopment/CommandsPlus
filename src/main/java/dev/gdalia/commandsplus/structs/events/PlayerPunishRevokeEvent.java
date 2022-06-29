@@ -5,7 +5,7 @@ import org.bukkit.event.HandlerList;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import dev.gdalia.commandsplus.structs.PunishmentRevoke;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentRevoke;
 import org.jetbrains.annotations.NotNull;
 
 /**

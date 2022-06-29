@@ -20,7 +20,7 @@ import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.StringUtils;
 
 public class PlayerLogListener implements Listener {

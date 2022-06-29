@@ -85,7 +85,7 @@ public class Main extends JavaPlugin {
 	
 	public static class PlayerCollection {
 		@Getter
-		private static List<UUID>
+		private final static List<UUID>
 			vanishPlayers = new ArrayList<>(),
 			freezePlayers = new ArrayList<>(),
 			staffchatPlayers = new ArrayList<>(),

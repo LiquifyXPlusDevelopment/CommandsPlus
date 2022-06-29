@@ -15,8 +15,8 @@ import dev.gdalia.commandsplus.models.PunishmentManager;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
-import dev.gdalia.commandsplus.structs.Punishment;
-import dev.gdalia.commandsplus.structs.PunishmentType;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.jetbrains.annotations.NotNull;
 

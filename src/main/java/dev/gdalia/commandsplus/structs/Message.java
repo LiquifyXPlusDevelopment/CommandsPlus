@@ -91,7 +91,8 @@ public enum Message {
 	FLIGHT_MSG_BY_OTHER(Main.getLanguageConfig().getString("FLIGHT_MSG_BY_OTHER")),
 	PLAYER_NO_ACTIVE_PUNISHMENT(Main.getLanguageConfig().getString("PLAYER_NO_ACTIVE_PUNISHMENT")),
 	PLAYER_ACTIVE_PUNISHMENT(Main.getLanguageConfig().getString("PLAYER_ACTIVE_PUNISHMENT")),
-	CONTACT_AN_ADMIN(Main.getLanguageConfig().getString("CONTACT_AN_ADMIN"));
+	CONTACT_AN_ADMIN(Main.getLanguageConfig().getString("CONTACT_AN_ADMIN")),
+	REPORT_SUCCESSFULLY(Main.getLanguageConfig().getString("REPORT_SUCCESSFULLY"));
 
 	private final String message;
 

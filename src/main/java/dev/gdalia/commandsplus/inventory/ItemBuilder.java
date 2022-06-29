@@ -31,7 +31,7 @@ public class ItemBuilder {
 	public ItemBuilder(ItemStack itemStack) {
 		this.itemstack = itemStack;
 	}
-	
+
 	public ItemBuilder(Material type, String dispName) {
 		this.itemstack = new ItemStack(type);
 		ItemMeta itemMeta = itemstack.getItemMeta();
@@ -52,7 +52,7 @@ public class ItemBuilder {
 		this.itemstack.setType(type);
 		return this;
 	}
-	
+
 	public ItemBuilder setDisplayName(String newDisplayName) {
 		ItemMeta itemMeta = this.itemstack.getItemMeta();
 		itemMeta.setDisplayName(fixColor(newDisplayName));
@@ -65,11 +65,17 @@ public class ItemBuilder {
 		return this;
 	}
 
-	public ItemBuilder setLore(List<String> newLore) {
-		this.itemstack.getItemMeta().setLore(newLore);
+	public ItemBuilder setLore(List<String> lore) {
+		List<String> newLore = new ArrayList<>();
+		lore.forEach(string -> {
+			newLore.add(fixColor(string));
+		});
+		ItemMeta im = this.itemstack.getItemMeta();
+		im.setLore(newLore);
+		this.itemstack.setItemMeta(im);
 		return this;
 	}
-	
+
 	public ItemBuilder setLoreline(String newLine, int lineToReplace) {
 		List<String> currentLore = itemstack.getItemMeta().getLore();
 		currentLore.set(lineToReplace, fixColor(newLine));
@@ -96,7 +102,7 @@ public class ItemBuilder {
 		this.itemstack.setItemMeta(itemMeta);
 		return this;
 	}
-	
+
 	public ItemBuilder setCustomModelData(int dataModel) {
 		ItemMeta im = itemstack.getItemMeta();
 		im.setCustomModelData(dataModel);
@@ -120,11 +126,11 @@ public class ItemBuilder {
 		itemstack.addUnsafeEnchantment(EnchantGlow.getGlow(), 1);
 		return this;
 	}
-	
+
 	public ItemStack create() {
 		return itemstack;
 	}
-	
+
 	private String fixColor(String string) {
 		return ChatColor.translateAlternateColorCodes('&', string);
 	}
