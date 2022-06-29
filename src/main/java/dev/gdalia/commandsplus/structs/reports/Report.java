@@ -3,12 +3,9 @@ package dev.gdalia.commandsplus.structs.reports;
 import java.time.Instant;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -34,7 +31,7 @@ public class Report {
 
     @Getter
     @NonNull
-    private final Reason reason;
+    private final ReportReason reason;
 
     @Getter
     @NonNull

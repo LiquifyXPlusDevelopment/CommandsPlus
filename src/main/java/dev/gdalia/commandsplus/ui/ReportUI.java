@@ -1,11 +1,14 @@
 package dev.gdalia.commandsplus.ui;
 
 import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.inventory.InventoryFields;
 import dev.gdalia.commandsplus.inventory.ItemBuilder;
-import dev.gdalia.commandsplus.listeners.InventoryListener;
 import dev.gdalia.commandsplus.models.ConfigFields;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.events.PlayerReportPlayerEvent;
+import dev.gdalia.commandsplus.structs.reports.Report;
+import dev.gdalia.commandsplus.structs.reports.ReportReason;
+import dev.gdalia.commandsplus.structs.reports.ReportStatus;
+import dev.triumphteam.gui.components.GuiType;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
@@ -18,24 +21,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public record ReportUI(@Getter Player checker) {
 
-
     private final static Plugin plugin = Main.getInstance();
-    private final static ConfigurationSection DEFAULT_REASONS = Main.getInstance().getConfig().getConfigurationSection("default-reasons");
-
-    private final static String
-            NEXT_PAGE = "&6Next Page >>",
-            PREV_PAGE = "&6<< Previous Page",
-            REPORT_INV = "&6Report &7> &e%TARGET%",
-            REPORTS_INV = "&6Reports &7> &ePage %PAGE%";
+    private final static ConfigurationSection REASONS = Main.getInstance().getConfig().getConfigurationSection("reasons");
 
     public void openReportGUIUpdated(Player target) {
-        PaginatedGui gui = new PaginatedGui(6, REPORT_INV.replace("%TARGET%", target.getName()));
+        PaginatedGui gui = new PaginatedGui(6, "&6Report &7> &e" + target.getName());
         gui.disableAllInteractions();
         gui.setCloseGuiAction(event -> {
             if (!event.getPlayer().getUniqueId().equals(checker.getUniqueId())) {
@@ -61,34 +59,41 @@ public record ReportUI(@Getter Player checker) {
             player.closeInventory();
         }));
 
+        ReportReason.getReasons().entrySet().stream().forEach(entry -> {
+            String reasonName = entry.getKey();
+            ReportReason reasonObject = entry.getValue();
 
+            gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), Message.fixColor(reasonObject.getDisplayName())).create(), event -> {
+
+            }));
+        });
 
         gui.open(checker);
     }
 
-    public void openReportGUI(Player target) {
+    public void openInitializeReportGUI(Player target, ReportReason reportReason) {
+        Gui gui = new Gui(GuiType.HOPPER, "&e" + target.getName() + "&7> &6" + reportReason.getDisplayName(), Set.of());
+        gui.disableAllInteractions();
 
-        for (int i = 0; i < DEFAULT_REASONS.getKeys(false).size();) {
-            i++;
-            if (plugin.getConfig().getString("default-reasons.Reason" + i) == null || !Material.valueOf(plugin.getConfig().getString("default-reasons.Reason" + i + ".Item").toUpperCase()).isItem() || DEFAULT_REASONS.getKeys(false).size() > 27 || DEFAULT_REASONS.getKeys(false).size() == 0) {
-                Message.CONTACT_AN_ADMIN.sendMessage(checker, true);
-                Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-                return;
-            }
+        gui.setItem(0, new GuiItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, " ").create()));
+        gui.setItem(4, new GuiItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, " ").create()));
 
-            String name = plugin.getConfig().getString("default-reasons.Reason" + i + ".Name");
-            String lore = plugin.getConfig().getString("default-reasons.Reason" + i + ".Lore");
-            String material = plugin.getConfig().getString("default-reasons.Reason" + i + ".Item");
+        gui.setItem(1, new GuiItem(new ItemBuilder(
+                Material.RED_WOOL,
+                "&4&lCANCEL REPORT")
+                .addLoreLines("&cClick to return to report", "&creason selection menu")
+                .create(), event -> openReportGUIUpdated(target)));
 
-            List<String> ItemLore = Arrays.asList(
-                    " ",
-                    "&6Click&7 to report player &c" + target.getName(),
-                    InventoryFields.ReportFields.REASON + lore);
+        gui.setItem(3, new GuiItem(new ItemBuilder(
+                Material.GREEN_WOOL,
+                "&4&lSEND REPORT")
+                .addLoreLines("&cClick to send report to staff.",
+                        "&cPlease notice reports are being held for 7 days max for review.")
+                .create(), event -> {
+            Report report = new Report(UUID.randomUUID(), target.getUniqueId(), checker.getUniqueId(), Instant.now(), reportReason, ReportStatus.OPEN);
+            Bukkit.getPluginManager().callEvent(new PlayerReportPlayerEvent(checker, report));
+        }));
 
-            gui.setItem(17 + i, new ItemBuilder(Material.valueOf(material.toUpperCase()), InventoryFields.ReportFields.NAME + name).setLore(ItemLore).create());
-        }
-
-        checker.openInventory(gui);
     }
 
     public void openReportsGUI(int page) {
@@ -144,5 +149,5 @@ public record ReportUI(@Getter Player checker) {
             gui.addItem(new ItemBuilder(Material.PAPER, "&cReport #" + i).setLore(ItemLore).create());
         }
         checker.openInventory(gui);
-    }
+    }*/
 }

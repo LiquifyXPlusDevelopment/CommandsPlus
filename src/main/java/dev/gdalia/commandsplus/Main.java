@@ -6,12 +6,12 @@ import java.util.UUID;
 
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.reports.Reason;
+import dev.gdalia.commandsplus.structs.reports.ReportReason;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.Config;
 import dev.gdalia.commandsplus.utils.ListenerAutoRegistration;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -66,9 +66,15 @@ public class Main extends JavaPlugin {
 		setReportsConfig(Config.getConfig("reports", null, false));
 
 		//REPORT REASONS SETUP
+		ConfigurationSection reasonsToLoad = getConfig().getConfigurationSection("reasons");
+		for (String reasonName : reasonsToLoad.getKeys(false)) {
+			ConfigurationSection reasonSection = reasonsToLoad.getConfigurationSection(reasonName);
+			ReportReason reason = ReportReason.deserialize(reasonName, reasonSection.getValues(false));
+			ReportReason.getReasons().put(reasonName, reason);
+		}
 
 		//REGISTERATION FOR CLASSES & LISTENERS
-		ConfigurationSerialization.registerClass(Reason.class);
+		ConfigurationSerialization.registerClass(ReportReason.class);
 		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
 		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
 

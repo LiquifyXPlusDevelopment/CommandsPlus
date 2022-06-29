@@ -51,39 +51,39 @@ punishments-lang:
 
 # The maximum reasons is 27 and all the reasons title need to be like this for example 'Reason1 Reason2 etc..'
 default-reasons:
-  Reason1:
+  fly-hacks:
     Name: "Fly"
     Lore: "The player is flying&7."
     Item: "Feather"
-  Reason2:
+  speed-hacks:
     Name: "Speed"
     Lore: "The player is moving too quick&7."
     Item: "Chainmail_leggings"
-  Reason3:
+  force-field-hack:
     Name: "ForceField"
     Lore: "The player is hitting players/entities abnormally&7."
     Item: "Iron_sword"
-  Reason4:
+  reach-hacks:
     Name: "Reach"
     Lore: "The player is hitting players/entities from far away&7."
     Item: "Stick"
-  Reason5:
+  rapidbowshot-hack:
     Name: "RapidBowShot"
     Lore: "The player is shooting arrows quickly&7."
     Item: "Bow"
-  Reason6:
+  noknockback-hack:
     Name: "NoKnockback"
     Lore: "The player isn't knocked back when he is hit&7."
     Item: "Fishing_rod"
-  Reason7:
+  unknown_reason:
     Name: "???"
     Lore: "The player ??&7."
     Item: "Chest"
-  Reason8:
+  grief:
     Name: "Grief"
     Lore: "The player griefed one of my construction&7."
     Item: "TNT"
-  Reason9:
+  chat-insults:
     Name: "Insults"
     Lore: "The player is disrespectful&7."
     Item: "Oak_Sign"

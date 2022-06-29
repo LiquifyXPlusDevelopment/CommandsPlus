@@ -12,14 +12,16 @@ import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class Reason implements ConfigurationSerializable {
+public class ReportReason implements ConfigurationSerializable {
 
     @Getter
+    @NotNull
     private final String
             name,
             displayName;
 
     @Getter
+    @NotNull
     private final List<String>
             lore;
 
@@ -28,7 +30,7 @@ public class Reason implements ConfigurationSerializable {
     private final Material icon;
 
     @Getter
-    private final static Map<String, Reason> reasons = new HashMap<>();
+    private final static Map<String, ReportReason> reasons = new HashMap<>();
 
     @Override
     public @NotNull Map<String, Object> serialize() {
@@ -39,10 +41,11 @@ public class Reason implements ConfigurationSerializable {
         return data;
     }
 
-    public static Reason deserialize(String name, Map<String, Object> args) {
+    @SuppressWarnings("unchecked")
+    public static ReportReason deserialize(String name, Map<String, Object> args) {
         if (reasons.containsKey(name)) return reasons.get(name);
 
-        return new Reason(name,
+        return new ReportReason(name,
                 args.get("display-name").toString(),
                 Optional.ofNullable(args.get("lore"))
                         .filter(List.class::isInstance)
