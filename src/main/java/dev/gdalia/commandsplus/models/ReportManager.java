@@ -14,7 +14,7 @@ public class ReportManager {
     private static ReportManager instance = new ReportManager();
 
     public void invoke(Report report) {
-        Config config = Main.getPunishmentsConfig();
+        Config config = Main.getReportsConfig();
 
         Reports.getInstance().getReport(report.getConvicted()).ifPresent(activeReport ->
                 Reports.getInstance().writeTo(activeReport, ConfigFields.ReportsFields.REPORTED, true, false));
