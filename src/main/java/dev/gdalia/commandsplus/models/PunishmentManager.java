@@ -21,12 +21,15 @@ public class PunishmentManager {
 		
 	public void invoke(Punishment punishment) {
 		Config config = Main.getPunishmentsConfig();
-		
+
+		if (config.getConfigurationSection(punishment.getPunishmentUniqueId().toString()) == null)
+			config.createSection(punishment.getPunishmentUniqueId().toString());
+
 		Punishments.getInstance().getActivePunishment(punishment.getPunished(), punishment.getType()).ifPresent(activePunish ->
 			Punishments.getInstance().writeTo(activePunish, ConfigFields.PunishFields.OVERRIDE, true, false));
 		
-		ConfigurationSection section = config.createSection(punishment.getPunishmentUniqueId().toString());
-		
+
+		Punishments.getInstance().writeTo(punishment, ConfigFields.PunishFields.PUNISHED, punishment.getPunished().toString(), false);
 		section.set(ConfigFields.PunishFields.PUNISHED, punishment.getPunished().toString());
 		
 		Optional.ofNullable(punishment.getExecuter()).ifPresent(uniqueId -> 
