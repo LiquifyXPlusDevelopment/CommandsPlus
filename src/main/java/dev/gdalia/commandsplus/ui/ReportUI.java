@@ -96,6 +96,17 @@ public record ReportUI(@Getter Player checker) {
 
     }
 
+    /*
+      staff.sendMessage(Message.fixColor("&7&m-----&e&lNew Report&7&m-----"));
+      staff.sendMessage(targetClick);
+      staff.sendMessage(playerClick);
+      staff.sendMessage(Message.fixColor("&7Type: &e" + name));
+      staff.sendMessage(Message.fixColor("&7Reason: &e" + lore));
+      staff.sendMessage(Message.fixColor("&7Status: &a" + status));
+      staff.sendMessage(Message.fixColor("&7&m---------------------"));
+     */
+
+/*
     public void openReportsGUI(int page) {
         Inventory gui = Bukkit.createInventory(null, 54, .replace("%PAGE%", page + ""));
 

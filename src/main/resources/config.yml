@@ -49,6 +49,16 @@ punishments-lang:
         - ""
         - "&7Reason: &f%reason%"
 
+
+report-lang:
+  staff-template:
+    - "&7&m-----&6&lNew Report&7&m-----"
+    - "&7Reported: &c%REPORTED%"
+    - "&7Reporter: &a%REPORTER%"
+    - "&7Type: &e%TYPE%"
+    - "&7Status: &e%STATUS%"
+    - "&7&m---------------------"
+
 # The maximum reasons is 27 and all the reasons title need to be like this for example 'Reason1 Reason2 etc..'
 default-reasons:
   fly-hacks:
