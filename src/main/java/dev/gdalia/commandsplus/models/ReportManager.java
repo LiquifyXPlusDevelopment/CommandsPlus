@@ -10,8 +10,6 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.Optional;
-
 public class ReportManager {
 
     @Getter
@@ -27,7 +25,7 @@ public class ReportManager {
         section.set(ConfigFields.ReportsFields.REPORTED, report.getConvicted().toString());
         section.set(ConfigFields.ReportsFields.REPORTER, report.getReporter().toString());
         section.set(ConfigFields.ReportsFields.REASON, report.getReason().getDisplayName());
-        section.set(ConfigFields.ReportsFields.DATE, report.getSentAt().toEpochMilli())
+        section.set(ConfigFields.ReportsFields.DATE, report.getSentAt().toEpochMilli());
 
         section.set(ConfigFields.ReportsFields.REASON, report.getReason());
 
