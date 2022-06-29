@@ -84,6 +84,6 @@ default-reasons:
     Lore: "The player griefed one of my construction&7."
     Item: "TNT"
   Reason9:
-    Name: "Insultes"
+    Name: "Insults"
     Lore: "The player is disrespectful&7."
     Item: "Oak_Sign"

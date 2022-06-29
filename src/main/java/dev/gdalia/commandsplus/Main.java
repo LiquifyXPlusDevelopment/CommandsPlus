@@ -6,10 +6,13 @@ import java.util.UUID;
 
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.reports.Reason;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.Config;
 import dev.gdalia.commandsplus.utils.ListenerAutoRegistration;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -52,19 +55,27 @@ public class Main extends JavaPlugin {
     	languageConfig, punishmentsConfig, reportsConfig;
     
 	public void onEnable() {
+		//MAIN INSTANCE
 		setInstance(this);
+
+		//SETUP CONFIGS
 		saveDefaultConfig();
-		
 		setLanguageConfig(Config.getConfig("language", null, true));
         getLanguageConfig().saveConfig();
-        
 		setPunishmentsConfig(Config.getConfig("punishments", null, false));
 		setReportsConfig(Config.getConfig("reports", null, false));
-		
+
+		//REPORT REASONS SETUP
+
+		//REGISTERATION FOR CLASSES & LISTENERS
+		ConfigurationSerialization.registerClass(Reason.class);
 		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
 		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
+
+		//RUNNABLES
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);
-		
+
+		//FINAL MESSAGE TO MAKE SURE PLUGIN IS SUCCESSFULLY ENABLED.
 		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&7CommandsPlus has been &aEnabled&7."));
 	}
 	
