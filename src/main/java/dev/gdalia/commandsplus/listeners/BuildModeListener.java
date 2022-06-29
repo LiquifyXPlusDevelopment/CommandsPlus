@@ -2,6 +2,7 @@ package dev.gdalia.commandsplus.listeners;
 
 import java.util.UUID;
 
+import dev.gdalia.commandsplus.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +18,7 @@ public class BuildModeListener implements Listener {
 	public void onBuild(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
-		
+
 		if(!Permission.PERMISSION_BUILDMODE.hasPermission(player)) return;
 		if (PlayerCollection.getBuildmodePlayers().contains(uuid))
 			event.setCancelled(true);

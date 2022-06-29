@@ -27,22 +27,22 @@ public class TpallCommand implements CommandExecutor{
 			return true;
 		}
 
-		if (!Permission.PERMISSION_TPALL.hasPermission(sender)) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(sender, true);
+		if (!Permission.PERMISSION_TPALL.hasPermission(player)) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.NO_PERMISSION.sendMessage(player, true);
 			return true;
 		}
 
 		if (args.length == 0) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.DESCRIBE_PLAYER.sendMessage(sender, true);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.DESCRIBE_PLAYER.sendMessage(player, true);
 			return true;
 		}
 
 		Player target = Bukkit.getPlayerExact(args[0]);
 		if (target == null) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(sender, true);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.INVALID_PLAYER.sendMessage(player, true);
 			return true;
 		}
 		
@@ -50,7 +50,7 @@ public class TpallCommand implements CommandExecutor{
 				.stream()
 				.filter(all -> all.equals(target))
 				.forEach(all -> all.teleport(target));
-		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		Message.TPALL.sendFormattedMessage(player, true, target.getName());
 		return false;
 	}

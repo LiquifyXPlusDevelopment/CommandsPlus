@@ -30,15 +30,15 @@ public class TimeCommand implements CommandExecutor, TabCompleter{
         	return false;
         }
 
-		if(!Permission.PERMISSION_TIME.hasPermission(sender)) {
-        	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.NO_PERMISSION.sendMessage(sender, true);
+		if(!Permission.PERMISSION_TIME.hasPermission(player)) {
+        	Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+        	Message.NO_PERMISSION.sendMessage(player, true);
         	return false;
         }
         
 		if (args.length == 0) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.TIME_ARGUMENTS.sendMessage(sender, true);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.TIME_ARGUMENTS.sendMessage(player, true);
 			return true;
 		}
 
@@ -47,14 +47,14 @@ public class TimeCommand implements CommandExecutor, TabCompleter{
 			case "day" -> {
 				String day = "1000";
 				player.getWorld().setTime(1000);
-				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+				Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Message.CHANGE_THE_TIME.sendFormattedMessage(player, true, day);
 				return true;
 			}
 			case "night" -> {
 				String night = "14000";
 				player.getWorld().setTime(14000);
-				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+				Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Message.CHANGE_THE_TIME.sendFormattedMessage(player, true, night);
 				return true;
 			}

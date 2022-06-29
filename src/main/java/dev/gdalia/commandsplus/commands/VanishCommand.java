@@ -26,12 +26,12 @@ public class VanishCommand implements CommandExecutor{
 	
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if(!(sender instanceof Player p)) {
+		if(!(sender instanceof Player player)) {
         	Message.PLAYER_CMD.sendMessage(sender, true);
         	return false;
         }
 
-		UUID uuid = p.getUniqueId();
+		UUID uuid = player.getUniqueId();
         if(!Permission.PERMISSION_VANISH.hasPermission(sender)) {
         	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.NO_PERMISSION.sendMessage(sender, true);
@@ -41,14 +41,14 @@ public class VanishCommand implements CommandExecutor{
         if (!PlayerCollection.getVanishPlayers().contains(uuid)) {
         	PlayerCollection.getVanishPlayers().add(uuid);
         	PlayerCollection.getBuildmodePlayers().add(uuid);
-    		p.setAllowFlight(true);
-    		p.setFlying(true);
+    		player.setAllowFlight(true);
+    		player.setFlying(true);
 			Bukkit.getOnlinePlayers()
 			.stream()
-			.filter(player -> player.canSee(p) && !Permission.PERMISSION_VANISH_SEE.hasPermission(player))
-			.forEach(player -> player.hidePlayer(Main.getInstance(), p));
+			.filter(p -> p.canSee(player) && !Permission.PERMISSION_VANISH_SEE.hasPermission(p))
+			.forEach(p -> p.hidePlayer(Main.getInstance(), player));
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.VANISH_ENABLE.sendMessage(p, true);
+			Message.VANISH_ENABLE.sendMessage(player, true);
 			return true;
         }
         
@@ -56,10 +56,10 @@ public class VanishCommand implements CommandExecutor{
     	PlayerCollection.getBuildmodePlayers().remove(uuid);
 		Bukkit.getOnlinePlayers()
 			.stream()
-			.filter(player -> !player.canSee(p))
-			.forEach(player -> player.showPlayer(Main.getInstance(), p));
+			.filter(p -> !p.canSee(player))
+			.forEach(p -> p.showPlayer(Main.getInstance(), player));
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.VANISH_DISABLE.sendMessage(p, true);
+		Message.VANISH_DISABLE.sendMessage(player, true);
 		return true;
 	}
 }

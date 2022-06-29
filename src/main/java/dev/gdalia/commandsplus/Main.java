@@ -1,6 +1,7 @@
 package dev.gdalia.commandsplus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +42,9 @@ import lombok.Setter;
  */
 
 public class Main extends JavaPlugin {
-	
+
+	public static HashMap<UUID, Boolean> booleanHashMap = new HashMap<>();
+
 	@Getter
 	@Setter(value = AccessLevel.PRIVATE)
 	private static Main instance;

@@ -42,28 +42,28 @@ public class TempPunishCommand implements CommandExecutor {
 		String typeString = cmd.getName().replace("TEMP", "").toUpperCase();
 		PunishmentType type = PunishmentType.canBeType(typeString) ? PunishmentType.valueOf(typeString) : null;
 
-		if (!Permission.valueOf("PERMISSION_" + type.name()).hasPermission(sender)) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(sender, true);
+		if (!Permission.valueOf("PERMISSION_" + type.name()).hasPermission(player)) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.NO_PERMISSION.sendMessage(player, true);
 			return true;
 		}
 		
 		if (args.length <= 2) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			Message.valueOf(type.name() + "_ARGUMENTS").sendMessage(sender, true);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
+			Message.valueOf(type.name() + "_ARGUMENTS").sendMessage(player, true);
 			return true;
 		}
 		
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
         if (!target.hasPlayedBefore()) {
-        	Message.INVALID_PLAYER.sendMessage(sender, true);
-        	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+        	Message.INVALID_PLAYER.sendMessage(player, true);
+        	Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             return true;
         }
         
         Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase())).ifPresentOrElse(punishment ->
-    	Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true), () -> {
+    	Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(player, true), () -> {
 			Duration duration;
 
 			try {
@@ -73,8 +73,8 @@ public class TempPunishCommand implements CommandExecutor {
 						ChronoUnit.WEEKS, ChronoUnit.MONTHS,
 						ChronoUnit.YEARS);
 			} catch (IllegalStateException ex1) {
-				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-				Message.TEMPMUTE_ARGUMENTS.sendMessage(sender, true);
+				Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
+				Message.TEMPMUTE_ARGUMENTS.sendMessage(player, true);
 				return;
 			}
 
@@ -84,9 +84,7 @@ public class TempPunishCommand implements CommandExecutor {
 				reasonBuilder.append(args[i]);
 
             String message = org.apache.commons.lang.StringUtils.join(args, " ", 2, args.length);
-			
 			Instant expiry = Instant.now().plus(duration);
-
 			UUID executer = player.getUniqueId();
 
 			Punishment punishment = new Punishment(
@@ -99,11 +97,11 @@ public class TempPunishCommand implements CommandExecutor {
 			punishment.setExpiry(expiry);
 
 			PunishmentManager.getInstance().invoke(punishment);
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		    Instant one = Instant.now();
 		    Instant two = punishment.getExpiry();
 		    Duration res = Duration.between(one, two);
-			Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName(), StringUtils.formatTime(res));
+			Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(player, true, target.getName(), StringUtils.formatTime(res));
 		});
         return true;
     }

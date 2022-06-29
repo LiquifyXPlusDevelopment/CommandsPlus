@@ -26,30 +26,35 @@ public class FeedCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (!Permission.PERMISSION_FEED.hasPermission(sender)) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(sender, true);
-			return true;
-		}
-		
-		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
-			player = Bukkit.getPlayer(args[0]);
-		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(sender, true);
-			return false;
-		}
-		
-		if(player == sender) {
-			player.setFoodLevel(20);
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.FEED_PLAYER.sendMessage(sender, true);
+		if (!Permission.PERMISSION_FEED.hasPermission(player)) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.NO_PERMISSION.sendMessage(player, true);
 			return true;
 		}
 
-		player.setFoodLevel(20);
-		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.FEED_TARGET.sendFormattedMessage(sender, true, player.getName());
+		if (args.length == 0) {
+			Message.DESCRIBE_PLAYER.sendMessage(player, true);
+			return false;
+		}
+
+		Player target = Bukkit.getPlayerExact(args[0]);
+
+		if (target == null) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.INVALID_PLAYER.sendMessage(player, true);
+			return false;
+		}
+		
+		if (target.equals(player)) {
+			player.setFoodLevel(20);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			Message.FEED_PLAYER.sendMessage(player, true);
+			return true;
+		}
+
+		target.setFoodLevel(20);
+		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+		Message.FEED_TARGET.sendFormattedMessage(player, true, target.getName());
 		return true;
 	}
 

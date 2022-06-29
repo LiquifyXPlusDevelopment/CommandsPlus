@@ -28,32 +28,37 @@ public class GodCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (!Permission.PERMISSION_GOD.hasPermission(sender)) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(sender, true);
+		if (!Permission.PERMISSION_GOD.hasPermission(player)) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.NO_PERMISSION.sendMessage(player, true);
 			return true;
 		}
 
-		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
-			player = Bukkit.getPlayer(args[0]);
-		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(sender, true);
+		if (args.length == 0) {
+			Message.DESCRIBE_PLAYER.sendMessage(player, true);
+			return false;
+		}
+
+		Player target = Bukkit.getPlayerExact(args[0]);
+
+		if (target == null) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.INVALID_PLAYER.sendMessage(player, true);
 			return false;
 		}
 		
-		if (!player.hasMetadata("godmode")) {
-			player.setMetadata("godmode", Main.MetadataValues.godModeData(true));
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.PLAYER_GOD_ENABLED.sendMessage(player, true);
-			if (!player.getName().equals(sender.getName())) Message.TARGET_GOD_ENABLED.sendFormattedMessage(sender, true, player.getName());
+		if (!target.hasMetadata("godmode")) {
+			target.setMetadata("godmode", Main.MetadataValues.godModeData(true));
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			Message.PLAYER_GOD_ENABLED.sendMessage(target, true);
+			if (!target.equals(player)) Message.TARGET_GOD_ENABLED.sendFormattedMessage(player, true, target.getName());
 			return true;
 		}
 		
-		player.removeMetadata("godmode", Main.getInstance());
-		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.PLAYER_GOD_DISABLED.sendMessage(player, true);
-		if (!player.getName().equals(sender.getName())) Message.TARGET_GOD_DISABLED.sendFormattedMessage(sender, true, player.getName());
+		target.removeMetadata("godmode", Main.getInstance());
+		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+		Message.PLAYER_GOD_DISABLED.sendMessage(target, true);
+		if (!target.equals(player)) Message.TARGET_GOD_DISABLED.sendFormattedMessage(player, true, target.getName());
 		return true;
 	}
 }

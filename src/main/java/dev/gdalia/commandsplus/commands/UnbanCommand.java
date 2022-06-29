@@ -30,38 +30,38 @@ public class UnbanCommand implements CommandExecutor{
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
 		
-		if (!Permission.PERMISSION_UNBAN.hasPermission(sender)) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(sender, true);
+		if (!Permission.PERMISSION_UNBAN.hasPermission(player)) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.NO_PERMISSION.sendMessage(player, true);
 			return true;
 		}
 		
 		if (args.length == 0) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			Message.UNBAN_ARGUMENTS.sendMessage(sender, true);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
+			Message.UNBAN_ARGUMENTS.sendMessage(player, true);
 			return true;
 		}
 		
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         if(!target.hasPlayedBefore()) {
-        	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.INVALID_PLAYER.sendMessage(sender, true);
+        	Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+        	Message.INVALID_PLAYER.sendMessage(player, true);
             return true;
         }
         
         Punishments.getInstance()
         	.getActivePunishment(target.getUniqueId(), PunishmentType.BAN, PunishmentType.TEMPBAN)
         	.ifPresentOrElse(punishment -> {
-        		UUID executer = sender instanceof Player requester ? requester.getUniqueId() : null;
+				UUID executer = player.getUniqueId();
         		PunishmentManager.getInstance().revoke(new PunishmentRevoke(punishment, executer));
-        		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-        		Message.PLAYER_UNBANNED.sendFormattedMessage(sender, true, target.getName());
-        		}, () -> Message.PLAYER_NOT_BANNED.sendMessage(sender, true));
+        		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+        		Message.PLAYER_UNBANNED.sendFormattedMessage(player, true, target.getName());
+        		}, () -> Message.PLAYER_NOT_BANNED.sendMessage(player, true));
         return true;
 	}
 

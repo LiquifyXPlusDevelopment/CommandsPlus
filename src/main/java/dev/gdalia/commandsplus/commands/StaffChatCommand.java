@@ -32,9 +32,9 @@ public class StaffChatCommand implements CommandExecutor{
 
 		UUID uuid = player.getUniqueId();
 
-        if(!Permission.PERMISSION_STAFFCHAT.hasPermission(sender)) {
-        	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.NO_PERMISSION.sendMessage(sender, true);
+        if(!Permission.PERMISSION_STAFFCHAT.hasPermission(player)) {
+        	Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+        	Message.NO_PERMISSION.sendMessage(player, true);
         	return false;
         }
 			

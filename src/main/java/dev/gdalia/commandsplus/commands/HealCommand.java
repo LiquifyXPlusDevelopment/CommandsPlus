@@ -28,31 +28,36 @@ public class HealCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (!Permission.PERMISSION_HEAL.hasPermission(sender)) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(sender, true);
+		if (!Permission.PERMISSION_HEAL.hasPermission(player)) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.NO_PERMISSION.sendMessage(player, true);
 			return true;
 		}
 
-		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
-			player = Bukkit.getPlayer(args[0]);
-		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(sender, true);
+		if (args.length == 0) {
+			Message.DESCRIBE_PLAYER.sendMessage(player, true);
+			return false;
+		}
+
+		Player target = Bukkit.getPlayerExact(args[0]);
+
+		if (target == null) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.INVALID_PLAYER.sendMessage(player, true);
 			return false;
 		}
 		
-		if(player == sender) {
-			player.setHealth(20);
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.HEAL_PLAYER.sendMessage(sender, true);
+		if (target.equals(player)) {
+			target.setHealth(20);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			Message.HEAL_PLAYER.sendMessage(player, true);
 			return true;
 		}
 
-		double playerHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-		player.setHealth(playerHealth);
-		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.HEAL_TARGET.sendFormattedMessage(sender, true, player.getName());
+		double playerHealth = target.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+		target.setHealth(playerHealth);
+		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+		Message.HEAL_TARGET.sendFormattedMessage(player, true, target.getName());
 		return true;
 	}
 	

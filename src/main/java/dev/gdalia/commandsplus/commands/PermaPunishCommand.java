@@ -37,39 +37,39 @@ public class PermaPunishCommand implements CommandExecutor {
 
 		PunishmentType type = PunishmentType.canBeType(cmd.getName().toUpperCase()) ? PunishmentType.valueOf(cmd.getName().toUpperCase()) : null;
 
-		if (!Permission.valueOf("PERMISSION_" + type.name()).hasPermission(sender)) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(sender, true);
+		if (!Permission.valueOf("PERMISSION_" + type.name()).hasPermission(player)) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.NO_PERMISSION.sendMessage(player, true);
 			return true;
 		}
 		
 		if (args.length <= 1) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			Message.valueOf(type.name() + "_ARGUMENTS").sendMessage(sender, true);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
+			Message.valueOf(type.name() + "_ARGUMENTS").sendMessage(player, true);
 			return true;
 		}
 
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
         if (!target.hasPlayedBefore()) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.INVALID_PLAYER.sendMessage(sender, true);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+        	Message.INVALID_PLAYER.sendMessage(player, true);
             return true;
         }
         
         if (type == PunishmentType.MUTE || type == PunishmentType.BAN) {
         	if (Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()),
         			PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).orElse(null) != null) {
-        		Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true);
-    			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+        		Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(player, true);
+    			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
     			return false;
         	}
         }
         
         if (type == PunishmentType.KICK) {
         	if (!target.isOnline()) {
-    			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        		Message.UNKNOWN_PLAYER.sendMessage(sender, true);
+    			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+        		Message.UNKNOWN_PLAYER.sendMessage(player, true);
         		return false;
         	}
         }
@@ -90,8 +90,8 @@ public class PermaPunishCommand implements CommandExecutor {
             			message);
             
 	        	PunishmentManager.getInstance().invoke(punishment);
-				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-	            Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
+				Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+	            Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(player, true, target.getName());
         return true;
     }
 }

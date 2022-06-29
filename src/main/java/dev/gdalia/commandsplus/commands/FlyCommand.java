@@ -22,33 +22,36 @@ public class FlyCommand implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if(!(sender instanceof Player player)){
+        if (!(sender instanceof Player player)){
         	Message.PLAYER_CMD.sendMessage(sender, true);
             return false;
         }
 
-		if(!Permission.PERMISSION_FLY.hasPermission(sender)) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.NO_PERMISSION.sendMessage(sender, true);
+		if (!Permission.PERMISSION_FLY.hasPermission(player)) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+        	Message.NO_PERMISSION.sendMessage(player, true);
 			return false;
 		}
-		    	
-    	if (args.length >= 1) {
-    		if (Bukkit.getPlayerExact(args[0]) == null) {
-    			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-            	Message.INVALID_PLAYER.sendMessage(sender, true);
-    			return false;
-    		}
-    		player = Bukkit.getPlayer(args[0]);
-    	}
+
+		if (args.length == 0) {
+			Message.DESCRIBE_PLAYER.sendMessage(player, true);
+			return false;
+		}
+
+		Player target = Bukkit.getPlayerExact(args[0]);
+		if (target == null) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.INVALID_PLAYER.sendMessage(player, true);
+			return false;
+		}
     	
-		boolean negation = !player.getAllowFlight();
-		player.setAllowFlight(negation);
-		player.setFlying(negation);
+		boolean negation = !target.getAllowFlight();
+		target.setAllowFlight(negation);
+		target.setFlying(negation);
 		
-		if (player.getName().equalsIgnoreCase(sender.getName())) Message.FLIGHT_MSG.sendFormattedMessage(sender, true, getStatusString(player));
-		else Message.FLIGHT_MSG_BY_OTHER.sendFormattedMessage(player, true, getStatusString(player), sender.getName());
-		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+		if (target.equals(player)) Message.FLIGHT_MSG.sendFormattedMessage(player, true, getStatusString(target));
+		else Message.FLIGHT_MSG_BY_OTHER.sendFormattedMessage(target, true, getStatusString(target), player.getName());
+		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		return true;
 	}
 	
