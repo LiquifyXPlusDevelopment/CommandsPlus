@@ -1,10 +1,10 @@
 package dev.gdalia.commandsplus.commands;
 
+import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
@@ -53,9 +53,9 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 
-		String address = target.getAddress().toString().split(":")[0];
+		InetAddress address = target.getAddress().getAddress();
 		List<? extends Player> alts = Bukkit.getOnlinePlayers().stream()
-				.filter(x -> x.getAddress().toString().split(":")[0].equals(address))
+				.filter(x -> x.getAddress().getAddress().equals(address))
 				.filter(x -> !x.getName().equals(target.getName()))
 				.toList();
 		
@@ -83,25 +83,23 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			case "banall" -> {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Message.ALTS_BANNED.sendFormattedMessage(sender, true, target.getName());
-				alts.forEach(x -> {
-					Optional.ofNullable(Main.getInstance().getConfig().getString("ban-command"))
-							.stream()
-							.filter(Objects::nonNull)
-							.map(kick -> kick.replace("{player}", x.getName()))
-							.forEach(kick -> Bukkit.dispatchCommand(sender, kick));
-				});
+				alts.forEach(x ->
+						Optional.ofNullable(Main.getInstance().getConfig().getString("ban-command"))
+						.stream()
+						.filter(Objects::nonNull)
+						.map(kick -> kick.replace("{player}", x.getName()))
+						.forEach(kick -> Bukkit.dispatchCommand(sender, kick)));
 				return true;
 			}
 			case "kickall" -> {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Message.ALTS_KICKED.sendFormattedMessage(sender, true, target.getName());
-				alts.forEach(x -> {
-					Optional.ofNullable(Main.getInstance().getConfig().getString("kick-command"))
-							.stream()
-							.filter(Objects::nonNull)
-							.map(kick -> kick.replace("{player}", x.getName()))
-							.forEach(kick -> Bukkit.dispatchCommand(sender, kick));
-				});
+				alts.forEach(x ->
+						Optional.ofNullable(Main.getInstance().getConfig().getString("kick-command"))
+						.stream()
+						.filter(Objects::nonNull)
+						.map(kick -> kick.replace("{player}", x.getName()))
+						.forEach(kick -> Bukkit.dispatchCommand(sender, kick)));
 				return true;
 			}
 			default -> {
