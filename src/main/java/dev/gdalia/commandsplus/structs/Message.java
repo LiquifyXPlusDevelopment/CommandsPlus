@@ -73,6 +73,8 @@ public enum Message {
 	TEMPBAN_ARGUMENTS(Main.getLanguageConfig().getString("TEMPBAN_ARGUMENTS")),
 	PLAYER_NOT_MUTED(Main.getLanguageConfig().getString("PLAYER_NOT_MUTED")),
 	MUTE_ARGUMENTS(Main.getLanguageConfig().getString("MUTE_ARGUMENTS")),
+	REPORT_HISTORY_ARGUMENTS(Main.getLanguageConfig().getString("REPORT_HISTORY_ARGUMENTS")),
+	REPORT_ARGUMENTS(Main.getLanguageConfig().getString("REPORT_ARGUMENTS")),
 	PLAYER_GOD_ENABLED(Main.getLanguageConfig().getString("PLAYER_GOD_ENABLED")),
 	TARGET_GOD_ENABLED(Main.getLanguageConfig().getString("TARGET_GOD_ENABLED")),
 	PLAYER_GOD_DISABLED(Main.getLanguageConfig().getString("PLAYER_GOD_DISABLED")),
