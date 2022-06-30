@@ -16,20 +16,12 @@ public class ReportManager {
     private static final ReportManager instance = new ReportManager();
 
     public void invoke(Report report) {
-        Config config = Main.getReportsConfig();
-        
-        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.REPORTED, true, false);
+        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.REPORTED, report.getConvicted().toString(), false);
+        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.REPORTER, report.getReporter().toString(), false);
+        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.REASON, report.getReason(), false);
+        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.DATE, report.getSentAt().toEpochMilli(), false);
+        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.STATUS, ReportStatus.OPEN, true);
 
-        ConfigurationSection section = config.createSection(report.getReportUuid().toString());
-
-        section.set(ConfigFields.ReportsFields.REPORTED, report.getConvicted().toString());
-        section.set(ConfigFields.ReportsFields.REPORTER, report.getReporter().toString());
-        section.set(ConfigFields.ReportsFields.REASON, report.getReason().getDisplayName());
-        section.set(ConfigFields.ReportsFields.DATE, report.getSentAt().toEpochMilli());
-
-        section.set(ConfigFields.ReportsFields.REASON, report.getReason());
-
-        config.saveConfig();
         Bukkit.getPluginManager().callEvent(new PlayerReportPlayerEvent(Bukkit.getPlayer(report.getConvicted()), report));
     }
 
