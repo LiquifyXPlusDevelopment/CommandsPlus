@@ -42,7 +42,7 @@ public class ItemBuilder {
 	public ItemBuilder addLoreLines(String... lines) {
 		ItemMeta itemMeta = this.itemstack.getItemMeta();
 		List<String> loreList = itemMeta.getLore() != null ? itemMeta.getLore() : new ArrayList<>();
-		Arrays.stream(lines).forEachOrdered(lore -> loreList.add(fixColor(lore)));
+		Arrays.stream(lines).forEachOrdered(lore -> loreList.add(fixColor("&7" + lore)));
 		itemMeta.setLore(loreList);
 		this.itemstack.setItemMeta(itemMeta);
 		return this;
