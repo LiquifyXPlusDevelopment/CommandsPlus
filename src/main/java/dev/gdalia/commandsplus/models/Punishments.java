@@ -127,9 +127,13 @@ public class Punishments {
 	 */
 	public void writeTo(UUID uuid, String key, Object value, boolean instSave) {
 		Optional<ConfigurationSection> cs = Optional.ofNullable(pConfig.getConfigurationSection(uuid.toString()));
-		cs.ifPresent(configurationSection -> {
+		cs.ifPresentOrElse(configurationSection -> {
 			configurationSection.set(key, value);
 			if (instSave) pConfig.saveConfig();
+		}, () -> {
+			pConfig.createSection(uuid.toString());
+			pConfig.saveConfig();
+			writeTo(uuid, key, value, instSave);
 		});
 	}
 	
