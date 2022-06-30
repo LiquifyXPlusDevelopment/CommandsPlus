@@ -48,7 +48,7 @@ public class UnbanCommand implements CommandExecutor{
 		}
 		
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-        if(!target.hasPlayedBefore()) {
+        if (!target.hasPlayedBefore()) {
         	Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         	Message.INVALID_PLAYER.sendMessage(player, true);
             return true;

@@ -1,6 +1,8 @@
 package dev.gdalia.commandsplus.commands;
 
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
@@ -45,13 +47,15 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 
 		switch (args[0].toLowerCase()) {
 			case "clear" -> {
+				Stream<String> stream =
+						Main.getInstance().getConfig().getStringList("chat.clear-template")
+						.stream()
+						.map(Message::fixColor);
+
 				Bukkit.getOnlinePlayers().forEach(cleared -> {
 					Message.playSound(cleared, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-					for (int i = 0; i <= 100; i++) cleared.sendMessage(" ");
-					Main.getInstance().getConfig().getStringList("chat.clear-template")
-							.stream()
-							.map(Message::fixColor)
-							.forEach(cleared::sendMessage);
+					IntStream.range(0, 100).forEach(i -> cleared.sendMessage(" "));
+					stream.forEach(cleared::sendMessage);
 				});
 				return true;
 			}

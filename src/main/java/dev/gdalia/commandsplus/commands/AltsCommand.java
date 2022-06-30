@@ -2,6 +2,9 @@ package dev.gdalia.commandsplus.commands;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
@@ -81,10 +84,11 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Message.ALTS_BANNED.sendFormattedMessage(sender, true, target.getName());
 				alts.forEach(x -> {
-					String banCommand = Main.getInstance().getConfig().getString("ban-command");
-					if (banCommand == null) return;
-					banCommand = banCommand.replace("{player}", x.getName());
-					Bukkit.dispatchCommand(sender, banCommand);
+					Optional.ofNullable(Main.getInstance().getConfig().getString("ban-command"))
+							.stream()
+							.filter(Objects::nonNull)
+							.map(kick -> kick.replace("{player}", x.getName()))
+							.forEach(kick -> Bukkit.dispatchCommand(sender, kick));
 				});
 				return true;
 			}
@@ -92,10 +96,11 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Message.ALTS_KICKED.sendFormattedMessage(sender, true, target.getName());
 				alts.forEach(x -> {
-					String kickCommand = Main.getInstance().getConfig().getString("kick-command");
-					if (kickCommand == null) return;
-					kickCommand = kickCommand.replace("{player}", x.getName());
-					Bukkit.dispatchCommand(sender, kickCommand);
+					Optional.ofNullable(Main.getInstance().getConfig().getString("kick-command"))
+							.stream()
+							.filter(Objects::nonNull)
+							.map(kick -> kick.replace("{player}", x.getName()))
+							.forEach(kick -> Bukkit.dispatchCommand(sender, kick));
 				});
 				return true;
 			}
