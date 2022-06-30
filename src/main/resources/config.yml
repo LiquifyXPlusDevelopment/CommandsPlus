@@ -60,40 +60,44 @@ report-lang:
     - "&7&m---------------------"
 
 # The maximum reasons is 27 and all the reasons title need to be like this for example 'Reason1 Reason2 etc..'
-default-reasons:
+report-reasons:
   fly-hacks:
     Name: "Fly"
-    Lore: "The player is flying&7."
-    Item: "Feather"
+    Lore:
+    - "The player is flying&7."
+    Item: FEATHER
   speed-hacks:
     Name: "Speed"
-    Lore: "The player is moving too quick&7."
-    Item: "Chainmail_leggings"
+    Lore:
+    - "The player is moving too quick&7."
+    Item: CHAINMAIL_LEGGINGS
   force-field-hack:
     Name: "ForceField"
-    Lore: "The player is hitting players/entities abnormally&7."
-    Item: "Iron_sword"
+    Lore:
+    - "The player is hitting players/entities abnormally&7."
+    Item: IRON_SWORD
   reach-hacks:
     Name: "Reach"
-    Lore: "The player is hitting players/entities from far away&7."
-    Item: "Stick"
+    Lore:
+    - "The player is hitting players/entities from far away&7."
+    Item: STICK
   rapidbowshot-hack:
     Name: "RapidBowShot"
-    Lore: "The player is shooting arrows quickly&7."
-    Item: "Bow"
+    Lore:
+    - The player is shooting arrows too quickly&7."
+    Item: BOW
   noknockback-hack:
     Name: "NoKnockback"
-    Lore: "The player isn't knocked back when he is hit&7."
-    Item: "Fishing_rod"
-  unknown_reason:
-    Name: "???"
-    Lore: "The player ??&7."
-    Item: "Chest"
+    Lore:
+    - "The player does not take any knock back&7."
+    Item: FISHING_ROD
   grief:
     Name: "Grief"
-    Lore: "The player griefed one of my construction&7."
-    Item: "TNT"
+    Lore:
+    - "The player griefed one of my constructions&7."
+    Item: TNT
   chat-insults:
     Name: "Insults"
-    Lore: "The player is disrespectful&7."
-    Item: "Oak_Sign"
+    Lore:
+    - "The player is disrespectful&7."
+    Item: OAK_SIGN
