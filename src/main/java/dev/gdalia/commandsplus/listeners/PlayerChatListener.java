@@ -2,7 +2,6 @@ package dev.gdalia.commandsplus.listeners;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Optional;
 
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -22,14 +21,14 @@ public class PlayerChatListener implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		Player e = event.getPlayer();
-		Optional.of(Main.getInstance().getConfig().getBoolean("chat.locked"))
-				.ifPresent(x -> {
-					if (!Permission.PERMISSION_CHAT.hasPermission(e)) return;
-					Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-					event.setCancelled(true);
-					Message.CHAT_LOCKED.sendMessage(e, true);
-					return;
-				});
+		if (Main.getInstance().getConfig().getBoolean("chat.locked", true)) {
+			if (!Permission.PERMISSION_CHAT.hasPermission(e)) return;
+			Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			event.setCancelled(true);
+			Message.CHAT_LOCKED.sendMessage(e, true);
+			return;
+		}
+
 		
 		Punishments.getInstance().getActivePunishment(e.getUniqueId(), PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresent(punishment -> {
 			Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
