@@ -112,16 +112,20 @@ public class Reports {
      * 	 * Writes into the report new information, this is good for
      * 	 * the report status change when a staff member updates it.
      *
-     * @param playerUniqueId The uuid of the player to lookup for reports of them.
+     * @param reportUniqueId The uuid of the player to lookup for reports of them.
      * @param key the key name to create and write into.
      * @param value the object to insert.
      * @param instSave If the method should save once the key and value being written.
      */
     public void writeTo(UUID reportUniqueId, String key, Object value, boolean instSave) {
         Optional<ConfigurationSection> cs = Optional.ofNullable(pConfig.getConfigurationSection(reportUniqueId.toString()));
-        cs.ifPresent(configurationSection -> {
+        cs.ifPresentOrElse(configurationSection -> {
             configurationSection.set(key, value);
             if (instSave) pConfig.saveConfig();
+        }, () -> {
+            pConfig.createSection(reportUniqueId.toString());
+            pConfig.saveConfig();
+            writeTo(reportUniqueId, key, value, instSave);
         });
     }
 
