@@ -19,11 +19,11 @@ import dev.gdalia.commandsplus.structs.PunishmentRevoke;
 import dev.gdalia.commandsplus.structs.PunishmentType;
 import org.jetbrains.annotations.NotNull;
 
-@CommandAutoRegistration.Command(value = "unmute")
-public class UnmuteCommand implements CommandExecutor {
+@CommandAutoRegistration.Command(value = {"unban", "unmute"})
+public class PardonCommand implements CommandExecutor{
 
 	/**
-	 * /unmute {user}
+	 * /unban {user}
 	 * LABEL ARG0
 	 */
 	
@@ -34,8 +34,10 @@ public class UnmuteCommand implements CommandExecutor {
 			Message.PLAYER_CMD.sendMessage(sender, true);
 			return true;
 		}
-		
-		if (!Permission.PERMISSION_UNMUTE.hasPermission(player)) {
+
+		PunishmentType type = PunishmentType.valueOf(cmd.getName().toUpperCase().replace("UN", ""));
+
+		if (!Permission.valueOf("PERMISSION_" + cmd.getName().toUpperCase()).hasPermission(player)) {
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.NO_PERMISSION.sendMessage(player, true);
 			return true;
@@ -43,31 +45,30 @@ public class UnmuteCommand implements CommandExecutor {
 		
 		if (args.length == 0) {
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			Message.UNMUTE_ARGUMENTS.sendMessage(player, true);
+			Message.valueOf(cmd.getName().toUpperCase() +"_ARGUMENTS").sendMessage(player, true);
 			return true;
 		}
 		
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-        if(!target.hasPlayedBefore()) {
+        if (!target.hasPlayedBefore()) {
         	Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-            Message.INVALID_PLAYER.sendMessage(player, true);
+        	Message.INVALID_PLAYER.sendMessage(player, true);
             return true;
         }
         
         Punishments.getInstance()
-        	.getActivePunishment(target.getUniqueId(), PunishmentType.MUTE, PunishmentType.TEMPMUTE)
+        	.getActivePunishment(target.getUniqueId(), type, PunishmentType.valueOf("TEMP" + type))
         	.ifPresentOrElse(punishment -> {
 				UUID executer = player.getUniqueId();
         		PunishmentManager.getInstance().revoke(new PunishmentRevoke(punishment, executer));
         		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-        		Message.PLAYER_UNMUTED.sendFormattedMessage(player, true, target.getName());
-        		
-        		if (target.isOnline()) {
-        			Message.TARGET_UNMUTED.sendFormattedMessage(target.getPlayer(), true, player.getName());
-        		}
-        		
-        		}, () -> Message.PLAYER_NOT_MUTED.sendMessage(player, true));
-		return true;
-	}
 
+        		Message.valueOf("PLAYER_" + cmd.getName().toUpperCase()).sendFormattedMessage(player, true, target.getName());
+				if (target.isOnline() && type.equals(PunishmentType.MUTE) || type.equals(PunishmentType.TEMPMUTE)) {
+					Message.valueOf("TARGET_" + cmd.getName().toUpperCase()).sendFormattedMessage(target.getPlayer(), true, player.getName());
+				}
+
+        		}, () -> Message.valueOf("PLAYER_NOT_" + cmd.getName().toUpperCase()).sendMessage(player, true));
+        return true;
+	}
 }

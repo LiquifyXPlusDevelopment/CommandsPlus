@@ -57,7 +57,7 @@ public class PermaPunishCommand implements CommandExecutor {
             return true;
         }
         
-        if (type == PunishmentType.MUTE || type == PunishmentType.BAN) {
+        if (type.equals(PunishmentType.MUTE) || type.equals(PunishmentType.BAN)) {
         	if (Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()),
         			PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).orElse(null) != null) {
         		Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(player, true);
@@ -66,7 +66,7 @@ public class PermaPunishCommand implements CommandExecutor {
         	}
         }
         
-        if (type == PunishmentType.KICK) {
+        if (type.equals(PunishmentType.KICK)) {
         	if (!target.isOnline()) {
     			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
         		Message.UNKNOWN_PLAYER.sendMessage(player, true);
