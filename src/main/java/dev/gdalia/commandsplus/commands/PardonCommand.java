@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 public class PardonCommand implements CommandExecutor{
 
 	/**
-	 * /unban {user}
+	 * /unban or unmute {user}
 	 * LABEL ARG0
 	 */
 	
