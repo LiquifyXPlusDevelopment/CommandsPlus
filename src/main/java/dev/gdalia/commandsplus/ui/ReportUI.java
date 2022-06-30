@@ -3,6 +3,7 @@ package dev.gdalia.commandsplus.ui;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.inventory.ItemBuilder;
 import dev.gdalia.commandsplus.models.ConfigFields;
+import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.events.PlayerReportPlayerEvent;
 import dev.gdalia.commandsplus.structs.reports.Report;
@@ -91,7 +92,7 @@ public record ReportUI(@Getter Player checker) {
                         "&cPlease notice reports are being held for 7 days max for review.")
                 .create(), event -> {
             Report report = new Report(UUID.randomUUID(), target.getUniqueId(), checker.getUniqueId(), Instant.now(), reportReason, ReportStatus.OPEN);
-            Bukkit.getPluginManager().callEvent(new PlayerReportPlayerEvent(checker, report));
+            ReportManager.getInstance().invoke(report);
         }));
 
     }
