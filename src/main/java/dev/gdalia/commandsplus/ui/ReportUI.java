@@ -19,6 +19,7 @@ import java.util.UUID;
 
 public record ReportUI(@Getter UUID t, @Getter UUID c) {
 
+    /*
     public void openReportGUI() {
         Main plugin = Main.getInstance();
         Player target = Bukkit.getPlayer(t);
@@ -58,4 +59,5 @@ public record ReportUI(@Getter UUID t, @Getter UUID c) {
 
         player.openInventory(inv);
     }
+     */
 }

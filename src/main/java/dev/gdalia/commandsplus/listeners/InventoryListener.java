@@ -27,6 +27,7 @@ public class InventoryListener implements Listener {
 
     Main plugin = Main.getInstance();
 
+    /*
     @EventHandler
     public void onReportClick(InventoryClickEvent event) {
         ItemStack is = event.getCurrentItem();
@@ -120,4 +121,6 @@ public class InventoryListener implements Listener {
             player.closeInventory();
         }
     }
+
+     */
 }
