@@ -48,7 +48,7 @@ public class TpallCommand implements CommandExecutor{
 		
 		Bukkit.getOnlinePlayers()
 				.stream()
-				.filter(target::equals)
+				.filter(all -> !all.equals(target))
 				.forEach(all -> all.teleport(target));
 		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		Message.TPALL.sendFormattedMessage(player, true, target.getName());
