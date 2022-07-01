@@ -84,7 +84,7 @@ reasons:
   rapidbowshot-hack:
     display-name: "RapidBowShot"
     lore:
-    - The player is shooting arrows too quickly&7."
+    - "The player is shooting arrows too quickly&7."
     icon: BOW
   noknockback-hack:
     display-name: "NoKnockback"

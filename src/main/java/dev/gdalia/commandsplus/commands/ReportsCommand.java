@@ -40,7 +40,7 @@ public class ReportsCommand implements CommandExecutor {
 
         if (args.length == 0) {
             Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-            Message.REPORT_SUCCESSFULLY.sendMessage(sender, true);
+            Message.DESCRIBE_PLAYER.sendMessage(sender, true);
             return true;
         }
 

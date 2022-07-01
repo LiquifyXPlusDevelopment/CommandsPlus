@@ -68,8 +68,8 @@ public record ReportUI(@Getter Player checker) {
         gui.setItem(2, new GuiItem(new ItemBuilder(Material.PLAYER_HEAD, "&aConfirming Report Details")
                 .setPlayerSkull(target)
                 .addLoreLines("Report target: &6" + target.getName(),
-                        "Report reason: &8" + reportReason.getDisplayName())
-                .addLoreLines(reportReason.getLore().stream().map(x -> x = "&e" + x).toArray(String[]::new))
+                        "Report type: &8" + reportReason.getDisplayName())
+                .addLoreLines(reportReason.getLore().stream().map(x -> x = "Report reason: &e" + x).toArray(String[]::new))
                 .addLoreLines("Click to file the report on this player.")
                 .create()));
 
