@@ -32,29 +32,24 @@ public class FeedCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (args.length == 0) {
-			Message.DESCRIBE_PLAYER.sendMessage(player, true);
-			return false;
-		}
-
-		Player target = Bukkit.getPlayerExact(args[0]);
-
-		if (target == null) {
-			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(player, true);
+		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
+			player = Bukkit.getPlayer(args[0]);
+		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return false;
 		}
 		
-		if (target.equals(player)) {
+		if (player.equals(sender)) {
 			player.setFoodLevel(20);
-			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.FEED_PLAYER.sendMessage(player, true);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			Message.FEED_PLAYER.sendMessage(sender, true);
 			return true;
 		}
 
-		target.setFoodLevel(20);
-		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.FEED_TARGET.sendFormattedMessage(player, true, target.getName());
+		player.setFoodLevel(20);
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+		Message.FEED_TARGET.sendFormattedMessage(sender, true, player.getName());
 		return true;
 	}
 

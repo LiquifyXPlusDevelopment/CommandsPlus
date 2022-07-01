@@ -33,25 +33,24 @@ public class FlyCommand implements CommandExecutor {
 			return false;
 		}
 
-		if (args.length == 0) {
-			Message.DESCRIBE_PLAYER.sendMessage(player, true);
-			return false;
+		if (args.length >= 1) {
+			if (Bukkit.getPlayerExact(args[0]) == null) {
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+				Message.INVALID_PLAYER.sendMessage(sender, true);
+				return false;
+			}
+			player = Bukkit.getPlayer(args[0]);
 		}
 
-		Player target = Bukkit.getPlayerExact(args[0]);
-		if (target == null) {
-			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(player, true);
-			return false;
-		}
+
     	
-		boolean negation = !target.getAllowFlight();
-		target.setAllowFlight(negation);
-		target.setFlying(negation);
+		boolean negation = !player.getAllowFlight();
+		player.setAllowFlight(negation);
+		player.setFlying(negation);
 		
-		if (target.equals(player)) Message.FLIGHT_MSG.sendFormattedMessage(player, true, getStatusString(target));
-		else Message.FLIGHT_MSG_BY_OTHER.sendFormattedMessage(target, true, getStatusString(target), player.getName());
-		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+		if (player.equals(sender)) Message.FLIGHT_MSG.sendFormattedMessage(sender, true, getStatusString(player));
+		else Message.FLIGHT_MSG_BY_OTHER.sendFormattedMessage(player, true, getStatusString(player), sender.getName());
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		return true;
 	}
 	
