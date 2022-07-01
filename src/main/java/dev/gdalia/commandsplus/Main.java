@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.ReportReason;
@@ -47,12 +49,15 @@ public class Main extends JavaPlugin {
 	
 	@Getter
 	@Setter(value = AccessLevel.PRIVATE)
-	private static Main instance;
+	private static Main
+			instance;
 		
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
     private static Config
-    	languageConfig, punishmentsConfig, reportsConfig;
+    		languageConfig,
+			punishmentsConfig,
+			reportsConfig;
     
 	public void onEnable() {
 		//MAIN INSTANCE
@@ -70,14 +75,18 @@ public class Main extends JavaPlugin {
 		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
 		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
 
+		//INITIALLIZATION FOR STATIC MODELS
+		Punishments.setInstance(new Punishments());
+		Reports.setInstance(new Reports());
+
 		//REPORT REASONS SETUP
 		ConfigurationSection reasonsToLoad = getConfig().getConfigurationSection("reasons");
-		reasonsToLoad.getKeys(false).stream().forEach(reasonName -> {
+
+		for (String reasonName : reasonsToLoad.getKeys(false)) {
 			ConfigurationSection reasonSection = reasonsToLoad.getConfigurationSection(reasonName);
 			ReportReason reason = ReportReason.deserialize(reasonSection.getValues(false));
 			ReportReason.getReasons().put(reasonName, reason);
-			System.out.println(reason);
-		});
+		}
 
 		//RUNNABLES
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);

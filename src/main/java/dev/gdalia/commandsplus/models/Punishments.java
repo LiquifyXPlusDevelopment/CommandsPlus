@@ -1,19 +1,15 @@
 package dev.gdalia.commandsplus.models;
 
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.bukkit.configuration.ConfigurationSection;
-
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.configuration.ConfigurationSection;
+
+import java.time.Instant;
+import java.util.*;
 
 /**
  * TODO think about better ideas to make this even more better and cooler to use.
@@ -21,7 +17,8 @@ import lombok.Getter;
 public class Punishments {
 
 	@Getter
-	private static final Punishments instance = new Punishments();
+	@Setter
+	private static Punishments instance;
 	
 	@Getter
 	private final HashMap<UUID, Punishment> punishments = new HashMap<>();

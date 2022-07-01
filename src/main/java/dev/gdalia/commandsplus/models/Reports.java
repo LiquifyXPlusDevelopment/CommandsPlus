@@ -6,6 +6,7 @@ import dev.gdalia.commandsplus.structs.reports.ReportReason;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.time.Instant;
@@ -17,7 +18,8 @@ import java.util.UUID;
 public class Reports {
 
     @Getter
-    private static final Reports instance = new Reports();
+    @Setter
+    private static Reports instance;
 
     @Getter
     private final HashMap<UUID, Report> reports = new HashMap<>();
