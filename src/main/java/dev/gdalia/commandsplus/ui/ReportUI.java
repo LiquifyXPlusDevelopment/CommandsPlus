@@ -23,22 +23,9 @@ public record ReportUI(@Getter Player checker) {
 
     private static final GuiItem GUI_BORDER = new GuiItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, " ").create());
     public void openReportGUI(Player target) {
-        PaginatedGui gui = new PaginatedGui(6, "&6Report &7> &e" + target.getName());
-        gui.disableAllInteractions();
-        gui.setCloseGuiAction(event -> {
-            if (!event.getPlayer().getUniqueId().equals(checker.getUniqueId())) {
-                checker.kickPlayer("HEHEHE HA! *King Noises*");
-                return;
-            }
+        PaginatedGui gui = new BaseUI().basePaginatedGui(6, "&6Reporting &7> &e" + target.getName());
+        //gui.setCloseGuiAction(event -> Message.REPORT_CANCELLED.sendMessage(checker, true));
 
-            //TODO Gdalia add message that you want here because I don't know what to type here.
-        });
-
-
-        gui.getFiller().fillTop(GUI_BORDER);
-        gui.getFiller().fillBottom(GUI_BORDER);
-
-        gui.setItem(4, new GuiItem(new ItemBuilder(Material.BOOK, "&e" + target.getName()).create()));
         gui.setItem(49, new GuiItem(new ItemBuilder(Material.BARRIER, "&cCancel Report").create(), event -> {
             if (!(event.getWhoClicked() instanceof Player player) || !player.getUniqueId().equals(checker.getUniqueId())) {
                 checker.kickPlayer("HEHEHE HA! *King Noises*");
@@ -53,16 +40,18 @@ public record ReportUI(@Getter Player checker) {
             String reasonName = entry.getKey();
             ReportReason reasonObject = entry.getValue();
 
-            gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), Message.fixColor(reasonObject.getDisplayName())).create(), event -> {
-
-            }));
+            gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7Report for: &6" + reasonObject.getDisplayName())
+                    .addLoreLines(" &r")
+                    .addLoreLines(reasonObject.getLore().stream().map(x -> x = "&e" + x).toArray(String[]::new))
+                    .addLoreLines("Click to choose this report reason.")
+                    .create(), event -> openInitializeReportGUI(target, reasonObject)));
         });
 
         gui.open(checker);
     }
 
     public void openInitializeReportGUI(Player target, ReportReason reportReason) {
-        Gui gui = new Gui(GuiType.HOPPER, "&e" + target.getName() + "&7> &6" + reportReason.getDisplayName(), Set.of());
+        Gui gui = new Gui(GuiType.HOPPER, Message.fixColor("&e" + target.getName() + " &7> &6" + reportReason.getDisplayName()), Set.of());
         gui.disableAllInteractions();
 
         gui.setItem(0, GUI_BORDER);
@@ -76,10 +65,11 @@ public record ReportUI(@Getter Player checker) {
                         "Reason selection menu.")
                 .create(), event -> openReportGUI(target)));
 
-        gui.setItem(2, new GuiItem(new ItemBuilder(Material.PLAYER_HEAD, " &r")
+        gui.setItem(2, new GuiItem(new ItemBuilder(Material.PLAYER_HEAD, "&aConfirming Report Details")
                 .setPlayerSkull(target)
-                .addLoreLines("Report reason: &8" + reportReason.getDisplayName())
-                .addLoreLines(reportReason.getLore().toArray(String[]::new))
+                .addLoreLines("Report target: &6" + target.getName(),
+                        "Report reason: &8" + reportReason.getDisplayName())
+                .addLoreLines(reportReason.getLore().stream().map(x -> x = "&e" + x).toArray(String[]::new))
                 .addLoreLines("Click to file the report on this player.")
                 .create()));
 
@@ -91,6 +81,8 @@ public record ReportUI(@Getter Player checker) {
                 .create(), event -> {
             Report report = new Report(UUID.randomUUID(), target.getUniqueId(), checker.getUniqueId(), Instant.now(), reportReason, ReportStatus.OPEN);
             ReportManager.getInstance().invoke(report);
+            checker.closeInventory();
+            Message.REPORT_SUCCESSFULLY.sendMessage(checker, true);
         }));
 
         gui.open(checker);

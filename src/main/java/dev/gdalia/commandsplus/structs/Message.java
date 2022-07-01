@@ -75,6 +75,7 @@ public enum Message {
 	MUTE_ARGUMENTS(Main.getLanguageConfig().getString("MUTE_ARGUMENTS")),
 	REPORT_HISTORY_ARGUMENTS(Main.getLanguageConfig().getString("REPORT_HISTORY_ARGUMENTS")),
 	REPORT_ARGUMENTS(Main.getLanguageConfig().getString("REPORT_ARGUMENTS")),
+	REPORT_CANCELLED(Main.getLanguageConfig().getString("REPORT_CANCELLED")),
 	PLAYER_GOD_ENABLED(Main.getLanguageConfig().getString("PLAYER_GOD_ENABLED")),
 	TARGET_GOD_ENABLED(Main.getLanguageConfig().getString("TARGET_GOD_ENABLED")),
 	PLAYER_GOD_DISABLED(Main.getLanguageConfig().getString("PLAYER_GOD_DISABLED")),

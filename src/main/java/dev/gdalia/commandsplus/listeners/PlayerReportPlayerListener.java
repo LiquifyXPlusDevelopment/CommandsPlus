@@ -10,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public class PlayerReportPlayerListener implements Listener {
@@ -19,14 +20,14 @@ public class PlayerReportPlayerListener implements Listener {
         OfflinePlayer reported = Bukkit.getOfflinePlayer(event.getReport().getConvicted());
         OfflinePlayer reporter = Bukkit.getOfflinePlayer(event.getReport().getReporter());
 
-        Stream<String> stream = Main.getInstance().getConfig().getStringList("report-lang.staff-template")
+        List<String> message = Main.getInstance().getConfig().getStringList("report-lang.staff-template")
                 .stream()
-                .map(Message::fixColor)
-                .map(text -> text
+                .map(text -> text = Message.fixColor(text)
                         .replace("%REPORTED%", reported.getName())
                         .replace("%REPORTER%", reporter.getName())
                         .replace("%TYPE%", event.getReport().getReason().getDisplayName())
-                        .replace("%STATUS%", event.getReport().getStatus().name()));
+                        .replace("%STATUS%", event.getReport().getStatus().name()))
+                .toList();
 
 
         Bukkit.getOnlinePlayers()
@@ -35,7 +36,7 @@ public class PlayerReportPlayerListener implements Listener {
                 .forEach(staff -> {
 
                     Message.playSound(staff, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-                    stream.forEach(staff::sendMessage);
+                    message.forEach(staff::sendMessage);
                 });
     }
 }

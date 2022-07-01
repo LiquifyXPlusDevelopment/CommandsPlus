@@ -63,20 +63,21 @@ public class Main extends JavaPlugin {
 		setLanguageConfig(Config.getConfig("language", null, true));
         getLanguageConfig().saveConfig();
 		setPunishmentsConfig(Config.getConfig("punishments", null, false));
+		ConfigurationSerialization.registerClass(ReportReason.class);
 		setReportsConfig(Config.getConfig("reports", null, false));
+
+		//REGISTERATION FOR CLASSES & LISTENERS
+		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
+		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
 
 		//REPORT REASONS SETUP
 		ConfigurationSection reasonsToLoad = getConfig().getConfigurationSection("reasons");
-		for (String reasonName : reasonsToLoad.getKeys(false)) {
+		reasonsToLoad.getKeys(false).stream().forEach(reasonName -> {
 			ConfigurationSection reasonSection = reasonsToLoad.getConfigurationSection(reasonName);
-			ReportReason reason = ReportReason.deserialize(reasonName, reasonSection.getValues(false));
+			ReportReason reason = ReportReason.deserialize(reasonSection.getValues(false));
 			ReportReason.getReasons().put(reasonName, reason);
-		}
-
-		//REGISTERATION FOR CLASSES & LISTENERS
-		ConfigurationSerialization.registerClass(ReportReason.class);
-		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
-		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
+			System.out.println(reason);
+		});
 
 		//RUNNABLES
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);

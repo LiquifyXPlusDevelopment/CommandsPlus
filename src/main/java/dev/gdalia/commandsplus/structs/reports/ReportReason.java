@@ -17,7 +17,6 @@ public class ReportReason implements ConfigurationSerializable {
     @Getter
     @NotNull
     private final String
-            name,
             displayName;
 
     @Getter
@@ -42,11 +41,9 @@ public class ReportReason implements ConfigurationSerializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static ReportReason deserialize(String name, Map<String, Object> args) {
-        if (reasons.containsKey(name)) return reasons.get(name);
+    public static ReportReason deserialize(Map<String, Object> args) {
 
-        return new ReportReason(name,
-                args.get("display-name").toString(),
+        return new ReportReason(args.get("display-name").toString(),
                 Optional.ofNullable(args.get("lore"))
                         .filter(List.class::isInstance)
                         .map(List.class::cast)
@@ -56,7 +53,7 @@ public class ReportReason implements ConfigurationSerializable {
 
     @Override
     public String toString() {
-        return "Reason{" + "name=" + name + ",displayName=" + displayName + ",lore={" + lore + "},icon=" + icon.name() + '}';
+        return "Reason={displayName=" + displayName + ",lore={" + lore + "},icon=" + icon.name() + "}";
     }
 
 }
