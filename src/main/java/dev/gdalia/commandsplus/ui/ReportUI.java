@@ -42,7 +42,7 @@ public record ReportUI(@Getter Player checker) {
 
             gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7Report for: &6" + reasonObject.getDisplayName())
                     .addLoreLines(" &r")
-                    .addLoreLines(reasonObject.getLore().stream().map(x -> x = "&e" + x).toArray(String[]::new))
+                    .addLoreLines(reasonObject.getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
                     .addLoreLines("Click to choose this report reason.")
                     .create(), event -> openInitializeReportGUI(target, reasonObject)));
         });
