@@ -16,7 +16,7 @@ import java.util.Optional;
 public class PunishmentManager {
 
 	@Getter
-	private static PunishmentManager instance = new PunishmentManager();
+	private static final PunishmentManager instance = new PunishmentManager();
 
 	public void invoke(Punishment punishment) {
 		Config config = Main.getPunishmentsConfig();
