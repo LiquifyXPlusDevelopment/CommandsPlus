@@ -8,6 +8,6 @@ public enum ReportStatus {
 
     @Override
     public String toString() {
-        return "status={" + this.name().toLowerCase() + "}";
+        return "status={" + this.name().toUpperCase() + "}";
     }
 }

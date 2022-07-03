@@ -95,7 +95,8 @@ public enum Message {
 	PLAYER_NO_ACTIVE_PUNISHMENT(Main.getLanguageConfig().getString("PLAYER_NO_ACTIVE_PUNISHMENT")),
 	PLAYER_ACTIVE_PUNISHMENT(Main.getLanguageConfig().getString("PLAYER_ACTIVE_PUNISHMENT")),
 	CONTACT_AN_ADMIN(Main.getLanguageConfig().getString("CONTACT_AN_ADMIN")),
-	REPORT_SUCCESSFULLY(Main.getLanguageConfig().getString("REPORT_SUCCESSFULLY"));
+	REPORT_SUCCESSFULLY(Main.getLanguageConfig().getString("REPORT_SUCCESSFULLY")),
+	REPORT_CLOSED_SUCCESSFULLY(Main.getLanguageConfig().getString("REPORT_CLOSED_SUCCESSFULLY"));
 
 	private final String message;
 

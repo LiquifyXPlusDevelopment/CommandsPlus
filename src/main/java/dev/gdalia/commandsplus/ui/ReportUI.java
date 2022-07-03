@@ -36,8 +36,7 @@ public record ReportUI(@Getter Player checker) {
             player.closeInventory();
         }));
 
-        ReportReason.getReasons().entrySet().stream().forEach(entry -> {
-            String reasonName = entry.getKey();
+        ReportReason.getReasons().entrySet().forEach(entry -> {
             ReportReason reasonObject = entry.getValue();
 
             gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7Report for: &6" + reasonObject.getDisplayName())
@@ -82,7 +81,7 @@ public record ReportUI(@Getter Player checker) {
             Report report = new Report(UUID.randomUUID(), target.getUniqueId(), checker.getUniqueId(), Instant.now(), reportReason, ReportStatus.OPEN);
             ReportManager.getInstance().invoke(report);
             checker.closeInventory();
-            Message.REPORT_SUCCESSFULLY.sendMessage(checker, true);
+            Message.REPORT_SUCCESSFULLY.sendFormattedMessage(checker, true, target.getName(), reportReason.getLore());
         }));
 
         gui.open(checker);

@@ -1,10 +1,8 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
-import dev.gdalia.commandsplus.structs.reports.Report;
-import dev.gdalia.commandsplus.ui.ReportUI;
+import dev.gdalia.commandsplus.ui.ReportHistoryUI;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -15,9 +13,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 
-@CommandAutoRegistration.Command(value = {"reports"})
+@CommandAutoRegistration.Command(value = "reports")
 public class ReportsCommand implements CommandExecutor {
 
     /**
@@ -32,9 +29,9 @@ public class ReportsCommand implements CommandExecutor {
             return false;
         }
 
-        if (!Permission.PERMISSION_REPORTS.hasPermission(sender)) {
-            Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-            Message.NO_PERMISSION.sendMessage(sender, true);
+        if (!Permission.PERMISSION_REPORTS.hasPermission(player)) {
+            Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+            Message.NO_PERMISSION.sendMessage(player, true);
             return false;
         }
 
@@ -51,10 +48,7 @@ public class ReportsCommand implements CommandExecutor {
             return true;
         }
 
-        /*
-        TODO Open report history UI for the executor.
-        new ReportUI(player).openReportGUI(target.getUniqueId());
-         */
+        new ReportHistoryUI(player).openReportHistoryGUI(target.getUniqueId());
         Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
         return true;
     }

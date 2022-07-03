@@ -1,14 +1,12 @@
 package dev.gdalia.commandsplus.models;
 
-import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.events.PlayerReportPlayerEvent;
 import dev.gdalia.commandsplus.structs.events.ReportStatusChangeEvent;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
-import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
+
 
 public class ReportManager {
 
@@ -26,7 +24,7 @@ public class ReportManager {
     }
 
     public void changeStatus(Report report, ReportStatus newStatus) {
-        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.STATUS, newStatus, true);
+        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.STATUS, newStatus.name(), true);
         Bukkit.getPluginManager().callEvent(new ReportStatusChangeEvent(report));
     }
 }
