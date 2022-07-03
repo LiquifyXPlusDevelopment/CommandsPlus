@@ -7,6 +7,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -92,6 +93,11 @@ public class ItemBuilder {
 
 	public ItemBuilder removeEnchantment(Enchantment enchantment) {
 		this.itemstack.removeEnchantment(enchantment);
+		return this;
+	}
+
+	public ItemBuilder addFlag(ItemFlag flag) {
+		this.itemstack.getItemMeta().addItemFlags(flag);
 		return this;
 	}
 

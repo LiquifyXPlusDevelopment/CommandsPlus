@@ -82,7 +82,7 @@ public class Reports {
      */
     public Optional<Report> getOpenReport(UUID playerUniqueId) {
         return getReportHistory(playerUniqueId).stream()
-                .filter(x -> x.getStatus() != ReportStatus.CLOSED)
+                .filter(x -> !x.getStatus().equals(ReportStatus.CLOSED))
                 .findFirst();
     }
 
