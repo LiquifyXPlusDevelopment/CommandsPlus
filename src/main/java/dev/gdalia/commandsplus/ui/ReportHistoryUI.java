@@ -5,6 +5,7 @@ import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.Report;
+import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import dev.gdalia.commandsplus.utils.ReportUtils;
 import dev.triumphteam.gui.components.GuiType;
@@ -19,6 +20,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
+import java.time.Instant;
 import java.util.*;
 
 public record ReportHistoryUI(@Getter Player checker) {
@@ -113,16 +115,16 @@ public record ReportHistoryUI(@Getter Player checker) {
 
     public void ReportGUI(UUID targetUniqueID, Report report) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueID);
-        Gui gui = new Gui(6, Message.fixColor("&6Reports &7> &e" + target.getName()), Set.of());
+        Gui gui = new Gui(5, Message.fixColor("&6Reports &7> &e" + target.getName()), Set.of());
         gui.disableAllInteractions();
 
-        gui.getFiller().fillBetweenPoints(2, 1, 2, 9, GUI_BORDER);
-        gui.getFiller().fillBetweenPoints(6, 1, 6, 9, GUI_BORDER);
+        gui.getFiller().fillBetweenPoints(1, 1, 1, 9, GUI_BORDER);
+        gui.getFiller().fillBetweenPoints(5, 1, 5, 9, GUI_BORDER);
 
         OfflinePlayer Reporter = Bukkit.getOfflinePlayer(report.getReporter());
         OfflinePlayer Reported = Bukkit.getOfflinePlayer(report.getConvicted());
 
-        gui.setItem(18, new GuiItem(new ItemBuilder(
+        gui.setItem(9, new GuiItem(new ItemBuilder(
                 Material.PAPER,
                 "&cReport: &7" + report.getReportUuid())
                 .addGlow()
@@ -137,19 +139,19 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines("&6Left Click&7 to print in chat.")
                 .create()));
 
-        gui.setItem(21, new GuiItem(new ItemBuilder(
+        gui.setItem(12, new GuiItem(new ItemBuilder(
                 Material.PLAYER_HEAD,
                 "&7Reporter: &a" + Reporter.getName())
                 .setPlayerSkull(Reporter)
                 .addLoreLines(" &r")
-                .addLoreLines("Sent reports: &b" + ReportUtils.getReports(Reporter).size())
+                .addLoreLines("Sent reports: &b" + ReportUtils.getInstance().getReports(Reporter).size())
                 .addLoreLines("Received reports: &b" + Reports.getInstance().getReportHistory(report.getReporter()).size())
                 .addLoreLines(" &r")
                 .addLoreLines("&6Left click&7 to teleport to the")
                 .addLoreLines("location of player &e" + Reporter.getName())
-                .create(), event -> ReportUtils.teleportTo(event, Reporter.getPlayer(), checker)));
+                .create(), event -> ReportUtils.getInstance().teleportTo(event, Reporter.getPlayer(), checker)));
 
-        gui.setItem(22, new GuiItem(new ItemBuilder(
+        gui.setItem(13, new GuiItem(new ItemBuilder(
                 Material.GOLDEN_AXE,
                 "&eAbusive report")
                 .addLoreLines(" &r")
@@ -157,19 +159,19 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines("&a" + Reporter.getName())
                 .create()));
 
-        gui.setItem(23, new GuiItem(new ItemBuilder(
+        gui.setItem(14, new GuiItem(new ItemBuilder(
                 Material.PLAYER_HEAD,
                 "&7Reported: &c" + Reported.getName())
                 .setPlayerSkull(Reported)
                 .addLoreLines(" &r")
-                .addLoreLines("Sent reports: &b" + ReportUtils.getReports(Reported).size())
+                .addLoreLines("Sent reports: &b" + ReportUtils.getInstance().getReports(Reported).size())
                 .addLoreLines("Received reports: &b" + Reports.getInstance().getReportHistory(report.getConvicted()).size())
                 .addLoreLines(" &r")
                 .addLoreLines("&6Left click&7 to teleport to the")
                 .addLoreLines("location of player &e" + Reported.getName())
-                .create(), event -> ReportUtils.teleportTo(event, Reported.getPlayer(), checker)));
+                .create(), event -> ReportUtils.getInstance().teleportTo(event, Reported.getPlayer(), checker)));
 
-        gui.setItem(26, new GuiItem(new ItemBuilder(
+        gui.setItem(17, new GuiItem(new ItemBuilder(
                 Material.ENCHANTED_BOOK,
                 "&eData")
                 .addLoreLines(" &r")
@@ -200,7 +202,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                     .create(), event -> ReportUtils.getInstance().changeStatus(event, status, report, checker)));
         }
 
-        gui.setItem(36, new GuiItem(new ItemBuilder(
+        gui.setItem(27, new GuiItem(new ItemBuilder(
                 Material.FLINT_AND_STEEL,
                 "&cRemove report")
                 .addLoreLines(" &r")
@@ -208,16 +210,16 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines("the report.")
                 .create(), event -> deleteInitializeReportsGUI(targetUniqueID, report)));
 
-        gui.setItem(44, new GuiItem(new ItemBuilder(
+        gui.setItem(35, new GuiItem(new ItemBuilder(
                 Material.BOOK,
                 "&eComments of report")
                 .addGlow()
                 .addLoreLines(" &r")
                 .addLoreLines("&6Click&7 to show comments")
                 .addLoreLines("of report.")
-                .create()));
+                .create(), event -> ReportManager.getInstance().addComment(report, new ReportComment(checker, Instant.now(), "hehehe ah!"))));
 
-        gui.setItem(49, new GuiItem(new ItemBuilder(
+        gui.setItem(40, new GuiItem(new ItemBuilder(
                 Material.BARRIER,
                 "&cClose")
                 .create(), event -> {

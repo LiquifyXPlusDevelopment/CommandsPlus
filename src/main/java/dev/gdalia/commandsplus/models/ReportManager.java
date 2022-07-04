@@ -31,7 +31,6 @@ public class ReportManager {
     }
 
     public void revoke(Report report) {
-        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.STATUS, ReportStatus.CLOSED.name(), true);
         Main.getReportsConfig().set(report.getReportUuid().toString(), null);
         Reports.getInstance().getReports().remove(report.getReportUuid());
         Main.getReportsConfig().saveConfig();
