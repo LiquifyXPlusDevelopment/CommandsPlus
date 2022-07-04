@@ -6,7 +6,7 @@ import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
-import dev.gdalia.commandsplus.utils.Randoms;
+import dev.gdalia.commandsplus.utils.ReportUtils;
 import dev.triumphteam.gui.components.GuiType;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
@@ -60,14 +60,12 @@ public record ReportHistoryUI(@Getter Player checker) {
                     .create(), event -> {
                 Report report = new Report(entry.getReportUuid(), entry.getConvicted(), entry.getReporter(), entry.getSentAt(), entry.getReason(), entry.getStatus());
                 Optional.of(event.getClick())
-                        .stream()
                         .filter(click -> click.equals(ClickType.DROP))
-                        .forEach(clickable -> deleteInitializeReportsGUI(target.getUniqueId(), report));
+                        .ifPresent(clickable -> deleteInitializeReportsGUI(target.getUniqueId(), report));
 
                 Optional.of(event.getClick())
-                        .stream()
                         .filter(click -> click.equals(ClickType.LEFT))
-                        .forEach(clickable -> ReportGUI(targetUniqueId, report));
+                        .ifPresent(clickable -> ReportGUI(targetUniqueId, report));
             }));
         });
 
@@ -106,9 +104,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .create(), event -> {
             checker.closeInventory();
             Reports.getInstance().getReport(report.getReportUuid())
-                    .stream()
-                    .filter(Objects::nonNull)
-                    .forEach(deleted -> ReportManager.getInstance().revoke(report));
+                    .ifPresent(deleted -> ReportManager.getInstance().revoke(report));
             Message.REPORT_DELETED_SUCCESSFULLY.sendFormattedMessage(checker, true, target.getName());
         }));
 
@@ -146,12 +142,12 @@ public record ReportHistoryUI(@Getter Player checker) {
                 "&7Reporter: &a" + Reporter.getName())
                 .setPlayerSkull(Reporter)
                 .addLoreLines(" &r")
-                .addLoreLines("Sent reports: &b" + Randoms.status(Reporter).size())
+                .addLoreLines("Sent reports: &b" + ReportUtils.getReports(Reporter).size())
                 .addLoreLines("Received reports: &b" + Reports.getInstance().getReportHistory(report.getReporter()).size())
                 .addLoreLines(" &r")
                 .addLoreLines("&6Left click&7 to teleport to the")
                 .addLoreLines("location of player &e" + Reporter.getName())
-                .create()));
+                .create(), event -> ReportUtils.teleportTo(event, Reporter.getPlayer(), checker)));
 
         gui.setItem(22, new GuiItem(new ItemBuilder(
                 Material.GOLDEN_AXE,
@@ -166,12 +162,12 @@ public record ReportHistoryUI(@Getter Player checker) {
                 "&7Reported: &c" + Reported.getName())
                 .setPlayerSkull(Reported)
                 .addLoreLines(" &r")
-                .addLoreLines("Sent reports: &b" + Randoms.status(Reported).size())
+                .addLoreLines("Sent reports: &b" + ReportUtils.getReports(Reported).size())
                 .addLoreLines("Received reports: &b" + Reports.getInstance().getReportHistory(report.getConvicted()).size())
                 .addLoreLines(" &r")
                 .addLoreLines("&6Left click&7 to teleport to the")
                 .addLoreLines("location of player &e" + Reported.getName())
-                .create()));
+                .create(), event -> ReportUtils.teleportTo(event, Reported.getPlayer(), checker)));
 
         gui.setItem(26, new GuiItem(new ItemBuilder(
                 Material.ENCHANTED_BOOK,
@@ -197,16 +193,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines(" &r")
                 .addLoreLines("&6Click&7 to define the status of report")
                 .addLoreLines("&7as: &aOpen")
-                .create(), event ->
-                Optional.of(event.getClick())
-                        .stream()
-                        .filter(clickType -> clickType.equals(ClickType.LEFT))
-                        .map(reportStatus -> report.getStatus().name())
-                        .filter(reportStatus -> !reportStatus.equals(ReportStatus.OPEN.name()))
-                        .forEach(reportStatus -> {
-                            ReportManager.getInstance().changeStatus(report, ReportStatus.OPEN);
-                            checker.closeInventory();
-                        })));
+                .create(), event -> ReportUtils.changeStatus(event, ReportStatus.OPEN, report, checker)));
 
         gui.setItem(31, new GuiItem(new ItemBuilder(
                 Material.YELLOW_TERRACOTTA,
@@ -214,16 +201,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines(" &r")
                 .addLoreLines("&6Click&7 to define the status of report")
                 .addLoreLines("&7as: &6In Inspection")
-                .create(), event ->
-                Optional.of(event.getClick())
-                        .stream()
-                        .filter(clickType -> clickType.equals(ClickType.LEFT))
-                        .map(reportStatus -> report.getStatus().name())
-                        .filter(reportStatus -> !reportStatus.equals(ReportStatus.IN_INSPECTION.name()))
-                        .forEach(reportStatus -> {
-                            ReportManager.getInstance().changeStatus(report, ReportStatus.IN_INSPECTION);
-                            checker.closeInventory();
-                        })));
+                .create(), event -> ReportUtils.changeStatus(event, ReportStatus.IN_INSPECTION, report, checker)));
 
         gui.setItem(32, new GuiItem(new ItemBuilder(
                 Material.RED_TERRACOTTA,
@@ -231,16 +209,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines(" &r")
                 .addLoreLines("&6Click&7 to define the status of report")
                 .addLoreLines("&7as: &cClosed")
-                .create(), event ->
-                Optional.of(event.getClick())
-                        .stream()
-                        .filter(clickType -> clickType.equals(ClickType.LEFT))
-                        .map(reportStatus -> report.getStatus().name())
-                        .filter(reportStatus -> !reportStatus.equals(ReportStatus.CLOSED.name()))
-                        .forEach(reportStatus -> {
-                            ReportManager.getInstance().changeStatus(report, ReportStatus.CLOSED);
-                            checker.closeInventory();
-                        })));
+                .create(), event -> ReportUtils.changeStatus(event, ReportStatus.CLOSED, report, checker)));
 
         gui.setItem(36, new GuiItem(new ItemBuilder(
                 Material.FLINT_AND_STEEL,

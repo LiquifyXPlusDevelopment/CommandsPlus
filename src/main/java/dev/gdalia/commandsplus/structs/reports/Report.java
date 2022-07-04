@@ -6,6 +6,7 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -27,13 +28,14 @@ public class Report {
 
     @Getter
     @NotNull
-    private Instant sentAt;
+    private final Instant sentAt;
 
     @Getter
     @NonNull
     private final ReportReason reason;
 
     @Getter
+    @Setter
     @NonNull
     private ReportStatus status;
 
