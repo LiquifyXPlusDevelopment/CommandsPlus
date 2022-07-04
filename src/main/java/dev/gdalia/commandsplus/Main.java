@@ -8,6 +8,7 @@ import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.structs.reports.ReportReason;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.Config;
@@ -69,6 +70,7 @@ public class Main extends JavaPlugin {
         getLanguageConfig().saveConfig();
 		setPunishmentsConfig(Config.getConfig("punishments", null, false));
 		ConfigurationSerialization.registerClass(ReportReason.class);
+		ConfigurationSerialization.registerClass(ReportComment.class);
 		setReportsConfig(Config.getConfig("reports", null, false));
 
 		//REGISTERATION FOR CLASSES & LISTENERS

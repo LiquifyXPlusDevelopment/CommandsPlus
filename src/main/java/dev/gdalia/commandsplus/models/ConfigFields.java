@@ -21,6 +21,7 @@ public class ConfigFields {
 		REPORTER = "reporter", //UUID
 		REASON = "reason", //STRING
 		STATUS = "status", //ENUM
-		DATE = "date"; //LONG
+		DATE = "date", //LONG
+		COMMENTS = "comments"; //LIST<MAP<STRING, OBJECT>>
 	}
 }

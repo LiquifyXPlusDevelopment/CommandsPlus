@@ -42,8 +42,8 @@ public class ReportReason implements ConfigurationSerializable {
 
     @SuppressWarnings("unchecked")
     public static ReportReason deserialize(Map<String, Object> args) {
-
-        return new ReportReason(args.get("display-name").toString(),
+        return new ReportReason(
+                args.get("display-name").toString(),
                 Optional.ofNullable(args.get("lore"))
                         .filter(List.class::isInstance)
                         .map(List.class::cast)

@@ -16,6 +16,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -78,7 +80,7 @@ public record ReportUI(@Getter Player checker) {
                 .addLoreLines("&cClick to send report to staff.",
                         "&cPlease notice reports are being held for 7 days max for review.")
                 .create(), event -> {
-            Report report = new Report(UUID.randomUUID(), target.getUniqueId(), checker.getUniqueId(), Instant.now(), reportReason, ReportStatus.OPEN);
+            Report report = new Report(UUID.randomUUID(), target.getUniqueId(), checker.getUniqueId(), Instant.now(), reportReason, ReportStatus.OPEN, new ArrayList<>());
             ReportManager.getInstance().invoke(report);
             checker.closeInventory();
             Message.REPORT_SUCCESSFULLY.sendFormattedMessage(checker, true, target.getName(), reportReason.getLore());

@@ -2,6 +2,7 @@ package dev.gdalia.commandsplus.models;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.reports.Report;
+import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.structs.reports.ReportReason;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import dev.gdalia.commandsplus.utils.Config;
@@ -10,10 +11,7 @@ import lombok.Setter;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class Reports {
 
@@ -35,6 +33,7 @@ public class Reports {
      * @param reportUniqueId the uuid of the report for instance.
      * @return An Optional container that is either empty or containing a report.
      */
+    @SuppressWarnings("unchecked")
     public Optional<Report> getReport(UUID reportUniqueId) {
         if (reports.containsKey(reportUniqueId))
             return Optional.of(reports.get(reportUniqueId));
@@ -48,7 +47,11 @@ public class Reports {
                 UUID.fromString(cs.getString(ConfigFields.ReportsFields.REPORTER)),
                 Instant.ofEpochMilli(cs.getLong(ConfigFields.ReportsFields.DATE)),
                 (ReportReason) cs.get(ConfigFields.ReportsFields.REASON),
-                ReportStatus.valueOf(cs.getString(ConfigFields.ReportsFields.STATUS)));
+                ReportStatus.valueOf(cs.getString(ConfigFields.ReportsFields.STATUS)),
+                Optional.of(cs.getMapList(ConfigFields.ReportsFields.COMMENTS)
+                        .stream()
+                        .map(x -> ReportComment.deserialize((Map<String, Object>) x))
+                        .toList()).orElse(new ArrayList<>()));
         
         reports.put(reportUniqueId, report);
         

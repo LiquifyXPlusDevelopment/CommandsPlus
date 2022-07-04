@@ -58,7 +58,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                     .addLoreLines("&6Left Click&7 to show details.")
                     .addLoreLines("&6Drop key&7 to remove.")
                     .create(), event -> {
-                Report report = new Report(entry.getReportUuid(), entry.getConvicted(), entry.getReporter(), entry.getSentAt(), entry.getReason(), entry.getStatus());
+                Report report = new Report(entry.getReportUuid(), entry.getConvicted(), entry.getReporter(), entry.getSentAt(), entry.getReason(), entry.getStatus(), new ArrayList<>());
                 Optional.of(event.getClick())
                         .filter(click -> click.equals(ClickType.DROP))
                         .ifPresent(clickable -> deleteInitializeReportsGUI(target.getUniqueId(), report));
@@ -187,29 +187,18 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines("&6Left click&7 to print in chat.")
                 .create()));
 
-        gui.setItem(30, new GuiItem(new ItemBuilder(
-                Material.GREEN_TERRACOTTA,
-                "&eMark as: &aOpen")
-                .addLoreLines(" &r")
-                .addLoreLines("&6Click&7 to define the status of report")
-                .addLoreLines("&7as: &aOpen")
-                .create(), event -> ReportUtils.changeStatus(event, ReportStatus.OPEN, report, checker)));
-
-        gui.setItem(31, new GuiItem(new ItemBuilder(
-                Material.YELLOW_TERRACOTTA,
-                "&eMark as: &6In Inspection")
-                .addLoreLines(" &r")
-                .addLoreLines("&6Click&7 to define the status of report")
-                .addLoreLines("&7as: &6In Inspection")
-                .create(), event -> ReportUtils.changeStatus(event, ReportStatus.IN_INSPECTION, report, checker)));
-
-        gui.setItem(32, new GuiItem(new ItemBuilder(
-                Material.RED_TERRACOTTA,
-                "&eMark as: &cClosed")
-                .addLoreLines(" &r")
-                .addLoreLines("&6Click&7 to define the status of report")
-                .addLoreLines("&7as: &cClosed")
-                .create(), event -> ReportUtils.changeStatus(event, ReportStatus.CLOSED, report, checker)));
+        int[] slots = {21, 22, 23};
+        for (int i = 0; i < 3; i++) {
+            ReportStatus status = ReportStatus.values()[i];
+            String displayName = status.getRepresentativeColor() + status.getDisplayName();
+            gui.setItem(slots[i], new GuiItem(new ItemBuilder(
+                    status.getIcon(),
+                    "&eMark as: " + displayName)
+                    .addLoreLines(" &r")
+                    .addLoreLines("&6Click&7 to define the status of report")
+                    .addLoreLines("&7as: " + displayName)
+                    .create(), event -> ReportUtils.getInstance().changeStatus(event, status, report, checker)));
+        }
 
         gui.setItem(36, new GuiItem(new ItemBuilder(
                 Material.FLINT_AND_STEEL,

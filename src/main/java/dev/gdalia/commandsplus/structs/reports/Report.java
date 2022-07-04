@@ -1,6 +1,8 @@
 package dev.gdalia.commandsplus.structs.reports;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import lombok.Getter;
@@ -31,12 +33,16 @@ public class Report {
     private final Instant sentAt;
 
     @Getter
-    @NonNull
+    @NotNull
     private final ReportReason reason;
 
     @Getter
     @Setter
-    @NonNull
+    @NotNull
     private ReportStatus status;
+
+    @Getter
+    @NotNull
+    private final List<ReportComment> comments;
 
 }
