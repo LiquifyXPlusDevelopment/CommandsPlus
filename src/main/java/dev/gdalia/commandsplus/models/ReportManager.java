@@ -1,6 +1,8 @@
 package dev.gdalia.commandsplus.models;
 
+import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.events.PlayerReportPlayerEvent;
+import dev.gdalia.commandsplus.structs.events.PlayerReportRevokeEvent;
 import dev.gdalia.commandsplus.structs.events.ReportStatusChangeEvent;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
@@ -21,6 +23,14 @@ public class ReportManager {
         Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.STATUS, ReportStatus.OPEN.name(), true);
 
         Bukkit.getPluginManager().callEvent(new PlayerReportPlayerEvent(Bukkit.getPlayer(report.getConvicted()), report));
+    }
+
+    public void revoke(Report report) {
+        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.STATUS, ReportStatus.CLOSED.name(), true);
+        Main.getReportsConfig().set(report.getReportUuid().toString(), null);
+
+        Main.getReportsConfig().saveConfig();
+        Bukkit.getPluginManager().callEvent(new PlayerReportRevokeEvent(report));
     }
 
     public void changeStatus(Report report, ReportStatus newStatus) {

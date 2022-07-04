@@ -122,6 +122,7 @@ public class Reports {
     public void writeTo(UUID reportUniqueId, String key, Object value, boolean instSave) {
         Optional<ConfigurationSection> cs = Optional.ofNullable(pConfig.getConfigurationSection(reportUniqueId.toString()));
         cs.ifPresentOrElse(configurationSection -> {
+            reports.remove(reportUniqueId);
             configurationSection.set(key, value);
             if (instSave) pConfig.saveConfig();
         }, () -> {

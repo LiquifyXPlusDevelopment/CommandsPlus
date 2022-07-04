@@ -37,7 +37,6 @@ public class PunishmentManager {
 				section.set(ConfigFields.PunishFields.EXPIRY, punishment.getExpiry().toEpochMilli()));
 
 		section.set(ConfigFields.PunishFields.REASON, punishment.getReason());
-
 		config.saveConfig();
 
 		Bukkit.getPluginManager().callEvent(new PlayerPunishEvent(Bukkit.getPlayer(punishment.getPunished()), punishment));

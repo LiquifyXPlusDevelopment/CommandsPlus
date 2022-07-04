@@ -62,9 +62,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                 Optional.of(event.getClick())
                         .stream()
                         .filter(click -> click.equals(ClickType.DROP))
-                        .map(status -> report.getStatus().name())
-                        .filter(status -> !status.equals(ReportStatus.CLOSED.name()))
-                        .forEach(clickable -> closeInitializeReportsGUI(target.getUniqueId(), report));
+                        .forEach(clickable -> deleteInitializeReportsGUI(target.getUniqueId(), report));
 
                 Optional.of(event.getClick())
                         .stream()
@@ -76,7 +74,7 @@ public record ReportHistoryUI(@Getter Player checker) {
         gui.open(checker);
     }
 
-    public void closeInitializeReportsGUI(UUID targetUniqueID, Report report) {
+    public void deleteInitializeReportsGUI(UUID targetUniqueID, Report report) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueID);
         Gui gui = new Gui(GuiType.HOPPER, Message.fixColor("&6Reports &7> &e" + target.getName()), Set.of());
         gui.disableAllInteractions();
@@ -97,19 +95,21 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines("Report target: &6" + target.getName(),
                         "Report type: &8" + report.getReason().getDisplayName())
                 .addLoreLines(report.getReason().getLore().stream().map(x -> x = "Report reason: &e" + x).toArray(String[]::new))
-                .addLoreLines("Click to&c close&7 the report of this player.")
+                .addLoreLines("Click to&c DELETE&7 the report of this player.")
                 .create()));
 
         gui.setItem(3, new GuiItem(new ItemBuilder(
                 Material.GREEN_WOOL,
-                "&4&lCLOSE REPORT")
-                .addLoreLines("&cClick to close the report.",
+                "&4&lDELETE REPORT")
+                .addLoreLines("&cClick to delete the report.",
                         "&cPlease notice that this action is undoable.")
                 .create(), event -> {
-
-            ReportManager.getInstance().changeStatus(report, ReportStatus.CLOSED);
             checker.closeInventory();
-            Message.REPORT_CLOSED_SUCCESSFULLY.sendFormattedMessage(checker, true, target.getName());
+            Reports.getInstance().getReport(report.getReportUuid())
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .forEach(deleted -> ReportManager.getInstance().revoke(report));
+            Message.REPORT_DELETED_SUCCESSFULLY.sendFormattedMessage(checker, true, target.getName());
         }));
 
         gui.open(checker);
@@ -205,7 +205,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                         .filter(reportStatus -> !reportStatus.equals(ReportStatus.OPEN.name()))
                         .forEach(reportStatus -> {
                             ReportManager.getInstance().changeStatus(report, ReportStatus.OPEN);
-                            gui.update();
+                            checker.closeInventory();
                         })));
 
         gui.setItem(31, new GuiItem(new ItemBuilder(
@@ -222,7 +222,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                         .filter(reportStatus -> !reportStatus.equals(ReportStatus.IN_INSPECTION.name()))
                         .forEach(reportStatus -> {
                             ReportManager.getInstance().changeStatus(report, ReportStatus.IN_INSPECTION);
-                            gui.update();
+                            checker.closeInventory();
                         })));
 
         gui.setItem(32, new GuiItem(new ItemBuilder(
@@ -239,7 +239,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                         .filter(reportStatus -> !reportStatus.equals(ReportStatus.CLOSED.name()))
                         .forEach(reportStatus -> {
                             ReportManager.getInstance().changeStatus(report, ReportStatus.CLOSED);
-                            gui.update();
+                            checker.closeInventory();
                         })));
 
         gui.setItem(36, new GuiItem(new ItemBuilder(
@@ -248,7 +248,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines(" &r")
                 .addLoreLines("&6Click&7 to remove permanently")
                 .addLoreLines("the report.")
-                .create()));
+                .create(), event -> deleteInitializeReportsGUI(targetUniqueID, report)));
 
         gui.setItem(44, new GuiItem(new ItemBuilder(
                 Material.BOOK,
