@@ -2,7 +2,11 @@ package dev.gdalia.commandsplus.listeners;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Optional;
 
+import dev.gdalia.commandsplus.models.ReportManager;
+import dev.gdalia.commandsplus.structs.reports.ReportComment;
+import dev.gdalia.commandsplus.utils.ReportUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +32,16 @@ public class PlayerChatListener implements Listener {
 			Message.CHAT_LOCKED.sendMessage(e, true);
 			return;
 		}
-		
+
+		Optional.of(ReportUtils.getInstance().commentText.containsKey(e.getUniqueId()))
+				.map(report -> ReportUtils.getInstance().commentText.get(e.getUniqueId()))
+				.ifPresent(x -> {
+					ReportManager.getInstance().addComment(x, new ReportComment(e, Instant.now(), event.getMessage()));
+					ReportUtils.getInstance().commentText.remove(e.getUniqueId());
+
+					event.setCancelled(true);
+				});
+
 		Punishments.getInstance().getActivePunishment(e.getUniqueId(), PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresent(punishment -> {
 			Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			event.setCancelled(true);

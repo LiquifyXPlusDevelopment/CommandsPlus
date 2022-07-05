@@ -17,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 
 import java.util.Optional;
 import java.util.Set;
@@ -41,7 +42,14 @@ public record CommentsUI(@Getter Player checker) {
                 .addLoreLines(" &r")
                 .addLoreLines("&6Click&7 to write a new comment")
                 .addLoreLines("on report.")
-                .create()));
+                .create(), event -> Optional.of(event.getClick())
+                .filter(clickType -> clickType.equals(ClickType.LEFT))
+                .filter(x -> !ReportUtils.getInstance().commentText.containsKey(checker.getUniqueId()))
+                .ifPresent(comment -> {
+                    ReportUtils.getInstance().commentText.put(checker.getUniqueId(), report);
+                    checker.closeInventory();
+                    Message.TYPE_AN_COMMENT.sendMessage(checker, true);
+                })));
 
         for(int i = 0; i < report.getComments().size(); i++) {
             int finalI = i;
@@ -49,7 +57,8 @@ public record CommentsUI(@Getter Player checker) {
 
             gui.addItem(new GuiItem(new ItemBuilder(
                     Material.PAPER,
-                    "&eComment&6 #")
+                    "&eComment&7 #" + i)
+                    .addGlow()
                     .addLoreLines(" &r")
                     .addLoreLines("Commenter: " + report.getComments().get(i).getOfflinePlayer().getName())
                     .addLoreLines("Date: &e" + StringUtils.createTimeFormatter(report.getComments().get(i).getSentAt(), "dd/MM/uu, HH:mm:ss"))
@@ -76,8 +85,10 @@ public record CommentsUI(@Getter Player checker) {
             Message.playSound(event.getWhoClicked(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
             event.getWhoClicked().closeInventory();
         }));
-    }
 
+        gui.open(checker);
+    }
+    
     public void deleteInitializeCommentsGUI(UUID targetUniqueID, Report report, ReportComment comment) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueID);
         Gui gui = new Gui(GuiType.HOPPER, Message.fixColor("&6Comments &7> &e" + target.getName()), Set.of());

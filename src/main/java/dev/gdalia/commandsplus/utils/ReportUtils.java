@@ -13,13 +13,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.time.Instant;
 import java.util.*;
 
 public class ReportUtils {
 
     @Getter
     private static final ReportUtils instance = new ReportUtils();
+
+    public HashMap<UUID, Report> commentText = new HashMap<>();
 
     public List<Map.Entry<UUID, Report>> getReports(OfflinePlayer report) {
         return Reports.getInstance().getReports()
@@ -63,11 +64,5 @@ public class ReportUtils {
                 .filter(reportComment -> report.getComments().contains(comment))
                 .filter(obj -> false)
                 .ifPresent(reportComment -> new CommentsUI(checker).deleteInitializeCommentsGUI(report.getConvicted(), report, comment));
-    }
-
-    public void addComment(InventoryClickEvent event, Report report, Player checker , String text) {
-        Optional.of(event.getClick())
-                .filter(clickType -> clickType.equals(ClickType.LEFT))
-                .ifPresent(comment -> ReportManager.getInstance().addComment(report, new ReportComment(checker, Instant.now(), text)));
     }
 }

@@ -97,7 +97,8 @@ public enum Message {
 	CONTACT_AN_ADMIN(Main.getLanguageConfig().getString("CONTACT_AN_ADMIN")),
 	REPORT_SUCCESSFULLY(Main.getLanguageConfig().getString("REPORT_SUCCESSFULLY")),
 	REPORT_DELETED_SUCCESSFULLY(Main.getLanguageConfig().getString("REPORT_DELETED_SUCCESSFULLY")),
-	COMMENT_DELETED_SUCCESSFULLY(Main.getLanguageConfig().getString("COMMENT_DELETED_SUCCESSFULLY"));
+	COMMENT_DELETED_SUCCESSFULLY(Main.getLanguageConfig().getString("COMMENT_DELETED_SUCCESSFULLY")),
+	TYPE_AN_COMMENT(Main.getLanguageConfig().getString("TYPE_AN_COMMENT"));
 
 	private final String message;
 

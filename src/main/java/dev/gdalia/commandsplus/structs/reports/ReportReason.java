@@ -55,5 +55,4 @@ public class ReportReason implements ConfigurationSerializable {
     public String toString() {
         return "Reason={displayName=" + displayName + ",lore={" + lore + "},icon=" + icon.name() + "}";
     }
-
 }

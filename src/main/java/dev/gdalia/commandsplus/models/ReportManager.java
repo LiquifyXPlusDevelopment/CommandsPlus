@@ -61,7 +61,7 @@ public class ReportManager {
 
     public void changeStatus(Report report, ReportStatus newStatus) {
         Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.STATUS, newStatus.name(), true);
-        report.setStatus(newStatus);
         Bukkit.getPluginManager().callEvent(new ReportStatusChangeEvent(report));
+        Reports.getInstance().getReports().remove(report.getReportUuid());
     }
 }

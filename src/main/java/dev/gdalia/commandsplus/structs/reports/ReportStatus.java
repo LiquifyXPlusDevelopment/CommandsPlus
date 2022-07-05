@@ -9,7 +9,6 @@ import org.bukkit.Material;
 public enum ReportStatus {
 
     OPEN(Material.GREEN_WOOL, "Open", ChatColor.GREEN),
-
     IN_INSPECTION(Material.ORANGE_WOOL, "In Inspection", ChatColor.GOLD),
     CLOSED(Material.RED_WOOL, "Close", ChatColor.RED);
 

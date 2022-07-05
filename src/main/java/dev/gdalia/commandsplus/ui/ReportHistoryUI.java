@@ -5,7 +5,6 @@ import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.Report;
-import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import dev.gdalia.commandsplus.utils.ReportUtils;
 import dev.triumphteam.gui.components.GuiType;
@@ -20,7 +19,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
-import java.time.Instant;
 import java.util.*;
 
 public record ReportHistoryUI(@Getter Player checker) {
@@ -217,7 +215,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines(" &r")
                 .addLoreLines("&6Click&7 to show comments")
                 .addLoreLines("of report.")
-                .create(), event -> ReportManager.getInstance().addComment(report, new ReportComment(checker, Instant.now(), "hehehe ah!"))));
+                .create(), event -> new CommentsUI(checker).openCommentsGUI(targetUniqueID, report)));
 
         gui.setItem(40, new GuiItem(new ItemBuilder(
                 Material.BARRIER,
