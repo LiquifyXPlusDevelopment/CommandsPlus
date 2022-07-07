@@ -74,6 +74,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				player.sendMessage(Message.fixColor("&e/warn [player] [reason] &7Warns the target player."));
 				player.sendMessage(Message.fixColor("&7-------- &b1&7/&b1&7 --------"));
 				return true;
+				//TODO add HelpPageSystem to here, this should really help.
 			}
 			case "reload" -> {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);

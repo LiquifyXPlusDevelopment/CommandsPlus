@@ -41,18 +41,17 @@ public class HealCommand implements CommandExecutor {
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return false;
 		}
-		
-		if (player.equals(sender)) {
-			player.setHealth(20);
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.HEAL_PLAYER.sendMessage(sender, true);
-			return true;
-		}
 
-		double playerHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-		player.setHealth(playerHealth);
+		double playerMaxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+
+		if (!player.equals(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			Message.HEAL_TARGET.sendFormattedMessage(sender, true, player.getName(), playerMaxHealth);
+			Message.HEALED_BY_PLAYER.sendFormattedMessage(player, true, playerMaxHealth, sender.getName());
+		} else Message.HEAL_PLAYER.sendFormattedMessage(sender, true, playerMaxHealth);
+
+		player.setHealth(playerMaxHealth);
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.HEAL_TARGET.sendFormattedMessage(sender, true, player.getName());
 		return true;
 	}
 	

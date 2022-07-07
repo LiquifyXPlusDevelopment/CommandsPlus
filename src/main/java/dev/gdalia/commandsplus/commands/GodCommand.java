@@ -3,6 +3,7 @@ package dev.gdalia.commandsplus.commands;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -41,19 +42,23 @@ public class GodCommand implements CommandExecutor {
 			Message.INVALID_PLAYER.sendMessage(sender, true);
 			return false;
 		}
-		
+
+		boolean negation = !player.hasMetadata("godmode");
+
+		if (!player.equals(sender)) {
+			Message.PLAYER_GOD_TO_OTHER.sendFormattedMessage(sender, true);
+			Message.TARGET_GOD_BY_OTHER.sendFormattedMessage(player, true);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+		} else Message.PLAYER_GOD_MSG.sendFormattedMessage(sender, true, StringUtils.getStatusString(negation));
+
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+
 		if (!player.hasMetadata("godmode")) {
 			player.setMetadata("godmode", Main.MetadataValues.godModeData(true));
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.PLAYER_GOD_ENABLED.sendMessage(player, true);
-			if (!player.equals(sender)) Message.TARGET_GOD_ENABLED.sendFormattedMessage(sender, true, player.getName());
 			return true;
 		}
 		
 		player.removeMetadata("godmode", Main.getInstance());
-		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.PLAYER_GOD_DISABLED.sendMessage(player, true);
-		if (!player.equals(sender)) Message.TARGET_GOD_DISABLED.sendFormattedMessage(sender, true, player.getName());
 		return true;
 	}
 }

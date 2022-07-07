@@ -79,7 +79,7 @@ public class ChatCommand implements CommandExecutor, TabCompleter {
 
 	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (!Permission.PERMISSION_CHAT.hasPermission(sender)) return null;
-		if (args.length == 0) return null;
-		return List.of("clear", "lock");
+		if (args.length == 1) return List.of("clear", "lock");
+		return null;
 	}
 }

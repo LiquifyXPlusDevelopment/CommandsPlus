@@ -47,7 +47,7 @@ public class FlySpeedCommand implements CommandExecutor{
 		float flightSpeed = speed / 10F;
 		player.setFlySpeed(flightSpeed);
 		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.FLY_SPEED.sendFormattedMessage(player, true, flightSpeed);
+		Message.FLY_SPEED.sendFormattedMessage(player, true, (flightSpeed*10));
 		return true;
 		} catch (NumberFormatException ex) {
 			Message.FLY_SPEED_ARGUMENTS.sendMessage(player, true);

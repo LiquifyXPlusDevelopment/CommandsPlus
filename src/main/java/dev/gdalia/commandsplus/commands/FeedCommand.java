@@ -40,17 +40,13 @@ public class FeedCommand implements CommandExecutor {
 			return false;
 		}
 		
-		if (player.equals(sender)) {
-			player.setFoodLevel(20);
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.FEED_PLAYER.sendMessage(sender, true);
-			return true;
-		}
+		if (!player.equals(sender)) {
+			Message.FEED_TARGET.sendFormattedMessage(sender, true, player.getName());
+			Message.FEED_BY_TARGET.sendFormattedMessage(player, true, sender.getName());
+		} else Message.FEED_PLAYER.sendMessage(sender, true);
 
 		player.setFoodLevel(20);
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.FEED_TARGET.sendFormattedMessage(sender, true, player.getName());
 		return true;
 	}
-
 }

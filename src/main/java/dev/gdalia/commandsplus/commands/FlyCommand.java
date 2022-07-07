@@ -1,6 +1,7 @@
 package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -41,20 +42,16 @@ public class FlyCommand implements CommandExecutor {
 			}
 			player = Bukkit.getPlayer(args[0]);
 		}
-
-
     	
 		boolean negation = !player.getAllowFlight();
 		player.setAllowFlight(negation);
 		player.setFlying(negation);
 		
-		if (player.equals(sender)) Message.FLIGHT_MSG.sendFormattedMessage(sender, true, getStatusString(player));
-		else Message.FLIGHT_MSG_BY_OTHER.sendFormattedMessage(player, true, getStatusString(player), sender.getName());
+		if (!player.equals(sender)) {
+			Message.FLIGHT_MSG_BY_OTHER.sendFormattedMessage(player, true, StringUtils.getStatusString(player.getAllowFlight()), sender.getName());
+			Message.FLIGHT_MSG_TO_OTHER.sendFormattedMessage(sender, true, StringUtils.getStatusString(player.getAllowFlight()), player.getName());
+		} else Message.FLIGHT_MSG.sendFormattedMessage(sender, true, StringUtils.getStatusString(player.getAllowFlight()));
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		return true;
-	}
-	
-	private String getStatusString(Player player) {
-		return player.getAllowFlight() ? Message.fixColor("&a&lEnabled&7") : Message.fixColor("&c&lDisabled&7");
 	}
 }

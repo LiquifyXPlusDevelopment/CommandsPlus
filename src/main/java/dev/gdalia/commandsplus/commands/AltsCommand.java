@@ -65,14 +65,14 @@ public class AltsCommand implements CommandExecutor, TabCompleter {
 			return false;
 		}
 
+		if (alts.isEmpty()) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			Message.ALTS_CHECK.sendFormattedMessage(player, true, target.getName());
+			return true;
+		}
+
 		switch (args[1].toLowerCase()) {
 			case "check" -> {
-				if (alts.isEmpty()) {
-					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-					Message.ALTS_CHECK.sendFormattedMessage(player, true, target.getName());
-					return true;
-				}
-
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Message.ALTS_ONLINE.sendFormattedMessage(sender, true, target.getName());
 				StringBuilder sb = new StringBuilder();
