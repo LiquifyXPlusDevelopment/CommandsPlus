@@ -59,22 +59,22 @@ PLAYER_NOT_MUTE:
 PLAYER_WARNED_MESSAGE:
 WARN_ARGUMENTS:
 TARGET_GOD_DISABLED: "&7Your god mode just &c&lDisabled&7 by &6{0}&7."
-KICK_ARGUMENTS: "&7/kick {&6user&7} {&6reason&7}"
-ALTS_CHECK: "&7The player &6{0}&7 has no alts."
-ALTS_BANNED: "&7You have &c&lBanned &6{0}&7 alts."
-ALTS_KICKED: "&7You have &c&lKicked &6{0}&7 alts."
-ALTS_ONLINE: "&7The player &6{0}&7 has the following alts online:"
-FREEZE_TARGET: "&7You have been freezed by &6{0}&7."
-FREEZE_PLAYER: "&7You freezed &6{0}&7."
-UNFREEZE_TARGET: "&7You have been unfreezed by &6{0}&7."
-UNFREEZE_PLAYER: "&7You unfreezed &6{0}&7."
-GAMEMODE_CHANGED: "&7Set own game mode to &6{0} &7Mode."
-GAMEMODE_ALREADY_SET: "&cYou are already on game mode &6{0}&c."
-GAMEMODE_CHANGED_OTHER: "&7The game mode of &6{0}&7 has been changed to &6{1}&7."
-GAMEMODE_ALREADY_SET_OTHER: "&6{0}&c is already on gamemode &6{1}&c."
-GAMEMODE_CHANGED_BY_OTHER: "&7Game mode has been set to &6{0} &7by &6{1}."
-FLIGHT_MSG: "&7Your flight has been {0}&7."
-FLIGHT_MSG_BY_OTHER: "&7Your flight has been {0}&7 by &6{1}&7."
-PLAYER_NO_ACTIVE_PUNISHMENT: "&cThe player has no active punishments."
-PLAYER_ACTIVE_PUNISHMENT: "&cThe player has active punishments."
-CONTACT_AN_ADMIN: "&cConfig reasons is not right, please contact an admin."
+KICK_ARGUMENTS:
+ALTS_CHECK:
+ALTS_BANNED:
+ALTS_KICKED:
+ALTS_ONLINE:
+FREEZE_TARGET:
+FREEZE_PLAYER:
+UNFREEZE_TARGET:
+UNFREEZE_PLAYER:
+GAMEMODE_CHANGED:
+GAMEMODE_ALREADY_SET:
+GAMEMODE_CHANGED_OTHER:
+GAMEMODE_ALREADY_SET_OTHER:
+GAMEMODE_CHANGED_BY_OTHER:
+FLIGHT_MSG:
+FLIGHT_MSG_BY_OTHER:
+PLAYER_NO_ACTIVE_PUNISHMENT:
+PLAYER_ACTIVE_PUNISHMENT:
+CONTACT_AN_ADMIN:

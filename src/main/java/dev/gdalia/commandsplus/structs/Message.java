@@ -114,7 +114,7 @@ public enum Message {
 	public static String fixColor(String message) {
 		return ChatColor.translateAlternateColorCodes('&', message);
 	}
-	
+
 	public void sendMessage(CommandSender sender, boolean hasPrefix) {
 		String prefix = hasPrefix ? Main.getInstance().getPluginPrefix() : "";
 		sender.sendMessage(prefix + getMessage());
