@@ -46,10 +46,10 @@ public class GodCommand implements CommandExecutor {
 		boolean negation = !player.hasMetadata("godmode");
 
 		if (!player.equals(sender)) {
-			Message.PLAYER_GOD_TO_OTHER.sendFormattedMessage(sender, true);
-			Message.TARGET_GOD_BY_OTHER.sendFormattedMessage(player, true);
+			Message.GODMODE_TOGGLE_TO_PLAYER.sendFormattedMessage(sender, true, StringUtils.getStatusString(negation), player.getName());
+			Message.GODMODE_TOGGLE_BY_OTHER.sendFormattedMessage(player, true, StringUtils.getStatusString(negation), sender.getName());
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		} else Message.PLAYER_GOD_MSG.sendFormattedMessage(sender, true, StringUtils.getStatusString(negation));
+		} else Message.GODMODE_TOGGLE.sendFormattedMessage(sender, true, StringUtils.getStatusString(negation));
 
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 

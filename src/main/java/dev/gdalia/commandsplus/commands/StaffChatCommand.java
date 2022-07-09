@@ -38,17 +38,12 @@ public class StaffChatCommand implements CommandExecutor{
         	return false;
         }
 			
-        if (!PlayerCollection.getStaffchatPlayers().contains(uuid)) {
-        	PlayerCollection.getStaffchatPlayers().add(uuid);
-        	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.STAFFCHAT_ENABLE.sendMessage(player, true);
-			return true;
-        }
-        
+        if (!PlayerCollection.getStaffchatPlayers().contains(uuid)) PlayerCollection.getStaffchatPlayers().add(uuid);
+		else PlayerCollection.getStaffchatPlayers().remove(uuid);
+
         PlayerCollection.getStaffchatPlayers().remove(uuid);
         Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.STAFFCHAT_DISABLE.sendMessage(player, true);
-		
+		Message.STAFFCHAT_TOGGLE.sendMessage(player, true);
 		return true;
 	}
 

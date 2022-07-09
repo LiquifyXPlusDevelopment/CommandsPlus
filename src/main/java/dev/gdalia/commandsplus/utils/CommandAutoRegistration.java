@@ -48,19 +48,18 @@ public class CommandAutoRegistration {
     final boolean
             loadDevCommands;
 
-    public void register(String packageName) {
-        register(packageName, true);
-
+    public boolean register(String packageName) {
+        return register(packageName, true);
     }
 
-    public void register(String packageName, boolean deep) {
+    public boolean register(String packageName, boolean deep) {
         ClassLoader classLoader = plugin.getClass().getClassLoader();
         ClassPath classPath;
         try {
             classPath = ClassPath.from(classLoader);
         } catch (IOException e) {
             e.printStackTrace();
-            return;
+            return false;
         }
 
         for (ClassPath.ClassInfo classInfo : deep ? classPath.getTopLevelClassesRecursive(packageName) : classPath.getTopLevelClasses(packageName)) {
@@ -95,6 +94,7 @@ public class CommandAutoRegistration {
                 }
             }
         }
+        return true;
     }
 
     @SneakyThrows

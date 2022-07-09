@@ -1,6 +1,9 @@
 package dev.gdalia.commandsplus.commands;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
@@ -37,29 +40,25 @@ public class VanishCommand implements CommandExecutor{
         	Message.NO_PERMISSION.sendMessage(sender, true);
         	return false;
         }
-        
+
+		Stream<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers().stream()
+					.filter(Permission.PERMISSION_VANISH_SEE::hasPermission);
+
         if (!PlayerCollection.getVanishPlayers().contains(uuid)) {
         	PlayerCollection.getVanishPlayers().add(uuid);
         	PlayerCollection.getBuildmodePlayers().add(uuid);
     		player.setAllowFlight(true);
     		player.setFlying(true);
-			Bukkit.getOnlinePlayers()
-			.stream()
-			.filter(p -> p.canSee(player) && !Permission.PERMISSION_VANISH_SEE.hasPermission(p))
-			.forEach(p -> p.hidePlayer(Main.getInstance(), player));
+			onlinePlayers.forEach(p -> p.hidePlayer(Main.getInstance(), player));
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.VANISH_ENABLE.sendMessage(player, true);
-			return true;
-        }
-        
-        PlayerCollection.getVanishPlayers().remove(uuid);
-    	PlayerCollection.getBuildmodePlayers().remove(uuid);
-		Bukkit.getOnlinePlayers()
-			.stream()
-			.filter(p -> !p.canSee(player))
-			.forEach(p -> p.showPlayer(Main.getInstance(), player));
+        } else {
+			PlayerCollection.getVanishPlayers().remove(uuid);
+			PlayerCollection.getBuildmodePlayers().remove(uuid);
+			onlinePlayers.forEach(p -> p.showPlayer(Main.getInstance(), player));
+		}
+
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.VANISH_DISABLE.sendMessage(player, true);
+		Message.VANISH_TOGGLE.sendMessage(player, true);
 		return true;
 	}
 }

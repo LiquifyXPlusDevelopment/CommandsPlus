@@ -1,9 +1,6 @@
 package dev.gdalia.commandsplus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
@@ -58,7 +55,8 @@ public class Main extends JavaPlugin {
 		setInstance(this);
 		saveDefaultConfig();
 		
-		setLanguageConfig(Config.getConfig("language", null, true));
+		setLanguageConfig(Config.getConfig("language", null, false));
+		Arrays.stream(Message.values()).forEach(message -> getLanguageConfig().addDefault(message.name(), message.getDefaultMessage()));
         getLanguageConfig().saveConfig();
         
 		setPunishmentsConfig(Config.getConfig("punishments", null, false));

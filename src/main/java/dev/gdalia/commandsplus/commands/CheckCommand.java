@@ -1,6 +1,7 @@
 package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.PunishmentType;
@@ -18,18 +19,48 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @CommandAutoRegistration.Command(value = "check")
-public class CheckCommand implements CommandExecutor {
+public class CheckCommand extends BasePlusCommand {
 
-	/**
-	 * /check {user}
-	 * LABEL ARG0
-	 */
-	
 
-	@SuppressWarnings("deprecation")
+	public CheckCommand() {
+		super(false, "check");
+	}
+
+	@Override
+	public String getDescription() {
+		return null;
+	}
+
+	@Override
+	public String getSyntax() {
+		return null;
+	}
+
+	@Override
+	public Permission getRequiredPermission() {
+		return null;
+	}
+
+	@Override
+	public boolean isPlayerCommand() {
+		return false;
+	}
+
+	@Override
+	public void runCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+
+	}
+
+	@Override
+	public Map<Integer, List<String>> tabCompletions() {
+		return null;
+	}
+
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (!(sender instanceof Player player)) {

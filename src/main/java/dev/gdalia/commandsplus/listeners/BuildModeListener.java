@@ -3,6 +3,7 @@ package dev.gdalia.commandsplus.listeners;
 import java.util.UUID;
 
 import dev.gdalia.commandsplus.Main;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +12,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.structs.Permission;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -49,13 +51,26 @@ public class BuildModeListener implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerInteractAtEntity(PlayerArmorStandManipulateEvent event) {
+	public void onPlayerManipulateArmourStand(PlayerArmorStandManipulateEvent event) {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 
 		if(!Permission.PERMISSION_BUILDMODE.hasPermission(player)) return;
 		if (PlayerCollection.getBuildmodePlayers().contains(uuid))
 			event.setCancelled(true);
+	}
+
+	@EventHandler
+	public void onPlayerDamage(EntityDamageByEntityEvent event) {
+		if (!(event.getDamager() instanceof Player player)) return;
+
+		UUID uuid = player.getUniqueId();
+
+		if (!(event.getEntity() instanceof ArmorStand armorStand)) return;
+		if(!Permission.PERMISSION_BUILDMODE.hasPermission(player)) return;
+		if (PlayerCollection.getBuildmodePlayers().contains(uuid))
+			event.setCancelled(true);
+
 	}
 
 	@EventHandler

@@ -48,9 +48,9 @@ public class FlyCommand implements CommandExecutor {
 		player.setFlying(negation);
 		
 		if (!player.equals(sender)) {
-			Message.FLIGHT_MSG_BY_OTHER.sendFormattedMessage(player, true, StringUtils.getStatusString(player.getAllowFlight()), sender.getName());
+			Message.FLIGHT_TOGGLE_BY_OTHER.sendFormattedMessage(player, true, StringUtils.getStatusString(player.getAllowFlight()), sender.getName());
 			Message.FLIGHT_MSG_TO_OTHER.sendFormattedMessage(sender, true, StringUtils.getStatusString(player.getAllowFlight()), player.getName());
-		} else Message.FLIGHT_MSG.sendFormattedMessage(sender, true, StringUtils.getStatusString(player.getAllowFlight()));
+		} else Message.FLIGHT_TOGGLE.sendFormattedMessage(sender, true, StringUtils.getStatusString(player.getAllowFlight()));
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		return true;
 	}
