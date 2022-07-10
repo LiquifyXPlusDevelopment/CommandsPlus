@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.IntFunction;
 
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -103,6 +104,14 @@ public class Punishments {
                     return !cs.contains(ConfigFields.PunishFields.OVERRIDE) && !cs.contains(ConfigFields.PunishFields.REMOVED_BY);
                 }).findFirst();
     }
+
+	public Optional<Punishment> getAnyActivePunishment(UUID uuid) {
+		return getActivePunishment(
+				uuid,
+				Arrays.stream(PunishmentType.values())
+						.filter(PunishmentType.KICK::equals)
+						.toArray(PunishmentType[]::new));
+	}
 	
 	/**
 	 * makes a full deep check if the following user has a punishment of this type.

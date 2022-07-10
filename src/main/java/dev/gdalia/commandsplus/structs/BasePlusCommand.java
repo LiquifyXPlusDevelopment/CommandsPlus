@@ -2,6 +2,7 @@ package dev.gdalia.commandsplus.structs;
 
 import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -24,7 +25,7 @@ public abstract class BasePlusCommand implements TabExecutor {
     public BasePlusCommand(boolean allowOverride, String... commandsNameArray) {
         this.commandName = commandsNameArray;
         //GLIDA WAS HERE.
-        for (String commandName: commandsNameArray) {
+        for (String commandName : commandsNameArray) {
             if (getCommandMap().containsKey(commandName) && !allowOverride) continue;
             getCommandMap().put(commandName, this);
         }
@@ -40,11 +41,13 @@ public abstract class BasePlusCommand implements TabExecutor {
 
     public abstract void runCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args);
 
+    @Nullable
     public abstract Map<Integer, List<String>> tabCompletions();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!getRequiredPermission().getPermission().isBlank() && !getRequiredPermission().hasPermission(sender)) {
+            Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             Message.NO_PERMISSION.sendMessage(sender, true);
             return true;
         }
@@ -62,6 +65,7 @@ public abstract class BasePlusCommand implements TabExecutor {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!getRequiredPermission().hasPermission(sender)) return null;
         if (isPlayerCommand() && !(sender instanceof Player)) return null;
+        if (tabCompletions() == null) return null;
 
         for (int i = 0; i < args.length; i++) {
             if (!tabCompletions().containsKey(i)) return null;

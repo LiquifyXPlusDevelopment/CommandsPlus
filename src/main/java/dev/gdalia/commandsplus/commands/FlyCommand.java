@@ -1,5 +1,6 @@
 package dev.gdalia.commandsplus.commands;
 
+import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.Bukkit;
@@ -12,9 +13,42 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Map;
 
 @CommandAutoRegistration.Command(value = "fly")
-public class FlyCommand implements CommandExecutor {
+public class FlyCommand extends BasePlusCommand {
+
+	public FlyCommand() {
+		super(false, "fly");
+	}
+
+	@Override
+	public String getDescription() {
+		return null;
+	}
+
+	@Override
+	public String getSyntax() {
+		return null;
+	}
+
+	@Override
+	public Permission getRequiredPermission() {
+		return Permission.PERMISSION_FLY;
+	}
+
+	@Override
+	public boolean isPlayerCommand() {
+		return true;
+	}
+
+	@Override
+	public @Nullable Map<Integer, List<String>> tabCompletions() {
+		return null;
+	}
 
 	/**
 	 * /fly {user}
@@ -22,25 +56,17 @@ public class FlyCommand implements CommandExecutor {
 	 */
 	
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player player)){
-        	Message.PLAYER_CMD.sendMessage(sender, true);
-            return false;
-        }
+	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 
-		if (!Permission.PERMISSION_FLY.hasPermission(player)) {
-			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.NO_PERMISSION.sendMessage(player, true);
-			return false;
-		}
+		Player player = (Player) sender;
 
 		if (args.length >= 1) {
-			if (Bukkit.getPlayerExact(args[0]) == null) {
+			if (Bukkit.getPlayerExact(args[0]) != null) player = Bukkit.getPlayerExact(args[0]);
+			else {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 				Message.INVALID_PLAYER.sendMessage(sender, true);
-				return false;
+				return;
 			}
-			player = Bukkit.getPlayer(args[0]);
 		}
     	
 		boolean negation = !player.getAllowFlight();
@@ -52,6 +78,5 @@ public class FlyCommand implements CommandExecutor {
 			Message.FLIGHT_MSG_TO_OTHER.sendFormattedMessage(sender, true, StringUtils.getStatusString(player.getAllowFlight()), player.getName());
 		} else Message.FLIGHT_TOGGLE.sendFormattedMessage(sender, true, StringUtils.getStatusString(player.getAllowFlight()));
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		return true;
 	}
 }

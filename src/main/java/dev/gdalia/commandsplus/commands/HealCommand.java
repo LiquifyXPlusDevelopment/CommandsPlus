@@ -1,5 +1,6 @@
 package dev.gdalia.commandsplus.commands;
 
+import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -12,15 +13,48 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Map;
 
 @CommandAutoRegistration.Command(value = "heal")
-public class HealCommand implements CommandExecutor {
+public class HealCommand extends BasePlusCommand {
 
-	/**
-	 * /heal {user}
-	 * LABEL ARG0
-	 */
-	
+	public HealCommand(boolean allowOverride, String... commandsNameArray) {
+		super(allowOverride, commandsNameArray);
+	}
+
+	@Override
+	public String getDescription() {
+		return null;
+	}
+
+	@Override
+	public String getSyntax() {
+		return null;
+	}
+
+	@Override
+	public Permission getRequiredPermission() {
+		return null;
+	}
+
+	@Override
+	public boolean isPlayerCommand() {
+		return false;
+	}
+
+	@Override
+	public void runCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+
+	}
+
+	@Override
+	public @Nullable Map<Integer, List<String>> tabCompletions() {
+		return null;
+	}
+
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (!(sender instanceof Player player)) {

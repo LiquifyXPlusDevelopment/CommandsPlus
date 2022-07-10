@@ -113,11 +113,15 @@ public enum Message {
 		sender.sendMessage(prefix + getMessage());
 
 	}
-	  public static void playSound(CommandSender sender, Sound sound, float volume, float pitch) {
-		    if (!(sender instanceof Player player)) return;
-		    if (Main.getInstance().getConfig().getBoolean("disable_sounds")) return;
-		    player.playSound(player.getLocation(), sound, volume, pitch);
-		  }
+	public static void playSound(CommandSender sender, Sound sound, float volume, float pitch) {
+		if (!(sender instanceof Player player)) return;
+		if (Main.getInstance().getConfig().getBoolean("disable_sounds")) return;
+		player.playSound(player, sound, volume, pitch);
+	}
+
+	public static void playBumpSound(CommandSender sender) {
+		playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+	}
 
 	public void sendFormattedMessage(CommandSender sender, boolean hasPrefix, Object... objects) {
 		String prefix = hasPrefix ? Main.getInstance().getPluginPrefix() : "";
