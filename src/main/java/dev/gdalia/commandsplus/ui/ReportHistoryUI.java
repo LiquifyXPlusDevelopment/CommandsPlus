@@ -47,16 +47,18 @@ public record ReportHistoryUI(@Getter Player checker) {
 
             gui.addItem(new GuiItem(new ItemBuilder(Material.PAPER, "&cReport: &7" + entry.getReportUuid())
                     .addGlow()
-                    .addLoreLines(" &r")
-                    .addLoreLines("Status: &6" + entry.getStatus().name())
-                    .addLoreLines("Date: &e" + entry.getSentAt())
-                    .addLoreLines(" &r")
-                    .addLoreLines("Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
-                    .addLoreLines("Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
+                    .addLoreLines(
+                            " &r",
+                            "Status: &6" + entry.getStatus().name(),
+                            "Date: &e" + entry.getSentAt(),
+                            " &r",
+                            "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
+                            "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
                     .addLoreLines(entry.getReason().getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
-                    .addLoreLines(" &r")
-                    .addLoreLines("&6Left Click&7 to show details.")
-                    .addLoreLines("&6Drop key&7 to remove.")
+                    .addLoreLines(
+                            " &r",
+                            "&6Left Click&7 to show details.",
+                            "&6Drop key&7 to remove.")
                     .create(), event -> {
                 Report report = new Report(entry.getReportUuid(), entry.getConvicted(), entry.getReporter(), entry.getSentAt(), entry.getReason(), entry.getStatus(), new ArrayList<>());
                 Optional.of(event.getClick())
@@ -90,7 +92,8 @@ public record ReportHistoryUI(@Getter Player checker) {
 
         gui.setItem(2, new GuiItem(new ItemBuilder(Material.PLAYER_HEAD, "&aConfirming Report Details")
                 .setPlayerSkull(target)
-                .addLoreLines("Report target: &6" + target.getName(),
+                .addLoreLines(
+                        "Report target: &6" + target.getName(),
                         "Report type: &8" + report.getReason().getDisplayName())
                 .addLoreLines(report.getReason().getLore().stream().map(x -> x = "Report reason: &e" + x).toArray(String[]::new))
                 .addLoreLines("Click to&c DELETE&7 the report of this player.")
@@ -99,7 +102,8 @@ public record ReportHistoryUI(@Getter Player checker) {
         gui.setItem(3, new GuiItem(new ItemBuilder(
                 Material.GREEN_WOOL,
                 "&4&lDELETE REPORT")
-                .addLoreLines("&cClick to delete the report.",
+                .addLoreLines(
+                        "&cClick to delete the report.",
                         "&cPlease notice that this action is undoable.")
                 .create(), event -> {
             checker.closeInventory();
@@ -126,65 +130,71 @@ public record ReportHistoryUI(@Getter Player checker) {
                 Material.PAPER,
                 "&cReport: &7" + report.getReportUuid())
                 .addGlow()
-                .addLoreLines(" &r")
-                .addLoreLines("Status: &6" + report.getStatus().name())
-                .addLoreLines("Date: &e" + report.getSentAt())
-                .addLoreLines(" &r")
-                .addLoreLines("Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
-                .addLoreLines("Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
+                .addLoreLines(
+                        " &r",
+                        "Status: &6" + report.getStatus().name(),
+                        "Date: &e" + report.getSentAt(),
+                        " &r",
+                        "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
+                        "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
                 .addLoreLines(report.getReason().getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
-                .addLoreLines(" &r")
-                .addLoreLines("&6Left Click&7 to print in chat.")
+                .addLoreLines(
+                        " &r",
+                        "&6Left Click&7 to print in chat.")
                 .create()));
 
         gui.setItem(12, new GuiItem(new ItemBuilder(
                 Material.PLAYER_HEAD,
                 "&7Reporter: &a" + Reporter.getName())
                 .setPlayerSkull(Reporter)
-                .addLoreLines(" &r")
-                .addLoreLines("Sent reports: &b" + ReportUtils.getInstance().getReports(Reporter).size())
-                .addLoreLines("Received reports: &b" + Reports.getInstance().getReportHistory(report.getReporter()).size())
-                .addLoreLines(" &r")
-                .addLoreLines("&6Left click&7 to teleport to the")
-                .addLoreLines("location of player &e" + Reporter.getName())
+                .addLoreLines(
+                        " &r",
+                        "Sent reports: &b" + ReportUtils.getInstance().getReports(Reporter).size(),
+                        "Received reports: &b" + Reports.getInstance().getReportHistory(report.getReporter()).size(),
+                        " &r",
+                        "&6Left click&7 to teleport to the",
+                        "location of player &e" + Reporter.getName())
                 .create(), event -> ReportUtils.getInstance().teleportTo(event, Reporter.getPlayer(), checker)));
 
         gui.setItem(13, new GuiItem(new ItemBuilder(
                 Material.GOLDEN_AXE,
                 "&eAbusive report")
-                .addLoreLines(" &r")
-                .addLoreLines("&6Click&7 to punish the reporter")
-                .addLoreLines("&a" + Reporter.getName())
+                .addLoreLines(
+                        " &r",
+                        "&6Click&7 to punish the reporter",
+                        "&a" + Reporter.getName())
                 .create()));
 
         gui.setItem(14, new GuiItem(new ItemBuilder(
                 Material.PLAYER_HEAD,
                 "&7Reported: &c" + Reported.getName())
                 .setPlayerSkull(Reported)
-                .addLoreLines(" &r")
-                .addLoreLines("Sent reports: &b" + ReportUtils.getInstance().getReports(Reported).size())
-                .addLoreLines("Received reports: &b" + Reports.getInstance().getReportHistory(report.getConvicted()).size())
-                .addLoreLines(" &r")
-                .addLoreLines("&6Left click&7 to teleport to the")
-                .addLoreLines("location of player &e" + Reported.getName())
+                .addLoreLines(
+                        " &r",
+                        "Sent reports: &b" + ReportUtils.getInstance().getReports(Reported).size(),
+                        "Received reports: &b" + Reports.getInstance().getReportHistory(report.getConvicted()).size(),
+                        " &r",
+                        "&6Left click&7 to teleport to the",
+                        "location of player &e" + Reported.getName())
                 .create(), event -> ReportUtils.getInstance().teleportTo(event, Reported.getPlayer(), checker)));
 
         gui.setItem(17, new GuiItem(new ItemBuilder(
                 Material.ENCHANTED_BOOK,
                 "&eData")
-                .addLoreLines(" &r")
-                .addLoreLines("&eReported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
-                .addLoreLines(" Gamemode: &b" + (Reported.isOnline() ? Reported.getPlayer().getGameMode().name().toLowerCase() : ""))
-                .addLoreLines(" Health: &c" + (Reported.isOnline() ? Reported.getPlayer().getHealth() + "/" + Reported.getPlayer().getMaxHealth() : ""))
-                .addLoreLines(" Food: &6" + (Reported.isOnline() ? Reported.getPlayer().getFoodLevel() : ""))
-                .addLoreLines(" UUID: &8" + Reported.getUniqueId())
-                .addLoreLines(" IP: &e" + (Reported.isOnline() ? Reported.getPlayer().getAddress() : ""))
-                .addLoreLines(" &r")
-                .addLoreLines("&eReporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
-                .addLoreLines(" UUID: &8" + Reporter.getUniqueId())
-                .addLoreLines(" IP: &e" + (Reporter.isOnline() ? Reporter.getPlayer().getAddress() : ""))
-                .addLoreLines(" &r")
-                .addLoreLines("&6Left click&7 to print in chat.")
+                .addLoreLines(
+                        " &r",
+                        "&eReported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
+                        " Gamemode: &b" + (Reported.isOnline() ? Reported.getPlayer().getGameMode().name().toLowerCase() : ""),
+                        " Health: &c" + (Reported.isOnline() ? Reported.getPlayer().getHealth() + "/" + Reported.getPlayer().getMaxHealth() : ""),
+                        " Food: &6" + (Reported.isOnline() ? Reported.getPlayer().getFoodLevel() : ""),
+                        " UUID: &8" + Reported.getUniqueId(),
+                        " IP: &e" + (Reported.isOnline() ? Reported.getPlayer().getAddress() : ""),
+                        " &r",
+                        "&eReporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
+                        " UUID: &8" + Reporter.getUniqueId(),
+                        " IP: &e" + (Reporter.isOnline() ? Reporter.getPlayer().getAddress() : ""),
+                        " &r",
+                        "&6Left click&7 to print in chat.")
                 .create()));
 
         int[] slots = {21, 22, 23};
@@ -194,27 +204,30 @@ public record ReportHistoryUI(@Getter Player checker) {
             gui.setItem(slots[i], new GuiItem(new ItemBuilder(
                     status.getIcon(),
                     "&eMark as: " + displayName)
-                    .addLoreLines(" &r")
-                    .addLoreLines("&6Click&7 to define the status of report")
-                    .addLoreLines("&7as: " + displayName)
+                    .addLoreLines(
+                            " &r",
+                            "&6Click&7 to define the status of report",
+                            "&7as: " + displayName)
                     .create(), event -> ReportUtils.getInstance().changeStatus(event, status, report, checker)));
         }
 
         gui.setItem(27, new GuiItem(new ItemBuilder(
                 Material.FLINT_AND_STEEL,
                 "&cRemove report")
-                .addLoreLines(" &r")
-                .addLoreLines("&6Click&7 to remove permanently")
-                .addLoreLines("the report.")
+                .addLoreLines(
+                        " &r",
+                        "&6Click&7 to remove permanently",
+                        "the report.")
                 .create(), event -> deleteInitializeReportsGUI(targetUniqueID, report)));
 
         gui.setItem(35, new GuiItem(new ItemBuilder(
                 Material.BOOK,
                 "&eComments of report")
                 .addGlow()
-                .addLoreLines(" &r")
-                .addLoreLines("&6Click&7 to show comments")
-                .addLoreLines("of report.")
+                .addLoreLines(
+                        " &r",
+                        "&6Click&7 to show comments",
+                        "of report.")
                 .create(), event -> new CommentsUI(checker).openCommentsGUI(targetUniqueID, report)));
 
         gui.setItem(40, new GuiItem(new ItemBuilder(

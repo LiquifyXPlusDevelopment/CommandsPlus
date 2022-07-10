@@ -39,9 +39,10 @@ public record CommentsUI(@Getter Player checker) {
         gui.setItem(4, new GuiItem(new ItemBuilder(
                 Material.WRITABLE_BOOK,
                 "&eWrite a comment")
-                .addLoreLines(" &r")
-                .addLoreLines("&6Click&7 to write a new comment")
-                .addLoreLines("on report.")
+                .addLoreLines(
+                        " &r",
+                        "&6Click&7 to write a new comment",
+                        "on report.")
                 .create(), event -> Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
                 .filter(x -> !ReportUtils.getInstance().commentText.containsKey(checker.getUniqueId()))
@@ -59,13 +60,14 @@ public record CommentsUI(@Getter Player checker) {
                     Material.PAPER,
                     "&eComment&7 #" + i)
                     .addGlow()
-                    .addLoreLines(" &r")
-                    .addLoreLines("Commenter: " + report.getComments().get(i).getOfflinePlayer().getName())
-                    .addLoreLines("Date: &e" + StringUtils.createTimeFormatter(report.getComments().get(i).getSentAt(), "dd/MM/uu, HH:mm:ss"))
-                    .addLoreLines("Message: &f" + report.getComments().get(i).getComment())
-                    .addLoreLines(" &r")
-                    .addLoreLines("&6Left click&7 to send to reporter.")
-                    .addLoreLines("&6Drop key&7 to remove.")
+                    .addLoreLines(
+                            " &r",
+                            "Commenter: " + report.getComments().get(i).getOfflinePlayer().getName(),
+                            "Date: &e" + StringUtils.createTimeFormatter(report.getComments().get(i).getSentAt(), "dd/MM/uu, HH:mm:ss"),
+                            "Message: &f" + report.getComments().get(i).getComment(),
+                            " &r",
+                            "&6Left click&7 to send to reporter.",
+                            "&6Drop key&7 to remove.")
                     .create(), event -> {
                 ReportUtils.getInstance().sendComment(event, report.getComments().get(finalI), reporter.getPlayer());
                 ReportUtils.getInstance().revokeComment(event, report, report.getComments().get(finalI), checker);
@@ -107,16 +109,18 @@ public record CommentsUI(@Getter Player checker) {
 
         gui.setItem(2, new GuiItem(new ItemBuilder(Material.PLAYER_HEAD, "&aConfirming Report Details")
                 .setPlayerSkull(target)
-                .addLoreLines("Comment sender: &6" + comment.getOfflinePlayer().getName(),
-                        "Comment date: &8" + StringUtils.createTimeFormatter(comment.getSentAt(), "dd/MM/uu, HH:mm:ss"))
-                .addLoreLines("Comment message: &e" + comment.getComment())
-                .addLoreLines("Click to&c DELETE&7 the comment of this player.")
+                .addLoreLines(
+                        "Comment sender: &6" + comment.getOfflinePlayer().getName(),
+                        "Comment date: &8" + StringUtils.createTimeFormatter(comment.getSentAt(), "dd/MM/uu, HH:mm:ss"),
+                        "Comment message: &e" + comment.getComment(),
+                        "Click to&c DELETE&7 the comment of this player.")
                 .create()));
 
         gui.setItem(3, new GuiItem(new ItemBuilder(
                 Material.GREEN_WOOL,
                 "&4&lDELETE COMMENT")
-                .addLoreLines("&cClick to delete the comment.",
+                .addLoreLines(
+                        "&cClick to delete the comment.",
                         "&cPlease notice that this action is undoable.")
                 .create(), event -> {
             openCommentsGUI(target.getUniqueId(), report);

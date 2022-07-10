@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -68,7 +67,8 @@ public record ReportUI(@Getter Player checker) {
 
         gui.setItem(2, new GuiItem(new ItemBuilder(Material.PLAYER_HEAD, "&aConfirming Report Details")
                 .setPlayerSkull(target)
-                .addLoreLines("Report target: &6" + target.getName(),
+                .addLoreLines(
+                        "Report target: &6" + target.getName(),
                         "Report type: &8" + reportReason.getDisplayName())
                 .addLoreLines(reportReason.getLore().stream().map(x -> x = "Report reason: &e" + x).toArray(String[]::new))
                 .addLoreLines("Click to file the report on this player.")
@@ -77,7 +77,8 @@ public record ReportUI(@Getter Player checker) {
         gui.setItem(3, new GuiItem(new ItemBuilder(
                 Material.GREEN_WOOL,
                 "&4&lSEND REPORT")
-                .addLoreLines("&cClick to send report to staff.",
+                .addLoreLines(
+                        "&cClick to send report to staff.",
                         "&cPlease notice reports are being held for 7 days max for review.")
                 .create(), event -> {
             Report report = new Report(UUID.randomUUID(), target.getUniqueId(), checker.getUniqueId(), Instant.now(), reportReason, ReportStatus.OPEN, new ArrayList<>());
@@ -88,70 +89,4 @@ public record ReportUI(@Getter Player checker) {
 
         gui.open(checker);
     }
-
-    /*
-      staff.sendMessage(Message.fixColor("&7&m-----&e&lNew Report&7&m-----"));
-      staff.sendMessage(targetClick);
-      staff.sendMessage(playerClick);
-      staff.sendMessage(Message.fixColor("&7Type: &e" + name));
-      staff.sendMessage(Message.fixColor("&7Reason: &e" + lore));
-      staff.sendMessage(Message.fixColor("&7Status: &a" + status));
-      staff.sendMessage(Message.fixColor("&7&m---------------------"));
-     */
-
-/*
-    public void openReportsGUI(int page) {
-        Inventory gui = Bukkit.createInventory(null, 54, .replace("%PAGE%", page + ""));
-
-        for (int j = 0; j < 9; j++)
-            gui.setItem(j, new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, "&r").create());
-
-        for (int j = 45; j < 54; j++)
-            gui.setItem(j, new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, "&r").create());
-
-        gui.setItem(4, new ItemBuilder(Material.BOOKSHELF, "&eReports").create());
-        gui.setItem(49, new ItemBuilder(Material.BARRIER, "&cClose").create());
-
-        gui.setItem(45, new ItemBuilder(Material.ARROW, ).create());
-        gui.setItem(53, new ItemBuilder(Material.ARROW, ).create());
-        
-        for (int i = 0; i < Main.getReportsConfig().getKeys(false).size();) {
-            i++;
-            ConfigurationSection section = Main.getReportsConfig().getConfigurationSection("Report-" + i);
-
-            if (section == null) {
-                Message.CONTACT_AN_ADMIN.sendMessage(checker, true);
-                Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-                return;
-            }
-
-            Player reported = Bukkit.getPlayer(UUID.fromString(section.getString(ConfigFields.ReportsFields.REPORTED)));
-            Player executer = Bukkit.getPlayer(UUID.fromString(section.getString(ConfigFields.ReportsFields.EXECUTER)));
-            String reason = section.getString(ConfigFields.ReportsFields.REASON);
-            String status = section.getString(ConfigFields.ReportsFields.STATUS);
-            String date = section.getString(ConfigFields.ReportsFields.DATE);
-            if (reported == null || executer == null) {
-                Message.CONTACT_AN_ADMIN.sendMessage(checker, true);
-                Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-                return;
-            }
-
-            String reportedStatus = reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}";
-            String executerStatus = executer.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}";
-             List<String> ItemLore = Arrays.asList(
-                     " ",
-                     "&7Status: " + status,
-                     "&7Date: &e" + date,
-                     " ",
-                     "&7Executer: &a" + executer.getName() + executerStatus,
-                     "&7Reported: &c" + reported.getName() + reportedStatus,
-                     "&7Reason: &6" + reason,
-                     " ",
-                     "&6Click&7 to show details.",
-                     "&6Drop key&7 to remove."
-             );
-            gui.addItem(new ItemBuilder(Material.PAPER, "&cReport #" + i).setLore(ItemLore).create());
-        }
-        checker.openInventory(gui);
-    }*/
 }
