@@ -27,12 +27,12 @@ public class FlyCommand extends BasePlusCommand {
 
 	@Override
 	public String getDescription() {
-		return null;
+		return "Toggles flying.";
 	}
 
 	@Override
 	public String getSyntax() {
-		return null;
+		return "/fly [player]";
 	}
 
 	@Override

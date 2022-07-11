@@ -19,7 +19,7 @@ import java.util.Map;
 @CommandAutoRegistration.Command(value = "feed")
 public class FeedCommand extends BasePlusCommand {
 
-	public FeedCommand(boolean allowOverride, String... commandsNameArray) {
+	public FeedCommand() {
 		super(false, "feed");
 	}
 

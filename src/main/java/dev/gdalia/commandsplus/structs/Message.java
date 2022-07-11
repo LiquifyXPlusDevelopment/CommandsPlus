@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -111,12 +112,12 @@ public enum Message {
 	public void sendMessage(CommandSender sender, boolean hasPrefix) {
 		String prefix = hasPrefix ? Main.getInstance().getPluginPrefix() : "";
 		sender.sendMessage(prefix + getMessage());
-
 	}
+
 	public static void playSound(CommandSender sender, Sound sound, float volume, float pitch) {
 		if (!(sender instanceof Player player)) return;
 		if (Main.getInstance().getConfig().getBoolean("disable_sounds")) return;
-		player.playSound(player, sound, volume, pitch);
+		player.playSound(player.getLocation(), sound, volume, pitch);
 	}
 
 	public static void playBumpSound(CommandSender sender) {

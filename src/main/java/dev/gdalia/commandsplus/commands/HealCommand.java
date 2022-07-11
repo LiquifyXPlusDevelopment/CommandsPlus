@@ -21,33 +21,28 @@ import java.util.Map;
 @CommandAutoRegistration.Command(value = "heal")
 public class HealCommand extends BasePlusCommand {
 
-	public HealCommand(boolean allowOverride, String... commandsNameArray) {
-		super(allowOverride, commandsNameArray);
+	public HealCommand() {
+		super(false, "heal");
 	}
 
 	@Override
 	public String getDescription() {
-		return null;
+		return "Fills health bar back to maximum.";
 	}
 
 	@Override
 	public String getSyntax() {
-		return null;
+		return "/heal [player]";
 	}
 
 	@Override
 	public Permission getRequiredPermission() {
-		return null;
+		return Permission.PERMISSION_HEAL;
 	}
 
 	@Override
 	public boolean isPlayerCommand() {
-		return false;
-	}
-
-	@Override
-	public void runCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-
+		return true;
 	}
 
 	@Override
@@ -56,24 +51,14 @@ public class HealCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if (!(sender instanceof Player player)) {
-			Message.PLAYER_CMD.sendMessage(sender, true);
-			return true;
-		}
-
-		if (!Permission.PERMISSION_HEAL.hasPermission(player)) {
-			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(player, true);
-			return true;
-		}
-
+	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		Player player = (Player) sender;
 		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
 			player = Bukkit.getPlayer(args[0]);
 		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.INVALID_PLAYER.sendMessage(sender, true);
-			return false;
+			return;
 		}
 
 		double playerMaxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
@@ -86,7 +71,5 @@ public class HealCommand extends BasePlusCommand {
 
 		player.setHealth(playerMaxHealth);
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		return true;
 	}
-	
 }

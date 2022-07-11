@@ -52,21 +52,35 @@ public class Main extends JavaPlugin {
     	languageConfig, punishmentsConfig, reportsConfig;
     
 	public void onEnable() {
+		Bukkit.getConsoleSender().sendMessage(
+				" ", " ",
+				Message.fixColor("&a&lEnabling CommandsPlus... hold on tight!"));
+
 		setInstance(this);
 		saveDefaultConfig();
 		
 		setLanguageConfig(Config.getConfig("language", null, false));
 		Arrays.stream(Message.values()).forEach(message -> getLanguageConfig().addDefault(message.name(), message.getDefaultMessage()));
         getLanguageConfig().saveConfig();
-        
+
+		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lLoaded all default configurations!"));
+
 		setPunishmentsConfig(Config.getConfig("punishments", null, false));
 		setReportsConfig(Config.getConfig("reports", null, false));
-		
+		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lLoaded info from database!"));
+
+
 		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
-		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
+		if (!new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands")) {
+			this.getLogger().warning("Couldn't load all commands properly! please check any exceptions that pop up on console!");
+			getPluginLoader().disablePlugin(this);
+		} else Bukkit.getConsoleSender().sendMessage("&a&lSuccessfully loaded all commands from default sources!");
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);
-		
-		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&7CommandsPlus has been &aEnabled&7."));
+
+		Bukkit.getConsoleSender().sendMessage(
+				Message.fixColor("&7CommandsPlus has been &aEnabled&7."),
+				" ",
+				" ");
 	}
 	
 	

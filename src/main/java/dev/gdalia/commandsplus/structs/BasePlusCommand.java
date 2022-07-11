@@ -2,6 +2,7 @@ package dev.gdalia.commandsplus.structs;
 
 import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -28,13 +29,13 @@ public abstract class BasePlusCommand implements TabExecutor {
         for (String commandName : commandsNameArray) {
             if (getCommandMap().containsKey(commandName) && !allowOverride) continue;
             getCommandMap().put(commandName, this);
+            Bukkit.getLogger().info(this.getClass().getName() + " I just did a thing! YOOO");
         }
     }
 
     public abstract String getDescription();
 
     public abstract String getSyntax();
-
     public abstract Permission getRequiredPermission();
 
     public abstract boolean isPlayerCommand();

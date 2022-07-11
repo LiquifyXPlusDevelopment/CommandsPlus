@@ -81,17 +81,15 @@ public class CommandAutoRegistration {
             boolean devCommand = annotation.devServer();
             if (devCommand && !loadDevCommands)
                 continue;
-
             CommandExecutor instance = createInstance(clazz);
 
             for (String pluginCommandString : annotation.value()) {
                 PluginCommand pluginCommand = plugin.getCommand(pluginCommandString);
-                if (pluginCommand == null)
+                if (pluginCommand == null)  {
                     plugin.getLogger().warning("Command /" + pluginCommandString + " is not registered to this plugin!");
-                else {
-                    pluginCommand.setExecutor(instance);
-                    plugin.getLogger().info("Loaded " + (devCommand ? "dev" : "") + " command /" + pluginCommandString + "!");
+                    return false;
                 }
+                else pluginCommand.setExecutor(instance);
             }
         }
         return true;

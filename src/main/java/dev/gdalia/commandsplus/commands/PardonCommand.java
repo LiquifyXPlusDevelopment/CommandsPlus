@@ -1,7 +1,11 @@
 package dev.gdalia.commandsplus.commands;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
+import dev.gdalia.commandsplus.structs.*;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -13,62 +17,78 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.models.PunishmentManager;
 import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Permission;
-import dev.gdalia.commandsplus.structs.PunishmentRevoke;
-import dev.gdalia.commandsplus.structs.PunishmentType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @CommandAutoRegistration.Command(value = {"unban", "unmute"})
-public class PardonCommand implements CommandExecutor{
+public class PardonCommand extends BasePlusCommand {
 
-	/**
-	 * /unban or unmute {user}
-	 * LABEL ARG0
-	 */
-	
+	public PardonCommand() {
+		super(false, "unban", "unmute");
+	}
+
+	@Override
+	public String getDescription() {
+		return "Pardon command to players who were punished.";
+	}
+
+	@Override
+	public String getSyntax() {
+		return "/(unban || unmute) [player]";
+	}
+
+	@Override
+	public Permission getRequiredPermission() {
+		return null;
+	}
+
+	@Override
+	public boolean isPlayerCommand() {
+		return false;
+	}
+
+	@Override
+	public @Nullable Map<Integer, List<String>> tabCompletions() {
+		return null;
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if (!(sender instanceof Player player)) {
-			Message.PLAYER_CMD.sendMessage(sender, true);
-			return true;
-		}
-
+	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		PunishmentType type = PunishmentType.valueOf(cmd.getName().toUpperCase().replace("UN", ""));
 
-		if (!Permission.valueOf("PERMISSION_" + cmd.getName().toUpperCase()).hasPermission(player)) {
-			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(player, true);
-			return true;
+		if (!Permission.valueOf("PERMISSION_" + cmd.getName().toUpperCase()).hasPermission(sender)) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.NO_PERMISSION.sendMessage(sender, true);
+			return;
 		}
 		
 		if (args.length == 0) {
-			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			Message.valueOf(cmd.getName().toUpperCase() +"_ARGUMENTS").sendMessage(player, true);
-			return true;
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
+			Message.valueOf(cmd.getName().toUpperCase() +"_ARGUMENTS").sendMessage(sender, true);
+			return;
 		}
 		
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         if (!target.hasPlayedBefore()) {
-        	Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.INVALID_PLAYER.sendMessage(player, true);
-            return true;
+        	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+        	Message.INVALID_PLAYER.sendMessage(sender, true);
+            return;
         }
         
         Punishments.getInstance()
         	.getActivePunishment(target.getUniqueId(), type, PunishmentType.valueOf("TEMP" + type))
         	.ifPresentOrElse(punishment -> {
-				UUID executer = player.getUniqueId();
-        		PunishmentManager.getInstance().revoke(new PunishmentRevoke(punishment, executer));
-        		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+        		PunishmentManager.getInstance().revoke(new PunishmentRevoke(
+								punishment,
+								Optional.of(((Player) sender).getUniqueId()).orElse(null)));
+        		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 
-        		Message.valueOf("PLAYER_" + cmd.getName().toUpperCase()).sendFormattedMessage(player, true, target.getName());
+        		Message.valueOf("PLAYER_" + cmd.getName().toUpperCase()).sendFormattedMessage(sender, true, target.getName());
 				if (target.isOnline() && type.equals(PunishmentType.MUTE) || type.equals(PunishmentType.TEMPMUTE)) {
-					Message.valueOf("TARGET_" + cmd.getName().toUpperCase()).sendFormattedMessage(target.getPlayer(), true, player.getName());
+					Message.valueOf("TARGET_" + cmd.getName().toUpperCase()).sendFormattedMessage(target.getPlayer(), true, sender.getName());
 				}
 
-        		}, () -> Message.valueOf("PLAYER_NOT_" + cmd.getName().toUpperCase()).sendMessage(player, true));
-        return true;
+        		}, () -> Message.valueOf("PLAYER_NOT_" + cmd.getName().toUpperCase()).sendMessage(sender, true));
 	}
 }

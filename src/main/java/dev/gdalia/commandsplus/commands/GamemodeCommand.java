@@ -35,7 +35,7 @@ public class GamemodeCommand extends BasePlusCommand {
 
 	@Override
 	public String getSyntax() {
-		return "/gamemode [gamemode] [player]";
+		return "/gamemode [mode] [player]";
 	}
 
 	@Override
