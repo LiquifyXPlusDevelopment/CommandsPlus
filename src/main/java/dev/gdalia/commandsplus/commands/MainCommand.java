@@ -62,8 +62,8 @@ public class MainCommand extends BasePlusCommand {
 	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (args.length == 0) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			player.sendMessage(Message.fixColor("&7/commandsplus [&eHelp&7/&eReload&7]"));
-			return true;
+			sender.sendMessage(Message.fixColor("&7/commandsplus [&eHelp&7/&eReload&7]"));
+			return;
 		}
 
 		switch (args[0].toLowerCase()) {
