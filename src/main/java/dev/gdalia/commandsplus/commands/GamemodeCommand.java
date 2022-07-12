@@ -40,7 +40,7 @@ public class GamemodeCommand extends BasePlusCommand {
 
 	@Override
 	public Permission getRequiredPermission() {
-		return null;
+		return Permission.PERMISSION_GAMEMODE;
 	}
 
 	@Override
@@ -86,35 +86,33 @@ public class GamemodeCommand extends BasePlusCommand {
 				return;
 			}
 		}
-
-		if (args.length >= 2 && Bukkit.getPlayerExact(args[1]) != null) {
-			player = Bukkit.getPlayer(args[1]);
-		} else if (args.length >= 2 && Bukkit.getPlayerExact(args[1]) == null) {
-			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(player, true);
-			return;
+		if (args.length >= 2) {
+			if (Bukkit.getPlayerExact(args[1]) == null) {
+				Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+				Message.INVALID_PLAYER.sendMessage(player, true);
+				return;
+			} else player = Bukkit.getPlayer(args[1]);
 		}
     	
     	if (player.getGameMode() == setGamemode.getAsBukkit()) {
-    		boolean isSender = player.getName().equalsIgnoreCase(player.getName());
+    		boolean isSender = player.equals(sender);
     		Message message = isSender ? Message.GAMEMODE_ALREADY_SET : Message.GAMEMODE_ALREADY_SET_OTHER;
     		Object[] values = !isSender ? new Object[] {player.getName(), setGamemode.name()} : new Object[] {setGamemode.name()};
-    		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-    		message.sendFormattedMessage(player, true, values);
+    		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+    		message.sendFormattedMessage(sender, true, values);
     		return;
     	}
     	
     	
     	player.setGameMode(setGamemode.getAsBukkit());
-		if (player.equals(player)) {
+		if (player.equals(sender)) {
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.GAMEMODE_CHANGED.sendFormattedMessage(player, true, setGamemode.name());
 			return;
 		}
 		
 		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.GAMEMODE_CHANGED_OTHER.sendFormattedMessage(player, true, player.getName(), setGamemode.name());
-		Message.GAMEMODE_CHANGED_BY_OTHER.sendFormattedMessage(player, true, setGamemode.name(), player.getName());
-		return;
+		Message.GAMEMODE_CHANGED_OTHER.sendFormattedMessage(sender, true, player.getName(), setGamemode.name());
+		Message.GAMEMODE_CHANGED_BY_OTHER.sendFormattedMessage(player, true, setGamemode.name(), sender.getName());
 	}
 }

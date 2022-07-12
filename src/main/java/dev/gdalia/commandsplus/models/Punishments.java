@@ -109,7 +109,7 @@ public class Punishments {
 		return getActivePunishment(
 				uuid,
 				Arrays.stream(PunishmentType.values())
-						.filter(PunishmentType.KICK::equals)
+						.filter(x -> x != PunishmentType.KICK)
 						.toArray(PunishmentType[]::new));
 	}
 	

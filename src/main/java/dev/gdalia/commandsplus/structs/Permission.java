@@ -17,6 +17,8 @@ public enum Permission {
 	PERMISSION_FLY("commandsplus.fly"),
 	PERMISSION_FLYSPEED("commandsplus.flyspeed"),
 	PERMISSION_FREEZE("commandsplus.freeze"),
+
+	PERMISSION_GAMEMODE("commandsplus.gamemode"),
 	PERMISSION_GAMEMODE_CREATIVE("commandsplus.gamemode.creative"),
 	PERMISSION_GAMEMODE_SURVIVAL("commandsplus.gamemode.survival"),
 	PERMISSION_GAMEMODE_ADVENTURE("commandsplus.gamemode.adventrue"),

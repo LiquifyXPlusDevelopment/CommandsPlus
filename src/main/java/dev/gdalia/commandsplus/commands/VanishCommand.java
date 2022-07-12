@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -70,7 +71,7 @@ public class VanishCommand extends BasePlusCommand {
 		}
 
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.VANISH_TOGGLE.sendMessage(player, true);
+		Message.VANISH_TOGGLE.sendFormattedMessage(player, true, StringUtils.getStatusString(PlayerCollection.getVanishPlayers().contains(uuid)));
 	}
 
 	@Override

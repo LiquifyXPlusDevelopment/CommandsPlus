@@ -78,7 +78,7 @@ public enum Message {
 	MUTE_ARGUMENTS("&7/mute {&6user&7} {&6reason&7}"),
 
 	GODMODE_TOGGLE("&7You have {0}&7 your god mode."),
-	GODMODE_TOGGLE_BY_OTHER("&7Your god mode was {0}&7 by &6{1}&7."),
+	GODMODE_TOGGLE_BY_OTHER("&7Your god mode has been {0}&7 by &6{1}&7."),
 	GODMODE_TOGGLE_TO_PLAYER("&7You have {0} &6{1}&7's god mode."),
 	ALTS_ONLINE("&7The player &6{0}&7 has the following alts online:"),
 	FREEZE_TARGET("&7You have been freezed by &6{0}&7."),
