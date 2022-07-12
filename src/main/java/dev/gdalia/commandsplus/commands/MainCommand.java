@@ -1,25 +1,20 @@
 package dev.gdalia.commandsplus.commands;
 
-import java.util.List;
-import java.util.Map;
-
+import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
-
 import dev.gdalia.commandsplus.utils.HelpPageSystem;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
-
-import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Permission;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Map;
 
 @CommandAutoRegistration.Command(value = "commandsplus")
 public class MainCommand extends BasePlusCommand {
@@ -78,43 +73,10 @@ public class MainCommand extends BasePlusCommand {
 					return;
 				}
 
-				if (args.length == 1) {
-					hps.ShowPage(sender, 1);
-					return;
-				}
+				int page = (args.length == 1 || !StringUtils.isNumeric(args[1]) || Integer.parseInt(args[1]) == 0) ? 1 : Integer.parseInt(args[1]);
 
-				if (StringUtils.isNumeric(args[1])) hps.ShowPage(sender, Integer.parseInt(args[1]));
-				else hps.ShowPage(sender, 1);
+				hps.ShowPage(sender, page);
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-				/*
-				sender.sendMessage(Message.fixColor("&7-------- &eHelp&7 --------"));
-				sender.sendMessage(Message.fixColor("&e/alts [player] [kickall/banall/check] &7Check if the player has alts on the server."));
-				sender.sendMessage(Message.fixColor("&e/ban [user] [reason] &7Bans the target player from the server."));
-				sender.sendMessage(Message.fixColor("&e/buildmode &7Enables/Disables your buildmode."));
-				sender.sendMessage(Message.fixColor("&e/chat [clear/lock] &7Clears/Locks or Unlocks the chat."));
-				sender.sendMessage(Message.fixColor("&e/check [player] &7Checks if the target player currently is muted/banned."));
-				sender.sendMessage(Message.fixColor("&e/feed [player] &7Resets target player food level back to maximum."));
-				sender.sendMessage(Message.fixColor("&e/fly [player] &7Enables/Disables your flight mode."));
-				sender.sendMessage(Message.fixColor("&e/flyspeed [amount] &7Change your flying speed."));
-				sender.sendMessage(Message.fixColor("&e/freeze [player] &7Freezes the target player."));
-				sender.sendMessage(Message.fixColor("&e/gamemode [gamemode] [player] &7Change your gamemode to the gamemode you selected."));
-				sender.sendMessage(Message.fixColor("&e/god [player] &7Enables/Disables god mode to target player."));
-				sender.sendMessage(Message.fixColor("&e/heal [player] &7Resets players health level back to maximum"));
-				sender.sendMessage(Message.fixColor("&e/history [player] &7Gives all punishments logs of target player."));
-				sender.sendMessage(Message.fixColor("&e/kick [player] [reason] &7Kicks the target player from the server."));
-				sender.sendMessage(Message.fixColor("&e/mute [player] [reason] &7Mutes the target player."));
-				sender.sendMessage(Message.fixColor("&e/staffchat &7Enables/Disables your staffchat."));
-				sender.sendMessage(Message.fixColor("&e/tempban [player] [time] [reason] &7Bans the target player for a specific time."));
-				sender.sendMessage(Message.fixColor("&e/tempmute [player] [time] [reason] &7Mutes the target player for a specific time."));
-				sender.sendMessage(Message.fixColor("&e/time [day/night] &7Change the time to day/night."));
-				sender.sendMessage(Message.fixColor("&e/tpall [player] &7Tp all online players to the target player."));
-				sender.sendMessage(Message.fixColor("&e/tphere [player] &7Tp the target player to you."));
-				sender.sendMessage(Message.fixColor("&e/unban [player] &7Unbans the target player."));
-				sender.sendMessage(Message.fixColor("&e/unmute [player] &7Unmutes the target player."));
-				sender.sendMessage(Message.fixColor("&e/vanish &7Vanishes you from all members online."));
-				sender.sendMessage(Message.fixColor("&e/warn [player] [reason] &7Warns the target player."));
-				sender.sendMessage(Message.fixColor("&7-------- &b1&7/&b1&7 --------"));
-				 */
 			}
 			case "reload" -> {
 				if (!Permission.PERMISSION_MAIN_RELOAD.hasPermission(sender)) {

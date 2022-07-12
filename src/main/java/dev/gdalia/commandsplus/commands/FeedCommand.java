@@ -25,7 +25,7 @@ public class FeedCommand extends BasePlusCommand {
 
 	@Override
 	public String getDescription() {
-		return "Feed yourself/others";
+		return "Feed yourself/others.";
 	}
 
 	@Override

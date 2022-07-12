@@ -30,6 +30,7 @@ public class HelpPageSystem {
 			for (int i = 0; i < MaxLinesPerPage * Page; i++) {
 				if (i < MaxLinesPerPage * Page - MaxLinesPerPage) continue;
 				sender.sendMessage(Message.fixColor(Messages[i]));
+				sender.sendMessage(" ");
 			}
 		} catch (ArrayIndexOutOfBoundsException e1) {
 			sender.sendMessage(Message.fixColor("&cEnd Of Pages!"));

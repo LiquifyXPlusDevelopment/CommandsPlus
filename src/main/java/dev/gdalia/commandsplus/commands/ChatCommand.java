@@ -26,7 +26,7 @@ public class ChatCommand extends BasePlusCommand {
 
 	@Override
 	public String getDescription() {
-		return "&7Clears/Locks or Unlocks the chat.";
+		return "Clears/Locks or Unlocks the chat.";
 	}
 
 	@Override

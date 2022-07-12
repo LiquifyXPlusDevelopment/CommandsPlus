@@ -47,7 +47,7 @@ public abstract class BasePlusCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!getRequiredPermission().getPermission().isBlank() && !getRequiredPermission().hasPermission(sender)) {
+        if (getRequiredPermission() != null && !getRequiredPermission().hasPermission(sender)) {
             Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             Message.NO_PERMISSION.sendMessage(sender, true);
             return true;
@@ -64,7 +64,7 @@ public abstract class BasePlusCommand implements TabExecutor {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!getRequiredPermission().hasPermission(sender)) return null;
+        if (getRequiredPermission() != null && !getRequiredPermission().hasPermission(sender)) return null;
         if (isPlayerCommand() && !(sender instanceof Player)) return null;
         if (tabCompletions() == null) return null;
         if (!tabCompletions().containsKey(args.length)) return null;
