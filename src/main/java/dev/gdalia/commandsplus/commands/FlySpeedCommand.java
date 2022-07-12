@@ -1,5 +1,6 @@
 package dev.gdalia.commandsplus.commands;
 
+import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Sound;
@@ -11,50 +12,66 @@ import org.bukkit.entity.Player;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @CommandAutoRegistration.Command(value = "flyspeed")
-public class FlySpeedCommand implements CommandExecutor{
+public class FlySpeedCommand extends BasePlusCommand {
 
-	/**
-	 * /flyspeed
-	 * LABEL
-	 */
-	
+	public FlySpeedCommand() {
+		super(false, "flyspeed");
+	}
+
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if (!(sender instanceof Player player)) {
-			Message.PLAYER_CMD.sendMessage(sender, true);
-			return true;
-		}
-		
-		if (!Permission.PERMISSION_FLYSPEED.hasPermission(sender)) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(sender, true);
-			return true;
-		}
+	public String getDescription() {
+		return "Sets the defined speed for flying.";
+	}
+
+	@Override
+	public String getSyntax() {
+		return "/flyspeed [1-10]";
+	}
+
+	@Override
+	public Permission getRequiredPermission() {
+		return Permission.PERMISSION_FLYSPEED;
+	}
+
+	@Override
+	public boolean isPlayerCommand() {
+		return true;
+	}
+	@Override
+	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+		int[] listOfNumbers = new int[]{1,2,3,4,5,6,7,8,9,10};
+		List<String> listOfNumbersString = Arrays.stream(listOfNumbers).mapToObj(String::valueOf).toList();
+		return Map.of(1, List.of(new TabCompletion(listOfNumbersString, getRequiredPermission())));
+	}
+
+	@Override
+	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		Player player = (Player) sender;
 
 		if (args.length == 0) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.FLY_SPEED_ARGUMENTS.sendMessage(sender, true);
-			return true;
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.FLY_SPEED_ARGUMENTS.sendMessage(player, true);
+			return;
 		}
 		
 		try {
-			
-		if (!StringUtils.isNumeric(args[0])) return false;
-		
-		float speed = Integer.parseInt(args[0]);
-		if (speed > 10.0F || speed < 0.0F) return false;
-		
-		float flightSpeed = speed / 10F;
-		player.setFlySpeed(flightSpeed);
-		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.FLY_SPEED.sendFormattedMessage(player, true, flightSpeed);
-		return true;
+			if (!StringUtils.isNumeric(args[0])) return;
+			float speed = Integer.parseInt(args[0]);
+			if (speed > 10.0F || speed < 0.0F) return;
+
+			float flightSpeed = speed / 10F;
+			player.setFlySpeed(flightSpeed);
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			Message.FLY_SPEED.sendFormattedMessage(player, true, (flightSpeed * 10));
 		} catch (NumberFormatException ex) {
-			Message.FLY_SPEED_ARGUMENTS.sendMessage(sender, true);
-			return false;
+			Message.FLY_SPEED_ARGUMENTS.sendMessage(player, true);
 		}
 	}
-
 }

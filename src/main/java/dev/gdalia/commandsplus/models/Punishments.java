@@ -1,15 +1,21 @@
 package dev.gdalia.commandsplus.models;
 
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.IntFunction;
+
+import org.bukkit.configuration.ConfigurationSection;
+
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.configuration.ConfigurationSection;
-
-import java.time.Instant;
-import java.util.*;
 
 /**
  * TODO think about better ideas to make this even more better and cooler to use.
@@ -100,7 +106,15 @@ public class Punishments {
                     return !cs.contains(ConfigFields.PunishFields.OVERRIDE) && !cs.contains(ConfigFields.PunishFields.REMOVED_BY);
                 }).findFirst();
     }
-	
+
+	public Optional<Punishment> getAnyActivePunishment(UUID uuid) {
+		return getActivePunishment(
+				uuid,
+				Arrays.stream(PunishmentType.values())
+						.filter(x -> x != PunishmentType.KICK)
+						.toArray(PunishmentType[]::new));
+	}
+
 	/**
 	 * makes a full deep check if the following user has a punishment of this type.
 	 * @param uuid The user/player unique ID.

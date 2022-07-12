@@ -19,12 +19,12 @@ public class StaffChatListener implements Listener{
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 		String msg = event.getMessage();
-		
+
 		if(!Permission.PERMISSION_STAFFCHAT.hasPermission(player)) return;
 		if (!PlayerCollection.getStaffchatPlayers().contains(uuid)) return;
 			event.setCancelled(true);
 			Bukkit.getOnlinePlayers().stream()
-			.filter(staff -> Permission.PERMISSION_STAFFCHAT_SEE.hasPermission(staff))
+			.filter(Permission.PERMISSION_STAFFCHAT_SEE::hasPermission)
 			.forEach(staff -> 
 					staff.sendMessage(Message.staffChatFormat().replace("{player}", player.getName()).replace("{message}", msg)));
 			

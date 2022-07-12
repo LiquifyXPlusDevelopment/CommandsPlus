@@ -62,20 +62,27 @@ public class Main extends JavaPlugin {
     
 	public void onEnable() {
 		//MAIN INSTANCE
+		Bukkit.getConsoleSender().sendMessage(
+				" ", " ",
+				Message.fixColor("&a&lEnabling CommandsPlus... hold on tight!"));
+
 		setInstance(this);
 
 		//SETUP CONFIGS
 		saveDefaultConfig();
-		setLanguageConfig(Config.getConfig("language", null, true));
+		setLanguageConfig(Config.getConfig("language", null, false));
+		Arrays.stream(Message.values()).forEach(message -> getLanguageConfig().addDefault(message.name(), message.getDefaultMessage()));
         getLanguageConfig().saveConfig();
+		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lLoaded all default configurations!"));
+
 		setPunishmentsConfig(Config.getConfig("punishments", null, false));
 		ConfigurationSerialization.registerClass(ReportReason.class);
 		ConfigurationSerialization.registerClass(ReportComment.class);
 		setReportsConfig(Config.getConfig("reports", null, false));
+		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lLoaded info from database!"));
 
 		//REGISTERATION FOR CLASSES & LISTENERS
 		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
-		new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands");
 
 		//INITIALLIZATION FOR STATIC MODELS
 		Punishments.setInstance(new Punishments());
@@ -90,11 +97,20 @@ public class Main extends JavaPlugin {
 			ReportReason.getReasons().put(reasonName, reason);
 		}
 
+		//COMMANDS REGISTRATION
+		if (!new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands")) {
+			this.getLogger().warning("Couldn't load all commands properly! please check any exceptions that pop up on console!");
+			getPluginLoader().disablePlugin(this);
+		} else Bukkit.getConsoleSender().sendMessage("&a&lSuccessfully loaded all commands from default sources!");
+
 		//RUNNABLES
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);
 
 		//FINAL MESSAGE TO MAKE SURE PLUGIN IS SUCCESSFULLY ENABLED.
-		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&7CommandsPlus has been &aEnabled&7."));
+		Bukkit.getConsoleSender().sendMessage(
+				Message.fixColor("&7CommandsPlus has been &aEnabled&7."),
+				" ",
+				" ");
 	}
 	
 	

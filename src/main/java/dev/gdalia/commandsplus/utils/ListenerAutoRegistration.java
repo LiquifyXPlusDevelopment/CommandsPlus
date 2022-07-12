@@ -48,13 +48,12 @@ public class ListenerAutoRegistration {
     final boolean
             loadDevListeners;
 
-    public void register(String packageName) {
-        register(packageName, true);
-
+    public boolean register(String packageName) {
+        return register(packageName, true);
     }
 
     @SneakyThrows
-    public void register(String packageName, boolean deep) {
+    public boolean register(String packageName, boolean deep) {
         ClassLoader classLoader = plugin.getClass().getClassLoader();
         ClassPath classPath = ClassPath.from(classLoader);
         for (ClassPath.ClassInfo classInfo : deep ? classPath.getTopLevelClassesRecursive(packageName) : classPath.getTopLevelClasses(packageName)) {
@@ -75,9 +74,10 @@ public class ListenerAutoRegistration {
 
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
+                return false;
             }
         }
-
+        return true;
     }
 
     @Target(ElementType.TYPE)

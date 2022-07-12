@@ -1,100 +1,100 @@
 package dev.gdalia.commandsplus.commands;
 
-import java.util.List;
-
-import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
-
-import org.bukkit.Sound;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
-
 import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
+import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+import dev.gdalia.commandsplus.utils.HelpPageSystem;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Sound;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Map;
 
 @CommandAutoRegistration.Command(value = "commandsplus")
-public class MainCommand implements CommandExecutor, TabCompleter {
+public class MainCommand extends BasePlusCommand {
 
-	/**
-	 * /commandsplus {help - reload}
-	 * LABEL ARG0
-	 */
-	
+	private static final HelpPageSystem hps = new HelpPageSystem(6, BasePlusCommand.getCommandMap().values()
+			.stream()
+			.map(basePlusCommand -> Message.fixColor("&e" + basePlusCommand.getSyntax() + " &7- &b" + basePlusCommand.getDescription()))
+			.toArray(String[]::new));
+
+
+	public MainCommand() {
+		super(false, "commandsplus");
+	}
+
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if(!(sender instanceof Player player)) {
-        	Message.PLAYER_CMD.sendMessage(sender, true);
-        	return false;
-        }
+	public String getDescription() {
+		return "Main command for CommandsPlus plugin.";
+	}
 
-		if(!Permission.PERMISSION_MAIN.hasPermission(sender)) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.NO_PERMISSION.sendMessage(sender, true);
-        	return false;
-        }
-        
+	@Override
+	public String getSyntax() {
+		return "/commandsplus [help/reload]";
+	}
+
+	@Override
+	public Permission getRequiredPermission() {
+		return Permission.PERMISSION_MAIN_GENERAL;
+	}
+
+	@Override
+	public boolean isPlayerCommand() {
+		return false;
+	}
+
+	@Override
+	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+		return Map.of(1, List.of(
+				new TabCompletion(List.of("help"), Permission.PERMISSION_MAIN_HELP),
+				new TabCompletion(List.of("reload"), Permission.PERMISSION_MAIN_RELOAD)
+		));
+	}
+
+	@Override
+	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (args.length == 0) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			player.sendMessage(Message.fixColor("&7/commandsplus [&eHelp&7/&eReload&7]"));
-			return true;
+			sender.sendMessage(Message.fixColor("&7/commandsplus [&eHelp&7/&eReload&7]"));
+			return;
 		}
 
 		switch (args[0].toLowerCase()) {
 			case "help" -> {
-				player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-				player.sendMessage(Message.fixColor("&7-------- &eHelp&7 --------"));
-				player.sendMessage(Message.fixColor("&e/alts [player] [kickall/banall/check] &7Check if the player has alts on the server."));
-				player.sendMessage(Message.fixColor("&e/ban [user] [reason] &7Bans the target player from the server."));
-				player.sendMessage(Message.fixColor("&e/buildmode &7Enables/Disables your buildmode."));
-				player.sendMessage(Message.fixColor("&e/chat [clear/lock] &7Clears/Locks or Unlocks the chat."));
-				player.sendMessage(Message.fixColor("&e/check [player] &7Checks if the target player currently is muted/banned."));
-				player.sendMessage(Message.fixColor("&e/feed [player] &7Resets target player food level back to maximum."));
-				player.sendMessage(Message.fixColor("&e/fly [player] &7Enables/Disables your flight mode."));
-				player.sendMessage(Message.fixColor("&e/flyspeed [amount] &7Change your flying speed."));
-				player.sendMessage(Message.fixColor("&e/freeze [player] &7Freezes the target player."));
-				player.sendMessage(Message.fixColor("&e/gamemode [gamemode] [player] &7Change your gamemode to the gamemode you selected."));
-				player.sendMessage(Message.fixColor("&e/god [player] &7Enables/Disables god mode to target player."));
-				player.sendMessage(Message.fixColor("&e/heal [player] &7Resets players health level back to maximum"));
-				player.sendMessage(Message.fixColor("&e/history [player] &7Gives all punishments logs of target player."));
-				player.sendMessage(Message.fixColor("&e/kick [player] [reason] &7Kicks the target player from the server."));
-				player.sendMessage(Message.fixColor("&e/mute [player] [reason] &7Mutes the target player."));
-				player.sendMessage(Message.fixColor("&e/staffchat &7Enables/Disables your staffchat."));
-				player.sendMessage(Message.fixColor("&e/tempban [player] [time] [reason] &7Bans the target player for a specific time."));
-				player.sendMessage(Message.fixColor("&e/tempmute [player] [time] [reason] &7Mutes the target player for a specific time."));
-				player.sendMessage(Message.fixColor("&e/time [day/night] &7Change the time to day/night."));
-				player.sendMessage(Message.fixColor("&e/tpall [player] &7Tp all online players to the target player."));
-				player.sendMessage(Message.fixColor("&e/tphere [player] &7Tp the target player to you."));
-				player.sendMessage(Message.fixColor("&e/unban [player] &7Unbans the target player."));
-				player.sendMessage(Message.fixColor("&e/unmute [player] &7Unmutes the target player."));
-				player.sendMessage(Message.fixColor("&e/vanish &7Vanishes you from all members online."));
-				player.sendMessage(Message.fixColor("&e/warn [player] [reason] &7Warns the target player."));
-				player.sendMessage(Message.fixColor("&7-------- &b1&7/&b1&7 --------"));
-				return true;
+				if (!Permission.PERMISSION_MAIN_HELP.hasPermission(sender)) {
+					Message.NO_PERMISSION.sendMessage(sender, true);
+					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+					return;
+				}
+
+				int page = (args.length == 1 || !StringUtils.isNumeric(args[1]) || Integer.parseInt(args[1]) == 0) ? 1 : Integer.parseInt(args[1]);
+
+				hps.ShowPage(sender, page);
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			}
 			case "reload" -> {
+				if (!Permission.PERMISSION_MAIN_RELOAD.hasPermission(sender)) {
+					Message.NO_PERMISSION.sendMessage(sender, true);
+					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+					return;
+				}
+
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Main.getInstance().reloadConfig();
 				Main.getLanguageConfig().reloadConfig();
-				player.sendMessage(Message.fixColor(Main.getInstance().getPluginPrefix() + "&6Language.yml&7 has been &aReloaded&7!"));
-				player.sendMessage(Message.fixColor(Main.getInstance().getPluginPrefix() + "&6Config.yml&7 has been &aReloaded&7!"));
-				return true;
+				sender.sendMessage(Message.fixColor(Main.getInstance().getPluginPrefix() + "&6Language.yml&7 has been &aReloaded&7!"));
+				sender.sendMessage(Message.fixColor(Main.getInstance().getPluginPrefix() + "&6Config.yml&7 has been &aReloaded&7!"));
 			}
 			default -> {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-				player.sendMessage(Message.fixColor("&7/commandsplus [&eHelp&7/&eReload&7]"));
-				return true;
+				sender.sendMessage(Message.fixColor("&7/commandsplus [&eHelp&7/&eReload&7]"));
 			}
 		}
-}
-	
-	@Override
-	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if(!Permission.PERMISSION_MAIN.hasPermission(sender)) return null;
-		if (args.length == 0) return null;
-		return List.of("help", "reload");
 	}
 }
