@@ -17,7 +17,7 @@ import dev.gdalia.commandsplus.Main;
 public enum Message {
 
 	COMMAND_NOT_EXIST("&cThis command does not exist."),
-	NO_PERMISSION("&cYou don't have permission to execute this command."),
+	NO_PERMISSION("&cYou don''t have permission to execute this command."),
 	PLAYER_CMD("&cThis command can only be used by players."),
 	UNKNOWN_PLAYER("&cThis player is not online."),
 	INVALID_PLAYER("&cThis player does not exist or never joined this server."),
@@ -34,11 +34,11 @@ public enum Message {
 	TIME_ARGUMENTS("&7/time {&6day &e-&6 night&7}"),
 
 	FEED_BY_TARGET("&6{0} &7filled your appetite."),
-	FEED_TARGET("&7you filled &6{0}&7's appetite."),
+	FEED_TARGET("&7you filled &6{0}&7''s appetite."),
 	FEED_PLAYER("&7Your appetite was filled."),
 	FLY_SPEED("&7Your fly speed just set to &a{0}&7."),
 	HEAL_PLAYER("&7Restored your health back to &a{0}&7."),
-	HEAL_TARGET("&7Restored &6{0}&7's health back to &a{1}&7."),
+	HEAL_TARGET("&7Restored &6{0}&7''s health back to &a{1}&7."),
 	HEALED_BY_PLAYER("&7Your health was restored back to &a{0} &7by &6{1}&7."),
 	TPALL("&7You have teleported everyone to &6{0}&7."),
 	PLAYER_NOT_BAN("&cThat player is not banned."),
@@ -79,7 +79,7 @@ public enum Message {
 
 	GODMODE_TOGGLE("&7You have {0}&7 your god mode."),
 	GODMODE_TOGGLE_BY_OTHER("&7Your god mode has been {0}&7 by &6{1}&7."),
-	GODMODE_TOGGLE_TO_PLAYER("&7You have {0} &6{1}&7's god mode."),
+	GODMODE_TOGGLE_TO_PLAYER("&7You have {0} &6{1}&7''s god mode."),
 	ALTS_ONLINE("&7The player &6{0}&7 has the following alts online:"),
 	FREEZE_TARGET("&7You have been freezed by &6{0}&7."),
 	FREEZE_PLAYER("&7You freezed &6{0}&7."),
@@ -92,7 +92,7 @@ public enum Message {
 	GAMEMODE_CHANGED_BY_OTHER("&7Game mode has been set to &6{0} &7by &6{1}."),
 	FLIGHT_TOGGLE("&7Your flight has been {0}&7."),
 	FLIGHT_TOGGLE_BY_OTHER("&7Your flight has been {0}&7 by &6{1}&7."),
-	FLIGHT_MSG_TO_OTHER("&7You {0} &6{1}&7's flight."),
+	FLIGHT_MSG_TO_OTHER("&7You {0} &6{1}&7''s flight."),
 	PLAYER_NO_ACTIVE_PUNISHMENT("&cThe player has no active punishments."),
 	PLAYER_ACTIVE_PUNISHMENT("&cThe player has active punishments."),
 	CONTACT_AN_ADMIN("&cConfig reasons is not right, please contact an admin.");
@@ -126,7 +126,7 @@ public enum Message {
 
 	public void sendFormattedMessage(CommandSender sender, boolean hasPrefix, Object... objects) {
 		String prefix = hasPrefix ? Main.getInstance().getPluginPrefix() : "";
-		sender.sendMessage(prefix + MessageFormat.format(getMessage(), objects));		
+		sender.sendMessage(prefix + MessageFormat.format(getMessage(), objects));
 	}
 	
 	public static void cmdUsage(Command cmd, CommandSender sender) {

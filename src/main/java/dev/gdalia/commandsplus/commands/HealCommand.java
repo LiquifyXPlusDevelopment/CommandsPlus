@@ -65,9 +65,9 @@ public class HealCommand extends BasePlusCommand {
 
 		if (!player.equals(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.HEAL_TARGET.sendFormattedMessage(sender, true, player.getName(), playerMaxHealth);
-			Message.HEALED_BY_PLAYER.sendFormattedMessage(player, true, playerMaxHealth, sender.getName());
-		} else Message.HEAL_PLAYER.sendFormattedMessage(sender, true, playerMaxHealth);
+			Message.HEAL_TARGET.sendFormattedMessage(sender, true, player.getName(), String.valueOf(playerMaxHealth));
+			Message.HEALED_BY_PLAYER.sendFormattedMessage(player, true, String.valueOf(playerMaxHealth), sender.getName());
+		} else Message.HEAL_PLAYER.sendFormattedMessage(sender, true, String.valueOf(playerMaxHealth));
 
 		player.setHealth(playerMaxHealth);
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
