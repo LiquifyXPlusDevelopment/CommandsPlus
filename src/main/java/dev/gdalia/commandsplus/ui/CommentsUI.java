@@ -124,8 +124,8 @@ public record CommentsUI(@Getter Player checker) {
                         "&cClick to delete the comment.",
                         "&cPlease notice that this action is undoable.")
                 .create(), event -> {
-            openCommentsGUI(report);
             ReportManager.getInstance().revokeComment(report, comment);
+            openCommentsGUI(report);
             Message.COMMENT_DELETED_SUCCESSFULLY.sendFormattedMessage(checker, true, comment.getOfflinePlayer().getName());
         }));
 

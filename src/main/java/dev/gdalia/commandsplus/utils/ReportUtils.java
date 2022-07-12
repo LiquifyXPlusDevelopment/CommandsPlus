@@ -54,7 +54,6 @@ public class ReportUtils {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
                 .filter(player -> reporter.isOnline())
-                .filter(obj -> false)
                 .ifPresent(clickable -> reporter.sendMessage(comment.getComment()));
     }
 
@@ -62,7 +61,6 @@ public class ReportUtils {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.DROP))
                 .filter(reportComment -> report.getComments().contains(comment))
-                .filter(obj -> false)
                 .ifPresent(reportComment -> new CommentsUI(checker).deleteInitializeCommentsGUI(report.getConvicted(), report, comment));
     }
 }
