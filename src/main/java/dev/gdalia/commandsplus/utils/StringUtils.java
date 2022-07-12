@@ -1,5 +1,8 @@
 package dev.gdalia.commandsplus.utils;
 
+import dev.gdalia.commandsplus.structs.Message;
+import org.bukkit.entity.Player;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -107,5 +110,9 @@ public class StringUtils {
         else sb.append(seconds == 0 ? "" : ", " + seconds + "s");
 
         return sb.toString();
+    }
+
+    public static String getStatusString(boolean condition) {
+        return condition ? Message.fixColor("&a&lEnabled&7") : Message.fixColor("&c&lDisabled&7");
     }
 }

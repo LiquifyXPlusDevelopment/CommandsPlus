@@ -2,6 +2,9 @@ package dev.gdalia.commandsplus.structs;
 
 import java.text.MessageFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -10,113 +13,120 @@ import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.Main;
 
+@AllArgsConstructor
 public enum Message {
-	
-	PLUGIN_PREFIX(Main.getInstance().getConfig().getString("PREFIX")),
-	COMMAND_NOT_EXIST(Main.getLanguageConfig().getString("COMMAND_NOT_EXIST")),
-	NO_PERMISSION(Main.getLanguageConfig().getString("NO_PERMISSION")),
-	PLAYER_CMD(Main.getLanguageConfig().getString("PLAYER_CMD")),
-	UNKNOWN_PLAYER(Main.getLanguageConfig().getString("UNKNOWN_PLAYER")),
-	INVALID_PLAYER(Main.getLanguageConfig().getString("INVALID_PLAYER")),
-	FREEZE_MESSAGE(Main.getLanguageConfig().getString("FREEZE_MESSAGE")),
-	DESCRIBE_PLAYER(Main.getLanguageConfig().getString("DESCRIBE_PLAYER")),
-	FLY_SPEED_ARGUMENTS(Main.getLanguageConfig().getString("FLY_SPEED_ARGUMENTS")),
-	BUILDMODE_ENABLE(Main.getLanguageConfig().getString("BUILDMODE_ENABLE")),
-	BUILDMODE_DISABLE(Main.getLanguageConfig().getString("BUILDMODE_DISABLE")),
-	HISTORY_ARGUMENTS(Main.getLanguageConfig().getString("HISTORY_ARGUMENTS")),
-	STAFFCHAT_ENABLE(Main.getLanguageConfig().getString("STAFFCHAT_ENABLE")),
-	STAFFCHAT_DISABLE(Main.getLanguageConfig().getString("STAFFCHAT_DISABLE")),
-	VANISH_ENABLE(Main.getLanguageConfig().getString("VANISH_ENABLE")),
-	VANISH_DISABLE(Main.getLanguageConfig().getString("VANISH_DISABLE")),
-	CHANGE_THE_TIME(Main.getLanguageConfig().getString("CHANGE_THE_TIME")),
-	TEMPMUTED_MESSAGE(Main.getLanguageConfig().getString("TEMPMUTED_MESSAGE")),
-	CHAT_ARGUMENTS(Main.getLanguageConfig().getString("CHAT_ARGUMENTS")),
-	TIME_ARGUMENTS(Main.getLanguageConfig().getString("TIME_ARGUMENTS")),
-	FEED_TARGET(Main.getLanguageConfig().getString("FEED_TARGET")),
-	FEED_PLAYER(Main.getLanguageConfig().getString("FEED_PLAYER")),
-    FLY_SPEED(Main.getLanguageConfig().getString("FLY_SPEED")),
-	HEAL_PLAYER(Main.getLanguageConfig().getString("HEAL_PLAYER")),
-	HEAL_TARGET(Main.getLanguageConfig().getString("HEAL_TARGET")),
-	TPALL(Main.getLanguageConfig().getString("TPALL")),
-	PLAYER_NOT_BANNED(Main.getLanguageConfig().getString("PLAYER_NOT_BANNED")),
-	PLAYER_BANNED(Main.getLanguageConfig().getString("PLAYER_BANNED")),
-	PLAYER_MUTED(Main.getLanguageConfig().getString("PLAYER_MUTED")),
-	PLAYER_TEMPBANNED(Main.getLanguageConfig().getString("PLAYER_TEMPBANNED")),
-	PLAYER_TEMPMUTED(Main.getLanguageConfig().getString("PLAYER_TEMPMUTED")),
-	TARGET_MUTED_MESSAGE(Main.getLanguageConfig().getString("TARGET_MUTED_MESSAGE")),
-	PLAYER_MUTED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_MUTED_MESSAGE")),
-	TARGET_TEMPMUTED_MESSAGE(Main.getLanguageConfig().getString("TARGET_TEMPMUTED_MESSAGE")),
-	PLAYER_TEMPMUTED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_TEMPMUTED_MESSAGE")),
-	PLAYER_TEMPBANNED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_TEMPBANNED_MESSAGE")),
-	PLAYER_BANNED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_BANNED_MESSAGE")),
-	UNMUTE_ARGUMENTS(Main.getLanguageConfig().getString("UNMUTE_ARGUMENTS")),
-	PLAYER_UNMUTED(Main.getLanguageConfig().getString("PLAYER_UNMUTED")),
-	TARGET_UNMUTED(Main.getLanguageConfig().getString("TARGET_UNMUTED")),
-	PLAYER_UNBANNED(Main.getLanguageConfig().getString("PLAYER_UNBANNED")),
-	HISTORY_DOES_NOT_EXIST(Main.getLanguageConfig().getString("HISTORY_DOES_NOT_EXIST")),
-	MUTED_MESSAGE(Main.getLanguageConfig().getString("MUTED_MESSAGE")),
-	TPHERE(Main.getLanguageConfig().getString("TPHERE")),
-	PLAYER_KICKED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_KICKED_MESSAGE")),
-	ALTS_BANNED(Main.getLanguageConfig().getString("ALTS_BANNED")),
-	ALTS_KICKED(Main.getLanguageConfig().getString("ALTS_KICKED")),
-	LOCK_MESSAGE(Main.getLanguageConfig().getString("LOCK_MESSAGE")),
-	CHAT_LOCKED(Main.getLanguageConfig().getString("CHAT_LOCKED")),
-	PLAYER_WARNED_MESSAGE(Main.getLanguageConfig().getString("PLAYER_WARNED_MESSAGE")),
-	UNLOCK_MESSAGE(Main.getLanguageConfig().getString("UNLOCK_MESSAGE")),
-	ALTS_CHECK(Main.getLanguageConfig().getString("ALTS_CHECK")),
-	BAN_ARGUMENTS(Main.getLanguageConfig().getString("BAN_ARGUMENTS")),
-	KICK_ARGUMENTS(Main.getLanguageConfig().getString("KICK_ARGUMENTS")),
-	UNBAN_ARGUMENTS(Main.getLanguageConfig().getString("UNBAN_ARGUMENTS")),
-	GAMEMODE_ARGUMENTS(Main.getLanguageConfig().getString("GAMEMODE_ARGUMENTS")),
-	TEMPMUTE_ARGUMENTS(Main.getLanguageConfig().getString("TEMPMUTE_ARGUMENTS")),
-	WARN_ARGUMENTS(Main.getLanguageConfig().getString("WARN_ARGUMENTS")),
-	TEMPBAN_ARGUMENTS(Main.getLanguageConfig().getString("TEMPBAN_ARGUMENTS")),
-	PLAYER_NOT_MUTED(Main.getLanguageConfig().getString("PLAYER_NOT_MUTED")),
-	MUTE_ARGUMENTS(Main.getLanguageConfig().getString("MUTE_ARGUMENTS")),
-	PLAYER_GOD_ENABLED(Main.getLanguageConfig().getString("PLAYER_GOD_ENABLED")),
-	TARGET_GOD_ENABLED(Main.getLanguageConfig().getString("TARGET_GOD_ENABLED")),
-	PLAYER_GOD_DISABLED(Main.getLanguageConfig().getString("PLAYER_GOD_DISABLED")),
-	TARGET_GOD_DISABLED(Main.getLanguageConfig().getString("TARGET_GOD_DISABLED")),
-	ALTS_ONLINE(Main.getLanguageConfig().getString("ALTS_ONLINE")),
-	FREEZE_TARGET(Main.getLanguageConfig().getString("FREEZE_TARGET")),
-	FREEZE_PLAYER(Main.getLanguageConfig().getString("FREEZE_PLAYER")),
-	UNFREEZE_TARGET(Main.getLanguageConfig().getString("UNFREEZE_TARGET")),
-	UNFREEZE_PLAYER(Main.getLanguageConfig().getString("UNFREEZE_PLAYER")),
-	GAMEMODE_CHANGED(Main.getLanguageConfig().getString("GAMEMODE_CHANGED")),
-	GAMEMODE_ALREADY_SET(Main.getLanguageConfig().getString("GAMEMODE_ALREADY_SET")),
-	GAMEMODE_CHANGED_OTHER(Main.getLanguageConfig().getString("GAMEMODE_CHANGED_OTHER")),
-	GAMEMODE_ALREADY_SET_OTHER(Main.getLanguageConfig().getString("GAMEMODE_ALREADY_SET_OTHER")),
-	GAMEMODE_CHANGED_BY_OTHER(Main.getLanguageConfig().getString("GAMEMODE_CHANGED_BY_OTHER")),
-	FLIGHT_MSG(Main.getLanguageConfig().getString("FLIGHT_MSG")),
-	FLIGHT_MSG_BY_OTHER(Main.getLanguageConfig().getString("FLIGHT_MSG_BY_OTHER")),
-	PLAYER_NO_ACTIVE_PUNISHMENT(Main.getLanguageConfig().getString("PLAYER_NO_ACTIVE_PUNISHMENT")),
-	PLAYER_ACTIVE_PUNISHMENT(Main.getLanguageConfig().getString("PLAYER_ACTIVE_PUNISHMENT")),
-	CONTACT_AN_ADMIN(Main.getLanguageConfig().getString("CONTACT_AN_ADMIN"));
 
-	private final String message;
+	COMMAND_NOT_EXIST("&cThis command does not exist."),
+	NO_PERMISSION("&cYou don''t have permission to execute this command."),
+	PLAYER_CMD("&cThis command can only be used by players."),
+	UNKNOWN_PLAYER("&cThis player is not online."),
+	INVALID_PLAYER("&cThis player does not exist or never joined this server."),
+	FREEZE_MESSAGE("&cYou are frozen and cannot move."),
+	DESCRIBE_PLAYER("&cPlease describe a player."),
+	FLY_SPEED_ARGUMENTS("&7/flyspeed {&60 &e-&6 10&7}"),
+	BUILDMODE_MSG("&7You have {0} &7your buildmode."),
+	HISTORY_ARGUMENTS("&7/history {&6user&7}"),
+	STAFFCHAT_TOGGLE("&7You have {0}} &7your staffchat."),
+	VANISH_TOGGLE("&7Vanish mode is now {0}&7."),
+	CHANGE_THE_TIME("&7The time has been set to &6{0}&7."),
+	TEMPMUTED_MESSAGE("&cYou are temporarily muted from this server, your mute will expire in &6{0}&c"),
+	CHAT_ARGUMENTS("&7/chat {&6clear &e-&6 lock&7}"),
+	TIME_ARGUMENTS("&7/time {&6day &e-&6 night&7}"),
+
+	FEED_BY_TARGET("&6{0} &7filled your appetite."),
+	FEED_TARGET("&7you filled &6{0}&7''s appetite."),
+	FEED_PLAYER("&7Your appetite was filled."),
+	FLY_SPEED("&7Your fly speed just set to &a{0}&7."),
+	HEAL_PLAYER("&7Restored your health back to &a{0}&7."),
+	HEAL_TARGET("&7Restored &6{0}&7''s health back to &a{1}&7."),
+	HEALED_BY_PLAYER("&7Your health was restored back to &a{0} &7by &6{1}&7."),
+	TPALL("&7You have teleported everyone to &6{0}&7."),
+	PLAYER_NOT_BAN("&cThat player is not banned."),
+	PLAYER_BANNED("&cThat player is already banned."),
+	PLAYER_MUTED("&cThat player is already muted."),
+	PLAYER_TEMPBANNED("&cThat player is already tempbanned."),
+	PLAYER_TEMPMUTED("&cThat player is already tempmuted."),
+	TARGET_MUTED_MESSAGE("&cYou have been permanently muted from this server."),
+	PLAYER_MUTED_MESSAGE("&7You have &cPermanently&7 muted &6{0}&7."),
+	TARGET_TEMPMUTED_MESSAGE("&cYou have been are temporarily muted for &6{0}&c from this server."),
+	PLAYER_TEMPMUTED_MESSAGE("&7You have &cTemporarily&7 muted &6{0}&7 for &6{1}&7."),
+	PLAYER_TEMPBANNED_MESSAGE("&7You have &cTemporarily&7 banned &6{0}&7 for &6{1}&7."),
+	PLAYER_BANNED_MESSAGE("&7You have &cPermanently&7 banned &6{0}&7."),
+	UNMUTE_ARGUMENTS("&7/unmute {&6user&7}"),
+	PLAYER_UNMUTE("&7You have been unmuted &6{0}&7."),
+	TARGET_UNMUTE("&7You have been unmuted by &6{0}&7."),
+	PLAYER_UNBAN("&7You have unbanned &6{0}&7."),
+	HISTORY_DOES_NOT_EXIST("&cThis player has no history on the system."),
+	MUTED_MESSAGE("&cYou are permanently muted, you cannot type anymore in the chat."),
+	TPHERE("&6{0} &7has been teleported to you."),
+	PLAYER_KICKED_MESSAGE("&7You have kicked &6{0}&7 from this server."),
+	ALTS_BANNED("&7You have &c&lBanned &6{0}&7 alts."),
+	ALTS_KICKED("&7You have &c&lKicked &6{0}&7 alts."),
+	LOCK_MESSAGE("&7The chat has been &c&lLocked&7."),
+	CHAT_LOCKED("&7The chat is &c&lLocked&7 you cannot send messages."),
+	PLAYER_WARNED_MESSAGE("&7You have been warned &6{0}&7."),
+	UNLOCK_MESSAGE("&7The chat has been &a&lUnlocked&7."),
+	ALTS_CHECK("&7The player &6{0}&7 has no alts."),
+	BAN_ARGUMENTS("&7/ban {&6user&7} {&6reason&7}"),
+	KICK_ARGUMENTS("&7/kick {&6user&7} {&6reason&7}"),
+	UNBAN_ARGUMENTS("&7/unban {&6user&7}"),
+	GAMEMODE_ARGUMENTS("&7/gamemode &e-&7 {&6s&e/&60&7} &e-&7 {&6a&e/&62&7} &e-&7 {&6sp&e/&63&7} &e-&7 {&6c&e/&61&7} {&6username&7}"),
+	TEMPMUTE_ARGUMENTS("&7/tempmute {&6user&7} {&6time&7} {&6reason&7}"),
+	WARN_ARGUMENTS("&7/warn {&6user&7} {&6reason&7}"),
+	TEMPBAN_ARGUMENTS("&7/tempban {&6user&7} {&6time&7} {&6reason&7}"),
+	PLAYER_NOT_MUTE("&cThat player is not muted."),
+	MUTE_ARGUMENTS("&7/mute {&6user&7} {&6reason&7}"),
+
+	GODMODE_TOGGLE("&7You have {0}&7 your god mode."),
+	GODMODE_TOGGLE_BY_OTHER("&7Your god mode has been {0}&7 by &6{1}&7."),
+	GODMODE_TOGGLE_TO_PLAYER("&7You have {0} &6{1}&7''s god mode."),
+	ALTS_ONLINE("&7The player &6{0}&7 has the following alts online:"),
+	FREEZE_TARGET("&7You have been freezed by &6{0}&7."),
+	FREEZE_PLAYER("&7You freezed &6{0}&7."),
+	UNFREEZE_TARGET("&7You have been unfreezed by &6{0}&7."),
+	UNFREEZE_PLAYER("&7You unfreezed &6{0}&7."),
+	GAMEMODE_CHANGED("&7Set own game mode to &6{0} &7Mode."),
+	GAMEMODE_ALREADY_SET("&cYou are already on game mode &6{0}&c."),
+	GAMEMODE_CHANGED_OTHER("&7The game mode of &6{0}&7 has been changed to &6{1}&7."),
+	GAMEMODE_ALREADY_SET_OTHER("&6{0}&c is already on gamemode &6{1}&c."),
+	GAMEMODE_CHANGED_BY_OTHER("&7Game mode has been set to &6{0} &7by &6{1}."),
+	FLIGHT_TOGGLE("&7Your flight has been {0}&7."),
+	FLIGHT_TOGGLE_BY_OTHER("&7Your flight has been {0}&7 by &6{1}&7."),
+	FLIGHT_MSG_TO_OTHER("&7You {0} &6{1}&7''s flight."),
+	PLAYER_NO_ACTIVE_PUNISHMENT("&cThe player has no active punishments."),
+	PLAYER_ACTIVE_PUNISHMENT("&cThe player has active punishments."),
+	CONTACT_AN_ADMIN("&cConfig reasons is not right, please contact an admin.");
+
+	@Getter
+	private final String
+			defaultMessage;
 
 	public String getMessage() {
-		return Message.fixColor(message);
+		return Message.fixColor(Main.getLanguageConfig().getString(this.name()));
 	}
 
 	public static String fixColor(String message) {
 		return ChatColor.translateAlternateColorCodes('&', message);
 	}
-	
+
 	public void sendMessage(CommandSender sender, boolean hasPrefix) {
 		String prefix = hasPrefix ? Main.getInstance().getPluginPrefix() : "";
 		sender.sendMessage(prefix + getMessage());
-
 	}
-	  public static void playSound(CommandSender sender, Sound sound, float volume, float pitch) {
-		    if (!(sender instanceof Player player)) return;
-		    if (Main.getInstance().getConfig().getBoolean("disable_sounds")) return;
-		    player.playSound(player.getLocation(), sound, volume, pitch);
-		  }
+
+	public static void playSound(CommandSender sender, Sound sound, float volume, float pitch) {
+		if (!(sender instanceof Player player)) return;
+		if (Main.getInstance().getConfig().getBoolean("disable_sounds")) return;
+		player.playSound(player.getLocation(), sound, volume, pitch);
+	}
+
+	public static void playBumpSound(CommandSender sender) {
+		playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+	}
 
 	public void sendFormattedMessage(CommandSender sender, boolean hasPrefix, Object... objects) {
-		String prefix = hasPrefix ? PLUGIN_PREFIX.getMessage() : "";
-		sender.sendMessage(prefix + MessageFormat.format(getMessage(), objects));		
+		String prefix = hasPrefix ? Main.getInstance().getPluginPrefix() : "";
+		sender.sendMessage(prefix + MessageFormat.format(getMessage(), objects));
 	}
 	
 	public static void cmdUsage(Command cmd, CommandSender sender) {
@@ -126,8 +136,5 @@ public enum Message {
 	public static String staffChatFormat() {
 		return Message.fixColor("&8[&bSTAFF&8] &7{player} &6» &e{message}");
 	}
-	
-	private Message(String message) {
-		this.message = message;
-	}
+
 }

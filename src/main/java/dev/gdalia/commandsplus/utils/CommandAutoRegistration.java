@@ -48,19 +48,18 @@ public class CommandAutoRegistration {
     final boolean
             loadDevCommands;
 
-    public void register(String packageName) {
-        register(packageName, true);
-
+    public boolean register(String packageName) {
+        return register(packageName, true);
     }
 
-    public void register(String packageName, boolean deep) {
+    public boolean register(String packageName, boolean deep) {
         ClassLoader classLoader = plugin.getClass().getClassLoader();
         ClassPath classPath;
         try {
             classPath = ClassPath.from(classLoader);
         } catch (IOException e) {
             e.printStackTrace();
-            return;
+            return false;
         }
 
         for (ClassPath.ClassInfo classInfo : deep ? classPath.getTopLevelClassesRecursive(packageName) : classPath.getTopLevelClasses(packageName)) {
@@ -82,19 +81,18 @@ public class CommandAutoRegistration {
             boolean devCommand = annotation.devServer();
             if (devCommand && !loadDevCommands)
                 continue;
-
             CommandExecutor instance = createInstance(clazz);
 
             for (String pluginCommandString : annotation.value()) {
                 PluginCommand pluginCommand = plugin.getCommand(pluginCommandString);
-                if (pluginCommand == null)
+                if (pluginCommand == null)  {
                     plugin.getLogger().warning("Command /" + pluginCommandString + " is not registered to this plugin!");
-                else {
-                    pluginCommand.setExecutor(instance);
-                    plugin.getLogger().info("Loaded " + (devCommand ? "dev" : "") + " command /" + pluginCommandString + "!");
+                    return false;
                 }
+                else pluginCommand.setExecutor(instance);
             }
         }
+        return true;
     }
 
     @SneakyThrows
