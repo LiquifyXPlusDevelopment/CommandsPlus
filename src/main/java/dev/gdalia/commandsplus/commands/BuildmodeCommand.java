@@ -60,7 +60,7 @@ public class BuildmodeCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public Map<Integer, List<String>> tabCompletions() {
+	public Map<Integer, List<TabCompletion>> tabCompletions() {
 		return null;
 	}
 }

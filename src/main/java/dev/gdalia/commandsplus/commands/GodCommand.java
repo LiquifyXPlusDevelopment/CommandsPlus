@@ -45,7 +45,7 @@ public class GodCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public @Nullable Map<Integer, List<String>> tabCompletions() {
+	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
 		return null;
 	}
 

@@ -41,7 +41,7 @@ public class PermaPunishCommand extends BasePlusCommand {
 
 	@Override
 	public Permission getRequiredPermission() {
-		return null;
+		return Permission.PERMISSION_PUNISH;
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class PermaPunishCommand extends BasePlusCommand {
     }
 
 	@Override
-	public @Nullable Map<Integer, List<String>> tabCompletions() {
+	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
 		return null;
 	}
 }

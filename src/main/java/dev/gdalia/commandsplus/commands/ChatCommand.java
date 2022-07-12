@@ -83,7 +83,7 @@ public class ChatCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public Map<Integer, List<String>> tabCompletions() {
-		return Map.of(1, List.of("clear", "lock"));
+	public Map<Integer, List<TabCompletion>> tabCompletions() {
+		return Map.of(1, List.of(new TabCompletion(List.of("clear", "lock"), getRequiredPermission())));
 	}
 }

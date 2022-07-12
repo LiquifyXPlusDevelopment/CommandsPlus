@@ -49,8 +49,12 @@ public class GamemodeCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public @Nullable Map<Integer, List<String>> tabCompletions() {
-		return Map.of(1, List.of("s", "a", "c", "sp", "0", "1", "2", "3"));
+	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+		return Map.of(1, List.of(
+				new TabCompletion(List.of("s", "0"), Permission.PERMISSION_GAMEMODE_SURVIVAL),
+				new TabCompletion(List.of("a", "2"), Permission.PERMISSION_GAMEMODE_ADVENTURE),
+				new TabCompletion(List.of("c", "1"), Permission.PERMISSION_GAMEMODE_CREATIVE),
+				new TabCompletion(List.of("sp", "3"), Permission.PERMISSION_GAMEMODE_SPECTATOR)));
 	}
 
 	@Override
@@ -82,13 +86,6 @@ public class GamemodeCommand extends BasePlusCommand {
 				return;
 			}
 		}
-		
-		if (!player.hasPermission(setGamemode.getPermission())) {
-			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.NO_PERMISSION.sendMessage(player, true);
-			return;
-		}
-
 
 		if (args.length >= 2 && Bukkit.getPlayerExact(args[1]) != null) {
 			player = Bukkit.getPlayer(args[1]);

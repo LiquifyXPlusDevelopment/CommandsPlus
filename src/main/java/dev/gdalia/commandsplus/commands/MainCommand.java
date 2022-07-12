@@ -7,6 +7,7 @@ import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 
 import dev.gdalia.commandsplus.utils.HelpPageSystem;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -45,7 +46,7 @@ public class MainCommand extends BasePlusCommand {
 
 	@Override
 	public Permission getRequiredPermission() {
-		return Permission.PERMISSION_MAIN;
+		return Permission.PERMISSION_MAIN_GENERAL;
 	}
 
 	@Override
@@ -54,8 +55,11 @@ public class MainCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public @Nullable Map<Integer, List<String>> tabCompletions() {
-		return Map.of(1, List.of("help", "reload"));
+	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+		return Map.of(1, List.of(
+				new TabCompletion(List.of("help"), Permission.PERMISSION_MAIN_HELP),
+				new TabCompletion(List.of("reload"), Permission.PERMISSION_MAIN_RELOAD)
+		));
 	}
 
 	@Override
@@ -68,7 +72,21 @@ public class MainCommand extends BasePlusCommand {
 
 		switch (args[0].toLowerCase()) {
 			case "help" -> {
+				if (!Permission.PERMISSION_MAIN_HELP.hasPermission(sender)) {
+					Message.NO_PERMISSION.sendMessage(sender, true);
+					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+					return;
+				}
+
+				if (args.length == 1) {
+					hps.ShowPage(sender, 1);
+					return;
+				}
+
+				if (StringUtils.isNumeric(args[1])) hps.ShowPage(sender, Integer.parseInt(args[1]));
+				else hps.ShowPage(sender, 1);
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+				/*
 				sender.sendMessage(Message.fixColor("&7-------- &eHelp&7 --------"));
 				sender.sendMessage(Message.fixColor("&e/alts [player] [kickall/banall/check] &7Check if the player has alts on the server."));
 				sender.sendMessage(Message.fixColor("&e/ban [user] [reason] &7Bans the target player from the server."));
@@ -96,9 +114,15 @@ public class MainCommand extends BasePlusCommand {
 				sender.sendMessage(Message.fixColor("&e/vanish &7Vanishes you from all members online."));
 				sender.sendMessage(Message.fixColor("&e/warn [player] [reason] &7Warns the target player."));
 				sender.sendMessage(Message.fixColor("&7-------- &b1&7/&b1&7 --------"));
-				//TODO Finish with the HelpPageSystem.java.
+				 */
 			}
 			case "reload" -> {
+				if (!Permission.PERMISSION_MAIN_RELOAD.hasPermission(sender)) {
+					Message.NO_PERMISSION.sendMessage(sender, true);
+					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+					return;
+				}
+
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Main.getInstance().reloadConfig();
 				Main.getLanguageConfig().reloadConfig();

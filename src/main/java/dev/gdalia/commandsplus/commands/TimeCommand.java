@@ -71,8 +71,8 @@ public class TimeCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public @Nullable Map<Integer, List<String>> tabCompletions() {
-		return Map.of(1, List.of("day", "night"));
+	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+		return Map.of(1, List.of(new TabCompletion(List.of("day", "night"), Permission.PERMISSION_TIME)));
 	}
 }
 

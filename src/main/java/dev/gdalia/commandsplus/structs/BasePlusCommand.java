@@ -1,7 +1,8 @@
 package dev.gdalia.commandsplus.structs;
 
-import dev.gdalia.commandsplus.utils.Config;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -11,9 +12,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 public abstract class BasePlusCommand implements TabExecutor {
 
@@ -43,7 +43,7 @@ public abstract class BasePlusCommand implements TabExecutor {
     public abstract void runCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args);
 
     @Nullable
-    public abstract Map<Integer, List<String>> tabCompletions();
+    public abstract Map<Integer, List<TabCompletion>> tabCompletions();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -67,11 +67,21 @@ public abstract class BasePlusCommand implements TabExecutor {
         if (!getRequiredPermission().hasPermission(sender)) return null;
         if (isPlayerCommand() && !(sender instanceof Player)) return null;
         if (tabCompletions() == null) return null;
+        if (!tabCompletions().containsKey(args.length)) return null;
 
-        for (int i = 0; i < args.length; i++) {
-            if (!tabCompletions().containsKey(i)) return null;
-            return tabCompletions().get(i);
-        }
-        return null;
+        return tabCompletions().get(args.length).stream()
+                .filter(tabCompletion -> tabCompletion.getRequiredPermission().hasPermission(sender))
+                .flatMap(x -> x.getCompletion().stream())
+                .toList();
+    }
+
+    @AllArgsConstructor
+    public static class TabCompletion {
+
+        @Getter
+        List<String> completion;
+
+        @Getter
+        Permission requiredPermission;
     }
 }

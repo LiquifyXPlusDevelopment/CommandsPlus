@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -41,7 +42,7 @@ public class TempPunishCommand extends BasePlusCommand {
 
 	@Override
 	public Permission getRequiredPermission() {
-		return null;
+		return Permission.PERMISSION_PUNISH;
 	}
 
 	@Override
@@ -50,8 +51,8 @@ public class TempPunishCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public @Nullable Map<Integer, List<String>> tabCompletions() {
-		return Map.of(2, List.of("1s", "1m", "1h", "1d", "1w", "1M", "1y"));
+	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+		return Map.of(2, List.of(new TabCompletion(List.of("1s", "1m", "1h", "1d", "1w", "1M", "1y"), Permission.PERMISSION_PUNISH)));
 	}
 
 	@Override
@@ -91,7 +92,7 @@ public class TempPunishCommand extends BasePlusCommand {
 						ChronoUnit.YEARS);
 			} catch (IllegalStateException ex1) {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-				Message.TEMPMUTE_ARGUMENTS.sendMessage(sender, true);
+				Message.valueOf(type.name() + "_ARGUMENTS").sendMessage(sender, true);
 				return;
 			}
 

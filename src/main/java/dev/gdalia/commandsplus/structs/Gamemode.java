@@ -8,10 +8,10 @@ import lombok.Getter;
 
 public enum Gamemode {
 	
-	SURVIVAL(GameMode.SURVIVAL, 0, Permission.PERMISSION_GAMEMODE_SURVIVAL.getPermission(), "gms", "s"),
-	ADVENTURE(GameMode.ADVENTURE, 2, Permission.PERMISSION_GAMEMODE_ADVENTURE.getPermission(), "gma", "a"),
-	CREATIVE(GameMode.CREATIVE, 1, Permission.PERMISSION_GAMEMODE_CREATIVE.getPermission(), "gmc", "c"),
-	SPECTATOR(GameMode.SPECTATOR, 3, Permission.PERMISSION_GAMEMODE_SPECTATOR.getPermission(), "gmsp", "sp");
+	SURVIVAL(GameMode.SURVIVAL, 0, "gms", "s"),
+	ADVENTURE(GameMode.ADVENTURE, 2, "gma", "a"),
+	CREATIVE(GameMode.CREATIVE, 1, "gmc", "c"),
+	SPECTATOR(GameMode.SPECTATOR, 3, "gmsp", "sp");
 	
 	@Getter
 	private final GameMode asBukkit;
@@ -21,16 +21,14 @@ public enum Gamemode {
 	
 	@Getter
 	private final String
-		permission,
 		asCommand;
 
 	@Getter
 	private final String asSubCommand;
 	
-	private Gamemode(GameMode gamemode, int integer, String permission, String commandName, String NameAsSubCommand) {
+	private Gamemode(GameMode gamemode, int integer, String commandName, String NameAsSubCommand) {
 		this.asBukkit = gamemode;
 		this.asInteger = integer;
-		this.permission = permission;
 		this.asCommand = commandName;
 		this.asSubCommand = NameAsSubCommand;
 	}
