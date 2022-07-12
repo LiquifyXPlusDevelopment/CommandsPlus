@@ -1,6 +1,7 @@
 package dev.gdalia.commandsplus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.structs.reports.ReportReason;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
@@ -101,7 +103,7 @@ public class Main extends JavaPlugin {
 		if (!new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands")) {
 			this.getLogger().warning("Couldn't load all commands properly! please check any exceptions that pop up on console!");
 			getPluginLoader().disablePlugin(this);
-		} else Bukkit.getConsoleSender().sendMessage("&a&lSuccessfully loaded all commands from default sources!");
+		} else Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lSuccessfully loaded all commands from default sources!"));
 
 		//RUNNABLES
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);

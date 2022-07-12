@@ -2,6 +2,7 @@ package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.*;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.utils.CentredMessage;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.StringUtils;

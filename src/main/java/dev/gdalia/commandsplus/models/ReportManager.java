@@ -41,11 +41,11 @@ public class ReportManager {
     @SuppressWarnings({"unchecked"})
     public void addComment(Report report, ReportComment comment) {
         ConfigurationSection section = Main.getReportsConfig().getConfigurationSection(report.getReportUuid().toString());
-        List<ReportComment> comments = (List<ReportComment>) Optional.ofNullable(section.getList(ConfigFields.ReportsFields.COMMENTS)).orElse(new ArrayList<>());
+        List<ReportComment> comments = report.getComments();
         comments.add(comment);
         section.set(ConfigFields.ReportsFields.COMMENTS, comments);
         Main.getReportsConfig().saveConfig();
-        report.getComments().add(comment);
+        //report.getComments().add(comment);
     }
 
     public void revokeComment(Report report, ReportComment comment) {

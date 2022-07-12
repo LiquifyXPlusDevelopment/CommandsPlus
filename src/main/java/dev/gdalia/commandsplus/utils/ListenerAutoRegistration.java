@@ -70,8 +70,6 @@ public class ListenerAutoRegistration {
                 Listener instance = (Listener) constructor.newInstance(constructor.getParameterCount() == 0 ? new Object[0] : new Object[] {plugin});
                 Bukkit.getPluginManager().registerEvents(instance, plugin);
 
-                plugin.getLogger().info("Loaded " + (devListener ? "dev" : "") + " listener " + clazz.getSimpleName() + "!");
-
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
                 return false;

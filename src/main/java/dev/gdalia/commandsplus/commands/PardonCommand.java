@@ -1,24 +1,25 @@
 package dev.gdalia.commandsplus.commands;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
-import dev.gdalia.commandsplus.structs.*;
+import dev.gdalia.commandsplus.models.PunishmentManager;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.BasePlusCommand;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentRevoke;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.Punishments;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @CommandAutoRegistration.Command(value = {"unban", "unmute"})
 public class PardonCommand extends BasePlusCommand {

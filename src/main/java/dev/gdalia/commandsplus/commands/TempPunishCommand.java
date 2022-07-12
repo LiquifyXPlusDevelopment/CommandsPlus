@@ -2,7 +2,11 @@ package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.models.PunishmentManager;
 import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.*;
+import dev.gdalia.commandsplus.structs.BasePlusCommand;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.Bukkit;
@@ -14,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

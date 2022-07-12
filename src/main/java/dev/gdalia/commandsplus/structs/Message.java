@@ -95,11 +95,11 @@ public enum Message {
 	FLIGHT_MSG_TO_OTHER("&7You {0} &6{1}&7''s flight."),
 	PLAYER_NO_ACTIVE_PUNISHMENT("&cThe player has no active punishments."),
 	PLAYER_ACTIVE_PUNISHMENT("&cThe player has active punishments."),
-	CONTACT_AN_ADMIN("&cConfig reasons is not right, please contact an admin.");
-	REPORT_SUCCESSFULLY(""),
-	REPORT_DELETED_SUCCESSFULLY(""),
-	COMMENT_DELETED_SUCCESSFULLY(""),
-	TYPE_AN_COMMENT("");
+	CONTACT_AN_ADMIN("&cConfig reasons is not right, please contact an admin."),
+	REPORT_SUCCESSFULLY("&7You have successfully reported &c{0}&7 for &e{1}&7."),
+	REPORT_DELETED_SUCCESSFULLY("&7You have successfully &c&lDELETED &7the report of &e{0}&7."),
+	COMMENT_DELETED_SUCCESSFULLY("&7You have successfully &c&lDELETED &7the comment of &e{0}&7."),
+	TYPE_AN_COMMENT("&7Please type in the chat a&e comment&7.");
 
 
 

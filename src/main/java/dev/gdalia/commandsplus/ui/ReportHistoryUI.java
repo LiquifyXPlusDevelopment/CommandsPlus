@@ -5,6 +5,7 @@ import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.Report;
+import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import dev.gdalia.commandsplus.utils.ReportUtils;
 import dev.triumphteam.gui.components.GuiType;
@@ -41,26 +42,26 @@ public record ReportHistoryUI(@Getter Player checker) {
             player.closeInventory();
         }));
 
-        Reports.getInstance().getReportHistory(targetUniqueId).forEach(entry -> {
-            OfflinePlayer Reporter = Bukkit.getOfflinePlayer(entry.getReporter());
-            OfflinePlayer Reported = Bukkit.getOfflinePlayer(entry.getConvicted());
+        Reports.getInstance().getReportHistory(targetUniqueId).forEach(report -> {
+            OfflinePlayer Reporter = Bukkit.getOfflinePlayer(report.getReporter());
+            OfflinePlayer Reported = Bukkit.getOfflinePlayer(report.getConvicted());
 
-            gui.addItem(new GuiItem(new ItemBuilder(Material.PAPER, "&cReport: &7" + entry.getReportUuid())
+            gui.addItem(new GuiItem(new ItemBuilder(Material.PAPER, "&cReport: &7" + report.getReportUuid())
                     .addGlow()
                     .addLoreLines(
                             " &r",
-                            "Status: &6" + entry.getStatus().name(),
-                            "Date: &e" + entry.getSentAt(),
+                            "Status: &6" + report.getStatus().name(),
+                            "Date: &e" + report.getSentAt(),
                             " &r",
                             "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
                             "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
-                    .addLoreLines(entry.getReason().getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
+                    .addLoreLines(report.getReason().getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
                     .addLoreLines(
                             " &r",
                             "&6Left Click&7 to show details.",
                             "&6Drop key&7 to remove.")
                     .create(), event -> {
-                Report report = new Report(entry.getReportUuid(), entry.getConvicted(), entry.getReporter(), entry.getSentAt(), entry.getReason(), entry.getStatus(), new ArrayList<>());
+
                 Optional.of(event.getClick())
                         .filter(click -> click.equals(ClickType.DROP))
                         .ifPresent(clickable -> deleteInitializeReportsGUI(target.getUniqueId(), report));
@@ -228,7 +229,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                         " &r",
                         "&6Click&7 to show comments",
                         "of report.")
-                .create(), event -> new CommentsUI(checker).openCommentsGUI(targetUniqueID, report)));
+                .create(), event -> new CommentsUI(checker).openCommentsGUI(report)));
 
         gui.setItem(40, new GuiItem(new ItemBuilder(
                 Material.BARRIER,

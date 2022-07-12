@@ -27,8 +27,8 @@ public record CommentsUI(@Getter Player checker) {
 
     private static final GuiItem GUI_BORDER = new GuiItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, " ").create());
 
-    public void openCommentsGUI(UUID targetUniqueId, Report report) {
-        OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueId);
+    public void openCommentsGUI(Report report) {
+        OfflinePlayer target = Bukkit.getOfflinePlayer(report.getConvicted());
         PaginatedGui gui = new BaseUI().basePaginatedGui(5, "&6Comments &7> &e" + target.getName());
         gui.disableAllInteractions();
 
@@ -52,7 +52,8 @@ public record CommentsUI(@Getter Player checker) {
                     Message.TYPE_AN_COMMENT.sendMessage(checker, true);
                 })));
 
-        for(int i = 0; i < report.getComments().size(); i++) {
+        int size = report.getComments() != null ? report.getComments().size() : 0;
+        for (int i = 0; i < size; i++) {
             int finalI = i;
             OfflinePlayer reporter = Bukkit.getOfflinePlayer(report.getReporter());
 
@@ -105,7 +106,7 @@ public record CommentsUI(@Getter Player checker) {
                 .addLoreLines(
                         "Click to return to comments",
                         "selection menu.")
-                .create(), event -> openCommentsGUI(target.getUniqueId(), report)));
+                .create(), event -> openCommentsGUI(report)));
 
         gui.setItem(2, new GuiItem(new ItemBuilder(Material.PLAYER_HEAD, "&aConfirming Report Details")
                 .setPlayerSkull(target)
@@ -123,7 +124,7 @@ public record CommentsUI(@Getter Player checker) {
                         "&cClick to delete the comment.",
                         "&cPlease notice that this action is undoable.")
                 .create(), event -> {
-            openCommentsGUI(target.getUniqueId(), report);
+            openCommentsGUI(report);
             ReportManager.getInstance().revokeComment(report, comment);
             Message.COMMENT_DELETED_SUCCESSFULLY.sendFormattedMessage(checker, true, comment.getOfflinePlayer().getName());
         }));

@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import dev.gdalia.commandsplus.structs.*;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.CentredMessage;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.BooleanUtils;

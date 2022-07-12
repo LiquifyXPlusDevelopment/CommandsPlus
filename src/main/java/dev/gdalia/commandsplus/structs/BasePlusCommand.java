@@ -29,7 +29,6 @@ public abstract class BasePlusCommand implements TabExecutor {
         for (String commandName : commandsNameArray) {
             if (getCommandMap().containsKey(commandName) && !allowOverride) continue;
             getCommandMap().put(commandName, this);
-            Bukkit.getLogger().info(this.getClass().getName() + " I just did a thing! YOOO");
         }
     }
 

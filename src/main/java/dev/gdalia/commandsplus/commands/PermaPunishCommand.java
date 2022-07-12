@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import dev.gdalia.commandsplus.structs.*;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

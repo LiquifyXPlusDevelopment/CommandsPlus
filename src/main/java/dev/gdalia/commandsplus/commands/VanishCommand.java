@@ -55,7 +55,7 @@ public class VanishCommand extends BasePlusCommand {
 		Player player = (Player) sender;
 		UUID uuid = player.getUniqueId();
 		Stream<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers().stream()
-					.filter(Permission.PERMISSION_VANISH_SEE::hasPermission);
+					.filter(x -> !Permission.PERMISSION_VANISH_SEE.hasPermission(x));
 
         if (!PlayerCollection.getVanishPlayers().contains(uuid)) {
         	PlayerCollection.getVanishPlayers().add(uuid);

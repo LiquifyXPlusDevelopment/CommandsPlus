@@ -9,6 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 @RequiredArgsConstructor
@@ -41,7 +42,19 @@ public class Report {
     private ReportStatus status;
 
     @Getter
-    @NotNull
+    @Nullable
     private final List<ReportComment> comments;
 
+    @Override
+    public String toString() {
+        return "Report{" +
+                "reportUuid=" + reportUuid +
+                ", convicted=" + convicted +
+                ", reporter=" + reporter +
+                ", sentAt=" + sentAt +
+                ", reason=" + reason +
+                ", status=" + status +
+                ", comments=" + comments +
+                '}';
+    }
 }

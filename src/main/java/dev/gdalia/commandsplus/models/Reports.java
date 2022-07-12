@@ -41,6 +41,8 @@ public class Reports {
         ConfigurationSection cs = pConfig.getConfigurationSection(reportUniqueId.toString());
         if (cs == null) return Optional.empty();
 
+        Optional.ofNullable(cs.getList(ConfigFields.ReportsFields.COMMENTS)).stream();
+
         Report report = new Report(
                 reportUniqueId,
                 UUID.fromString(cs.getString(ConfigFields.ReportsFields.REPORTED)),
@@ -48,11 +50,8 @@ public class Reports {
                 Instant.ofEpochMilli(cs.getLong(ConfigFields.ReportsFields.DATE)),
                 (ReportReason) cs.get(ConfigFields.ReportsFields.REASON),
                 ReportStatus.valueOf(cs.getString(ConfigFields.ReportsFields.STATUS)),
-                Optional.of(cs.getMapList(ConfigFields.ReportsFields.COMMENTS)
-                        .stream()
-                        .map(x -> ReportComment.deserialize((Map<String, Object>) x))
-                        .toList()).orElse(new ArrayList<>()));
-        
+                (List<ReportComment>) cs.getList(ConfigFields.ReportsFields.COMMENTS, new ArrayList<ReportComment>()));
+
         reports.put(reportUniqueId, report);
         
         return Optional.of(report);
