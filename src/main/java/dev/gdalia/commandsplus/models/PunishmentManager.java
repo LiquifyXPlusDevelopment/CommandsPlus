@@ -1,8 +1,8 @@
 package dev.gdalia.commandsplus.models;
 
 import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.structs.events.PlayerPunishEvent;
-import dev.gdalia.commandsplus.structs.events.PlayerPunishRevokeEvent;
+import dev.gdalia.commandsplus.structs.events.PunishmentInvokeEvent;
+import dev.gdalia.commandsplus.structs.events.PunishmentRevokeEvent;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentRevoke;
 import dev.gdalia.commandsplus.utils.Config;
@@ -39,7 +39,7 @@ public class PunishmentManager {
 		section.set(ConfigFields.PunishFields.REASON, punishment.getReason());
 		config.saveConfig();
 
-		Bukkit.getPluginManager().callEvent(new PlayerPunishEvent(Bukkit.getPlayer(punishment.getPunished()), punishment));
+		Bukkit.getPluginManager().callEvent(new PunishmentInvokeEvent(Bukkit.getPlayer(punishment.getPunished()), punishment));
 	}
 
 	public void revoke(PunishmentRevoke punishment) {
@@ -56,7 +56,7 @@ public class PunishmentManager {
 				Instant.now().toEpochMilli(),
 				true);
 
-		Bukkit.getPluginManager().callEvent(new PlayerPunishRevokeEvent(punishment));
+		Bukkit.getPluginManager().callEvent(new PunishmentRevokeEvent(punishment));
 
 	}
 }

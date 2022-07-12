@@ -3,7 +3,7 @@ package dev.gdalia.commandsplus.listeners;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
-import dev.gdalia.commandsplus.structs.events.PlayerReportPlayerEvent;
+import dev.gdalia.commandsplus.structs.events.ReportInvokeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -11,12 +11,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class PlayerReportPlayerListener implements Listener {
 
     @EventHandler
-    public void onPlayerReportPlayer(PlayerReportPlayerEvent event) {
+    public void onPlayerReportPlayer(ReportInvokeEvent event) {
         OfflinePlayer reported = Bukkit.getOfflinePlayer(event.getReport().getConvicted());
         OfflinePlayer reporter = Bukkit.getOfflinePlayer(event.getReport().getReporter());
 

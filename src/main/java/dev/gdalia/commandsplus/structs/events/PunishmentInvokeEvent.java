@@ -1,25 +1,20 @@
 package dev.gdalia.commandsplus.structs.events;
 
-import org.bukkit.event.Event;
+import dev.gdalia.commandsplus.structs.events.body.PunishmentEvent;
+import lombok.AllArgsConstructor;
 import org.bukkit.event.HandlerList;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import dev.gdalia.commandsplus.structs.punishments.PunishmentRevoke;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Unused, but will trigger when punishment is revoked, can be used in the
- * future.
- *
- */
 @AllArgsConstructor
-public class PlayerPunishRevokeEvent extends Event {
+public class PunishmentInvokeEvent extends PunishmentEvent {
 
 	private static final HandlerList HANDLERS = new HandlerList();
 
 	@Getter
-	private final PunishmentRevoke punishment;
+	private final Punishment punishment;
 
 	public static HandlerList getHandlerList() {
 		return HANDLERS;

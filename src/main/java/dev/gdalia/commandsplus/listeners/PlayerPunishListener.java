@@ -10,13 +10,13 @@ import org.bukkit.event.Listener;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
-import dev.gdalia.commandsplus.structs.events.PlayerPunishEvent;
+import dev.gdalia.commandsplus.structs.events.PunishmentInvokeEvent;
 import dev.gdalia.commandsplus.utils.StringUtils;
 
 public class PlayerPunishListener implements Listener {
 
 	@EventHandler
-	public void onPunish(PlayerPunishEvent event) {
+	public void onPunish(PunishmentInvokeEvent event) {
 		PunishmentType type = event.getPunishment().getType();
 
 		if (List.of(PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.KICK).contains(type)) {
