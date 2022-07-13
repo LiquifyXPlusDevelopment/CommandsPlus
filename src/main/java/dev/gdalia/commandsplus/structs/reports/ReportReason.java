@@ -17,6 +17,7 @@ public class ReportReason implements ConfigurationSerializable {
     @Getter
     @NotNull
     private final String
+            name,
             displayName;
 
     @Getter
@@ -27,10 +28,6 @@ public class ReportReason implements ConfigurationSerializable {
     @Getter
     @NotNull
     private final Material icon;
-
-    @Getter
-    private final static Map<String, ReportReason> reasons = new HashMap<>();
-
     @Override
     public @NotNull Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<>();
@@ -41,8 +38,9 @@ public class ReportReason implements ConfigurationSerializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static ReportReason deserialize(Map<String, Object> args) {
+    public static ReportReason deserialize(String name, Map<String, Object> args) {
         return new ReportReason(
+                name,
                 args.get("display-name").toString(),
                 Optional.ofNullable(args.get("lore"))
                         .filter(List.class::isInstance)

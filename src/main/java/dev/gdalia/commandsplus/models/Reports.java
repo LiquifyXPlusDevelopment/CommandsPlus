@@ -8,6 +8,7 @@ import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.time.Instant;
@@ -19,9 +20,8 @@ public class Reports {
     @Setter
     private static Reports instance;
 
-    @Getter
     private final HashMap<UUID, Report> reports = new HashMap<>();
-    private final Config pConfig = Main.getReportsConfig();
+    private final Config pConfig = Main.getInstance().getReportsConfig();
 
     /**
      * Finds a report inside the database by the following UUID.
@@ -89,6 +89,23 @@ public class Reports {
     }
 
     /**
+     * This method looks up for all the reports that the player ever
+     * submitted to the report system, it'll then collect all the reports
+     * 1 by 1, finalizing it with a List of Reports.
+     *
+     * @author Gdalia
+     * @since 1.0.4
+     * @param playerUniqueId The player UniqueId to look up sent reports.
+     * @return A list of reports that the player ever submitted
+     */
+    public List<Report> getSentReports(UUID playerUniqueId) {
+        return Reports.getInstance().getReportHistory(playerUniqueId)
+                .stream()
+                .filter(report -> report.getReporter().equals(playerUniqueId))
+                .toList();
+    }
+
+    /**
      * Looks up via {@link Reports#getOpenReport(UUID)} method to see
      * if this player has any open reports on them.
      *
@@ -144,5 +161,15 @@ public class Reports {
      */
     public void writeTo(Report report, String key, Object value, boolean instSave) {
         writeTo(report.getReportUuid(), key, value, instSave);
+    }
+
+    /**
+     * This method entirely deletes the report from the database, if this used
+     * you can potentially lose data you didn't want to delete, so use with caution.
+     */
+    public void erase(Report report) {
+        pConfig.set(report.getReportUuid().toString(), null);
+        pConfig.saveConfig();
+        reports.remove(report.getReportUuid());
     }
 }

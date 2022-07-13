@@ -17,9 +17,8 @@ public class PunishmentManager {
 
 	@Getter
 	private static final PunishmentManager instance = new PunishmentManager();
-
 	public void invoke(Punishment punishment) {
-		Config config = Main.getPunishmentsConfig();
+		Config config = Main.getInstance().getPunishmentsConfig();
 
 		Punishments.getInstance().getActivePunishment(punishment.getPunished(), punishment.getType()).ifPresent(activePunish ->
 				Punishments.getInstance().writeTo(activePunish, ConfigFields.PunishFields.OVERRIDE, true, false));
@@ -39,7 +38,7 @@ public class PunishmentManager {
 		section.set(ConfigFields.PunishFields.REASON, punishment.getReason());
 		config.saveConfig();
 
-		Bukkit.getPluginManager().callEvent(new PunishmentInvokeEvent(Bukkit.getPlayer(punishment.getPunished()), punishment));
+		Bukkit.getPluginManager().callEvent(new PunishmentInvokeEvent(punishment));
 	}
 
 	public void revoke(PunishmentRevoke punishment) {

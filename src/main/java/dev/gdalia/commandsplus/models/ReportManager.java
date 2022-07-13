@@ -23,16 +23,14 @@ public class ReportManager {
     public void invoke(Report report) {
         Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.REPORTED, report.getConvicted().toString(), false);
         Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.REPORTER, report.getReporter().toString(), false);
-        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.REASON, report.getReason(), false);
+        Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.REASON, report.getReason().getName(), false);
         Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.DATE, report.getSentAt().toEpochMilli(), false);
         Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.STATUS, ReportStatus.OPEN.name(), true);
-        Bukkit.getPluginManager().callEvent(new ReportInvokeEvent(Bukkit.getPlayer(report.getConvicted()), report));
+        Bukkit.getPluginManager().callEvent(new ReportInvokeEvent(report));
     }
 
     public void revoke(Report report) {
-        Main.getReportsConfig().set(report.getReportUuid().toString(), null);
-        Reports.getInstance().getReports().remove(report.getReportUuid());
-        Main.getReportsConfig().saveConfig();
+        Reports.getInstance().erase(report);
         Bukkit.getPluginManager().callEvent(new ReportRevokeEvent(report));
     }
 
@@ -43,13 +41,12 @@ public class ReportManager {
         List<ReportComment> comments = report.getComments();
         comments.add(comment);
         section.set(ConfigFields.ReportsFields.COMMENTS, comments);
-        Main.getReportsConfig().saveConfig();
-        //report.getComments().add(comment);
+        Main.getInstance().getReportsConfig().saveConfig();
     }
 
-    public void revokeComment(Report report, ReportComment comment) {
-        ConfigurationSection section = Main.getReportsConfig().getConfigurationSection(report.getReportUuid().toString());
-        Optional.of(report.getComments())
+    public void deleteComment(Report report, ReportComment comment) {
+        ConfigurationSection section = Main.getInstance().getReportsConfig().getConfigurationSection(report.getReportUuid().toString());
+        Optional.ofNullable(report.getComments())
                 .filter(x -> !x.isEmpty() && x.contains(comment))
                 .ifPresent(list -> {
                     list.remove(comment);
@@ -59,8 +56,8 @@ public class ReportManager {
     }
 
     public void changeStatus(Report report, ReportStatus newStatus) {
+        Bukkit.getPluginManager().callEvent(new ReportStatusChangeEvent(report, report.getStatus(), newStatus));
         Reports.getInstance().writeTo(report, ConfigFields.ReportsFields.STATUS, newStatus.name(), true);
-        Bukkit.getPluginManager().callEvent(new ReportStatusChangeEvent(report));
-        Reports.getInstance().getReports().remove(report.getReportUuid());
+        report.setStatus(newStatus);
     }
 }

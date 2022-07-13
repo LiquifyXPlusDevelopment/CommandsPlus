@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.ReportReasonManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
@@ -57,7 +58,7 @@ public class Main extends JavaPlugin {
 		
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
-    private static Config
+    private Config
     		languageConfig,
 			punishmentsConfig,
 			reportsConfig;
@@ -67,7 +68,6 @@ public class Main extends JavaPlugin {
 		Bukkit.getConsoleSender().sendMessage(
 				" ", " ",
 				Message.fixColor("&a&lEnabling CommandsPlus... hold on tight!"));
-
 		setInstance(this);
 
 		//SETUP CONFIGS
@@ -89,15 +89,7 @@ public class Main extends JavaPlugin {
 		//INITIALLIZATION FOR STATIC MODELS
 		Punishments.setInstance(new Punishments());
 		Reports.setInstance(new Reports());
-
-		//REPORT REASONS SETUP
-		ConfigurationSection reasonsToLoad = getConfig().getConfigurationSection("reasons");
-
-		for (String reasonName : reasonsToLoad.getKeys(false)) {
-			ConfigurationSection reasonSection = reasonsToLoad.getConfigurationSection(reasonName);
-			ReportReason reason = ReportReason.deserialize(reasonSection.getValues(false));
-			ReportReason.getReasons().put(reasonName, reason);
-		}
+		ReportReasonManager.setInstance(new ReportReasonManager());
 
 		//COMMANDS REGISTRATION
 		if (!new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands")) {
