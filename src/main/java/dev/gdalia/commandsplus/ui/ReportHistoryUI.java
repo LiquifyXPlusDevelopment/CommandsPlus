@@ -5,9 +5,8 @@ import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.Report;
-import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
-import dev.gdalia.commandsplus.utils.ReportUtils;
+import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.triumphteam.gui.components.GuiType;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
@@ -150,12 +149,12 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .setPlayerSkull(Reporter)
                 .addLoreLines(
                         " &r",
-                        "Sent reports: &b" + ReportUtils.getInstance().getReports(Reporter).size(),
+                        "Sent reports: &b" + Reports.getInstance().getSentReports(Reporter.getUniqueId()).size(),
                         "Received reports: &b" + Reports.getInstance().getReportHistory(report.getReporter()).size(),
                         " &r",
                         "&6Left click&7 to teleport to the",
                         "location of player &e" + Reporter.getName())
-                .create(), event -> ReportUtils.getInstance().teleportTo(event, Reporter.getPlayer(), checker)));
+                .create(), event -> InventoryUtils.getInstance().teleportTo(event, Reporter.getPlayer(), checker)));
 
         gui.setItem(13, new GuiItem(new ItemBuilder(
                 Material.GOLDEN_AXE,
@@ -172,12 +171,12 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .setPlayerSkull(Reported)
                 .addLoreLines(
                         " &r",
-                        "Sent reports: &b" + ReportUtils.getInstance().getReports(Reported).size(),
+                        "Sent reports: &b" + Reports.getInstance().getSentReports(Reported.getUniqueId()).size(),
                         "Received reports: &b" + Reports.getInstance().getReportHistory(report.getConvicted()).size(),
                         " &r",
                         "&6Left click&7 to teleport to the",
                         "location of player &e" + Reported.getName())
-                .create(), event -> ReportUtils.getInstance().teleportTo(event, Reported.getPlayer(), checker)));
+                .create(), event -> InventoryUtils.getInstance().teleportTo(event, Reported.getPlayer(), checker)));
 
         gui.setItem(17, new GuiItem(new ItemBuilder(
                 Material.ENCHANTED_BOOK,
@@ -209,7 +208,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                             " &r",
                             "&6Click&7 to define the status of report",
                             "&7as: " + displayName)
-                    .create(), event -> ReportUtils.getInstance().changeStatus(event, status, report, checker)));
+                    .create(), event -> InventoryUtils.getInstance().changeStatus(event, status, report, checker)));
         }
 
         gui.setItem(27, new GuiItem(new ItemBuilder(

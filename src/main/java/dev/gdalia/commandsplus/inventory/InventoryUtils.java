@@ -1,27 +1,23 @@
-package dev.gdalia.commandsplus.utils;
+package dev.gdalia.commandsplus.inventory;
 
 import dev.gdalia.commandsplus.models.ReportManager;
-import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import dev.gdalia.commandsplus.ui.CommentsUI;
 import dev.gdalia.commandsplus.ui.ReportHistoryUI;
 import lombok.Getter;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.*;
 
-public class ReportUtils {
+public class InventoryUtils {
 
     @Getter
-    private static final ReportUtils instance = new ReportUtils();
+    private static final InventoryUtils instance = new InventoryUtils();
     public HashMap<UUID, Report> commentText = new HashMap<>();
-
-
 
     public void changeStatus(InventoryClickEvent event, ReportStatus status, Report report, Player checker) {
         Optional.of(event.getClick())

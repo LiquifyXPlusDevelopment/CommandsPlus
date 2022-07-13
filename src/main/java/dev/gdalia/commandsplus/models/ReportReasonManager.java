@@ -2,7 +2,6 @@ package dev.gdalia.commandsplus.models;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.reports.ReportReason;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.configuration.ConfigurationSection;

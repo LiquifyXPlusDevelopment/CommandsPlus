@@ -99,8 +99,13 @@ public class Reports {
      * @return A list of reports that the player ever submitted
      */
     public List<Report> getSentReports(UUID playerUniqueId) {
-        return Reports.getInstance().getReportHistory(playerUniqueId)
+        return pConfig
+                .getKeys(false)
                 .stream()
+                .map(UUID::fromString)
+                .map(this::getReport)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .filter(report -> report.getReporter().equals(playerUniqueId))
                 .toList();
     }

@@ -2,6 +2,7 @@ package dev.gdalia.commandsplus.ui;
 
 import dev.gdalia.commandsplus.inventory.ItemBuilder;
 import dev.gdalia.commandsplus.models.ReportManager;
+import dev.gdalia.commandsplus.models.ReportReasonManager;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportReason;
@@ -37,15 +38,11 @@ public record ReportUI(@Getter Player checker) {
             player.closeInventory();
         }));
 
-        ReportReason.getReasons().entrySet().forEach(entry -> {
-            ReportReason reasonObject = entry.getValue();
-
-            gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7Report for: &6" + reasonObject.getDisplayName())
-                    .addLoreLines(" &r")
-                    .addLoreLines(reasonObject.getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
-                    .addLoreLines("Click to choose this report reason.")
-                    .create(), event -> openInitializeReportGUI(target, reasonObject)));
-        });
+        ReportReasonManager.getInstance().getReportReasons().forEach((key, reasonObject) -> gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7Report for: &6" + reasonObject.getDisplayName())
+                .addLoreLines(" &r")
+                .addLoreLines(reasonObject.getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
+                .addLoreLines("Click to choose this report reason.")
+                .create(), event -> openInitializeReportGUI(target, reasonObject))));
 
         gui.open(checker);
     }

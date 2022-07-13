@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
-import dev.gdalia.commandsplus.utils.ReportUtils;
+import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,11 +33,11 @@ public class PlayerChatListener implements Listener {
 			return;
 		}
 
-		Optional.of(ReportUtils.getInstance().commentText.containsKey(e.getUniqueId()))
-				.map(report -> ReportUtils.getInstance().commentText.get(e.getUniqueId()))
+		Optional.of(InventoryUtils.getInstance().commentText.containsKey(e.getUniqueId()))
+				.map(report -> InventoryUtils.getInstance().commentText.get(e.getUniqueId()))
 				.ifPresent(x -> {
 					ReportManager.getInstance().addComment(x, new ReportComment(e, Instant.now(), event.getMessage()));
-					ReportUtils.getInstance().commentText.remove(e.getUniqueId());
+					InventoryUtils.getInstance().commentText.remove(e.getUniqueId());
 
 					event.setCancelled(true);
 				});

@@ -5,7 +5,7 @@ import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
-import dev.gdalia.commandsplus.utils.ReportUtils;
+import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.gdalia.commandsplus.utils.StringUtils;
 import dev.triumphteam.gui.components.GuiType;
 import dev.triumphteam.gui.guis.Gui;
@@ -45,9 +45,9 @@ public record CommentsUI(@Getter Player checker) {
                         "on report.")
                 .create(), event -> Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
-                .filter(x -> !ReportUtils.getInstance().commentText.containsKey(checker.getUniqueId()))
+                .filter(x -> !InventoryUtils.getInstance().commentText.containsKey(checker.getUniqueId()))
                 .ifPresent(comment -> {
-                    ReportUtils.getInstance().commentText.put(checker.getUniqueId(), report);
+                    InventoryUtils.getInstance().commentText.put(checker.getUniqueId(), report);
                     checker.closeInventory();
                     Message.TYPE_AN_COMMENT.sendMessage(checker, true);
                 })));
@@ -70,8 +70,8 @@ public record CommentsUI(@Getter Player checker) {
                             "&6Left click&7 to send to reporter.",
                             "&6Drop key&7 to remove.")
                     .create(), event -> {
-                ReportUtils.getInstance().sendComment(event, report.getComments().get(finalI), reporter.getPlayer());
-                ReportUtils.getInstance().revokeComment(event, report, report.getComments().get(finalI), checker);
+                InventoryUtils.getInstance().sendComment(event, report.getComments().get(finalI), reporter.getPlayer());
+                InventoryUtils.getInstance().revokeComment(event, report, report.getComments().get(finalI), checker);
             }));
         }
 
