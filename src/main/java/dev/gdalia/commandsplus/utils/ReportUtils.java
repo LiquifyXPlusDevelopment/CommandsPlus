@@ -19,16 +19,9 @@ public class ReportUtils {
 
     @Getter
     private static final ReportUtils instance = new ReportUtils();
-
     public HashMap<UUID, Report> commentText = new HashMap<>();
 
-    public List<Map.Entry<UUID, Report>> getReports(OfflinePlayer report) {
-        return Reports.getInstance().getReports()
-                .entrySet()
-                .stream()
-                .filter(value -> value.getValue().getReporter().equals(report.getUniqueId()))
-                .toList();
-    }
+
 
     public void changeStatus(InventoryClickEvent event, ReportStatus status, Report report, Player checker) {
         Optional.of(event.getClick())

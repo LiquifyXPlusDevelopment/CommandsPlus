@@ -35,9 +35,8 @@ public class ReportManager {
     }
 
 
-    @SuppressWarnings({"unchecked"})
     public void addComment(Report report, ReportComment comment) {
-        ConfigurationSection section = Main.getReportsConfig().getConfigurationSection(report.getReportUuid().toString());
+        ConfigurationSection section = Main.getInstance().getReportsConfig().getConfigurationSection(report.getReportUuid().toString());
         List<ReportComment> comments = report.getComments();
         comments.add(comment);
         section.set(ConfigFields.ReportsFields.COMMENTS, comments);
@@ -51,7 +50,7 @@ public class ReportManager {
                 .ifPresent(list -> {
                     list.remove(comment);
                     section.set(ConfigFields.ReportsFields.COMMENTS, list);
-                    Main.getReportsConfig().saveConfig();
+                    Main.getInstance().getReportsConfig().saveConfig();
                 });
     }
 

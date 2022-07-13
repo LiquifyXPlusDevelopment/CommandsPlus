@@ -108,7 +108,7 @@ public enum Message {
 			defaultMessage;
 
 	public String getMessage() {
-		return Message.fixColor(Main.getLanguageConfig().getString(this.name()));
+		return Message.fixColor(Main.getInstance().getLanguageConfig().getString(this.name()));
 	}
 
 	public static String fixColor(String message) {

@@ -28,7 +28,7 @@ public class Punishments {
 
 	private final HashMap<UUID, Punishment> punishments = new HashMap<>();
 	
-	private final Config pConfig = Main.getPunishmentsConfig();
+	private final Config pConfig = Main.getInstance().getPunishmentsConfig();
 	
 	/**
 	 * Finds a punishment inside the database by the following UUID.
