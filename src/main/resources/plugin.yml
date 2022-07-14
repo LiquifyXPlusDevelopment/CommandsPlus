@@ -65,3 +65,5 @@ commands:
     description: Report command.
   reports:
     description: Reports command.
+  punish:
+    description: Punish command.

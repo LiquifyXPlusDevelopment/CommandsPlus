@@ -59,7 +59,6 @@ report-lang:
     - "&7Status: &e%STATUS%"
     - "&7&m---------------------"
 
-# The maximum reasons is 27 and all the reasons title need to be like this for example 'Reason1 Reason2 etc..'
 reasons:
   fly-hacks:
     display-name: "Fly"

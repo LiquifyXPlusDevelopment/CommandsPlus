@@ -1,12 +1,18 @@
 package dev.gdalia.commandsplus.inventory;
 
+import dev.gdalia.commandsplus.models.PunishmentManager;
 import dev.gdalia.commandsplus.models.ReportManager;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import dev.gdalia.commandsplus.ui.CommentsUI;
 import dev.gdalia.commandsplus.ui.ReportHistoryUI;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import lombok.Getter;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -43,13 +49,36 @@ public class InventoryUtils {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
                 .filter(player -> reporter.isOnline())
-                .ifPresent(clickable -> reporter.sendMessage(comment.getComment()));
+                .ifPresent(clickable -> {
+                    reporter.sendMessage("&7Commenter: " + comment.getOfflinePlayer().getName());
+                    reporter.sendMessage("&7Date: &e" + StringUtils.createTimeFormatter(comment.getSentAt(), "dd/MM/uu, HH:mm:ss"));
+                    reporter.sendMessage("&7Message &f" + comment.getComment());
+                });
     }
+
 
     public void revokeComment(InventoryClickEvent event, Report report, ReportComment comment, Player checker) {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.DROP))
                 .filter(reportComment -> report.getComments().contains(comment))
                 .ifPresent(reportComment -> new CommentsUI(checker).deleteInitializeCommentsGUI(report.getConvicted(), report, comment));
+    }
+
+    public void InvokePunishment(InventoryClickEvent event, PunishmentType type, String message, Player target, Player checker) {
+        Optional.of(event.getClick())
+                .filter(clickType -> clickType.equals(ClickType.LEFT))
+                .filter(player -> target.isOnline())
+                .ifPresent(clickable -> {
+                    Punishment punishment = new Punishment(
+                            UUID.randomUUID(),
+                            target.getUniqueId(),
+                            Optional.of(checker.getUniqueId()).orElse(null),
+                            type,
+                            message);
+
+                    PunishmentManager.getInstance().invoke(punishment);
+                    Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+                    Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(checker, true, target.getName());
+                });
     }
 }

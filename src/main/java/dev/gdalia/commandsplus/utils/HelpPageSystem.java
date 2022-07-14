@@ -3,7 +3,9 @@ package dev.gdalia.commandsplus.utils;
 import dev.gdalia.commandsplus.structs.Message;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class HelpPageSystem {
 
@@ -12,7 +14,7 @@ public class HelpPageSystem {
 
 	public HelpPageSystem(int maxLinesPerPage, String... args) {
 		this.maxLinesPerPage = maxLinesPerPage;
-		this.messages.addAll(Arrays.asList(strings));
+		this.messages.addAll(Arrays.asList(args));
 	}
 
 	public void setMessageList(String... strings) {

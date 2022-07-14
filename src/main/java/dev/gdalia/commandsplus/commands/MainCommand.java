@@ -75,7 +75,7 @@ public class MainCommand extends BasePlusCommand {
 
 				int page = (args.length == 1 || !StringUtils.isNumeric(args[1]) || Integer.parseInt(args[1]) == 0) ? 1 : Integer.parseInt(args[1]);
 
-				hps.ShowPage(sender, page);
+				hps.showPage(sender, page);
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			}
 			case "reload" -> {
@@ -87,7 +87,7 @@ public class MainCommand extends BasePlusCommand {
 
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 				Main.getInstance().reloadConfig();
-				Main.getLanguageConfig().reloadConfig();
+				Main.getInstance().getLanguageConfig().reloadConfig();
 				sender.sendMessage(Message.fixColor(Main.getInstance().getPluginPrefix() + "&6Language.yml&7 has been &aReloaded&7!"));
 				sender.sendMessage(Message.fixColor(Main.getInstance().getPluginPrefix() + "&6Config.yml&7 has been &aReloaded&7!"));
 			}

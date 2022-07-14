@@ -26,7 +26,7 @@ public enum Gamemode {
 	@Getter
 	private final String asSubCommand;
 	
-	private Gamemode(GameMode gamemode, int integer, String commandName, String NameAsSubCommand) {
+	Gamemode(GameMode gamemode, int integer, String commandName, String NameAsSubCommand) {
 		this.asBukkit = gamemode;
 		this.asInteger = integer;
 		this.asCommand = commandName;
@@ -35,7 +35,7 @@ public enum Gamemode {
 	
 	public static Gamemode getFromSubCommand(String subCommand) {
 		return Arrays.stream(Gamemode.values())
-				.filter(gamemode -> Arrays.asList(gamemode.getAsSubCommand()).contains(subCommand))
+				.filter(gamemode -> gamemode.getAsSubCommand().equalsIgnoreCase(subCommand))
 				.findAny()
 				.orElseThrow(() -> new NullPointerException("There is no such gamemode as " + subCommand + "!"));
 	}

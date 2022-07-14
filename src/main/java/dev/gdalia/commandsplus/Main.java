@@ -1,30 +1,27 @@
 package dev.gdalia.commandsplus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.models.ReportReasonManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.structs.reports.ReportReason;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.Config;
 import dev.gdalia.commandsplus.utils.ListenerAutoRegistration;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * MIT License
@@ -46,7 +43,7 @@ import lombok.Setter;
  * SOFTWARE.
  *
  * @author Gdalia, OfirTIM
- * @since 1.0-SNAPSHOT build number #2
+ * @since 1.0-SNAPSHOT build number #3
  */
 
 public class Main extends JavaPlugin {
