@@ -1,6 +1,5 @@
 package dev.gdalia.commandsplus.runnables;
 
-import java.util.Iterator;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -16,11 +15,10 @@ public class ActionBarVanishTask implements Runnable {
 	
 	@Override
 	public void run() {
-		for (UUID playerUniqueId : PlayerCollection.getVanishPlayers()) {
-			if (!Bukkit.getOfflinePlayer(playerUniqueId).isOnline()) {
-				continue;
-			}
-			Player player = Bukkit.getPlayer(playerUniqueId);
+		for (UUID playerUUID : PlayerCollection.getVanishPlayers()) {
+			if (!Bukkit.getOfflinePlayer(playerUUID).isOnline()) continue;
+			Player player = Bukkit.getPlayer(playerUUID);
+			if (player == null) return;
 
 			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Message.fixColor("You are currently &cVANISHED")));
 		}

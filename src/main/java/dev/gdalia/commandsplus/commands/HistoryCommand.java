@@ -1,6 +1,5 @@
 package dev.gdalia.commandsplus.commands;
 
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -15,9 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.utils.StringUtils;

@@ -1,6 +1,7 @@
 package dev.gdalia.commandsplus.structs;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import org.bukkit.GameMode;
 
@@ -35,7 +36,7 @@ public enum Gamemode {
 	
 	public static Gamemode getFromSubCommand(String subCommand) {
 		return Arrays.stream(Gamemode.values())
-				.filter(gamemode -> gamemode.getAsSubCommand().equalsIgnoreCase(subCommand))
+				.filter(gamemode -> Objects.equals(gamemode.getAsSubCommand(), subCommand))
 				.findAny()
 				.orElseThrow(() -> new NullPointerException("There is no such gamemode as " + subCommand + "!"));
 	}

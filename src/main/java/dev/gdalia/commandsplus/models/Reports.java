@@ -8,7 +8,6 @@ import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.time.Instant;
@@ -53,7 +52,6 @@ public class Reports {
                 (List<ReportComment>) cs.getList(ConfigFields.ReportsFields.COMMENTS, new ArrayList<ReportComment>()));
 
         reports.put(reportUniqueId, report);
-        
         return Optional.of(report);
     }
 

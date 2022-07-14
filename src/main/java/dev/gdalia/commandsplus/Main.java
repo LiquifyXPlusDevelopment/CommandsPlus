@@ -1,5 +1,10 @@
 package dev.gdalia.commandsplus;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.models.ReportReasonManager;
 import dev.gdalia.commandsplus.models.Reports;
@@ -10,18 +15,14 @@ import dev.gdalia.commandsplus.structs.reports.ReportReason;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.Config;
 import dev.gdalia.commandsplus.utils.ListenerAutoRegistration;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * MIT License

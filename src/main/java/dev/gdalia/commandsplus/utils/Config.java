@@ -42,7 +42,7 @@ import dev.gdalia.commandsplus.Main;
  * SOFTWARE.
  *
  * @author Gdalia, OfirTIM
- * @since 1.0-SNAPSHOT build number #2
+ * @since 1.0-SNAPSHOT build number #3
  */
 
 public class Config extends YamlConfiguration {

@@ -11,7 +11,7 @@ public class GodModeListener implements Listener {
 	public void onEntityDamage(EntityDamageEvent event) {
 		if (!(event.getEntity() instanceof Player e)) return;
 		
-		if (!e.hasMetadata("godmode")) return;
+		if (!e.hasMetadata("god-mode")) return;
 		event.setCancelled(true);
 	}
 }

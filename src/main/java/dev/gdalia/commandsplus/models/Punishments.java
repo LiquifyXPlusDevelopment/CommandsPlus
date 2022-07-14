@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.IntFunction;
 
 import org.bukkit.configuration.ConfigurationSection;
 

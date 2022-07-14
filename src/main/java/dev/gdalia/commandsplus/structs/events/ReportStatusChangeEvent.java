@@ -5,7 +5,6 @@ import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 

@@ -60,7 +60,7 @@ public class GodCommand extends BasePlusCommand {
 			return;
 		}
 
-		boolean negation = !player.hasMetadata("godmode");
+		boolean negation = !player.hasMetadata("god-mode");
 
 		if (!player.equals(sender)) {
 			Message.GODMODE_TOGGLE_TO_PLAYER.sendFormattedMessage(sender, true, StringUtils.getStatusString(negation), player.getName());
@@ -70,11 +70,11 @@ public class GodCommand extends BasePlusCommand {
 
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 
-		if (!player.hasMetadata("godmode")) {
-			player.setMetadata("godmode", Main.MetadataValues.godModeData(true));
+		if (!player.hasMetadata("god-mode")) {
+			player.setMetadata("god-mode", Main.MetadataValues.godModeData(true));
 			return;
 		}
 		
-		player.removeMetadata("godmode", Main.getInstance());
+		player.removeMetadata("god-mode", Main.getInstance());
 	}
 }
