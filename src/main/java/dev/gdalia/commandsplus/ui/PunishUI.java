@@ -1,5 +1,6 @@
 package dev.gdalia.commandsplus.ui;
 
+import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.gdalia.commandsplus.inventory.ItemBuilder;
 import dev.gdalia.commandsplus.models.ReportReasonManager;
 import dev.gdalia.commandsplus.structs.Message;
@@ -36,8 +37,7 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 to&a Kick&7 the player&e " + target.getName() + "&7.")
-                .create(), event -> {
-            }));
+                .create(), event -> openReasonGUI(targetUniqueId, PunishmentType.KICK)));
 
         gui.setItem(2, new GuiItem(new ItemBuilder(
                 Material.FEATHER,
@@ -74,9 +74,7 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 to choose punishment&c Ban&7.")
-                .create(), event -> {
-            //TODO JUST OPEN REASON GUI.
-            }));
+                .create(), event -> openReasonGUI(targetUniqueId, PunishmentType.BAN)));
 
         gui.setItem(3, new GuiItem(new ItemBuilder(
                 Material.BARRIER,
@@ -86,7 +84,7 @@ public record PunishUI(@Getter Player requester) {
                         "&r",
                         "&6Left-Click&7 to choose punishment&c Temp-Ban&7.")
                 .create(), event -> {
-            //TODO JUST OPEN REASON GUI.
+            //TODO JUST OPEN TIME GUI.
             }));
 
         gui.open(requester);
@@ -107,9 +105,7 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 to choose punishment&b Mute&7.")
-                .create(), event -> {
-            //TODO JUST OPEN REASON GUI.
-        }));
+                .create(), event -> openReasonGUI(targetUniqueId, PunishmentType.MUTE)));
 
         gui.setItem(3, new GuiItem(new ItemBuilder(
                 Material.FEATHER,
@@ -119,15 +115,15 @@ public record PunishUI(@Getter Player requester) {
                         "&r",
                         "&6Left-Click&7 to choose punishment&b Temp-Mute&7.")
                 .create(), event -> {
-            //TODO JUST OPEN REASON GUI.
-        }));
+            //TODO JUST OPEN TIME GUI.
+            }));
 
         gui.open(requester);
     }
 
     public void openReasonGUI(UUID targetUniqueId, PunishmentType type) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueId);
-        PaginatedGui gui = new BaseUI().basePaginatedGui(6, "&6Reporting &7> &e" + target.getName());
+        PaginatedGui gui = new BaseUI().basePaginatedGui(6, "&6" + type.getDisplayName() + "ing &7> &e" + target.getName());
         //gui.setCloseGuiAction(event -> Message.REPORT_CANCELLED.sendMessage(checker, true));
 
         gui.setItem(49, new GuiItem(new ItemBuilder(Material.BARRIER, "&cCancel Report").create(), event -> {
@@ -143,8 +139,8 @@ public record PunishUI(@Getter Player requester) {
         ReportReasonManager.getInstance().getReportReasons().forEach((key, reasonObject) -> gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7" + type.getDisplayName().toLowerCase() + "for: &6" + reasonObject.getDisplayName())
                 .addLoreLines(" &r")
                 .addLoreLines(reasonObject.getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
-                .addLoreLines("Click to choose this report reason.")
-                .create(), event -> openInitializeReportGUI(target, reasonObject))));
+                .addLoreLines("Click to choose this " + type.getDisplayName() + " reason.")
+                .create(), event -> InventoryUtils.getInstance().invokePunishment(event, type, reasonObject.getLore().toString(), target.getPlayer(), requester))));
 
         gui.open(requester);
     }

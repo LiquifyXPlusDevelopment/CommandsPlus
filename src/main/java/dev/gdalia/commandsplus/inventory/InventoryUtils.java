@@ -64,7 +64,7 @@ public class InventoryUtils {
                 .ifPresent(reportComment -> new CommentsUI(checker).deleteInitializeCommentsGUI(report.getConvicted(), report, comment));
     }
 
-    public void InvokePunishment(InventoryClickEvent event, PunishmentType type, String message, Player target, Player checker) {
+    public void invokePunishment(InventoryClickEvent event, PunishmentType type, String message, Player target, Player checker) {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
                 .filter(player -> target.isOnline())
