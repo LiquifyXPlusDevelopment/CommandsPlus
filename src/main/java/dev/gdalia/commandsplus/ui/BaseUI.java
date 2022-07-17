@@ -24,9 +24,9 @@ public class BaseUI {
         }
     }
      */
-
-    private static final GuiItem GUI_BORDER = new GuiItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, " ").create());
-    private static final GuiItem GUI_BORDER_REMOVABLE = new GuiItem(new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE, " ").create());
+    private static final GuiItem
+            GUI_BORDER = new GuiItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, " ").create()),
+            GUI_BORDER_REMOVABLE = new GuiItem(new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE, " ").create());
 
     public Gui baseGui(final int rows, @NotNull String title) {
         Gui gui = new Gui(rows, Message.fixColor(title));
@@ -35,6 +35,14 @@ public class BaseUI {
         gui.getFiller().fillBorder(GUI_BORDER);
         gui.getFiller().fillBetweenPoints(2, 2, 5, 2, GUI_BORDER_REMOVABLE);
         gui.getFiller().fillBetweenPoints(2, 8, 5, 8, GUI_BORDER_REMOVABLE);
+
+        gui.setOpenGuiAction(event -> {
+            gui.getGuiItems().entrySet()
+                    .stream()
+                    .filter(x -> x.getValue().equals(GUI_BORDER_REMOVABLE))
+                    .forEach(x -> gui.removeItem(x.getKey()));
+            gui.update();
+        });
 
         return gui;
     }
