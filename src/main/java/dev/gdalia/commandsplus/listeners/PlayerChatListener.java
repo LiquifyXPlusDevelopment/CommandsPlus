@@ -7,6 +7,7 @@ import java.util.Optional;
 import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.inventory.InventoryUtils;
+import dev.gdalia.commandsplus.ui.CommentsUI;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +20,7 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.StringUtils;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class PlayerChatListener implements Listener {
 
@@ -36,8 +38,18 @@ public class PlayerChatListener implements Listener {
 		Optional.of(InventoryUtils.getInstance().commentText.containsKey(e.getUniqueId()))
 				.map(report -> InventoryUtils.getInstance().commentText.get(e.getUniqueId()))
 				.ifPresent(x -> {
-					ReportManager.getInstance().addComment(x, new ReportComment(e, Instant.now(), event.getMessage()));
-					InventoryUtils.getInstance().commentText.remove(e.getUniqueId());
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							ReportManager.getInstance().addComment(x, new ReportComment(e, Instant.now(), event.getMessage()));
+							new CommentsUI(e.getPlayer()).openCommentsGUI(InventoryUtils.getInstance().commentText.get(e.getUniqueId()));
+							InventoryUtils.getInstance().commentText.remove(e.getUniqueId());
+							Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+
+							e.resetTitle();
+							cancel();
+						}
+					}.runTaskTimer(Main.getInstance(), 1, 1);
 
 					event.setCancelled(true);
 				});

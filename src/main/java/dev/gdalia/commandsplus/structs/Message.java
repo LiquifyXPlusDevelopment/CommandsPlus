@@ -99,7 +99,7 @@ public enum Message {
 	REPORT_SUCCESSFULLY("&7You have successfully reported &c{0}&7 for &e{1}&7."),
 	REPORT_DELETED_SUCCESSFULLY("&7You have successfully &c&lDELETED &7the report of &e{0}&7."),
 	COMMENT_DELETED_SUCCESSFULLY("&7You have successfully &c&lDELETED &7the comment of &e{0}&7."),
-	TYPE_AN_COMMENT("&7Please type in the chat a&e comment&7.");
+	TYPE_AN_COMMENT("&7Please type in the chat a comment.");
 
 
 

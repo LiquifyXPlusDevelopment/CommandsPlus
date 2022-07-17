@@ -11,7 +11,6 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class ActionBarVanishTask implements Runnable {
-
 	
 	@Override
 	public void run() {

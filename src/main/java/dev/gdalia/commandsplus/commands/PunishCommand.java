@@ -60,7 +60,7 @@ public class PunishCommand extends BasePlusCommand {
             return;
         }
 
-        new PunishUI(player).openReportGUI(target.getUniqueId());
+        new PunishUI(player).openPunishGUI(target.getUniqueId());
     }
 
     @Override

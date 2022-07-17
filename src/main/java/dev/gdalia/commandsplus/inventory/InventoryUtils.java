@@ -41,7 +41,6 @@ public class InventoryUtils {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
                 .filter(player -> target.isOnline())
-                .filter(obj -> false)
                 .ifPresent(clickable -> teleported.teleport(target.getPlayer()));
     }
 
@@ -49,11 +48,16 @@ public class InventoryUtils {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
                 .filter(player -> reporter.isOnline())
-                .ifPresent(clickable -> {
-                    reporter.sendMessage("&7Commenter: " + comment.getOfflinePlayer().getName());
-                    reporter.sendMessage("&7Date: &e" + StringUtils.createTimeFormatter(comment.getSentAt(), "dd/MM/uu, HH:mm:ss"));
-                    reporter.sendMessage("&7Message &f" + comment.getComment());
-                });
+                .ifPresent(clickable ->
+                        reporter.sendMessage(
+                        Message.fixColor(
+                        "&7&m----------&eRespond&7&m----------\n" +
+                        "&7 Commenter: &6" +
+                        comment.getOfflinePlayer().getName() +
+                        "\n&7 Date: &e" + StringUtils.createTimeFormatter(comment.getSentAt(), "dd/MM/uu, HH:mm:ss") +
+                        "\n&7 Message: &f" + comment.getComment() +
+                        "\n&7&m---------------------------")));
+        Message.playSound(reporter, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
     }
 
 

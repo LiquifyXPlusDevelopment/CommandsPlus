@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -80,13 +81,16 @@ public class PlayerLogListener implements Listener {
 		String msg = PlayerCollection.getVanishPlayers().contains(uuid) ? null : Message.fixColor("&2&l+ &6" + player.getName() + "&7 Connected");
 		Message.playSound(event.getPlayer(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 		event.setJoinMessage(msg);
+		player.resetTitle();
 	}
 
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
-		
+
+		InventoryUtils.getInstance().commentText.remove(uuid);
+
 		if (Main.getInstance().getConfig().getBoolean("disable_welcome_message")) {
 			event.setQuitMessage(null);
 			return;

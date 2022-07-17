@@ -49,7 +49,8 @@ public record CommentsUI(@Getter Player checker) {
                 .ifPresent(comment -> {
                     InventoryUtils.getInstance().commentText.put(checker.getUniqueId(), report);
                     checker.closeInventory();
-                    Message.TYPE_AN_COMMENT.sendMessage(checker, true);
+                    checker.sendTitle(Message.fixColor("&eWrite a comment"), Message.TYPE_AN_COMMENT.getMessage(), 5, 1000000000, 5);
+                    Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
                 })));
 
         int size = report.getComments() != null ? report.getComments().size() : 0;

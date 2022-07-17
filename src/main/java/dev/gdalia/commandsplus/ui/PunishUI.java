@@ -15,14 +15,18 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.IntFunction;
 
 public record PunishUI(@Getter Player requester) {
 
     private static final GuiItem GUI_BORDER = new GuiItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, " ").create());
-    public void openReportGUI(UUID targetUniqueId) {
+    public void openPunishGUI(UUID targetUniqueId) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueId);
         Gui gui = new Gui(GuiType.HOPPER, Message.fixColor("&cPunishing &7> &e" + requester.getName()), Set.of());
         gui.disableAllInteractions();
@@ -123,7 +127,7 @@ public record PunishUI(@Getter Player requester) {
 
     public void openReasonGUI(UUID targetUniqueId, PunishmentType type) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueId);
-        PaginatedGui gui = new BaseUI().basePaginatedGui(6, "&6" + type.getDisplayName() + "ing &7> &e" + target.getName());
+        PaginatedGui gui = new BaseUI().basePaginatedGui(6, "&6" + type.getDisplayName() + " &7> &e" + target.getName());
         //gui.setCloseGuiAction(event -> Message.REPORT_CANCELLED.sendMessage(checker, true));
 
         gui.setItem(49, new GuiItem(new ItemBuilder(Material.BARRIER, "&cCancel Report").create(), event -> {
@@ -136,11 +140,11 @@ public record PunishUI(@Getter Player requester) {
             player.closeInventory();
         }));
 
-        ReportReasonManager.getInstance().getReportReasons().forEach((key, reasonObject) -> gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7" + type.getDisplayName().toLowerCase() + "for: &6" + reasonObject.getDisplayName())
+        ReportReasonManager.getInstance().getReportReasons().forEach((key, reasonObject) -> gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7" + type.getDisplayName().toLowerCase() + " for: &6" + reasonObject.getDisplayName())
                 .addLoreLines(" &r")
                 .addLoreLines(reasonObject.getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
-                .addLoreLines("Click to choose this " + type.getDisplayName() + " reason.")
-                .create(), event -> InventoryUtils.getInstance().invokePunishment(event, type, reasonObject.getLore().toString(), target.getPlayer(), requester))));
+                .addLoreLines("Click to choose this " + type.getDisplayName().toLowerCase() + " reason.")
+                .create(), event -> InventoryUtils.getInstance().invokePunishment(event, type, reasonObject.getLore().toString().replace("[", "").replace("]", ""), target.getPlayer(), requester))));
 
         gui.open(requester);
     }

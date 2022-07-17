@@ -163,7 +163,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                         " &r",
                         "&6Click&7 to punish the reporter",
                         "&a" + Reporter.getName())
-                .create()));
+                .create(), event -> new PunishUI(checker).openPunishGUI(targetUniqueID)));
 
         gui.setItem(14, new GuiItem(new ItemBuilder(
                 Material.PLAYER_HEAD,
