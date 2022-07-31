@@ -2,6 +2,7 @@ package dev.gdalia.commandsplus.ui;
 
 import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.gdalia.commandsplus.inventory.ItemBuilder;
+import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.models.ReportReasonManager;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
@@ -18,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
@@ -40,15 +42,15 @@ public record PunishUI(@Getter Player requester) {
                 .addGlow()
                 .addLoreLines(
                         "&r",
-                        "&6Left-Click&7 to&a Kick&7 the player&e " + target.getName() + "&7.")
-                .create(), event -> openReasonGUI(targetUniqueId, PunishmentType.KICK)));
+                        "&6Left-Click&7 to&a&l KICK&7 the player&e " + target.getName() + "&7.")
+                .create(), event -> openReasonGUI(targetUniqueId, PunishmentType.KICK, null)));
 
         gui.setItem(2, new GuiItem(new ItemBuilder(
                 Material.FEATHER,
                 "&b&lMUTE")
                 .addLoreLines(
                         "&r",
-                        "&6Left-Click&7 to&b Mute&7 the player&e " + target.getName() + "&7.")
+                        "&6Left-Click&7 to&b&l MUTE&7 the player&e " + target.getName() + "&7.")
                 .create(), event -> openMuteGUI(targetUniqueId)));
 
         gui.setItem(3, new GuiItem(new ItemBuilder(
@@ -57,7 +59,7 @@ public record PunishUI(@Getter Player requester) {
                 .addGlow()
                 .addLoreLines(
                         "&r",
-                        "&6Left-Click&7 to&c Ban&7 the player&e " + target.getName() + "&7.")
+                        "&6Left-Click&7 to&c&l BAN&7 the player&e " + target.getName() + "&7.")
                 .create(), event -> openBanGUI(targetUniqueId)));
 
         gui.open(requester);
@@ -71,22 +73,32 @@ public record PunishUI(@Getter Player requester) {
         gui.setItem(0, GUI_BORDER);
         gui.setItem(4, GUI_BORDER);
 
-        gui.setItem(1, new GuiItem(new ItemBuilder(
-                Material.BARRIER,
+        gui.setItem(3, new GuiItem(new ItemBuilder(
+                Material.RED_WOOL,
                 "&c&lBAN")
                 .addGlow()
                 .addLoreLines(
                         "&r",
-                        "&6Left-Click&7 to choose punishment&c Ban&7.")
-                .create(), event -> openReasonGUI(targetUniqueId, PunishmentType.BAN)));
+                        "&6Left-Click&7 to choose punishment&c&l BAN&7.")
+                .create(), event -> openReasonGUI(targetUniqueId, PunishmentType.BAN, null)));
 
-        gui.setItem(3, new GuiItem(new ItemBuilder(
-                Material.BARRIER,
-                "&c&lTEMP-BAN")
+        gui.setItem(2, new GuiItem(new ItemBuilder(
+                Material.PLAYER_HEAD,
+                "&eTarget")
+                .setPlayerSkull(target)
+                .addLoreLines(
+                        "&r",
+                        "&7Name: &e" + target.getName(),
+                        "&7Punishable: " + InventoryUtils.getInstance().activePunishment(PunishmentType.BAN, PunishmentType.TEMPBAN, targetUniqueId)
+                ).create()));
+
+        gui.setItem(1, new GuiItem(new ItemBuilder(
+                Material.ORANGE_WOOL,
+                "&6&lTEMP-BAN")
                 .addGlow()
                 .addLoreLines(
                         "&r",
-                        "&6Left-Click&7 to choose punishment&c Temp-Ban&7.")
+                        "&6Left-Click&7 to choose punishment&6&l TEMP-BAN&7.")
                 .create(), event -> {
             //TODO JUST OPEN TIME GUI.
             }));
@@ -102,22 +114,30 @@ public record PunishUI(@Getter Player requester) {
         gui.setItem(0, GUI_BORDER);
         gui.setItem(4, GUI_BORDER);
 
-        gui.setItem(1, new GuiItem(new ItemBuilder(
-                Material.FEATHER,
-                "&b&lMUTE")
-                .addGlow()
-                .addLoreLines(
-                        "&r",
-                        "&6Left-Click&7 to choose punishment&b Mute&7.")
-                .create(), event -> openReasonGUI(targetUniqueId, PunishmentType.MUTE)));
-
         gui.setItem(3, new GuiItem(new ItemBuilder(
-                Material.FEATHER,
-                "&b&lTEMP-MUTE")
-                .addGlow()
+                Material.YELLOW_WOOL,
+                "&e&lMUTE")
                 .addLoreLines(
                         "&r",
-                        "&6Left-Click&7 to choose punishment&b Temp-Mute&7.")
+                        "&6Left-Click&7 to choose punishment&e&l MUTE&7.")
+                .create(), event -> openReasonGUI(targetUniqueId, PunishmentType.MUTE, null)));
+
+        gui.setItem(2, new GuiItem(new ItemBuilder(
+                Material.PLAYER_HEAD,
+                "&eTarget")
+                .setPlayerSkull(target)
+                .addLoreLines(
+                        "&r",
+                        "&7Name: &e" + target.getName(),
+                        "&7Punishable: " + InventoryUtils.getInstance().activePunishment(PunishmentType.MUTE, PunishmentType.TEMPMUTE, targetUniqueId)
+                ).create()));
+
+        gui.setItem(1, new GuiItem(new ItemBuilder(
+                Material.GREEN_WOOL,
+                "&a&lTEMP-MUTE")
+                .addLoreLines(
+                        "&r",
+                        "&6Left-Click&7 to choose punishment&a&l TEMP-MUTE&7.")
                 .create(), event -> {
             //TODO JUST OPEN TIME GUI.
             }));
@@ -125,9 +145,13 @@ public record PunishUI(@Getter Player requester) {
         gui.open(requester);
     }
 
-    public void openReasonGUI(UUID targetUniqueId, PunishmentType type) {
+    public void openTimeGUI(UUID targetUniqueID, PunishmentType type) {
+
+    }
+
+    public void openReasonGUI(UUID targetUniqueId, PunishmentType type, String time) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueId);
-        PaginatedGui gui = new BaseUI().basePaginatedGui(6, "&6" + type.getDisplayName() + " &7> &e" + target.getName());
+        PaginatedGui gui = new BaseUI().basePaginatedGui(6, "&6&l" + type.getDisplayName().toUpperCase() + " &7> &e" + target.getName());
         //gui.setCloseGuiAction(event -> Message.REPORT_CANCELLED.sendMessage(checker, true));
 
         gui.setItem(49, new GuiItem(new ItemBuilder(Material.BARRIER, "&cCancel Report").create(), event -> {
@@ -144,7 +168,24 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(" &r")
                 .addLoreLines(reasonObject.getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
                 .addLoreLines("Click to choose this " + type.getDisplayName().toLowerCase() + " reason.")
-                .create(), event -> InventoryUtils.getInstance().invokePunishment(event, type, reasonObject.getLore().toString().replace("[", "").replace("]", ""), target.getPlayer(), requester))));
+                .create(), event -> {
+            if (time == null) {
+                InventoryUtils.getInstance().invokePunishment(event, type, reasonObject.getLore().toString().replace("[", "").replace("]", ""), target.getPlayer(), requester);
+                return;
+            }
+
+            InventoryUtils.getInstance().invokeInstantPunishment(event, type, time, reasonObject.getLore().toString().replace("[", "").replace("]", ""), target.getPlayer(), requester);
+        })));
+
+        gui.setItem(4, new GuiItem(new ItemBuilder(
+                Material.NAME_TAG,
+                "&e&lCUSTOM")
+                .addLoreLines(
+                        "&r",
+                        "&6Left-Click&7 to enter a &e&lCUSTOM&7 reason."
+                ).create(), event -> {
+            //TODO ADD CUSTOM TYPING SYSTEM.
+        }));
 
         gui.open(requester);
     }
