@@ -90,6 +90,6 @@ public class PardonCommand extends BasePlusCommand {
 					Message.valueOf("TARGET_" + cmd.getName().toUpperCase()).sendFormattedMessage(target.getPlayer(), true, sender.getName());
 				}
 
-        		}, () -> Message.valueOf("PLAYER_NOT_" + cmd.getName().toUpperCase()).sendMessage(sender, true));
+        		}, () -> Message.valueOf("PLAYER_NOT_" + cmd.getName().toUpperCase().replace("UN", "")).sendMessage(sender, true));
 	}
 }

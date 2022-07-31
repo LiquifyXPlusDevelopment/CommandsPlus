@@ -105,8 +105,8 @@ public class InventoryUtils {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
                 .filter(player -> target.isOnline())
-                .ifPresent(clickable -> Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase())).ifPresentOrElse(punishment ->
-                    Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(checker, true), () -> {
+                .ifPresent(clickable -> Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase())).ifPresentOrElse(punishment -> {
+                        Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(checker, true); checker.closeInventory();}, () -> {
                     Duration duration;
 
                     try {
@@ -139,6 +139,7 @@ public class InventoryUtils {
                     Duration res = Duration.between(one, two);
                     Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE")
                             .sendFormattedMessage(checker, true, target.getName(), StringUtils.formatTime(res));
+                    checker.closeInventory();
                 }));
     }
 

@@ -162,49 +162,49 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 To &e&l" + type.getDisplayName().toUpperCase() + "&7 " + target.getName() + " for 30 Minutes."
-                ).create()));
+                ).create(), event -> openReasonGUI(targetUniqueID, type, "30m")));
 
         gui.setItem(10, new GuiItem(new ItemBuilder(Material.PAPER, "&6&lTIME &7>&e 12 Hours")
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 To &e&l" + type.getDisplayName().toUpperCase() + "&7 " + target.getName() + " for 12 Hours."
-                ).create()));
+                ).create(), event -> openReasonGUI(targetUniqueID, type, "12h")));
 
         gui.setItem(11, new GuiItem(new ItemBuilder(Material.PAPER, "&6&lTIME &7>&e 1 Day")
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 To &e&l" + type.getDisplayName().toUpperCase() + "&7 " + target.getName() + " for 1 Day."
-                ).create()));
+                ).create(), event -> openReasonGUI(targetUniqueID, type, "1d")));
 
         gui.setItem(12, new GuiItem(new ItemBuilder(Material.PAPER, "&6&lTIME &7>&e 2 Days")
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 To &e&l" + type.getDisplayName().toUpperCase() + "&7 " + target.getName() + " for 2 Days."
-                ).create()));
+                ).create(), event -> openReasonGUI(targetUniqueID, type, "2d")));
 
         gui.setItem(13, new GuiItem(new ItemBuilder(Material.PAPER, "&6&lTIME &7>&e 3 Days")
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 To &e&l" + type.getDisplayName().toUpperCase() + "&7 " + target.getName() + " for 3 Days."
-                ).create()));
+                ).create(), event -> openReasonGUI(targetUniqueID, type, "3d")));
 
         gui.setItem(14, new GuiItem(new ItemBuilder(Material.PAPER, "&6&lTIME &7>&e 1 Week")
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 To &e&l" + type.getDisplayName().toUpperCase() + "&7 " + target.getName() + " for 1 Week."
-                ).create()));
+                ).create(), event -> openReasonGUI(targetUniqueID, type, "1w")));
 
         gui.setItem(15, new GuiItem(new ItemBuilder(Material.PAPER, "&6&lTIME &7>&e 2 Weeks")
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 To &e&l" + type.getDisplayName().toUpperCase() + "&7 " + target.getName() + " for 2 Weeks."
-                ).create()));
+                ).create(), event -> openReasonGUI(targetUniqueID, type, "2w")));
 
         gui.setItem(16, new GuiItem(new ItemBuilder(Material.PAPER, "&6&lTIME &7>&e 3 Weeks")
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 To &e&l" + type.getDisplayName().toUpperCase() + "&7 " + target.getName() + " for 3 Weeks."
-                ).create()));
+                ).create(), event -> openReasonGUI(targetUniqueID, type, "3w")));
 
         gui.setItem(17, new GuiItem(new ItemBuilder(
                 Material.NAME_TAG,
@@ -276,7 +276,7 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(
                         "Punishment target: &6" + target.getName(),
                         "Punishment type: &8&l" + type.getDisplayName().toUpperCase(),
-                        "Punishment time: &e" + (time == null ? "&c&lPERMA" : "&e&l" + time),
+                        "Punishment time: &e" + (time == null ? "&c&lPERMANENTLY" : "&e&l" + time),
                         "&r",
                         "&6Left-Click&7 to&c&l INVOKE&7 the punishment of this player.")
                 .create()));
