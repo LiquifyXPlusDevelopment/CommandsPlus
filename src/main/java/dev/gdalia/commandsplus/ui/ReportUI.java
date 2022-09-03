@@ -30,7 +30,7 @@ public record ReportUI(@Getter Player checker) {
 
         gui.setItem(49, new GuiItem(new ItemBuilder(Material.BARRIER, "&cCancel Report").create(), event -> {
             if (!(event.getWhoClicked() instanceof Player player) || !player.getUniqueId().equals(checker.getUniqueId())) {
-                checker.kickPlayer("HE HE HE HA! *King Noises*");
+                checker.kickPlayer("HEHEHE HA! *King Noises*");
                 return;
             }
 

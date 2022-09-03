@@ -5,7 +5,6 @@ import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
-import dev.gdalia.commandsplus.structs.punishments.PunishmentGUI;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
@@ -14,7 +13,6 @@ import dev.gdalia.commandsplus.ui.CommentsUI;
 import dev.gdalia.commandsplus.ui.ReportHistoryUI;
 import dev.gdalia.commandsplus.utils.StringUtils;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -30,8 +28,6 @@ public class InventoryUtils {
     @Getter
     private static final InventoryUtils instance = new InventoryUtils();
     public HashMap<UUID, Report> commentText = new HashMap<>();
-    public HashMap<UUID, PunishmentGUI> timeText = new HashMap<>();
-    public HashMap<UUID, PunishmentGUI> reasonText = new HashMap<>();
 
     public void changeStatus(InventoryClickEvent event, ReportStatus status, Report report, Player checker) {
         Optional.of(event.getClick())
@@ -76,12 +72,29 @@ public class InventoryUtils {
                 .ifPresent(reportComment -> new CommentsUI(checker).deleteInitializeCommentsGUI(report.getConvicted(), report, comment));
     }
 
-    public void invokePunishment(InventoryClickEvent event, PunishmentGUI punishmentGUI) {
+    public void invokePunishment(InventoryClickEvent event, PunishmentType type, String message, Player target, Player checker) {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
-                .filter(player -> Bukkit.getPlayer(punishmentGUI.getPunished()).isOnline())
+                .filter(player -> target.isOnline())
                 .ifPresent(clickable -> {
-                    PunishmentManager.getInstance().invoke(punishmentGUI);
+                    if (type.equals(PunishmentType.MUTE) || type.equals(PunishmentType.BAN)) {
+                        if (Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()),
+                                PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).orElse(null) != null) {
+                            Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(checker, true);
+                            Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+                            checker.closeInventory();
+                            return;
+                        }
+                    }
+
+                    Punishment punishment = new Punishment(
+                            UUID.randomUUID(),
+                            target.getUniqueId(),
+                            Optional.of((checker).getUniqueId()).orElse(null),
+                            type,
+                            message);
+
+                    PunishmentManager.getInstance().invoke(punishment);
                     Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
                     Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(checker, true, target.getName());
                     checker.closeInventory();
