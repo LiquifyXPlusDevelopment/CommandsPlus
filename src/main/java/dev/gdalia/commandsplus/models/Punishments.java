@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -144,6 +145,15 @@ public class Punishments {
 			pConfig.saveConfig();
 			writeTo(uuid, key, value, instSave);
 		});
+	}
+
+	/**
+	 * This generally returns all Server Punishments, since this is the punishment "manager",
+	 * this will give a feeded Immutable List of server punishments.
+	 * @return an immutable {@link List<Punishment>} of all server punishments.
+	 */
+	public List<Punishment> getServerPunishments() {
+		return List.copyOf(punishments.values());
 	}
 	
 	/**
