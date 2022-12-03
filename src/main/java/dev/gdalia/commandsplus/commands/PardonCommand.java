@@ -20,6 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 @CommandAutoRegistration.Command(value = {"unban", "unmute"})
 public class PardonCommand extends BasePlusCommand {
@@ -80,9 +82,15 @@ public class PardonCommand extends BasePlusCommand {
         Punishments.getInstance()
         	.getActivePunishment(target.getUniqueId(), type, PunishmentType.valueOf("TEMP" + type))
         	.ifPresentOrElse(punishment -> {
+				Optional<UUID> removedBy = Stream.of(sender)
+						.filter(Player.class::isInstance)
+						.map(Player.class::cast)
+						.map(Player::getUniqueId)
+						.findAny();
+
         		PunishmentManager.getInstance().revoke(new PunishmentRevoke(
 								punishment,
-								Optional.of(((Player) sender).getUniqueId()).orElse(null)));
+								removedBy.orElse(null)));
         		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 
         		Message.valueOf("PLAYER_" + cmd.getName().toUpperCase()).sendFormattedMessage(sender, true, target.getName());
