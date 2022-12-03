@@ -24,7 +24,6 @@ import java.util.*;
 public record ReportHistoryUI(@Getter Player checker) {
 
     private static final GuiItem GUI_BORDER = new GuiItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, " ").create());
-
     public void openReportHistoryGUI(UUID targetUniqueId) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueId);
         PaginatedGui gui = new BaseUI().basePaginatedGui(6, "&6Reports &7> &e" + target.getName());
@@ -33,7 +32,7 @@ public record ReportHistoryUI(@Getter Player checker) {
 
         gui.setItem(49, new GuiItem(new ItemBuilder(Material.BARRIER, "&cClose").create(), event -> {
             if (!(event.getWhoClicked() instanceof Player player) || !player.getUniqueId().equals(checker.getUniqueId())) {
-                checker.kickPlayer("HEHEHE HA! *King Noises*");
+                checker.kickPlayer("HE HE HE HA! *King Noises*");
                 return;
             }
 
@@ -52,8 +51,8 @@ public record ReportHistoryUI(@Getter Player checker) {
                             "Status: &6" + report.getStatus().name(),
                             "Date: &e" + report.getSentAt(),
                             " &r",
-                            "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
-                            "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
+                            "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aOnline&7}" : " &7{&cOffline&7}"),
+                            "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aOnline&7}" : " &7{&cOffline&7}"))
                     .addLoreLines(report.getReason().getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
                     .addLoreLines(
                             " &r",
@@ -135,8 +134,8 @@ public record ReportHistoryUI(@Getter Player checker) {
                         "Status: &6" + report.getStatus().name(),
                         "Date: &e" + report.getSentAt(),
                         " &r",
-                        "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
-                        "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
+                        "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aOnline&7}" : " &7{&cOffline&7}"),
+                        "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aOnline&7}" : " &7{&cOffline&7}"))
                 .addLoreLines(report.getReason().getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
                 .addLoreLines(
                         " &r",
@@ -183,14 +182,14 @@ public record ReportHistoryUI(@Getter Player checker) {
                 "&eData")
                 .addLoreLines(
                         " &r",
-                        "&eReported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
-                        " Gamemode: &b" + (Reported.isOnline() ? Reported.getPlayer().getGameMode().name().toLowerCase() : ""),
+                        "&eReported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aOnline&7}" : " &7{&cOffline&7}"),
+                        " GameMode: &b" + (Reported.isOnline() ? Reported.getPlayer().getGameMode().name().toLowerCase() : ""),
                         " Health: &c" + (Reported.isOnline() ? Reported.getPlayer().getHealth() + "/" + Reported.getPlayer().getMaxHealth() : ""),
                         " Food: &6" + (Reported.isOnline() ? Reported.getPlayer().getFoodLevel() : ""),
                         " UUID: &8" + Reported.getUniqueId(),
                         " IP: &e" + (Reported.isOnline() ? Reported.getPlayer().getAddress() : ""),
                         " &r",
-                        "&eReporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
+                        "&eReporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aOnline&7}" : " &7{&cOffline&7}"),
                         " UUID: &8" + Reporter.getUniqueId(),
                         " IP: &e" + (Reporter.isOnline() ? Reporter.getPlayer().getAddress() : ""),
                         " &r",
@@ -238,7 +237,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                     .stream()
                     .filter(p -> !(p instanceof Player))
                     .filter(p -> !p.getUniqueId().equals(checker.getUniqueId()))
-                    .forEach(p -> checker.kickPlayer("HEHEHE HA! *King Noises*"));
+                    .forEach(p -> checker.kickPlayer("HE HE HE HA! *King Noises*"));
 
             Message.playSound(event.getWhoClicked(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
             event.getWhoClicked().closeInventory();

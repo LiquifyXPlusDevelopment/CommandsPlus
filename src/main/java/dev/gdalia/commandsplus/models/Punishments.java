@@ -27,7 +27,6 @@ public class Punishments {
 	private static Punishments instance;
 
 	private final HashMap<UUID, Punishment> punishments = new HashMap<>();
-	
 	private final Config pConfig = Main.getInstance().getPunishmentsConfig();
 	
 	/**

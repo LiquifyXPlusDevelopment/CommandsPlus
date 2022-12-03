@@ -10,26 +10,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class BaseUI {
 
-    /*
-    static {
-        try {
-            Method method = PaginatedGui.class.getDeclaredMethod("getPageNum", int.class);
-            method.setAccessible(true);
-            getPageNum = MethodHandles.lookup().unreflect(method);
-        } catch (NoSuchMethodException | IllegalAccessException e1) {
-            throw new RuntimeException(e1);
-        }
-    }
-     */
     private static final GuiItem
             GUI_BORDER = new GuiItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, " ").create()),
             GUI_BORDER_REMOVABLE = new GuiItem(new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE, " ").create());
 
     public Gui baseGui(final int rows, @NotNull String title) {
-        Gui gui = new Gui(rows, Message.fixColor(title));
+        Gui gui = new Gui(rows, Message.fixColor(title), Set.of());
         gui.disableAllInteractions();
 
         gui.getFiller().fillBorder(GUI_BORDER);

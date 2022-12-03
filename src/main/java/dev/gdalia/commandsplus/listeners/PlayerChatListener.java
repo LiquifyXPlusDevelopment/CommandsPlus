@@ -2,12 +2,15 @@ package dev.gdalia.commandsplus.listeners;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import dev.gdalia.commandsplus.models.ReportManager;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentGUI;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.gdalia.commandsplus.ui.CommentsUI;
+import dev.gdalia.commandsplus.ui.PunishUI;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,7 +53,51 @@ public class PlayerChatListener implements Listener {
 							cancel();
 						}
 					}.runTaskTimer(Main.getInstance(), 1, 1);
+					event.setCancelled(true);
+				});
 
+		Optional.of(InventoryUtils.getInstance().timeText.containsKey(e.getUniqueId()))
+				.map(punishment -> InventoryUtils.getInstance().timeText.get(e.getUniqueId()))
+				.ifPresent(x -> {
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							Duration duration;
+							duration = StringUtils.phraseToDuration(event.getMessage(),
+									ChronoUnit.SECONDS, ChronoUnit.MINUTES,
+									ChronoUnit.HOURS, ChronoUnit.DAYS,
+									ChronoUnit.WEEKS, ChronoUnit.MONTHS,
+									ChronoUnit.YEARS);
+
+							Instant expiry = Instant.now().plus(duration);
+
+							x.setExpiry(expiry);
+							new PunishUI(e.getPlayer()).openReasonGUI(x.getPunished(), x);
+							InventoryUtils.getInstance().timeText.remove(e.getUniqueId());
+							Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+
+							e.resetTitle();
+							cancel();
+						}
+					}.runTaskTimer(Main.getInstance(), 1, 1);
+					event.setCancelled(true);
+				});
+
+		Optional.of(InventoryUtils.getInstance().reasonText.containsKey(e.getUniqueId()))
+				.map(punishment -> InventoryUtils.getInstance().reasonText.get(e.getUniqueId()))
+				.ifPresent(x -> {
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							x.setReason(event.getMessage());
+							new PunishUI(e.getPlayer()).invokeInitializePunishGUI(x.getPunished(), x);
+							InventoryUtils.getInstance().reasonText.remove(e.getUniqueId());
+							Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+
+							e.resetTitle();
+							cancel();
+						}
+					}.runTaskTimer(Main.getInstance(), 1, 1);
 					event.setCancelled(true);
 				});
 
