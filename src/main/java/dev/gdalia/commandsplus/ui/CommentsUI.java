@@ -26,6 +26,7 @@ import java.util.UUID;
 public record CommentsUI(@Getter Player checker) {
 
     private static final GuiItem GUI_BORDER = new GuiItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE, " ").create());
+
     public void openCommentsGUI(Report report) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(report.getConvicted());
         PaginatedGui gui = new BaseUI().basePaginatedGui(5, "&6Comments &7> &e" + target.getName());
@@ -83,7 +84,7 @@ public record CommentsUI(@Getter Player checker) {
                     .stream()
                     .filter(p -> !(p instanceof Player))
                     .filter(p -> !p.getUniqueId().equals(checker.getUniqueId()))
-                    .forEach(p -> checker.kickPlayer("HE HE HE HA! *King Noises*"));
+                    .forEach(p -> checker.kickPlayer("HEHEHE HA! *King Noises*"));
 
             Message.playSound(event.getWhoClicked(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
             event.getWhoClicked().closeInventory();

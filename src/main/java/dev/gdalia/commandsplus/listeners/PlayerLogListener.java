@@ -2,7 +2,6 @@ package dev.gdalia.commandsplus.listeners;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -91,8 +90,6 @@ public class PlayerLogListener implements Listener {
 		UUID uuid = player.getUniqueId();
 
 		InventoryUtils.getInstance().commentText.remove(uuid);
-		InventoryUtils.getInstance().timeText.remove(uuid);
-		InventoryUtils.getInstance().reasonText.remove(uuid);
 
 		if (Main.getInstance().getConfig().getBoolean("disable_welcome_message")) {
 			event.setQuitMessage(null);
