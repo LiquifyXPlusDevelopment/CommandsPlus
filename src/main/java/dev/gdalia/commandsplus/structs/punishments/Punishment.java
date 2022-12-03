@@ -25,7 +25,7 @@ public class Punishment {
 	
 	@Getter
 	@Nullable
-	private final UUID executer;
+	private final UUID executor;
 	
 	@Getter
 	@NonNull
