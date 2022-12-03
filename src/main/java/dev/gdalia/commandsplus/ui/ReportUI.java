@@ -81,7 +81,7 @@ public record ReportUI(@Getter Player checker) {
             Report report = new Report(UUID.randomUUID(), target.getUniqueId(), checker.getUniqueId(), Instant.now(), reportReason, ReportStatus.OPEN, new ArrayList<>());
             ReportManager.getInstance().invoke(report);
             checker.closeInventory();
-            Message.REPORT_SUCCESSFULLY.sendFormattedMessage(checker, true, target.getName(), reportReason.getLore().toArray(String[]::new));
+            Message.REPORT_SUCCESSFULLY.sendFormattedMessage(checker, true, target.getName(), reportReason.getDisplayName());
         }));
 
         gui.open(checker);
