@@ -95,10 +95,8 @@ public class Punishments {
 	 */	
 	public Optional<Punishment> getActivePunishment(UUID uuid, PunishmentType... type) {
         return getHistory(uuid).stream()
-                .filter(punishment -> {
-                    if (type.length == 0) return true;
-                    return Arrays.asList(type).contains(punishment.getType());
-                }).filter(punishment -> punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now()))
+                .filter(punishment -> (type.length == 0) || Arrays.asList(type).contains(punishment.getType()))
+				.filter(punishment -> punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now()))
                 .filter(punishment -> {
                     ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
                     if (cs == null) return false;

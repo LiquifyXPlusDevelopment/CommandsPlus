@@ -12,6 +12,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PunishmentManager {
 
@@ -42,12 +43,14 @@ public class PunishmentManager {
 	}
 
 	public void revoke(PunishmentRevoke punishment) {
-		Optional.ofNullable(punishment.getRemovedBy()).ifPresent(punisher ->
-				Punishments.getInstance().writeTo(
-						punishment.getPunishment(),
-						ConfigFields.PunishFields.REMOVED_BY,
-						punishment.getRemovedBy().toString(),
-						false));
+		AtomicReference<String> executor = new AtomicReference<>("CONSOLE");
+		Optional.ofNullable(punishment.getRemovedBy()).ifPresent(uuid -> executor.set(uuid.toString()));
+
+		Punishments.getInstance().writeTo(
+				punishment.getPunishment(),
+				ConfigFields.PunishFields.REMOVED_BY,
+				executor.get(),
+				false);
 
 		Punishments.getInstance().writeTo(
 				punishment.getPunishment(),
