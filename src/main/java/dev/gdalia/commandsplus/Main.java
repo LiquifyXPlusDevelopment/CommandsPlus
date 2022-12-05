@@ -1,28 +1,19 @@
 package dev.gdalia.commandsplus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.models.ReportReasonManager;
-import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.reports.ReportComment;
-import dev.gdalia.commandsplus.structs.reports.ReportReason;
-import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.Config;
 import dev.gdalia.commandsplus.utils.ListenerAutoRegistration;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * MIT License
@@ -50,12 +41,12 @@ import lombok.Setter;
 public class Main extends JavaPlugin {
 	
 	@Getter
-	@Setter(value = AccessLevel.PRIVATE)
+	@Setter(value = AccessLevel.PACKAGE)
 	private static Main
 			instance;
 		
     @Getter
-    @Setter(value = AccessLevel.PRIVATE)
+    @Setter(value = AccessLevel.PACKAGE)
     private Config
     		languageConfig,
 			punishmentsConfig,
@@ -63,37 +54,13 @@ public class Main extends JavaPlugin {
     
 	public void onEnable() {
 		//MAIN INSTANCE
+		setInstance(this);
+
 		Bukkit.getConsoleSender().sendMessage(
 				" ", " ",
 				Message.fixColor("&a&lEnabling CommandsPlus... hold on tight!"));
-		setInstance(this);
 
-		//SETUP CONFIGS
-		saveDefaultConfig();
-		setLanguageConfig(Config.getConfig("language", null, false));
-		Arrays.stream(Message.values()).forEach(message -> getLanguageConfig().addDefault(message.name(), message.getDefaultMessage()));
-        getLanguageConfig().saveConfig();
-		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lLoaded all default configurations!"));
-
-		setPunishmentsConfig(Config.getConfig("punishments", null, false));
-		ConfigurationSerialization.registerClass(ReportReason.class);
-		ConfigurationSerialization.registerClass(ReportComment.class);
-		setReportsConfig(Config.getConfig("reports", null, false));
-		Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lLoaded info from database!"));
-
-		//REGISTERATION FOR CLASSES & LISTENERS
-		new ListenerAutoRegistration(this, false).register("dev.gdalia.commandsplus.listeners");
-
-		//INITIALLIZATION FOR STATIC MODELS
-		Punishments.setInstance(new Punishments());
-		Reports.setInstance(new Reports());
-		ReportReasonManager.setInstance(new ReportReasonManager());
-
-		//COMMANDS REGISTRATION
-		if (!new CommandAutoRegistration(this, false).register("dev.gdalia.commandsplus.commands")) {
-			this.getLogger().warning("Couldn't load all commands properly! please check any exceptions that pop up on console!");
-			getPluginLoader().disablePlugin(this);
-		} else Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lSuccessfully loaded all commands from default sources!"));
+		new Startup();
 
 		//RUNNABLES
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);
