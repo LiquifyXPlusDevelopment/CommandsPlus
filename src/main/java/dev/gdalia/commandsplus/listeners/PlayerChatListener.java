@@ -47,9 +47,8 @@ public class PlayerChatListener implements Listener {
 							Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 
 							e.resetTitle();
-							cancel();
 						}
-					}.runTaskTimer(Main.getInstance(), 1, 1);
+					}.runTask(Main.getInstance());
 
 					event.setCancelled(true);
 				});
