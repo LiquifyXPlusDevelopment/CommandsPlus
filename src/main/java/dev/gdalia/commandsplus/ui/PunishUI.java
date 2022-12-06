@@ -1,16 +1,18 @@
 package dev.gdalia.commandsplus.ui;
 
+import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.gdalia.commandsplus.inventory.ItemBuilder;
 import dev.gdalia.commandsplus.models.ReportReasonManager;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
-import dev.gdalia.commandsplus.structs.reports.ReportReason;
 import dev.triumphteam.gui.components.GuiType;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import lombok.Getter;
+import net.liquifymc.integrations.anvil.inventory.AnvilInventory;
+import net.liquifymc.integrations.anvil.slots.AnvilSlot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -211,7 +213,7 @@ public record PunishUI(@Getter Player requester) {
                 "&e&lCUSTOM")
                 .addLoreLines(
                         "&r",
-                        "&6Left-Click&7 to enter a &e&lCUSTOM&7 reason."
+                        "&6Left-Click&7 to enter a &e&lCUSTOM&7 time."
                 ).create(), event -> {
             //TODO ADD CUSTOM TYPING SYSTEM.
         }));
@@ -239,7 +241,7 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(reasonObject.getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
                 .addLoreLines("Click to choose this " + type.getDisplayName().toLowerCase() + " reason.")
                 .create(), event -> {
-            invokeInitializePunishGUI(targetUniqueId, type, reasonObject, time);
+            invokeInitializePunishGUI(targetUniqueId, type, reasonObject.getLore().toString().replace("[", "").replace("]", ""), time);
         })));
 
         gui.setItem(4, new GuiItem(new ItemBuilder(
@@ -249,13 +251,34 @@ public record PunishUI(@Getter Player requester) {
                         "&r",
                         "&6Left-Click&7 to enter a &e&lCUSTOM&7 reason."
                 ).create(), event -> {
-            //TODO ADD CUSTOM TYPING SYSTEM.
+            AnvilInventory inventory = new AnvilInventory(requester, inv -> {
+                String reason = inv.getName();
+
+                if (inv.getSlot().equals(AnvilSlot.OUTPUT) && reason.length() < 25) {
+                    invokeInitializePunishGUI(targetUniqueId, type, reason, time);
+
+                    inv.setWillClose(true);
+                    inv.setWillDestroy(true);
+                } else {
+                    inv.setWillClose(false);
+                    inv.setWillDestroy(false);
+                }
+            }, Main.getInstance());
+
+            inventory.setSlot(AnvilSlot.INPUT_LEFT, new ItemBuilder(Material.NAME_TAG, "Enter a valid reason").addLoreLines(
+                    "&7",
+                    "&cIF YOU HAVE CLICKED ON THE OUTPUT AND NOTHING HAS CHANGED SO YOU NEED TO CHECK THE RULES.",
+                    "&7",
+                    "&7Rules:",
+                    "&6 - Don't make the name length higher than 25.",
+                    "&7").create());
+            inventory.open(Message.fixColor("Custom Reason"));
         }));
 
         gui.open(requester);
     }
 
-    public void invokeInitializePunishGUI(UUID targetUniqueID, PunishmentType type, ReportReason reasonObject, String time) {
+    public void invokeInitializePunishGUI(UUID targetUniqueID, PunishmentType type, String reasonObject, String time) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueID);
         Gui gui = new Gui(GuiType.HOPPER, Message.fixColor("&6Punishment &7> &e" + target.getName()), Set.of());
         gui.disableAllInteractions();
@@ -289,11 +312,11 @@ public record PunishUI(@Getter Player requester) {
                         "&cPlease notice that this action is undoable.")
                 .create(), event -> {
             if (time == null) {
-                InventoryUtils.getInstance().invokePunishment(event, type, reasonObject.getLore().toString().replace("[", "").replace("]", ""), target.getPlayer(), requester);
+                InventoryUtils.getInstance().invokePunishment(event, type, reasonObject, target.getPlayer(), requester);
                 return;
             }
 
-            InventoryUtils.getInstance().invokeInstantPunishment(event, type, time, reasonObject.getLore().toString().replace("[", "").replace("]", ""), target.getPlayer(), requester);
+            InventoryUtils.getInstance().invokeInstantPunishment(event, type, time, reasonObject, target.getPlayer(), requester);
         }));
 
         gui.open(requester);
