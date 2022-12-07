@@ -1,13 +1,19 @@
 package dev.gdalia.commandsplus.structs.reports;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-@AllArgsConstructor
-public class ReportRevoke {
+import java.util.UUID;
+
+public class ReportRevoke extends Report {
 
 	@Getter
-	@NotNull
-	private final Report report;
+	@Nullable
+	private final UUID removedBy;
+
+	public ReportRevoke(@NotNull Report report, @Nullable UUID removedBy) {
+		super(report.getReportUuid(), report.getConvicted(), report.getReporter(), report.getSentAt(), report.getReason(), report.getStatus(), report.getComments());
+		this.removedBy = removedBy;
+	}
 }
