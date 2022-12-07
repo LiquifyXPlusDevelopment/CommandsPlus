@@ -2,12 +2,12 @@ package dev.gdalia.commandsplus.structs.reports;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 @AllArgsConstructor
 public class ReportRevoke {
 
 	@Getter
-	@NonNull
+	@NotNull
 	private final Report report;
 }

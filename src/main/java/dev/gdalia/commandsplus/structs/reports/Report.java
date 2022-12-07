@@ -16,13 +16,12 @@ import org.jetbrains.annotations.Nullable;
 public class Report {
 
     @Getter
-    @NonNull
+    @NotNull
     private final UUID reportUuid;
 
     @Getter
-    @NonNull
+    @NotNull
     private final UUID convicted;
-
 
     @Getter
     @NotNull

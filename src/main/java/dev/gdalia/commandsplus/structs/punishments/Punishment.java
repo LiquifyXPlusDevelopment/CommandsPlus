@@ -9,17 +9,18 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 
 @RequiredArgsConstructor
 public class Punishment {
 
 	@Getter
-	@NonNull
+	@NotNull
 	private final UUID punishmentUniqueId;
 	
 	@Getter
-	@NonNull
+	@NotNull
 	private final UUID punished;
 	
 	
@@ -28,7 +29,7 @@ public class Punishment {
 	private final UUID executor;
 	
 	@Getter
-	@NonNull
+	@NotNull
 	private final PunishmentType type;
 	
 	@Getter
@@ -37,7 +38,7 @@ public class Punishment {
 	private Instant expiry;
 	
 	@Getter
-	@NonNull
+	@NotNull
 	private final String reason;
 
 	@Getter
