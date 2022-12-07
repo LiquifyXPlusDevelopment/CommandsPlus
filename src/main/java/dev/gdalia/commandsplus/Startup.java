@@ -1,6 +1,7 @@
 package dev.gdalia.commandsplus;
 
 import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.ReportReasonManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
@@ -24,6 +25,7 @@ public class Startup {
         loadConfigs();
         loadDataBase();
         loadCommandsAndListeners();
+        loadManagers();
     }
 
     public void loadSerializations() {
@@ -76,5 +78,11 @@ public class Startup {
             main.getLogger().warning("Couldn't load all listeners properly! please check any exceptions that pop up on console!");
             main.getPluginLoader().disablePlugin(main);
         } else Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lLoaded all listeners from default packages!"));
+    }
+
+    public void loadManagers() {
+        Punishments.setInstance(new Punishments());
+        Reports.setInstance(new Reports());
+        ReportReasonManager.setInstance(new ReportReasonManager());
     }
 }
