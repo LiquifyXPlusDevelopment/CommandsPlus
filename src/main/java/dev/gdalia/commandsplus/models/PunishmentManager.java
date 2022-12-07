@@ -29,7 +29,7 @@ public class PunishmentManager {
 		section.set(ConfigFields.PunishFields.PUNISHED, punishment.getPunished().toString());
 
 		Optional.ofNullable(punishment.getExecutor()).ifPresent(uniqueId ->
-				section.set(ConfigFields.PunishFields.EXECUTER, punishment.getExecutor().toString()));
+				section.set(ConfigFields.PunishFields.EXECUTOR, punishment.getExecutor().toString()));
 
 		section.set(ConfigFields.PunishFields.TYPE, punishment.getType().name());
 

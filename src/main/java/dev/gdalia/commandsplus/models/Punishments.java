@@ -49,7 +49,7 @@ public class Punishments {
 			punishment[0] = new Punishment(
 					punishmentUuid,
 					UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.PUNISHED))),
-					UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.EXECUTER))),
+					UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.EXECUTOR))),
 					PunishmentType.valueOf(cs.getString(ConfigFields.PunishFields.TYPE)),
 					Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.REASON)),
 					cs.getBoolean(ConfigFields.PunishFields.OVERRIDE));

@@ -6,7 +6,7 @@ public class ConfigFields {
 		
 		public static final String 
 			PUNISHED = "punished", //UUID
-			EXECUTER = "executer", //UUID
+			EXECUTOR = "executor", //UUID
 			REASON = "reason", //STRING
 			EXPIRY = "expiry", //LONG
 			TYPE = "type", //ENUM
