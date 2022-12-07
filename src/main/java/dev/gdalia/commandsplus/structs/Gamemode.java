@@ -1,11 +1,10 @@
 package dev.gdalia.commandsplus.structs;
 
-import java.util.Arrays;
-import java.util.Objects;
-
+import lombok.Getter;
 import org.bukkit.GameMode;
 
-import lombok.Getter;
+import java.util.Arrays;
+import java.util.Objects;
 
 public enum Gamemode {
 	

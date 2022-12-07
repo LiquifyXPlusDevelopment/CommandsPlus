@@ -5,7 +5,6 @@ import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
-import dev.gdalia.commandsplus.structs.punishments.PunishmentRevoke;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;

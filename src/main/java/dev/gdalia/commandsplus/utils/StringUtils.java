@@ -1,7 +1,6 @@
 package dev.gdalia.commandsplus.utils;
 
 import dev.gdalia.commandsplus.structs.Message;
-import org.bukkit.entity.Player;
 
 import java.time.Duration;
 import java.time.Instant;

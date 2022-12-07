@@ -1,11 +1,13 @@
 package dev.gdalia.commandsplus.listeners;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
-import java.util.UUID;
-
+import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.inventory.InventoryUtils;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -16,13 +18,10 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.Main.PlayerCollection;
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Permission;
-import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
-import dev.gdalia.commandsplus.utils.StringUtils;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
 
 public class PlayerLogListener implements Listener {
 	

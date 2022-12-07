@@ -1,25 +1,26 @@
 package dev.gdalia.commandsplus.commands;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import dev.gdalia.commandsplus.structs.*;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.structs.BasePlusCommand;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.CentredMessage;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.utils.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @CommandAutoRegistration.Command(value = "history")
 public class HistoryCommand extends BasePlusCommand {

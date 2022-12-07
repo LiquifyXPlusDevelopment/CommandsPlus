@@ -1,26 +1,23 @@
 package dev.gdalia.commandsplus.utils;
 
-import java.io.File;
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.annotation.Nullable;
-
+import dev.gdalia.commandsplus.Main;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
-import dev.gdalia.commandsplus.Main;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * MIT License

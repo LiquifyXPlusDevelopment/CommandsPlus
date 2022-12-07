@@ -1,13 +1,12 @@
 package dev.gdalia.commandsplus.listeners;
 
-import java.util.UUID;
-
+import dev.gdalia.commandsplus.Main.PlayerCollection;
+import dev.gdalia.commandsplus.structs.Message;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import dev.gdalia.commandsplus.Main.PlayerCollection;
-import dev.gdalia.commandsplus.structs.Message;
+import java.util.UUID;
 
 public class PlayerFreezeListener implements Listener{
 	

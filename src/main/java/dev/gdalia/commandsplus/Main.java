@@ -3,7 +3,6 @@ package dev.gdalia.commandsplus;
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.utils.Config;
-import dev.gdalia.commandsplus.utils.ListenerAutoRegistration;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

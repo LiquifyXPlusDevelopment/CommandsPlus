@@ -1,20 +1,18 @@
 package dev.gdalia.commandsplus.utils;
 
 
+import com.google.common.reflect.ClassPath;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
-
-import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import com.google.common.reflect.ClassPath;
-
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 
 /**
  * MIT License

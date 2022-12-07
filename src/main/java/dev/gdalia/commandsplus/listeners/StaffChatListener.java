@@ -1,16 +1,15 @@
 package dev.gdalia.commandsplus.listeners;
 
-import java.util.UUID;
-
+import dev.gdalia.commandsplus.Main.PlayerCollection;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import dev.gdalia.commandsplus.Main.PlayerCollection;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Permission;
+import java.util.UUID;
 
 public class StaffChatListener implements Listener{
 

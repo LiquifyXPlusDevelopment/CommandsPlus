@@ -1,26 +1,25 @@
 package dev.gdalia.commandsplus.listeners;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Optional;
-
-import dev.gdalia.commandsplus.models.ReportManager;
-import dev.gdalia.commandsplus.structs.reports.ReportComment;
+import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.inventory.InventoryUtils;
+import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.ReportManager;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
+import dev.gdalia.commandsplus.structs.reports.ReportComment;
 import dev.gdalia.commandsplus.ui.CommentsUI;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Permission;
-import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
-import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Optional;
 
 public class PlayerChatListener implements Listener {
 

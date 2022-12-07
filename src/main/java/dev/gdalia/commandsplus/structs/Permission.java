@@ -1,9 +1,8 @@
 package dev.gdalia.commandsplus.structs;
 
-import org.bukkit.permissions.Permissible;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.bukkit.permissions.Permissible;
 
 @AllArgsConstructor
 public enum Permission {

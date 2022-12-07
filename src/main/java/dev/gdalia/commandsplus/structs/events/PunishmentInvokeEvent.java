@@ -1,11 +1,10 @@
 package dev.gdalia.commandsplus.structs.events;
 
 import dev.gdalia.commandsplus.structs.events.body.PunishmentEvent;
-import lombok.AllArgsConstructor;
-import org.bukkit.event.HandlerList;
-
-import lombok.Getter;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 @AllArgsConstructor

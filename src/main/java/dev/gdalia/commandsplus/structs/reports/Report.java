@@ -1,15 +1,14 @@
 package dev.gdalia.commandsplus.structs.reports;
 
-import java.time.Instant;
-import java.util.List;
-import java.util.UUID;
-
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
 
 
 @RequiredArgsConstructor

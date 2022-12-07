@@ -1,16 +1,14 @@
 package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.Permission;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,12 +1,12 @@
 package dev.gdalia.commandsplus.ui;
 
+import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.gdalia.commandsplus.inventory.ItemBuilder;
 import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
-import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.triumphteam.gui.components.GuiType;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
@@ -19,7 +19,9 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
-import java.util.*;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 public record ReportHistoryUI(@Getter Player checker) {
 

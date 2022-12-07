@@ -1,20 +1,19 @@
 package dev.gdalia.commandsplus.listeners;
 
-import java.util.UUID;
-
+import dev.gdalia.commandsplus.Main.PlayerCollection;
+import dev.gdalia.commandsplus.structs.Permission;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-
-import dev.gdalia.commandsplus.Main.PlayerCollection;
-import dev.gdalia.commandsplus.structs.Permission;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.UUID;
 
 public class BuildModeListener implements Listener {
 

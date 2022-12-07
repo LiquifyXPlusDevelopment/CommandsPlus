@@ -1,19 +1,18 @@
 package dev.gdalia.commandsplus.listeners;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
-
+import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.structs.Message;
+import dev.gdalia.commandsplus.structs.events.PunishmentInvokeEvent;
+import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.structs.Message;
-import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
-import dev.gdalia.commandsplus.structs.events.PunishmentInvokeEvent;
-import dev.gdalia.commandsplus.utils.StringUtils;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 
 public class PlayerPunishListener implements Listener {
 

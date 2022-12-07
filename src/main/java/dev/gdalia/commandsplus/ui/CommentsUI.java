@@ -1,11 +1,11 @@
 package dev.gdalia.commandsplus.ui;
 
+import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.gdalia.commandsplus.inventory.ItemBuilder;
 import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
-import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.gdalia.commandsplus.utils.StringUtils;
 import dev.triumphteam.gui.components.GuiType;
 import dev.triumphteam.gui.guis.Gui;

@@ -1,8 +1,6 @@
 package dev.gdalia.commandsplus.listeners;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
+import dev.gdalia.commandsplus.structs.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -10,7 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import dev.gdalia.commandsplus.structs.Message;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class UnknownCommandListener implements Listener{

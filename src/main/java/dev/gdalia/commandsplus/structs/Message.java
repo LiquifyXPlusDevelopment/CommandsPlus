@@ -1,17 +1,15 @@
 package dev.gdalia.commandsplus.structs;
 
-import java.text.MessageFormat;
-
+import dev.gdalia.commandsplus.Main;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.gdalia.commandsplus.Main;
+import java.text.MessageFormat;
 
 @AllArgsConstructor
 public enum Message {
