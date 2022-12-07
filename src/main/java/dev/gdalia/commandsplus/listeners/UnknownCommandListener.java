@@ -18,8 +18,7 @@ public class UnknownCommandListener implements Listener{
 	@EventHandler
 	public void onInvalidCommand(PlayerCommandPreprocessEvent event) {
 		String msg = event.getMessage();
-		ArrayList<String> list = new ArrayList<>();
-		list.addAll(Arrays.asList(msg.split(" ")));
+		ArrayList<String> list = new ArrayList<>(Arrays.asList(msg.split(" ")));
 		String commandName = list.remove(0);
 		Player player = event.getPlayer();
 
