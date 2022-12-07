@@ -21,7 +21,7 @@ public enum Permission {
 	PERMISSION_GAMEMODE("commandsplus.gamemode"),
 	PERMISSION_GAMEMODE_CREATIVE("commandsplus.gamemode.creative"),
 	PERMISSION_GAMEMODE_SURVIVAL("commandsplus.gamemode.survival"),
-	PERMISSION_GAMEMODE_ADVENTURE("commandsplus.gamemode.adventrue"),
+	PERMISSION_GAMEMODE_ADVENTURE("commandsplus.gamemode.adventure"),
 	PERMISSION_GAMEMODE_SPECTATOR("commandsplus.gamemode.spectator"),
 	PERMISSION_GOD("commandsplus.god"),
 	PERMISSION_HEAL("commandsplus.heal"),
