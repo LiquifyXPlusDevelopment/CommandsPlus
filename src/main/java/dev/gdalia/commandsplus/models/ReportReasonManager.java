@@ -26,6 +26,9 @@ public class ReportReasonManager {
     @Setter
     private static ReportReasonManager instance;
 
-    @Getter
     private final Map<String, ReportReason> reportReasons = new HashMap<>();
+
+    public Map<String, ReportReason> getReportReasons() {
+        return Map.copyOf(reportReasons);
+    }
 }
