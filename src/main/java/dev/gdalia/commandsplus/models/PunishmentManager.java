@@ -3,15 +3,18 @@ package dev.gdalia.commandsplus.models;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.events.PunishmentInvokeEvent;
 import dev.gdalia.commandsplus.structs.events.PunishmentRevokeEvent;
+import dev.gdalia.commandsplus.structs.exceptions.PunishmentRevokeConvertException;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentRevoke;
 import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.UUID;
 
 public class PunishmentManager {
 
@@ -41,10 +44,10 @@ public class PunishmentManager {
 		Bukkit.getPluginManager().callEvent(new PunishmentInvokeEvent(punishment));
 	}
 
-	public void revoke(PunishmentRevoke punishment) {
+	public void revoke(Punishment punishment, @Nullable UUID whoRemoved) {
 		String[] executor = new String[1];
 		executor[0] = "CONSOLE";
-		Optional.ofNullable(punishment.getRemovedBy()).ifPresent(uuid -> executor[0] = uuid.toString());
+		Optional.ofNullable(whoRemoved).ifPresent(uuid -> executor[0] = uuid.toString());
 
 		Punishments.getInstance().writeTo(
 				punishment.getPunishmentUniqueId(),
@@ -58,7 +61,14 @@ public class PunishmentManager {
 				Instant.now().toEpochMilli(),
 				true);
 
-		Bukkit.getPluginManager().callEvent(new PunishmentRevokeEvent(punishment));
+		if (!Punishments.getInstance().convertToRevokedPunishment(punishment))
+			throw new PunishmentRevokeConvertException("couldn't convert punishment into revoked punishment, check console details.");
 
+		if (Punishments.getInstance().getPunishment(punishment.getPunishmentUniqueId()).isEmpty() ||
+			!(Punishments.getInstance().getPunishment(punishment.getPunishmentUniqueId()).get() instanceof PunishmentRevoke punishmentRevoke)) {
+			throw new PunishmentRevokeConvertException("couldn't convert punishment into revoked punishment, check console details.");
+		}
+
+		Bukkit.getPluginManager().callEvent(new PunishmentRevokeEvent(punishmentRevoke));
 	}
 }

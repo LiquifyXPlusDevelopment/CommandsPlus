@@ -88,9 +88,7 @@ public class PardonCommand extends BasePlusCommand {
 						.map(Player::getUniqueId)
 						.findAny();
 
-        		PunishmentManager.getInstance().revoke(new PunishmentRevoke(
-								punishment,
-								removedBy.orElse(null)));
+        		PunishmentManager.getInstance().revoke(punishment,removedBy.orElse(null));
         		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 
         		Message.valueOf("PLAYER_" + cmd.getName().toUpperCase()).sendFormattedMessage(sender, true, target.getName());

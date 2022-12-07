@@ -174,4 +174,18 @@ public class Punishments {
 	public void writeTo(Punishment punishment, String key, Object value, boolean instSave) {
 		writeTo(punishment.getPunishmentUniqueId(), key, value, instSave);
 	}
+
+	public boolean convertToRevokedPunishment(Punishment punishment) {
+		if (!getServerPunishments().contains(punishment)) return false;
+
+		ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
+		if (cs.get(ConfigFields.PunishFields.REMOVED_BY) == null) return false;
+
+		Optional<UUID> uuid = Optional.of(UUID.fromString(cs.getString(ConfigFields.PunishFields.REMOVED_BY)));
+
+		PunishmentRevoke punishmentRevoke = new PunishmentRevoke(punishment, uuid.orElse(null));
+		punishments.put(punishment.getPunishmentUniqueId(), punishmentRevoke);
+
+		return true;
+	}
 }
