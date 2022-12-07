@@ -29,7 +29,6 @@ public class Startup {
     }
 
     public void loadSerializations() {
-        ConfigurationSerialization.registerClass(ReportReason.class);
         ConfigurationSerialization.registerClass(ReportComment.class);
     }
 

@@ -42,12 +42,14 @@ public class Reports {
 
         Optional.ofNullable(cs.getList(ConfigFields.ReportsFields.COMMENTS)).stream();
 
+        ReportReason reportReason = ReportReasonManager.getInstance().getReportReasons().get(cs.getString(ConfigFields.ReportsFields.REASON));
+
         Report report = new Report(
                 reportUniqueId,
                 UUID.fromString(cs.getString(ConfigFields.ReportsFields.REPORTED)),
                 UUID.fromString(cs.getString(ConfigFields.ReportsFields.REPORTER)),
                 Instant.ofEpochMilli(cs.getLong(ConfigFields.ReportsFields.DATE)),
-                (ReportReason) cs.get(ConfigFields.ReportsFields.REASON),
+                reportReason,
                 ReportStatus.valueOf(cs.getString(ConfigFields.ReportsFields.STATUS)),
                 (List<ReportComment>) cs.getList(ConfigFields.ReportsFields.COMMENTS, new ArrayList<ReportComment>()));
 

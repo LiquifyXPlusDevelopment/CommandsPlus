@@ -16,7 +16,7 @@ public class ReportReasonManager {
 
         for (String reasonName : reasonsToLoad.getKeys(false)) {
             ConfigurationSection reasonSection = reasonsToLoad.getConfigurationSection(reasonName);
-            ReportReason reason = ReportReason.deserialize(reasonSection.getValues(false));
+            ReportReason reason = ReportReason.deserialize(reasonName,reasonSection.getValues(false));
             reportReasons.put(reasonName, reason);
         }
         //this.reportReasons = Main.getInstance().getConfig();

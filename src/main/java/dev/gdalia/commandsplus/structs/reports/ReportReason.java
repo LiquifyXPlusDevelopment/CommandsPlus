@@ -12,11 +12,12 @@ import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class ReportReason implements ConfigurationSerializable {
+public class ReportReason {
 
     @Getter
     @NotNull
     private final String
+            name,
             displayName;
 
     @Getter
@@ -28,18 +29,10 @@ public class ReportReason implements ConfigurationSerializable {
     @NotNull
     private final Material icon;
 
-    @Override
-    public @NotNull Map<String, Object> serialize() {
-        Map<String, Object> data = new HashMap<>();
-        data.put("display-name", displayName);
-        data.put("lore", lore);
-        data.put("icon", icon.name());
-        return data;
-    }
-
     @SuppressWarnings("unchecked")
-    public static ReportReason deserialize(Map<String, Object> args) {
+    public static ReportReason deserialize(@NotNull String name,Map<String, Object> args) {
         return new ReportReason(
+                name,
                 args.get("display-name").toString(),
                 Optional.ofNullable(args.get("lore"))
                         .filter(List.class::isInstance)
@@ -50,6 +43,10 @@ public class ReportReason implements ConfigurationSerializable {
 
     @Override
     public String toString() {
-        return "Reason={displayName=" + displayName + ",lore={" + lore + "},icon=" + icon.name() + "}";
+        return "ReportReason{" +
+                "displayName='" + displayName + '\'' +
+                ", lore=" + lore +
+                ", icon=" + icon +
+                '}';
     }
 }
