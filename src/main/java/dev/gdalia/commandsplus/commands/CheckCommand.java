@@ -81,8 +81,8 @@ public class CheckCommand extends BasePlusCommand {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			sender.sendMessage(CentredMessage.generate("&7&m                    |&e " + target.getName() + " punish log &7&m|                    &r"));
 			sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
-			Optional.ofNullable(punishment.getExecuter())
-					.ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecuter()).getName())));
+			Optional.ofNullable(punishment.getExecutor())
+					.ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecutor()).getName())));
 			sender.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
 			
 			Optional.ofNullable(punishment.getExpiry()).ifPresent(instant -> {
