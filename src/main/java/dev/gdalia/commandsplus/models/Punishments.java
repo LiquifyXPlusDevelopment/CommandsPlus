@@ -51,7 +51,8 @@ public class Punishments {
 					UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.PUNISHED))),
 					UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.EXECUTER))),
 					PunishmentType.valueOf(cs.getString(ConfigFields.PunishFields.TYPE)),
-					Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.REASON)));
+					Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.REASON)),
+					cs.getBoolean(ConfigFields.PunishFields.OVERRIDE));
 		} catch (NullPointerException e1) {
 			return Optional.empty();
 		}

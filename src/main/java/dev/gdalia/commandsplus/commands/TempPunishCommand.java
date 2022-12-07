@@ -112,7 +112,8 @@ public class TempPunishCommand extends BasePlusCommand {
 					target.getUniqueId(),
 					Optional.of(((Player) sender).getUniqueId()).orElse(null),
 					type,
-					message);
+					message,
+					false);
 
 			punishment.setExpiry(expiry);
 

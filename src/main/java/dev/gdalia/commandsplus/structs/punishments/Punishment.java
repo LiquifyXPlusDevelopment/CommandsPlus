@@ -39,5 +39,7 @@ public class Punishment {
 	@Getter
 	@NonNull
 	private final String reason;
-	
+
+	@Getter
+	private final boolean overridden;
 }

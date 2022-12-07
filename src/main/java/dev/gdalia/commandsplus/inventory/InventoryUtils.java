@@ -92,7 +92,8 @@ public class InventoryUtils {
                             target.getUniqueId(),
                             Optional.of((checker).getUniqueId()).orElse(null),
                             type,
-                            message);
+                            message,
+                            false);
 
                     PunishmentManager.getInstance().invoke(punishment);
                     Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
@@ -128,7 +129,8 @@ public class InventoryUtils {
                             target.getUniqueId(),
                             Optional.of((checker).getUniqueId()).orElse(null),
                             type,
-                            message);
+                            message,
+                            false);
 
                     punishment.setExpiry(expiry);
 

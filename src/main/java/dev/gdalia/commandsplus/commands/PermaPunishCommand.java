@@ -98,11 +98,12 @@ public class PermaPunishCommand extends BasePlusCommand {
                         
             String message = StringUtils.join(args, " ", 1, args.length);
             Punishment punishment = new Punishment(
-            			UUID.randomUUID(),
-            			target.getUniqueId(),
-						Optional.of(((Player) sender).getUniqueId()).orElse(null),
-            			type,
-            			message);
+					UUID.randomUUID(),
+					target.getUniqueId(),
+					Optional.of(((Player) sender).getUniqueId()).orElse(null),
+					type,
+					message,
+					false);
             
 	        	PunishmentManager.getInstance().invoke(punishment);
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);

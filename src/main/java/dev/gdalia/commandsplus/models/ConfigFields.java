@@ -11,7 +11,7 @@ public class ConfigFields {
 			EXPIRY = "expiry", //LONG
 			TYPE = "type", //ENUM
 			REMOVED_BY = "removed-by", //UUID
-			OVERRIDE = "overriden"; //BOOLEAN
+			OVERRIDE = "overridden"; //BOOLEAN
 	}
 
 	public static class ReportsFields {

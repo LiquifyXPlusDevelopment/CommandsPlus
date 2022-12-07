@@ -13,7 +13,7 @@ public class PunishmentRevoke extends Punishment {
 	private final UUID removedBy;
 
 	public PunishmentRevoke(@NotNull Punishment punishment, @Nullable UUID removedBy) {
-		super(punishment.getPunishmentUniqueId(), punishment.getPunished(), punishment.getExecutor(), punishment.getType(), punishment.getReason());
+		super(punishment.getPunishmentUniqueId(), punishment.getPunished(), punishment.getExecutor(), punishment.getType(), punishment.getReason(), punishment.isOverridden());
 		this.removedBy = removedBy;
 	}
 }
