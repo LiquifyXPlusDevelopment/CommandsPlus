@@ -9,6 +9,7 @@ import dev.gdalia.commandsplus.structs.reports.ReportReason;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.Config;
 import dev.gdalia.commandsplus.utils.ListenerAutoRegistration;
+import dev.gdalia.commandsplus.utils.profile.ProfileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
@@ -83,5 +84,6 @@ public class Startup {
         Punishments.setInstance(new Punishments());
         Reports.setInstance(new Reports());
         ReportReasonManager.setInstance(new ReportReasonManager());
+        ProfileManager.setInstance(new ProfileManager());
     }
 }
