@@ -1,5 +1,6 @@
 package dev.gdalia.commandsplus.structs;
 
+import dev.gdalia.commandsplus.Main;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -62,7 +63,7 @@ public abstract class BasePlusCommand implements TabExecutor {
     }
 
     public void runAsync(CommandSender sender, Runnable runnable) {
-        Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getProvidingPlugin(getClass()), runnable);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), runnable);
     }
 
     @Nullable
