@@ -22,11 +22,12 @@ public class StaffChatListener implements Listener{
 
 		if(!Permission.PERMISSION_STAFFCHAT.hasPermission(player)) return;
 		if (!PlayerCollection.getStaffchatPlayers().contains(uuid)) return;
-			event.setCancelled(true);
-			Bukkit.getOnlinePlayers().stream()
+		
+		event.setCancelled(true);
+		Bukkit.getOnlinePlayers().stream()
 			.filter(Permission.PERMISSION_STAFFCHAT_SEE::hasPermission)
-			.forEach(staff -> 
-					staff.sendMessage(Message.staffChatFormat().replace("{player}", player.getName()).replace("{message}", msg)));
+			.forEach(staff ->
+				staff.sendMessage(Message.staffChatFormat().replace("{player}", player.getName()).replace("{message}", msg)));
 			
 	}
 }
