@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import java.time.Instant;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 public record Profile(@Getter @NonNull UUID playerUUID, @Getter @NonNull String playerName,
                       @Getter @NonNull Instant pulledOut, @Getter @NonNull String value,
                       @Getter @NonNull String signature) {
