@@ -26,7 +26,13 @@ public class MojangUtils {
             String value = textures.get("value").getAsString();
             String signature = textures.get("signature").getAsString();
 
-            return Optional.of(new Profile(uuid, name, Instant.now(), value, signature));
+            return Optional.of(new Profile(
+                    uuid,
+                    name,
+                    Instant.now(),
+                    value,
+                    signature));
+
         } catch (Exception e) {
             return Optional.empty();
         }
