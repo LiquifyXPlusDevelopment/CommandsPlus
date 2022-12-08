@@ -104,7 +104,7 @@ public class ProfileManager {
         Optional<Profile> profile = MojangUtils.fetchProfile(name);
         
         if (profile.isPresent()) {
-            Optional<Profile> oldProfile = Optional.of(pullProfile(name));
+            Optional<Profile> oldProfile = Optional.ofNullable(pullProfile(name));
             if (oldProfile.isPresent() && profile.get().signature().equals(oldProfile.get().signature())
                     && profile.get().value().equals(oldProfile.get().value()))
                 return oldProfile;
