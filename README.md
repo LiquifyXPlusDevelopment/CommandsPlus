@@ -1,3 +1,10 @@
+## regarding upcoming update 1.2.0~
+After 1 year of no movement further, we're returning with the new promised update, to fix a lot of issues, and make sure this plugin receives its righteous and deserved treatment.
+any possible way to improve our experience was held due to personal project me (Ofir) and Gdalia, had been working on for a few years now.
+Do keep in mind, we're trying our best to make everything come back to life, with so much more into this plugin, and I promise you there are a lot to come. anyways
+best regards, ~OfirTIM.
+
+
 # About
 CommandsPlus (Commands+) is an open-source plugin made by 2 Israeli developers, to help make better quality plugins, with readable functionality, small usable API, and a continuous updating schedule to make sure it'll fit in a good spot specifically for every Spigot/Paper server.
 
@@ -8,8 +15,8 @@ as of now, we're not looking to make the plugin a premium software plugin or any
 # Compiling
 Compilation requires JDK 12 and up.
 2 Ways to compiling the plugin:
-- run `./gradlew build` from the terminal executed from your plugin's folder.
-- Use your IDE's standard Gradle Integration Tool to build the jar via `Tasks -> Build -> Jar` (If you're using **Eclipse** I highly encourage you to make sure all dependencies are queried inside the system, due to Eclipse not being accurate/familiar with external build tools). 
+- run `./gradlew shadowjar` from the terminal executed from your plugin's folder.
+- Use your IDE's standard Gradle Integration Tool to build the jar via `Tasks -> Shadow -> ShadowJar` (If you're using **Eclipse** I highly encourage you to make sure all dependencies are queried inside the system, due to Eclipse not being accurate/familiar with external build tools). 
 Once the plugin compiles, grab the jar from `~/output` folder.
 
 ### Gradle Features
