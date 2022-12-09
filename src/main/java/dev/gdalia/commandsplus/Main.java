@@ -3,6 +3,7 @@ package dev.gdalia.commandsplus;
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.utils.Config;
+import dev.gdalia.commandsplus.utils.UpdateChecker;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -64,7 +65,14 @@ public class Main extends JavaPlugin {
 		//RUNNABLES
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);
 
-		//FINAL MESSAGE TO MAKE SURE PLUGIN IS SUCCESSFULLY ENABLED.
+		UpdateChecker.init(this, 99614).requestUpdateCheck().whenComplete((updateResult, exception) -> {
+			if (updateResult.requiresUpdate())
+				Bukkit.getConsoleSender().sendMessage(
+						Message.fixColor(String.format("&6CommandsPlus %s is now available to download!", updateResult.getNewestVersion())),
+						Message.fixColor("&5https://www.spigotmc.org/resources/commands.99614"));
+		});
+
+		//FINAL MESSAGE TO MAKE YOUR DAY HAPPIER.
 		Bukkit.getConsoleSender().sendMessage(
 				Message.fixColor("&7CommandsPlus has been &aEnabled&7."),
 				" ",
