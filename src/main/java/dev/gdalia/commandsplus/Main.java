@@ -64,7 +64,9 @@ public class Main extends JavaPlugin {
 
 		//RUNNABLES
 		Bukkit.getScheduler().runTaskTimer(this, new ActionBarVanishTask(), 0, 10);
+		Bukkit.getScheduler().runTaskTimer(this,() -> UpdateChecker.get().requestUpdateCheck(), 0, 72000);
 
+		//UPDATE CHECKING
 		UpdateChecker.init(this, 99614).requestUpdateCheck().whenComplete((updateResult, exception) -> {
 			if (updateResult.requiresUpdate())
 				Bukkit.getConsoleSender().sendMessage(
