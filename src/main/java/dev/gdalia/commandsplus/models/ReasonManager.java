@@ -1,7 +1,7 @@
 package dev.gdalia.commandsplus.models;
 
 import dev.gdalia.commandsplus.Main;
-import dev.gdalia.commandsplus.structs.reports.ReportReason;
+import dev.gdalia.commandsplus.structs.reports.Reason;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.configuration.ConfigurationSection;
@@ -9,14 +9,14 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReportReasonManager {
+public class ReasonManager {
 
-    public ReportReasonManager() {
+    public ReasonManager() {
         ConfigurationSection reasonsToLoad = Main.getInstance().getConfig().getConfigurationSection("reasons");
 
         for (String reasonName : reasonsToLoad.getKeys(false)) {
             ConfigurationSection reasonSection = reasonsToLoad.getConfigurationSection(reasonName);
-            ReportReason reason = ReportReason.deserialize(reasonName,reasonSection.getValues(false));
+            Reason reason = Reason.deserialize(reasonName,reasonSection.getValues(false));
             reportReasons.put(reasonName, reason);
         }
         //this.reportReasons = Main.getInstance().getConfig();
@@ -24,11 +24,11 @@ public class ReportReasonManager {
 
     @Getter
     @Setter
-    private static ReportReasonManager instance;
+    private static ReasonManager instance;
 
-    private final Map<String, ReportReason> reportReasons = new HashMap<>();
+    private final Map<String, Reason> reportReasons = new HashMap<>();
 
-    public Map<String, ReportReason> getReportReasons() {
+    public Map<String, Reason> getReasons() {
         return Map.copyOf(reportReasons);
     }
 }

@@ -3,16 +3,14 @@ package dev.gdalia.commandsplus.structs.reports;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class ReportReason {
+public class Reason {
 
     @Getter
     @NotNull
@@ -30,8 +28,8 @@ public class ReportReason {
     private final Material icon;
 
     @SuppressWarnings("unchecked")
-    public static ReportReason deserialize(@NotNull String name,Map<String, Object> args) {
-        return new ReportReason(
+    public static Reason deserialize(@NotNull String name, Map<String, Object> args) {
+        return new Reason(
                 name,
                 args.get("display-name").toString(),
                 Optional.ofNullable(args.get("lore"))
@@ -43,7 +41,7 @@ public class ReportReason {
 
     @Override
     public String toString() {
-        return "ReportReason{" +
+        return "Reason{" +
                 "displayName='" + displayName + '\'' +
                 ", lore=" + lore +
                 ", icon=" + icon +

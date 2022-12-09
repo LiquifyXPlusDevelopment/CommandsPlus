@@ -1,11 +1,10 @@
 package dev.gdalia.commandsplus;
 
 import dev.gdalia.commandsplus.models.Punishments;
-import dev.gdalia.commandsplus.models.ReportReasonManager;
+import dev.gdalia.commandsplus.models.ReasonManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
-import dev.gdalia.commandsplus.structs.reports.ReportReason;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.Config;
 import dev.gdalia.commandsplus.utils.ListenerAutoRegistration;
@@ -83,7 +82,7 @@ public class Startup {
     public void loadManagers() {
         Punishments.setInstance(new Punishments());
         Reports.setInstance(new Reports());
-        ReportReasonManager.setInstance(new ReportReasonManager());
+        ReasonManager.setInstance(new ReasonManager());
         ProfileManager.setInstance(new ProfileManager());
     }
 }

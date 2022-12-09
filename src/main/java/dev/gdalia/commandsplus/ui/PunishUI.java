@@ -3,7 +3,7 @@ package dev.gdalia.commandsplus.ui;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.gdalia.commandsplus.inventory.ItemBuilder;
-import dev.gdalia.commandsplus.models.ReportReasonManager;
+import dev.gdalia.commandsplus.models.ReasonManager;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.triumphteam.gui.components.GuiType;
@@ -236,7 +236,9 @@ public record PunishUI(@Getter Player requester) {
             player.closeInventory();
         }));
 
-        ReportReasonManager.getInstance().getReportReasons().forEach((key, reasonObject) -> gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7" + type.getDisplayName().toLowerCase() + " for: &6" + reasonObject.getDisplayName())
+        ReasonManager.getInstance()
+                .getReasons()
+                .forEach((key, reasonObject) -> gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7" + type.getDisplayName().toLowerCase() + " for: &6" + reasonObject.getDisplayName())
                 .addLoreLines(" &r")
                 .addLoreLines(reasonObject.getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
                 .addLoreLines("Click to choose this " + type.getDisplayName().toLowerCase() + " reason.")

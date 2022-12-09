@@ -3,7 +3,7 @@ package dev.gdalia.commandsplus.models;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportComment;
-import dev.gdalia.commandsplus.structs.reports.ReportReason;
+import dev.gdalia.commandsplus.structs.reports.Reason;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
 import dev.gdalia.commandsplus.utils.Config;
 import lombok.Getter;
@@ -42,7 +42,7 @@ public class Reports {
 
         Optional.ofNullable(cs.getList(ConfigFields.ReportsFields.COMMENTS)).stream();
 
-        ReportReason reportReason = ReportReasonManager.getInstance().getReportReasons().get(cs.getString(ConfigFields.ReportsFields.REASON));
+        Reason reportReason = ReasonManager.getInstance().getReasons().get(cs.getString(ConfigFields.ReportsFields.REASON));
 
         Report report = new Report(
                 reportUniqueId,

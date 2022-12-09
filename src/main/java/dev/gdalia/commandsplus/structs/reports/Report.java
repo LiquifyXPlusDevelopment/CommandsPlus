@@ -32,7 +32,7 @@ public class Report {
 
     @Getter
     @NotNull
-    private final ReportReason reason;
+    private final Reason reason;
 
     @Getter
     @Setter
