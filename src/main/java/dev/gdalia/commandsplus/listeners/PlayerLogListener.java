@@ -8,6 +8,7 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.StringUtils;
+import dev.gdalia.commandsplus.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -58,7 +59,14 @@ public class PlayerLogListener implements Listener {
 	public void onJoinEvent(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
-		
+
+		if (player.isOp() || Permission.PERMISSION_ADMIN.hasPermission(player)) {
+			UpdateChecker.get()
+				.getLastResult()
+				.filter(UpdateChecker.UpdateResult::requiresUpdate)
+				.ifPresent(updateResult -> player.spigot().sendMessage(Main.getInstance().updateAvailableClickable()));
+		}
+
 		if (Main.getInstance().getConfig().getBoolean("disable_welcome_message")) {
 			event.setJoinMessage(null);
 			return;

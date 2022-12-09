@@ -7,7 +7,11 @@ import dev.gdalia.commandsplus.utils.UpdateChecker;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -94,6 +98,14 @@ public class Main extends JavaPlugin {
 		public static FixedMetadataValue godModeData(boolean state) {
 			return new FixedMetadataValue(instance, state);
 		}
+	}
+
+	public TextComponent updateAvailableClickable() {
+		TextComponent textComponent = new TextComponent(getPluginPrefix() + ChatColor.GOLD + " CommandsPlus has a new update, ");
+		BaseComponent clickableText = new TextComponent(ChatColor.YELLOW + "download link available here!");
+		clickableText.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/commands.99614/"));
+		textComponent.addExtra(clickableText);
+		return updateAvailableClickable();
 	}
 	
 	public static class PlayerCollection {
