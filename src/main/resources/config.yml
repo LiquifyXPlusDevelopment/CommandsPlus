@@ -93,7 +93,7 @@ reasons:
   grief:
     display-name: "Grief"
     lore:
-    - "The player griefed one of my constructions&7."
+    - "The player has griefed one of my constructions&7."
     icon: TNT
   chat-insults:
     display-name: "Insults"
