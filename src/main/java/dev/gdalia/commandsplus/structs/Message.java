@@ -24,7 +24,7 @@ public enum Message {
 	FLY_SPEED_ARGUMENTS("&7/flyspeed {&60 &e-&6 10&7}"),
 	BUILDMODE_MSG("&7You have {0} &7your buildmode."),
 	HISTORY_ARGUMENTS("&7/history {&6user&7}"),
-	STAFFCHAT_TOGGLE("&7You have {0}} &7your staffchat."),
+	STAFFCHAT_TOGGLE("&7You have {0} &7your staffchat."),
 	VANISH_TOGGLE("&7Vanish mode is now {0}&7."),
 	CHANGE_THE_TIME("&7The time has been set to &6{0}&7."),
 	TEMPMUTED_MESSAGE("&cYou are temporarily muted from this server, your mute will expire in &6{0}&c"),
