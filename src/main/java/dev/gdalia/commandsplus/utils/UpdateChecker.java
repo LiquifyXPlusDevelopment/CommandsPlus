@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -126,9 +127,8 @@ public final class UpdateChecker {
      *
      * @return the last update check result. null if none.
      */
-    @Nullable
-    public UpdateResult getLastResult() {
-        return lastResult;
+    public Optional<UpdateResult> getLastResult() {
+        return Optional.ofNullable(lastResult);
     }
 
     private static String[] splitVersionInfo(String version) {
