@@ -5,6 +5,7 @@ import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -58,12 +59,13 @@ public class StaffChatCommand extends BasePlusCommand {
         	Message.NO_PERMISSION.sendMessage(player, true);
         	return;
         }
-			
-        if (!PlayerCollection.getStaffchatPlayers().contains(uuid)) PlayerCollection.getStaffchatPlayers().add(uuid);
+
+		boolean isToggled = PlayerCollection.getStaffchatPlayers().contains(uuid);
+
+        if (!isToggled) PlayerCollection.getStaffchatPlayers().add(uuid);
 		else PlayerCollection.getStaffchatPlayers().remove(uuid);
 
-        PlayerCollection.getStaffchatPlayers().remove(uuid);
         Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.STAFFCHAT_TOGGLE.sendMessage(player, true);
+		Message.STAFFCHAT_TOGGLE.sendFormattedMessage(player, true, StringUtils.getStatusString(!isToggled));
 	}
 }
