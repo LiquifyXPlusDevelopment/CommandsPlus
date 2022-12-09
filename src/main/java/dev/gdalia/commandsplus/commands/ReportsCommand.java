@@ -29,7 +29,7 @@ public class ReportsCommand implements CommandExecutor {
             return false;
         }
 
-        if (!Permission.PERMISSION_REPORTS.hasPermission(player)) {
+        if (!Permission.PERMISSION_REPORT_VIEW_PLAYER.hasPermission(player)) {
             Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             Message.NO_PERMISSION.sendMessage(player, true);
             return false;

@@ -41,7 +41,7 @@ public class MainCommand extends BasePlusCommand {
 
 	@Override
 	public Permission getRequiredPermission() {
-		return Permission.PERMISSION_MAIN_GENERAL;
+		return Permission.PERMISSION_ADMIN;
 	}
 
 	@Override
@@ -52,8 +52,8 @@ public class MainCommand extends BasePlusCommand {
 	@Override
 	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
 		return Map.of(1, List.of(
-				new TabCompletion(List.of("help"), Permission.PERMISSION_MAIN_HELP),
-				new TabCompletion(List.of("reload"), Permission.PERMISSION_MAIN_RELOAD)
+				new TabCompletion(List.of("help"), Permission.PERMISSION_ADMIN_HELP),
+				new TabCompletion(List.of("reload"), Permission.PERMISSION_ADMIN_RELOAD)
 		));
 	}
 
@@ -67,7 +67,7 @@ public class MainCommand extends BasePlusCommand {
 
 		switch (args[0].toLowerCase()) {
 			case "help" -> {
-				if (!Permission.PERMISSION_MAIN_HELP.hasPermission(sender)) {
+				if (!Permission.PERMISSION_ADMIN_HELP.hasPermission(sender)) {
 					Message.NO_PERMISSION.sendMessage(sender, true);
 					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 					return;
@@ -79,7 +79,7 @@ public class MainCommand extends BasePlusCommand {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			}
 			case "reload" -> {
-				if (!Permission.PERMISSION_MAIN_RELOAD.hasPermission(sender)) {
+				if (!Permission.PERMISSION_ADMIN_RELOAD.hasPermission(sender)) {
 					Message.NO_PERMISSION.sendMessage(sender, true);
 					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 					return;

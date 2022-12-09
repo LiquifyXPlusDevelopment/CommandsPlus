@@ -27,7 +27,7 @@ public class ReportCommand implements CommandExecutor {
             return false;
         }
 
-        if(!Permission.PERMISSION_REPORT.hasPermission(sender)) {
+        if(!Permission.PERMISSION_REPORT_SUBMIT.hasPermission(sender)) {
             Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             Message.NO_PERMISSION.sendMessage(sender, true);
             return false;
