@@ -25,7 +25,7 @@ public enum Permission {
 	//Checks Perms
 	PERMISSION_ALTS("commandsplus.alts"),
 	PERMISSION_CHECK("commandsplus.check"),
-
+	PERMISSION_HISTORY("commandsplus.history"),
 	//Physics
 	PERMISSION_BUILDMODE("commandsplus.buildmode"),
 	PERMISSION_FLY("commandsplus.fly"),
