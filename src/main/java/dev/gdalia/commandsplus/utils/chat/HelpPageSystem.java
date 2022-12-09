@@ -1,4 +1,4 @@
-package dev.gdalia.commandsplus.utils;
+package dev.gdalia.commandsplus.utils.chat;
 
 import dev.gdalia.commandsplus.structs.Message;
 import org.bukkit.command.CommandSender;
