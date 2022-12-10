@@ -109,6 +109,7 @@ public enum Message {
 	CONTACT_AN_ADMIN("&cConfig reasons is not right, please contact an admin."),
 	DESCRIBE_PLAYER("&cPlease describe a player."),
 	PLAYER_NOT_ONLINE("&cPlayer is not online."),
+	PLAYER_NOT_EXIST("&cPlayer does not exist in Mojang's database."),
 	STAFFCHAT_TOGGLE("&7You have {0} &7your staffchat."),
 	TPALL("&7You have teleported everyone to &6{0}&7."),
 	TPHERE("&6{0} &7has been teleported to you."),

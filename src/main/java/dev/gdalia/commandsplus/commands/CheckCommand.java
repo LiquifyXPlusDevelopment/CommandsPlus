@@ -68,32 +68,33 @@ public class CheckCommand extends BasePlusCommand {
 		if (Optional.ofNullable(Bukkit.getPlayerExact(args[0])).isPresent()) {
 			Player target = Bukkit.getPlayerExact(args[0]);
 			Profile tempProfile = new Profile(target.getUniqueId(), target.getName(), Instant.now(), null, null);
-			checkAction(sender, tempProfile);
+			checkAction(sender, tempProfile, false);
 			return;
 		}
 
-		runAsync(sender, () -> {
-			Optional<Profile> profile = ProfileManager.getInstance().getProfile(args[0]);
-
-			if (profile.isEmpty()) {
+		ProfileManager.getInstance().getProfileAsync(args[0]).whenComplete((profile, throwable) -> {
+			if (throwable != null) {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-				Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
+				Message.PLAYER_NOT_EXIST.sendMessage(sender, true);
 				return;
 			}
 
-			checkAction(sender, profile.get());
+			checkAction(sender, profile, true);
 		});
 	}
 
-	private void checkAction(CommandSender requester, Profile profile) {
+	private void checkAction(CommandSender requester, Profile profile, boolean async) {
 		Optional<Punishment> anyActivePunishment = Punishments.getInstance().getAnyActivePunishment(profile.playerUUID());
 
 		anyActivePunishment.ifPresentOrElse(punishment -> {
 			Message.playSound(requester, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			requester.sendMessage(CentredMessage.generate("&7&m                    |&e " + profile.getPlayerName() + " punish log &7&m|                    &r"));
 			requester.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
-			Optional.ofNullable(punishment.getExecutor())
+			if (!async)
+				Optional.ofNullable(punishment.getExecutor())
 					.ifPresent(uuid -> requester.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecutor()).getName())));
+			else ProfileManager.getInstance().getProfile(punishment.getExecutor())
+					.ifPresent(punishExecutor -> Message.fixColor("&eExecuted by: &b" + punishExecutor.getPlayerName()));
 			requester.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
 
 			Optional.ofNullable(punishment.getExpiry()).ifPresent(instant -> {

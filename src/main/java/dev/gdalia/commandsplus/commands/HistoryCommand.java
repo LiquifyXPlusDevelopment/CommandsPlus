@@ -6,9 +6,9 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
-import dev.gdalia.commandsplus.utils.chat.CentredMessage;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.StringUtils;
+import dev.gdalia.commandsplus.utils.chat.CentredMessage;
 import dev.gdalia.commandsplus.utils.profile.Profile;
 import dev.gdalia.commandsplus.utils.profile.ProfileManager;
 import org.apache.commons.lang.BooleanUtils;
@@ -69,24 +69,23 @@ public class HistoryCommand extends BasePlusCommand {
 		if (Optional.ofNullable(Bukkit.getPlayerExact(args[0])).isPresent()) {
 			Player target = Bukkit.getPlayerExact(args[0]);
 			Profile tempProfile = new Profile(target.getUniqueId(), target.getName(), Instant.now(), null, null);
-			historyAction(sender, tempProfile);
+			historyAction(sender, tempProfile, false);
 			return;
 		}
 
-		runAsync(sender, () -> {
-			Optional<Profile> profile = ProfileManager.getInstance().getProfile(args[0]);
 
-			if (profile.isEmpty()) {
+		ProfileManager.getInstance().getProfileAsync(args[0]).whenComplete((profile, throwable) -> {
+			if (throwable != null) {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-				Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
+				Message.PLAYER_NOT_EXIST.sendMessage(sender, true);
 				return;
 			}
 
-			historyAction(sender, profile.get());
+			historyAction(sender, profile, true);
 		});
 	}
 
-	private void historyAction(CommandSender sender, Profile profile) {
+	private void historyAction(CommandSender sender, Profile profile, boolean async) {
 		List<Punishment> history = Punishments.getInstance().getHistory(profile.playerUUID());
 		if (history.isEmpty()) {
 			Message.PUNISH_HISTORY_EMPTY.sendMessage(sender, true);
@@ -98,7 +97,11 @@ public class HistoryCommand extends BasePlusCommand {
 		sender.sendMessage(CentredMessage.generate("&7&m                    |&e " + profile.getPlayerName() + " punish log &7&m|                    &r"));
 		history.forEach(punishment -> {
 			sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
-			Optional.ofNullable(punishment.getExecutor()).ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecutor()).getName())));
+			if (!async)
+				Optional.ofNullable(punishment.getExecutor())
+					.ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecutor()).getName())));
+			else ProfileManager.getInstance().getProfile(punishment.getExecutor())
+					.ifPresent(profileExecutor -> Message.fixColor("&eExecuted by: &b" + profileExecutor.getPlayerName()));
 			sender.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
 
 			if (!List.of(PunishmentType.KICK, PunishmentType.WARN).contains(punishment.getType())) {

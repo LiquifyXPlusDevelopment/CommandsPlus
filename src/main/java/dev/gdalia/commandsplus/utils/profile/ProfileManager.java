@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ProfileManager {
@@ -101,6 +102,14 @@ public class ProfileManager {
         }
 
         return createProfile(uuid);
+    }
+
+    public CompletableFuture<Profile> getProfileAsync(String username) {
+        return CompletableFuture.supplyAsync(() -> getProfile(username).orElseThrow());
+    }
+
+    public CompletableFuture<Profile> getProfileAsync(UUID uuid) {
+        return CompletableFuture.supplyAsync(() -> getProfile(uuid).orElseThrow());
     }
 
     /**
