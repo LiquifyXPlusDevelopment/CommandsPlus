@@ -6,15 +6,17 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
  * 
  * 
- * Created to manage characters for players when examenating a temporary punishment for a player.
+ * Created to manage characters for players when examining a temporary punishment for a player.
  * This should be functioning while players are using it correct.
  * Permitted users: Gdalia.
  * 
@@ -70,6 +72,14 @@ public class StringUtils {
     public static String createTimeFormatter(Instant instant, String format) {
         DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
                 .ofPattern(format)
+                .withZone(ZoneId.systemDefault());
+        return DATE_TIME_FORMATTER.format(instant);
+    }
+
+    public static String createFullerTimeFormatter(Instant instant) {
+        DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
+                .ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .withLocale(Locale.US)
                 .withZone(ZoneId.systemDefault());
         return DATE_TIME_FORMATTER.format(instant);
     }
