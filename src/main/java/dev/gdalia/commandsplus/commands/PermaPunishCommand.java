@@ -55,6 +55,12 @@ public class PermaPunishCommand extends BasePlusCommand {
 	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		PunishmentType type = PunishmentType.canBeType(cmd.getName().toUpperCase()) ? PunishmentType.valueOf(cmd.getName().toUpperCase()) : null;
 
+		if (type == null) {
+			if (sender instanceof Player player) player.kickPlayer(Message.fixColor("&6how?"));
+			sender.sendMessage(Message.fixColor("&6how?"));
+			return;
+		}
+
 		if (!Permission.valueOf("PERMISSION_" + type.name()).hasPermission(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.COMMAND_NO_PERMISSION.sendMessage(sender, true);
