@@ -67,17 +67,11 @@ public class GamemodeCommand extends BasePlusCommand {
 		final Gamemode[] setGamemode = new Gamemode[1];
 
 		if (StringUtils.isNumeric(args[0])) {
-			Player finalPlayer = player;
 			Gamemode.getFromInt(Integer.parseInt(args[0]))
-				.ifPresentOrElse(
-					gamemode -> setGamemode[0] = gamemode,
-					() -> finalPlayer.sendMessage(ChatColor.GRAY + getSyntax()));
+				.ifPresent(gamemode -> setGamemode[0] = gamemode);
 		} else {
-				Player finalPlayer1 = player;
-				Gamemode.getFromSubCommand(args[0].toLowerCase())
-					.ifPresentOrElse(
-							gamemode -> setGamemode[0] = gamemode,
-							() -> finalPlayer1.sendMessage(ChatColor.GRAY + getSyntax()));
+			Gamemode.getFromSubCommand(args[0].toLowerCase())
+				.ifPresent(gamemode -> setGamemode[0] = gamemode);
 		}
 
 		if (args.length >= 2) {
@@ -86,6 +80,12 @@ public class GamemodeCommand extends BasePlusCommand {
 				Message.PLAYER_NOT_ONLINE.sendMessage(player, true);
 				return;
 			} else player = Bukkit.getPlayer(args[1]);
+		}
+
+		if (setGamemode[0] == null) {
+			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			player.sendMessage(ChatColor.GRAY + getSyntax());
+			return;
 		}
     	
     	if (player.getGameMode() == setGamemode[0].getAsBukkit()) {
