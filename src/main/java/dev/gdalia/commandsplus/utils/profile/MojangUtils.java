@@ -37,4 +37,28 @@ public class MojangUtils {
             return Optional.empty();
         }
     }
+
+    public static Optional<Profile> fetchProfile(UUID uuid) {
+        try {
+            URL url = new URL("https://api.ashcon.app/mojang/v2/user/" + uuid.toString());
+            InputStreamReader reader = new InputStreamReader(url.openStream());
+            JsonObject response = JsonParser.parseReader(reader).getAsJsonObject();
+            JsonObject textures = response.get("textures")
+                    .getAsJsonObject().get("raw").getAsJsonObject();
+
+            String name = response.get("username").getAsString();
+            String value = textures.get("value").getAsString();
+            String signature = textures.get("signature").getAsString();
+
+            return Optional.of(new Profile(
+                    uuid,
+                    name,
+                    Instant.now(),
+                    value,
+                    signature));
+
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
 }

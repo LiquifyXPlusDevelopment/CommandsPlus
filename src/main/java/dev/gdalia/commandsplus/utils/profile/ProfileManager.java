@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class ProfileManager {
@@ -21,8 +22,21 @@ public class ProfileManager {
         return profiles.containsKey(name);
     }
 
+    private boolean containsUser(UUID uuid) {
+        return profiles.values()
+                .stream()
+                .anyMatch(profile -> profile.playerUUID().equals(uuid));
+    }
+
     private Profile pullProfile(String name) {
         return profiles.get(name);
+    }
+
+    private Profile pullProfile(UUID uuid) {
+        return profiles.values()
+                .stream()
+                .filter(profile -> profile.playerUUID().equals(uuid))
+                .findAny().orElseThrow();
     }
 
     private void pushProfile(String name, Profile profile) {
@@ -74,6 +88,21 @@ public class ProfileManager {
         return createProfile(name);
     }
 
+    public Optional<Profile> getProfile(UUID uuid) {
+        if (containsUser(uuid)) {
+            Optional<Profile> profile = Optional.of(pullProfile(uuid));
+            long MAX_DURATION = TimeUnit.NANOSECONDS.convert(10, TimeUnit.MINUTES);
+            long duration = Instant.now().getNano() - profile.get().pulledOut().getNano();
+
+            if (duration >= MAX_DURATION)
+                profile = createProfile(uuid);
+
+            return profile;
+        }
+
+        return createProfile(uuid);
+    }
+
     /**
      * Getting a new profile from mojang utils,
      * <p>
@@ -111,6 +140,22 @@ public class ProfileManager {
 
             if (containsKey(name)) removeProfile(name);
             pushProfile(name, profile.get());
+        }
+
+        return profile;
+    }
+
+    public Optional<Profile> createProfile(UUID uuid) {
+        Optional<Profile> profile = MojangUtils.fetchProfile(uuid);
+
+        if (profile.isPresent()) {
+            Optional<Profile> oldProfile = Optional.ofNullable(pullProfile(profile.get().getPlayerName()));
+            if (oldProfile.isPresent() && profile.get().signature().equals(oldProfile.get().signature())
+                    && profile.get().value().equals(oldProfile.get().value()))
+                return oldProfile;
+
+            if (containsKey(profile.get().getPlayerName())) removeProfile(profile.get().getPlayerName());
+            pushProfile(profile.get().getPlayerName(), profile.get());
         }
 
         return profile;
