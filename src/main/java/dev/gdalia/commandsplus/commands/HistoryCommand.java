@@ -17,9 +17,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -64,6 +66,13 @@ public class HistoryCommand extends BasePlusCommand {
 			return;
 		}
 
+		if (Optional.ofNullable(Bukkit.getPlayerExact(args[0])).isPresent()) {
+			Player target = Bukkit.getPlayerExact(args[0]);
+			Profile tempProfile = new Profile(target.getUniqueId(), target.getName(), Instant.now(), null, null);
+			historyAction(sender, tempProfile);
+			return;
+		}
+
 		runAsync(sender, () -> {
 			Optional<Profile> profile = ProfileManager.getInstance().getProfile(args[0]);
 
@@ -73,30 +82,34 @@ public class HistoryCommand extends BasePlusCommand {
 				return;
 			}
 
-			List<Punishment> history = Punishments.getInstance().getHistory(profile.get().playerUUID());
-			if (history.isEmpty()) {
-				Message.PUNISH_HISTORY_EMPTY.sendMessage(sender, true);
-				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-				return;
+			historyAction(sender, profile.get());
+		});
+	}
+
+	private void historyAction(CommandSender sender, Profile profile) {
+		List<Punishment> history = Punishments.getInstance().getHistory(profile.playerUUID());
+		if (history.isEmpty()) {
+			Message.PUNISH_HISTORY_EMPTY.sendMessage(sender, true);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			return;
+		}
+
+		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+		sender.sendMessage(CentredMessage.generate("&7&m                    |&e " + profile.getPlayerName() + " punish log &7&m|                    &r"));
+		history.forEach(punishment -> {
+			sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
+			Optional.ofNullable(punishment.getExecutor()).ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecutor()).getName())));
+			sender.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
+
+			if (!List.of(PunishmentType.KICK, PunishmentType.WARN).contains(punishment.getType())) {
+				Optional.ofNullable(punishment.getExpiry()).ifPresentOrElse(instant -> {
+					sender.sendMessage(Message.fixColor("&eIs permanent?: &b" + BooleanUtils.toStringYesNo(false)));
+					sender.sendMessage(Message.fixColor("&eExpiry: &b" + StringUtils.createTimeFormatter(instant, "HH:mm, dd/MM/uu")));
+				}, () -> sender.sendMessage(Message.fixColor("&eIs permanent?: &b" + BooleanUtils.toStringYesNo(true))));
 			}
 
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			sender.sendMessage(CentredMessage.generate("&7&m                    |&e " + profile.get().getPlayerName() + " punish log &7&m|                    &r"));
-			history.forEach(punishment -> {
-				sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
-				Optional.ofNullable(punishment.getExecutor()).ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecutor()).getName())));
-				sender.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
-
-				if (!List.of(PunishmentType.KICK, PunishmentType.WARN).contains(punishment.getType())) {
-					Optional.ofNullable(punishment.getExpiry()).ifPresentOrElse(instant -> {
-						sender.sendMessage(Message.fixColor("&eIs permanent?: &b" + BooleanUtils.toStringYesNo(false)));
-						sender.sendMessage(Message.fixColor("&eExpiry: &b" + StringUtils.createTimeFormatter(instant, "HH:mm, dd/MM/uu")));
-					}, () -> sender.sendMessage(Message.fixColor("&eIs permanent?: &b" + BooleanUtils.toStringYesNo(true))));
-				}
-
-				sender.sendMessage(Message.fixColor("&eReason: &b" + punishment.getReason()));
-				sender.sendMessage(CentredMessage.generate("&7&m                              x x                              &r"));
-			});
+			sender.sendMessage(Message.fixColor("&eReason: &b" + punishment.getReason()));
+			sender.sendMessage(CentredMessage.generate("&7&m                              x x                              &r"));
 		});
 	}
 }

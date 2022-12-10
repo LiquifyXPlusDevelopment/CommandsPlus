@@ -1,15 +1,15 @@
 package dev.gdalia.commandsplus.utils.profile;
 
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.UUID;
 
-public record Profile(@Getter @NonNull UUID playerUUID, @Getter @NonNull String playerName,
-                      @Getter @NonNull Instant pulledOut, @Getter @NonNull String value,
-                      @Getter @NonNull String signature) {
+public record Profile(@Getter @NotNull UUID playerUUID, @Getter @NotNull String playerName,
+                      @Getter @NotNull Instant pulledOut, @Getter @Nullable String value,
+                      @Getter @Nullable String signature) {
 
     @Override
     public String toString() {
