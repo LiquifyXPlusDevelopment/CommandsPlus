@@ -42,7 +42,7 @@ public class ReportComment implements ConfigurationSerializable {
     }
 
     public static ReportComment deserialize(Map<String, Object> data) {
-        ReportComment comment = new ReportComment(
+        return new ReportComment(
                 Bukkit.getOfflinePlayer(UUID.fromString(data.get("sender").toString())),
                 Optional.of(data.get("sent-at"))
                         .filter(Long.class::isInstance)
@@ -50,7 +50,6 @@ public class ReportComment implements ConfigurationSerializable {
                         .map(Instant::ofEpochMilli)
                         .orElse(Instant.now()),
                 data.get("comment").toString());
-        return comment;
     }
 
     @Override
