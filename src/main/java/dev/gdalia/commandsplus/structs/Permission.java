@@ -10,60 +10,77 @@ public enum Permission {
 	/*GROUP SPLITTING*/
 
 	//Punishment Perms
-	PERMISSION_PUNISH("commandsplus.punish"),
-	PERMISSION_BAN("commandsplus.ban"),
-	PERMISSION_KICK("commandsplus.kick"),
-	PERMISSION_WARN("commandsplus.warn"),
-	PERMISSION_MUTE("commandsplus.mute"),
-	PERMISSION_TEMPBAN("commandsplus.tempban"),
-	PERMISSION_TEMPMUTE("commandsplus.tempmute"),
+	PERMISSION_PUNISH(Category.PUNISHMENT,"commandsplus.punish"),
+	PERMISSION_BAN(Category.PUNISHMENT,"commandsplus.punish.ban"),
+	PERMISSION_KICK(Category.PUNISHMENT, "commandsplus.punish.kick"),
+	PERMISSION_WARN(Category.PUNISHMENT, "commandsplus.punish.warn"),
+	PERMISSION_MUTE(Category.PUNISHMENT, "commandsplus.punish.mute"),
+	PERMISSION_TEMPBAN(Category.PUNISHMENT, "commandsplus.punish.tempban"),
+	PERMISSION_TEMPMUTE(Category.PUNISHMENT, "commandsplus.punish.tempmute"),
 
 	//Punishment Revoke Perms
-	PERMISSION_UNBAN("commandsplus.unban"),
-	PERMISSION_UNMUTE("commandsplus.unmute"),
+	PERMISSION_UNBAN(Category.PUNISHMENT_REVOKE, "commandsplus.unban"),
+	PERMISSION_UNMUTE(Category.PUNISHMENT_REVOKE, "commandsplus.unmute"),
 
-	//Checks Perms
-	PERMISSION_ALTS("commandsplus.alts"),
-	PERMISSION_CHECK("commandsplus.check"),
-	PERMISSION_HISTORY("commandsplus.history"),
 	//Physics
-	PERMISSION_BUILDMODE("commandsplus.buildmode"),
-	PERMISSION_FLY("commandsplus.fly"),
-	PERMISSION_FLYSPEED("commandsplus.flyspeed"),
-	PERMISSION_FREEZE("commandsplus.freeze"),
-	PERMISSION_GOD("commandsplus.god"),
-	PERMISSION_HEAL("commandsplus.heal"),
-	PERMISSION_FEED("commandsplus.feed"),
-	PERMISSION_TIME("commandsplus.time"),
+	PERMISSION_FLY(Category.MISCELLANEOUS, "commandsplus.fly"),
+	PERMISSION_FLYSPEED(Category.MISCELLANEOUS, "commandsplus.flyspeed"),
+	PERMISSION_GOD(Category.MISCELLANEOUS, "commandsplus.god"),
+	PERMISSION_HEAL(Category.MISCELLANEOUS, "commandsplus.heal"),
+	PERMISSION_FEED(Category.MISCELLANEOUS, "commandsplus.feed"),
+	PERMISSION_TIME(Category.MISCELLANEOUS, "commandsplus.time"),
 
 	//Staff
-	PERMISSION_ADMIN("commandsplus.admin"),
-	PERMISSION_ADMIN_HELP("commandsplus.admin.help"),
-	PERMISSION_ADMIN_RELOAD("commandsplus.admin.reload"),
-	PERMISSION_STAFFCHAT("commandsplus.staffchat"),
-	PERMISSION_STAFFCHAT_SEE("commandsplus.staffchat.see"),
-	PERMISSION_VANISH("commandsplus.vanish"),
-	PERMISSION_VANISH_SEE("commandsplus.vanish.see"),
-	PERMISSION_TPALL("commandsplus.tpall"),
-	PERMISSION_TPHERE("commandsplus.tphere"),
+	PERMISSION_ADMIN(Category.ADMINISTRATION, "commandsplus.admin"),
+	PERMISSION_ADMIN_HELP(Category.ADMINISTRATION,"commandsplus.admin.help"),
+	PERMISSION_ADMIN_RELOAD(Category.ADMINISTRATION,"commandsplus.admin.reload"),
+	PERMISSION_STAFFCHAT(Category.ADMINISTRATION,"commandsplus.staffchat"),
+	PERMISSION_STAFFCHAT_SEE(Category.ADMINISTRATION,"commandsplus.staffchat.see"),
+	PERMISSION_VANISH(Category.ADMINISTRATION,"commandsplus.vanish"),
+	PERMISSION_VANISH_SEE(Category.ADMINISTRATION,"commandsplus.vanish.see"),
+	PERMISSION_TPALL(Category.ADMINISTRATION,"commandsplus.tpall"),
+	PERMISSION_TPHERE(Category.ADMINISTRATION,"commandsplus.tphere"),
+	PERMISSION_FREEZE(Category.ADMINISTRATION,"commandsplus.freeze"),
+
+	PERMISSION_ALTS(Category.ADMINISTRATION,"commandsplus.alts"),
+	PERMISSION_CHECK(Category.ADMINISTRATION,"commandsplus.check"),
+	PERMISSION_HISTORY(Category.ADMINISTRATION,"commandsplus.history"),
+	PERMISSION_BUILDMODE(Category.ADMINISTRATION,"commandsplus.buildmode"),
+
+	PERMISSION_CHAT(Category.ADMINISTRATION, "commandsplus.chat"),
 
 	//Gamemode
-	PERMISSION_GAMEMODE("commandsplus.gamemode"),
-	PERMISSION_GAMEMODE_CREATIVE("commandsplus.gamemode.creative"),
-	PERMISSION_GAMEMODE_SURVIVAL("commandsplus.gamemode.survival"),
-	PERMISSION_GAMEMODE_ADVENTURE("commandsplus.gamemode.adventure"),
-	PERMISSION_GAMEMODE_SPECTATOR("commandsplus.gamemode.spectator"),
+	PERMISSION_GAMEMODE(Category.GAMEMODE,"commandsplus.gamemode"),
+	PERMISSION_GAMEMODE_CREATIVE(Category.GAMEMODE,"commandsplus.gamemode.creative"),
+	PERMISSION_GAMEMODE_SURVIVAL(Category.GAMEMODE,"commandsplus.gamemode.survival"),
+	PERMISSION_GAMEMODE_ADVENTURE(Category.GAMEMODE,"commandsplus.gamemode.adventure"),
+	PERMISSION_GAMEMODE_SPECTATOR(Category.GAMEMODE,"commandsplus.gamemode.spectator"),
 
 	//Report
-	PERMISSION_REPORT_SUBMIT("commandsplus.report.submit"),
-	PERMISSION_REPORT_VIEW_PLAYER("commandsplus.report.view-player"),
-	PERMISSION_REPORT_ALERT("commandsplus.report.alert"),
+	PERMISSION_REPORT_SUBMIT(Category.REPORT, "commandsplus.report.submit"),
+	PERMISSION_REPORT_COMMENT_SUBMIT(Category.REPORT,"commandsplus.report.comment.submit"),
+	PERMISSION_REPORT_COMMENT_DELETE(Category.REPORT,"commandsplus.report.comment.delete"),
+	PERMISSION_REPORT_VIEW_PLAYER(Category.REPORT, "commandsplus.report.view-player"),
+	PERMISSION_REPORT_ALERT(Category.REPORT,"commandsplus.report.alert");
 
-	PERMISSION_CHAT("commandsplus.chat");
+
 	@Getter
-	  private final String permission;
+	private final Category category;
 
-	  public boolean hasPermission(Permissible permissible) {
-	    return permissible.hasPermission(this.getPermission());
-	  }
+	@Getter
+	private final String permission;
+
+	public boolean hasPermission(Permissible permissible) {
+		return permissible.hasPermission(this.getPermission());
 	}
+
+	public enum Category {
+		PUNISHMENT,
+		PUNISHMENT_REVOKE,
+		REPORT,
+		GAMEMODE,
+		ADMINISTRATION,
+		MISCELLANEOUS;
+
+	}
+}
