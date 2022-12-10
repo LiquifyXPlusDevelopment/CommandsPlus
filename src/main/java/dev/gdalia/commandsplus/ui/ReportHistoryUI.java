@@ -7,6 +7,7 @@ import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.reports.Report;
 import dev.gdalia.commandsplus.structs.reports.ReportStatus;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import dev.triumphteam.gui.components.GuiType;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
@@ -52,7 +53,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                     .addLoreLines(
                             " &r",
                             "Status: &6" + report.getStatus().name(),
-                            "Date: &e" + report.getSentAt(),
+                            "Date: &e" + StringUtils.createFullerTimeFormatter(report.getSentAt()),
                             " &r",
                             "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
                             "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
@@ -69,7 +70,7 @@ public record ReportHistoryUI(@Getter Player checker) {
 
                 Optional.of(event.getClick())
                         .filter(click -> click.equals(ClickType.LEFT))
-                        .ifPresent(clickable -> ReportGUI(targetUniqueId, report));
+                        .ifPresent(clickable -> ReportGUI(report));
             }));
         });
 
@@ -117,8 +118,8 @@ public record ReportHistoryUI(@Getter Player checker) {
         gui.open(checker);
     }
 
-    public void ReportGUI(UUID targetUniqueID, Report report) {
-        OfflinePlayer target = Bukkit.getOfflinePlayer(targetUniqueID);
+    public void ReportGUI(Report report) {
+        OfflinePlayer target = Bukkit.getOfflinePlayer(report.getConvicted());
         Gui gui = new Gui(5, Message.fixColor("&6Reports &7> &e" + target.getName()), Set.of());
         gui.disableAllInteractions();
 
@@ -135,7 +136,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                 .addLoreLines(
                         " &r",
                         "Status: &6" + report.getStatus().name(),
-                        "Date: &e" + report.getSentAt(),
+                        "Date: &e" + StringUtils.createFullerTimeFormatter(report.getSentAt()),
                         " &r",
                         "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
                         "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
@@ -165,7 +166,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                         " &r",
                         "&6Click&7 to punish the reporter",
                         "&a" + Reporter.getName())
-                .create(), event -> new PunishUI(checker).openPunishGUI(targetUniqueID)));
+                .create(), event -> new PunishUI(checker).openPunishGUI(report.getReporter())));
 
         gui.setItem(14, new GuiItem(new ItemBuilder(
                 Material.PLAYER_HEAD,
@@ -220,7 +221,7 @@ public record ReportHistoryUI(@Getter Player checker) {
                         " &r",
                         "&6Click&7 to remove permanently",
                         "the report.")
-                .create(), event -> deleteInitializeReportsGUI(targetUniqueID, report)));
+                .create(), event -> deleteInitializeReportsGUI(report.getConvicted(), report)));
 
         gui.setItem(35, new GuiItem(new ItemBuilder(
                 Material.BOOK,
