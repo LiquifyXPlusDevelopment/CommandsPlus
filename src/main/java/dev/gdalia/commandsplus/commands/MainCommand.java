@@ -68,7 +68,7 @@ public class MainCommand extends BasePlusCommand {
 		switch (args[0].toLowerCase()) {
 			case "help" -> {
 				if (!Permission.PERMISSION_ADMIN_HELP.hasPermission(sender)) {
-					Message.NO_PERMISSION.sendMessage(sender, true);
+					Message.COMMAND_NO_PERMISSION.sendMessage(sender, true);
 					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 					return;
 				}
@@ -80,7 +80,7 @@ public class MainCommand extends BasePlusCommand {
 			}
 			case "reload" -> {
 				if (!Permission.PERMISSION_ADMIN_RELOAD.hasPermission(sender)) {
-					Message.NO_PERMISSION.sendMessage(sender, true);
+					Message.COMMAND_NO_PERMISSION.sendMessage(sender, true);
 					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 					return;
 				}

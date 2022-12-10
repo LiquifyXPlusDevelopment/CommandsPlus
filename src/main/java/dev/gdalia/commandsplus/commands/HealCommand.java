@@ -55,7 +55,7 @@ public class HealCommand extends BasePlusCommand {
 			player = Bukkit.getPlayerExact(args[0]);
 		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(sender, true);
+			Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
 			return;
 		}
 
@@ -64,7 +64,7 @@ public class HealCommand extends BasePlusCommand {
 		if (!player.equals(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.HEAL_TARGET.sendFormattedMessage(sender, true, player.getName(), String.valueOf(playerMaxHealth));
-			Message.HEALED_BY_PLAYER.sendFormattedMessage(player, true, String.valueOf(playerMaxHealth), sender.getName());
+			Message.HEAL_BY_PLAYER.sendFormattedMessage(player, true, String.valueOf(playerMaxHealth), sender.getName());
 		} else Message.HEAL_PLAYER.sendFormattedMessage(sender, true, String.valueOf(playerMaxHealth));
 
 		player.setHealth(playerMaxHealth);

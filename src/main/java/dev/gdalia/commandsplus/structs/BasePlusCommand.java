@@ -9,7 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,6 +36,7 @@ public abstract class BasePlusCommand implements TabExecutor {
     public abstract String getDescription();
 
     public abstract String getSyntax();
+
     public abstract Permission getRequiredPermission();
 
     public abstract boolean isPlayerCommand();
@@ -50,12 +50,12 @@ public abstract class BasePlusCommand implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (getRequiredPermission() != null && !getRequiredPermission().hasPermission(sender)) {
             Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-            Message.NO_PERMISSION.sendMessage(sender, true);
+            Message.COMMAND_NO_PERMISSION.sendMessage(sender, true);
             return true;
         }
 
         if (isPlayerCommand() && !(sender instanceof Player)) {
-            Message.PLAYER_CMD.sendMessage(sender, false);
+            Message.COMMAND_ONLY_PLAYER.sendMessage(sender, false);
             return true;
         }
         runCommand(sender, command, label, args);

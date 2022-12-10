@@ -56,7 +56,7 @@ public class PunishCommand extends BasePlusCommand {
         Player target = Bukkit.getPlayerExact(args[0]);
         if (target == null) {
             Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-            Message.INVALID_PLAYER.sendMessage(sender, true);
+            Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
             return;
         }
 

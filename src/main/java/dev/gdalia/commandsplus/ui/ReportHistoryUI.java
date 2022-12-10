@@ -111,7 +111,7 @@ public record ReportHistoryUI(@Getter Player checker) {
             checker.closeInventory();
             Reports.getInstance().getReport(report.getReportUuid())
                     .ifPresent(deleted -> ReportManager.getInstance().revoke(report));
-            Message.REPORT_DELETED_SUCCESSFULLY.sendFormattedMessage(checker, true, target.getName());
+            Message.REPORT_DELETED.sendFormattedMessage(checker, true, target.getName());
         }));
 
         gui.open(checker);

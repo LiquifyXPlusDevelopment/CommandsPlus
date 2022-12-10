@@ -5,6 +5,7 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -55,7 +56,7 @@ public class FlySpeedCommand extends BasePlusCommand {
 
 		if (args.length == 0) {
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.FLY_SPEED_ARGUMENTS.sendMessage(player, true);
+			player.sendMessage(ChatColor.GRAY + getSyntax());
 			return;
 		}
 		
@@ -67,9 +68,9 @@ public class FlySpeedCommand extends BasePlusCommand {
 			float flightSpeed = speed / 10F;
 			player.setFlySpeed(flightSpeed);
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.FLY_SPEED.sendFormattedMessage(player, true, (flightSpeed * 10));
+			Message.FLIGHT_SPEED_ADJUSTED.sendFormattedMessage(player, true, (flightSpeed * 10));
 		} catch (NumberFormatException ex) {
-			Message.FLY_SPEED_ARGUMENTS.sendMessage(player, true);
+			player.sendMessage(ChatColor.GRAY + getSyntax());
 		}
 	}
 }

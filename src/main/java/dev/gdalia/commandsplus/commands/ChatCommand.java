@@ -6,6 +6,7 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -46,16 +47,16 @@ public class ChatCommand extends BasePlusCommand {
 	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (args.length == 0) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.CHAT_ARGUMENTS.sendMessage(sender, true);
+			sender.sendMessage(ChatColor.RED + getSyntax());
 			return;
 		}
 
 		switch (args[0].toLowerCase()) {
 			case "clear" -> {
 				List<String> stream = Main.getInstance().getConfig().getStringList("chat.clear-template")
-						.stream()
-						.map(Message::fixColor)
-						.toList();
+					.stream()
+					.map(Message::fixColor)
+					.toList();
 
 				Bukkit.getOnlinePlayers().forEach(cleared -> {
 					Message.playSound(cleared, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
@@ -65,13 +66,13 @@ public class ChatCommand extends BasePlusCommand {
 			}
 			case "lock" -> {
 				boolean isLocked = Main.getInstance().getConfig().getBoolean("chat.locked");
-					Bukkit.getOnlinePlayers().forEach(locked -> {
-						Message.playSound(locked, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-						Main.getInstance().getConfig().set("chat.locked", !isLocked);
-						Main.getInstance().saveConfig();
-						if (!isLocked) Message.LOCK_MESSAGE.sendMessage(locked, true);
-						else Message.UNLOCK_MESSAGE.sendMessage(locked, true);
-					});
+				Bukkit.getOnlinePlayers().forEach(locked -> {
+					Message.playSound(locked, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+					Main.getInstance().getConfig().set("chat.locked", !isLocked);
+					Main.getInstance().saveConfig();
+					if (!isLocked) Message.CHAT_LOCK_BROADCAST.sendMessage(locked, true);
+					else Message.CHAT_UNLOCK_BROADCAST.sendMessage(locked, true);
+				});
 			}
 			default -> {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);

@@ -13,6 +13,7 @@ import dev.gdalia.commandsplus.utils.profile.Profile;
 import dev.gdalia.commandsplus.utils.profile.ProfileManager;
 import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -59,23 +60,22 @@ public class HistoryCommand extends BasePlusCommand {
 	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (args.length == 0) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			Message.HISTORY_ARGUMENTS.sendMessage(sender, true);
+			sender.sendMessage(ChatColor.GRAY + getSyntax());
 			return;
 		}
-
 
 		runAsync(sender, () -> {
 			Optional<Profile> profile = ProfileManager.getInstance().getProfile(args[0]);
 
 			if (profile.isEmpty()) {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-				Message.INVALID_PLAYER.sendMessage(sender, true);
+				Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
 				return;
 			}
 
 			List<Punishment> history = Punishments.getInstance().getHistory(profile.get().playerUUID());
 			if (history.isEmpty()) {
-				Message.HISTORY_DOES_NOT_EXIST.sendMessage(sender, true);
+				Message.PUNISH_HISTORY_EMPTY.sendMessage(sender, true);
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 				return;
 			}

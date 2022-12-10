@@ -55,14 +55,13 @@ public class FlyCommand extends BasePlusCommand {
 	
 	@Override
 	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-
 		Player player = (Player) sender;
 
 		if (args.length >= 1) {
 			if (Bukkit.getPlayerExact(args[0]) != null) player = Bukkit.getPlayerExact(args[0]);
 			else {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-				Message.INVALID_PLAYER.sendMessage(sender, true);
+				Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
 				return;
 			}
 		}

@@ -56,7 +56,7 @@ public class StaffChatCommand extends BasePlusCommand {
 
         if (!Permission.PERMISSION_STAFFCHAT.hasPermission(player)) {
         	Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.NO_PERMISSION.sendMessage(player, true);
+        	Message.COMMAND_NO_PERMISSION.sendMessage(player, true);
         	return;
         }
 

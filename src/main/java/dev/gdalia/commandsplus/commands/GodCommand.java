@@ -56,7 +56,7 @@ public class GodCommand extends BasePlusCommand {
 			player = Bukkit.getPlayer(args[0]);
 		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(sender, true);
+			Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
 			return;
 		}
 

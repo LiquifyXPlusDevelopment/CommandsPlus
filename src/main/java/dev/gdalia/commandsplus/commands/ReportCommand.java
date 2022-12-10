@@ -20,16 +20,18 @@ public class ReportCommand implements CommandExecutor {
      * LABEL ARG0
      */
 
+    //TODO fix this command, not based on BasePlusCommand!!!
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player player)) {
-            Message.PLAYER_CMD.sendMessage(sender, true);
+            Message.COMMAND_ONLY_PLAYER.sendMessage(sender, true);
             return false;
         }
 
         if(!Permission.PERMISSION_REPORT_SUBMIT.hasPermission(sender)) {
             Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-            Message.NO_PERMISSION.sendMessage(sender, true);
+            Message.COMMAND_NO_PERMISSION.sendMessage(sender, true);
             return false;
         }
 
@@ -42,7 +44,7 @@ public class ReportCommand implements CommandExecutor {
         Player target = Bukkit.getPlayerExact(args[0]);
         if (target == null) {
             Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-            Message.INVALID_PLAYER.sendMessage(sender, true);
+            Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
             return true;
         }
 

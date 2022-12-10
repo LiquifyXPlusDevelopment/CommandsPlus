@@ -4,6 +4,7 @@ import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -47,7 +48,7 @@ public class TimeCommand extends BasePlusCommand {
 
 		if (args.length == 0) {
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.TIME_ARGUMENTS.sendMessage(player, true);
+			player.sendMessage(ChatColor.GRAY + getSyntax());
 			return;
 		}
 

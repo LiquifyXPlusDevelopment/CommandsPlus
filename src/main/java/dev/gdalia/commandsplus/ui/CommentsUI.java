@@ -127,7 +127,7 @@ public record CommentsUI(@Getter Player checker) {
                 .create(), event -> {
             ReportManager.getInstance().deleteComment(report, comment);
             openCommentsGUI(report);
-            Message.COMMENT_DELETED_SUCCESSFULLY.sendFormattedMessage(checker, true, comment.getOfflinePlayer().getName());
+            Message.REPORT_COMMENT_DELETED.sendFormattedMessage(checker, true, comment.getOfflinePlayer().getName());
         }));
 
         gui.open(checker);

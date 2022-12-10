@@ -42,12 +42,13 @@ public class TpallCommand extends BasePlusCommand {
 		return true;
 	}
 
+	//TODO overall fix this overlapse of permission and player usages.
 	@Override
 	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		Player player = (Player) sender;
 		if (!Permission.PERMISSION_TPALL.hasPermission(player)) {
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(player, true);
+			Message.COMMAND_NO_PERMISSION.sendMessage(player, true);
 			return;
 		}
 
@@ -60,7 +61,7 @@ public class TpallCommand extends BasePlusCommand {
 		Player target = Bukkit.getPlayerExact(args[0]);
 		if (target == null) {
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(player, true);
+			Message.PLAYER_NOT_ONLINE.sendMessage(player, true);
 			return;
 		}
 		

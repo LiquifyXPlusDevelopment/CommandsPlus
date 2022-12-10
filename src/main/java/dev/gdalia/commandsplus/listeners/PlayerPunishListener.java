@@ -48,7 +48,7 @@ public class PlayerPunishListener implements Listener {
 			    Instant two = event.getPunishment().getExpiry();
 			    Duration res = Duration.between(one, two);
 				Message.valueOf("TARGET_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(player.getPlayer(), true, StringUtils.formatTime(res));
-			} else Message.TARGET_MUTED_MESSAGE.sendMessage(player.getPlayer(), true);
+			} else Message.PUNISH_MUTE_MESSAGE.sendMessage(player.getPlayer(), true);
 		}
 	}
 }

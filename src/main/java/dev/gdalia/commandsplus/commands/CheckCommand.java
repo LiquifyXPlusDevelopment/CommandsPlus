@@ -68,7 +68,7 @@ public class CheckCommand extends BasePlusCommand {
 
 			if (profile.isEmpty()) {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-				Message.INVALID_PLAYER.sendMessage(sender, true);
+				Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
 				return;
 			}
 
@@ -90,7 +90,7 @@ public class CheckCommand extends BasePlusCommand {
 				sender.sendMessage(Message.fixColor("&eReason: &b" + punishment.getReason()));
 				sender.sendMessage(CentredMessage.generate("&7&m                              x x                              &r"));
 			}, () -> {
-				Message.PLAYER_NO_ACTIVE_PUNISHMENT.sendMessage(sender, true);
+				Message.PUNISH_CHECK_NO_ACTIVE.sendMessage(sender, true);
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			});
 		});

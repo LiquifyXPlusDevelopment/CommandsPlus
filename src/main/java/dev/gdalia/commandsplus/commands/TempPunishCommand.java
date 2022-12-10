@@ -65,7 +65,7 @@ public class TempPunishCommand extends BasePlusCommand {
 
 		if (!Permission.valueOf("PERMISSION_" + type.name()).hasPermission(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(sender, true);
+			Message.COMMAND_NO_PERMISSION.sendMessage(sender, true);
 			return;
 		}
 		
@@ -78,7 +78,7 @@ public class TempPunishCommand extends BasePlusCommand {
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
         if (!target.hasPlayedBefore()) {
-        	Message.INVALID_PLAYER.sendMessage(sender, true);
+        	Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
         	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             return;
         }

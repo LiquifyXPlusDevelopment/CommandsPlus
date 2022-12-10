@@ -88,7 +88,7 @@ public record ReportUI(@Getter Player checker) {
                     Collections.emptyList());
             ReportManager.getInstance().invoke(report);
             checker.closeInventory();
-            Message.REPORT_SUCCESSFULLY.sendFormattedMessage(checker, true, target.getName(), reportReason.getDisplayName());
+            Message.REPORT_SUBMITTED.sendFormattedMessage(checker, true, target.getName(), reportReason.getDisplayName());
         }));
 
         gui.open(checker);

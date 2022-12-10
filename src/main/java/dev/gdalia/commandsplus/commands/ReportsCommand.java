@@ -25,13 +25,13 @@ public class ReportsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
-            Message.PLAYER_CMD.sendMessage(sender, true);
+            Message.COMMAND_ONLY_PLAYER.sendMessage(sender, true);
             return false;
         }
 
         if (!Permission.PERMISSION_REPORT_VIEW_PLAYER.hasPermission(player)) {
             Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-            Message.NO_PERMISSION.sendMessage(player, true);
+            Message.COMMAND_NO_PERMISSION.sendMessage(player, true);
             return false;
         }
 
@@ -44,7 +44,7 @@ public class ReportsCommand implements CommandExecutor {
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         if (!target.hasPlayedBefore()) {
             Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-            Message.INVALID_PLAYER.sendMessage(sender, true);
+            Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
             return true;
         }
 

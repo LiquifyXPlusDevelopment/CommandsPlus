@@ -5,6 +5,7 @@ import org.bukkit.GameMode;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 public enum Gamemode {
 	
@@ -33,17 +34,15 @@ public enum Gamemode {
 		this.asSubCommand = NameAsSubCommand;
 	}
 	
-	public static Gamemode getFromSubCommand(String subCommand) {
+	public static Optional<Gamemode> getFromSubCommand(String subCommand) {
 		return Arrays.stream(Gamemode.values())
 				.filter(gamemode -> Objects.equals(gamemode.getAsSubCommand(), subCommand))
-				.findAny()
-				.orElseThrow(() -> new NullPointerException("There is no such gamemode as " + subCommand + "!"));
+				.findAny();
 	}
 	
-	public static Gamemode getFromInt(int integer) {		
+	public static Optional<Gamemode> getFromInt(int integer) {
 		return Arrays.stream(Gamemode.values())
 				.filter(gamemode -> gamemode.getAsInteger() == integer)
-				.findAny()
-				.orElseThrow(() -> new IllegalArgumentException("cannot take any numbers lower than 0 or above 3"));
+				.findAny();
 	}
 }

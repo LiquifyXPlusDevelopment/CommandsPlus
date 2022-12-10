@@ -7,6 +7,7 @@ import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -59,56 +60,53 @@ public class GamemodeCommand extends BasePlusCommand {
 
 		if (args.length == 0) {
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.GAMEMODE_ARGUMENTS.sendMessage(player, true);
+			player.sendMessage(ChatColor.GRAY + getSyntax());
 			return;
 		}
-		
-        Gamemode setGamemode;
+
+		final Gamemode[] setGamemode = new Gamemode[1];
 
 		if (StringUtils.isNumeric(args[0])) {
-			try {
-				setGamemode = Gamemode.getFromInt(Integer.parseInt(args[0]));
-			} catch (Exception e1) {
-				Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-	        	Message.GAMEMODE_ARGUMENTS.sendMessage(player, true);
-				return;
-			}
+			Player finalPlayer = player;
+			Gamemode.getFromInt(Integer.parseInt(args[0]))
+				.ifPresentOrElse(
+					gamemode -> setGamemode[0] = gamemode,
+					() -> finalPlayer.sendMessage(ChatColor.GRAY + getSyntax()));
 		} else {
-			try {
-			setGamemode = Gamemode.getFromSubCommand(args[0].toLowerCase());
-			} catch (Exception e1) {
-				Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-	        	Message.GAMEMODE_ARGUMENTS.sendMessage(player, true);
-				return;
-			}
+				Player finalPlayer1 = player;
+				Gamemode.getFromSubCommand(args[0].toLowerCase())
+					.ifPresentOrElse(
+							gamemode -> setGamemode[0] = gamemode,
+							() -> finalPlayer1.sendMessage(ChatColor.GRAY + getSyntax()));
 		}
+
 		if (args.length >= 2) {
 			if (Bukkit.getPlayerExact(args[1]) == null) {
 				Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-				Message.INVALID_PLAYER.sendMessage(player, true);
+				Message.PLAYER_NOT_ONLINE.sendMessage(player, true);
 				return;
 			} else player = Bukkit.getPlayer(args[1]);
 		}
     	
-    	if (player.getGameMode() == setGamemode.getAsBukkit()) {
+    	if (player.getGameMode() == setGamemode[0].getAsBukkit()) {
     		boolean isSender = player.equals(sender);
     		Message message = isSender ? Message.GAMEMODE_ALREADY_SET : Message.GAMEMODE_ALREADY_SET_OTHER;
-    		Object[] values = !isSender ? new Object[] {player.getName(), setGamemode.name()} : new Object[] {setGamemode.name()};
+    		Object[] values = !isSender ? new Object[] {player.getName(), setGamemode[0].name()} : new Object[] {setGamemode[0].name()};
     		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
     		message.sendFormattedMessage(sender, true, values);
     		return;
     	}
     	
     	
-    	player.setGameMode(setGamemode.getAsBukkit());
+    	player.setGameMode(setGamemode[0].getAsBukkit());
 		if (player.equals(sender)) {
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.GAMEMODE_CHANGED.sendFormattedMessage(player, true, setGamemode.name());
+			Message.GAMEMODE_CHANGED.sendFormattedMessage(player, true, setGamemode[0].name());
 			return;
 		}
 		
 		Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		Message.GAMEMODE_CHANGED_OTHER.sendFormattedMessage(sender, true, player.getName(), setGamemode.name());
-		Message.GAMEMODE_CHANGED_BY_OTHER.sendFormattedMessage(player, true, setGamemode.name(), sender.getName());
+		Message.GAMEMODE_CHANGED_OTHER.sendFormattedMessage(sender, true, player.getName(), setGamemode[0].name());
+		Message.GAMEMODE_CHANGED_BY_OTHER.sendFormattedMessage(player, true, setGamemode[0].name(), sender.getName());
 	}
 }

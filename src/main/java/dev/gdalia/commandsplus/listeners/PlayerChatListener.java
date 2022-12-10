@@ -57,7 +57,7 @@ public class PlayerChatListener implements Listener {
 			event.setCancelled(true);
 			
 			if (punishment.getType().equals(PunishmentType.MUTE)) {
-				Message.MUTED_MESSAGE.sendMessage(e, true);
+				Message.PUNISH_MUTE_CHAT_DENIED.sendMessage(e, true);
 				return;
 			}
 			
@@ -65,7 +65,7 @@ public class PlayerChatListener implements Listener {
 		    Instant two = punishment.getExpiry();
 		    Duration res = Duration.between(one, two);
 			
-			Message.TEMPMUTED_MESSAGE.sendFormattedMessage(e, true, StringUtils.formatTime(res));
+			Message.PUNISH_TEMPMUTE_CHAT_DENIED.sendFormattedMessage(e, true, StringUtils.formatTime(res));
 		});
 	}
 }

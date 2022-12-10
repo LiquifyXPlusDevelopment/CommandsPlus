@@ -59,7 +59,7 @@ public class TphereCommand extends BasePlusCommand {
 		Player target = Bukkit.getPlayerExact(args[0]);
 		if (target == null) {
 			Message.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.INVALID_PLAYER.sendMessage(player, true);
+			Message.PLAYER_NOT_ONLINE.sendMessage(player, true);
 			return;
 		}
 		

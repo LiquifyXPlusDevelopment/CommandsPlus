@@ -6,6 +6,7 @@ import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -40,7 +41,7 @@ public class AltsCommand extends BasePlusCommand {
 				.map(Player::getName)
 				.noneMatch(args[0]::equalsIgnoreCase)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.UNKNOWN_PLAYER.sendMessage(sender, true);
+			Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
 			return;
 		}
 
@@ -54,7 +55,7 @@ public class AltsCommand extends BasePlusCommand {
 		
 		if (args.length <= 1) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			player.sendMessage(Message.fixColor("&7/alts [&ePlayer&7] [&eCheck&7/&eBanall&7/&eKickall&7]"));
+			player.sendMessage(ChatColor.GRAY + getSyntax());
 			return;
 		}
 

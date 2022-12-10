@@ -57,7 +57,7 @@ public class PermaPunishCommand extends BasePlusCommand {
 
 		if (!Permission.valueOf("PERMISSION_" + type.name()).hasPermission(sender)) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.NO_PERMISSION.sendMessage(sender, true);
+			Message.COMMAND_NO_PERMISSION.sendMessage(sender, true);
 			return;
 		}
 		
@@ -71,7 +71,7 @@ public class PermaPunishCommand extends BasePlusCommand {
 		
         if (!target.hasPlayedBefore()) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.INVALID_PLAYER.sendMessage(sender, true);
+        	Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
             return;
         }
         
@@ -87,7 +87,7 @@ public class PermaPunishCommand extends BasePlusCommand {
         if (type.equals(PunishmentType.KICK)) {
         	if (!target.isOnline()) {
     			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        		Message.UNKNOWN_PLAYER.sendMessage(sender, true);
+        		Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
         		return;
         	}
         }
