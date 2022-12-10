@@ -65,5 +65,7 @@ commands:
     description: Report command.
   reports:
     description: Reports command.
+  viewreport:
+    description: Reports command.
   punish:
     description: Punish command.
