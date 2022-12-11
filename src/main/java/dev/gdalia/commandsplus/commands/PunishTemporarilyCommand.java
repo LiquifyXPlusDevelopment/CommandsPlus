@@ -71,7 +71,7 @@ public class PunishTemporarilyCommand extends BasePlusCommand {
 		
 		if (args.length <= 2) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-			Message.valueOf(type.name() + "_ARGUMENTS").sendMessage(sender, true);
+			sender.sendMessage(ChatColor.GRAY + getSyntax());
 			return;
 		}
 		

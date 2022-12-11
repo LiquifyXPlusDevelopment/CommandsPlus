@@ -15,19 +15,19 @@ import java.text.MessageFormat;
 public enum Message {
 
 	//ALTS
-	ALTS_BANNED("&7You have &c&lBanned &6{0}&7 alts."),
-	ALTS_CHECK("&7The player &6{0}&7 has no alts."),
-	ALTS_KICKED("&7You have &c&lKicked &6{0}&7 alts."),
-	ALTS_ONLINE("&7The player &6{0}&7 has the following alts online:"),
+	ALTS_BANNED("&7You have &c&lBanned &6{0} &7alts."),
+	ALTS_KICKED("&7You have &c&lKicked &6{0} &7alts."),
+	ALTS_ONLINE("&6{0} &7has the following alts online:"),
+	ALTS_CHECK_FAILED("&7The player &6{0} &7has no alts."),
 
 	//MISCELLANEOUS
 	BUILDMODE_MSG("&7You have {0} &7your buildmode."),
 	CHANGE_THE_TIME("&7The time has been set to &6{0}&7."),
 
 	//CHAT
-	CHAT_LOCKED("&7The chat is &c&lLocked&7 you cannot send messages."),
-	CHAT_LOCK_BROADCAST("&7The chat has been &c&lLocked&7."),
-	CHAT_UNLOCK_BROADCAST("&7The chat has been &a&lUnlocked&7."),
+	CHAT_LOCKED("&7Chat is currently &c&lLOCKED&7."),
+	CHAT_LOCK_BROADCAST("&7The chat has been &c&lLOCKED&7."),
+	CHAT_UNLOCK_BROADCAST("&7The chat has been &a&lUNLOCKED&7."),
 
 	//FEED
 	FEED_BY_TARGET("&6{0} &7fed your appetite."),
@@ -42,7 +42,7 @@ public enum Message {
 	//FLIGHT
 	FLIGHT_MSG_TO_OTHER("&7You {0} &6{1}&7's flight."),
 	FLIGHT_TOGGLE("&7Your flight has been {0}&7."),
-	FLIGHT_TOGGLE_BY_OTHER("&7Your flight has been {0}&7 by &6{1}&7."),
+	FLIGHT_TOGGLE_BY_OTHER("&7Your flight has been {0} &7by &6{1}&7."),
 	FLIGHT_SPEED_ADJUSTED("&7flight speed adjusted to &a{0}&7."),
 
 	//GAMEMODE
@@ -50,11 +50,11 @@ public enum Message {
 	GAMEMODE_ALREADY_SET_OTHER("&6{0}&c is already on gamemode &6{1}&c."),
 	GAMEMODE_CHANGED("&7Set own game mode to &6{0} &7Mode."),
 	GAMEMODE_CHANGED_BY_OTHER("&7Game mode has been set to &6{0} &7by &6{1}."),
-	GAMEMODE_CHANGED_OTHER("&7The game mode of &6{0}&7 has been changed to &6{1}&7."),
+	GAMEMODE_CHANGED_OTHER("&7The game mode of &6{0} &7has been changed to &6{1}&7."),
 
 	//GODMODE
-	GODMODE_TOGGLE("&7You have {0}&7 your god mode."),
-	GODMODE_TOGGLE_BY_OTHER("&7Your god mode has been {0}&7 by &6{1}&7."),
+	GODMODE_TOGGLE("&7You have {0} &7your god mode."),
+	GODMODE_TOGGLE_BY_OTHER("&7Your god mode has been {0} &7by &6{1}&7."),
 	GODMODE_TOGGLE_TO_PLAYER("&7You have {0} &6{1}&7's god mode."),
 
 	//HEAL
@@ -64,28 +64,36 @@ public enum Message {
 
 	//PUNISH - BAN
 	PUNISH_BAN_ALREADY_BANNED("&cThat player is already banned."),
-	PUNISH_BAN_SUBMITTED("&7You have &cPermanently&7 banned &6{0}&7."),
+	PUNISH_BAN_SUBMITTED("&7You have&c&lPERMANENTLY &7banned &6{0} &7for &6{1}&7."),
+	PUNISH_BAN_NOT_BANNED("&cThat player is not banned."),
+	PUNISH_BAN_BROADCAST("&6{0} &ehas been &c&lPERMANENTLY &ebanned from the server by &6{1}&e.\n&eReason: &a{2}&e."),
 
 	//PUNISH - TEMPBAN
 	PUNISH_TEMPBAN_ALREADY_BANNED("&cThat player is already temporarily banned."),
-	PUNISH_TEMPBAN_SUBMITTED("&7You have &cTemporarily &7banned &6{0}&7 for &6{1}&7."),
+	PUNISH_TEMPBAN_SUBMITTED("&7You have &9&lTEMPORARILY &7banned &6{0}&7 for &6{1}&7."),
+	PUNISH_TEMPBAN_BROADCAST("&6{0} &ehas been &9&lTEMPORARILY &ebanned from the server by &6{1} &efor &a{2}&e.\n&eReason: &a{3}"),
 
 	//PUNISH - NON-CONSTRICTIVE
-	PUNISH_KICK_SUBMITTED("&7You have kicked &6{0}&7 from the server."),
-	PUNISH_WARN_MESSAGE("&7You have been warned &6{0}&7."),
+	PUNISH_WARN_SUBMITTED("&7You have warned &6{0} &7for &a{1}&7."),
+	PUNISH_WARN_MESSAGE("&7You have been warned by &6{0} &7for &a{1}&7."),
+	PUNISH_WARN_BROADCAST("&6{0} &ewas warned by &6{1} &efor &a{3}&e."),
+	PUNISH_KICK_SUBMITTED("&7You have kicked &6{0} &7from the server for &a{1}&7."),
+	PUNISH_KICK_BROADCAST("&6{0} &ehas been kicked from the server by &6{1}&e for &a{2}&e.\n&eReason: &a{3}"),
 
 	//PUNISH - MUTE
-	PUNISH_MUTE_SUBMITTED("&7You have &cPermanently&7 muted &6{0}&7."),
+	PUNISH_MUTE_SUBMITTED("&7You have &c&lPERMANENTLY&7 muted &6{0}&7."),
 	PUNISH_MUTE_ALREADY_MUTED("&cThat player is already muted."),
-	PUNISH_MUTE_MESSAGE("&cYou are permanently muted in the server."),
+	PUNISH_MUTE_MESSAGE("&cYou are now &c&lPERMANENTLY &7muted."),
 	PUNISH_MUTE_NOT_MUTED("&cThat player is not muted."),
-	PUNISH_MUTE_CHAT_DENIED("&cYou are permanently muted, no more chat for you."),
+	PUNISH_MUTE_CHAT_DENIED("&cYou are &c&lPERMANENTLY &7muted, no more chat for you."),
+	PUNISH_MUTE_BROADCAST("&6{0} &ehas been &c&lPERMANENTLY &emuted by &6{1}&e.\n&eReason: &a{2}"),
 
 	//PUNISH - TEMPMUTE
 	PUNISH_TEMPMUTE_SUBMITTED("&7You have &cTemporarily&7 muted &6{0}&7 for &6{1}&7."),
-	PUNISH_TEMPMUTE_MESSAGE("&cYou have been are temporarily muted for &6{0}&c from this server."),
+	PUNISH_TEMPMUTE_MESSAGE("&cYou have been temporarily muted for &6{0}&c.\n&cReason: &e{1}&c."),
 	PUNISH_TEMPMUTE_CHAT_DENIED("&cYou are temporarily muted, your mute will expire in &6{0}&c."),
 	PUNISH_TEMPMUTE_ALREADY_MUTED("&cThat player is already temporarily muted."),
+	PUNISH_TEMPMUTE_BROADCAST("&6{0} &ehas been &9&lTEMPORARILY &emuted by &6{1}&e for &a{2}&e.\n&eReason: &a{3}"),
 
 	//PUNISH - REVOKE
 	PUNISH_REVOKE_UNBAN("&7You have unbanned &6{0}&7."),

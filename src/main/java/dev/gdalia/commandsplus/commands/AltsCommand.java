@@ -61,7 +61,7 @@ public class AltsCommand extends BasePlusCommand {
 
 		if (alts.isEmpty()) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.ALTS_CHECK.sendFormattedMessage(player, true, target.getName());
+			Message.ALTS_CHECK_FAILED.sendFormattedMessage(player, true, target.getName());
 			return;
 		}
 

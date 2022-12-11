@@ -73,12 +73,13 @@ public class PardonCommand extends BasePlusCommand {
 			return;
 		}
 
+
 		runAsync(sender, () -> {
 			Optional<Profile> profile = ProfileManager.getInstance().getProfile(args[0]);
 
 			if (profile.isEmpty()) {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-				Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
+				Message.PLAYER_NOT_EXIST.sendMessage(sender, true);
 				return;
 			}
 
