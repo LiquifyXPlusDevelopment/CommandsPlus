@@ -5,6 +5,7 @@ import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentRevoke;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.Config;
+import dev.gdalia.commandsplus.utils.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.configuration.ConfigurationSection;
@@ -65,7 +66,9 @@ public class Punishments {
 				.filter(String.class::isInstance)
 				.map(String::valueOf)
 				.ifPresent(s -> {
-					punishment[0] = new PunishmentRevoke(punishment[0], Optional.of(UUID.fromString(s)).orElse(null));
+					UUID uuid = null;
+					if (!StringUtils.isUniqueId(s)) uuid = UUID.fromString(s);
+					punishment[0] = new PunishmentRevoke(punishment[0], uuid);
 				});
 
 		punishments.put(punishmentUuid, punishment[0]);
@@ -181,7 +184,9 @@ public class Punishments {
 		ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
 		if (cs.get(ConfigFields.PunishFields.REMOVED_BY) == null) return false;
 
-		Optional<UUID> uuid = Optional.of(UUID.fromString(cs.getString(ConfigFields.PunishFields.REMOVED_BY)));
+		Optional<UUID> uuid = Optional.ofNullable(cs.getString(ConfigFields.PunishFields.REMOVED_BY))
+				.filter(StringUtils::isUniqueId)
+				.map(UUID::fromString);
 
 		PunishmentRevoke punishmentRevoke = new PunishmentRevoke(punishment, uuid.orElse(null));
 		punishments.put(punishment.getPunishmentUniqueId(), punishmentRevoke);
