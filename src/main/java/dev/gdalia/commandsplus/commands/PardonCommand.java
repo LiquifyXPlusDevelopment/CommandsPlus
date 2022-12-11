@@ -92,10 +92,9 @@ public class PardonCommand extends BasePlusCommand {
 							.map(Player::getUniqueId)
 							.findAny();
 
-					PunishmentManager.getInstance().revoke(punishment, removedBy.orElse(null));
+					Bukkit.getScheduler().runTask(Main.getInstance(), () -> PunishmentManager.getInstance().revoke(punishment, removedBy.orElse(null)));
 					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-
-					Message.valueOf("PLAYER_" + cmd.getName().toUpperCase()).sendFormattedMessage(sender, true, profile.get().getPlayerName());
+					type.getRevokeMessage().sendFormattedMessage(sender, true, profile.get().getPlayerName());
 
 					Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
 						OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(profile.get().playerUUID());
@@ -104,7 +103,7 @@ public class PardonCommand extends BasePlusCommand {
 						}
 					});
 
-				}, () -> Message.valueOf("PLAYER_NOT_" + cmd.getName().toUpperCase().replace("UN", "")).sendMessage(sender, true));
+				}, () -> type.getNotPunishedMessage().sendMessage(sender, true));
 		});
 	}
 }

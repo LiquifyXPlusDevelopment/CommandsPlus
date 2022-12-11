@@ -38,7 +38,10 @@ public class PlayerPunishListener implements Listener {
 		    Instant two = event.getPunishment().getExpiry();
 		    Duration res = Duration.between(one, two);
 			
-			message.forEach(msg -> sb.append(msg.replace("%time%", StringUtils.formatTime(res)).replace("%reason%", event.getPunishment().getReason())).append("\n"));
+			message.forEach(msg -> sb.append(msg
+					.replace("%time%", StringUtils.formatTime(res))
+					.replace("%reason%", event.getPunishment().getReason())).append("\n"));
+
 			player.getPlayer().kickPlayer(Message.fixColor(sb.toString()));
 		}
 		
@@ -47,8 +50,8 @@ public class PlayerPunishListener implements Listener {
 			    Instant one = Instant.now();
 			    Instant two = event.getPunishment().getExpiry();
 			    Duration res = Duration.between(one, two);
-				Message.valueOf("TARGET_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(player.getPlayer(), true, StringUtils.formatTime(res));
-			} else Message.PUNISH_MUTE_MESSAGE.sendMessage(player.getPlayer(), true);
+				type.getPunishTargetMessage().sendFormattedMessage(player.getPlayer(), true, StringUtils.formatTime(res), event.getPunishment().getReason());
+			} else type.getPunishTargetMessage().sendFormattedMessage(player.getPlayer(), true, event.getPunishment().getReason());
 		}
 	}
 }

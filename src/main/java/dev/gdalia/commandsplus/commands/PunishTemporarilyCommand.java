@@ -10,6 +10,7 @@ import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -78,52 +79,56 @@ public class PunishTemporarilyCommand extends BasePlusCommand {
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		
         if (!target.hasPlayedBefore()) {
-        	Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
+        	Message.PLAYER_NOT_EXIST.sendMessage(sender, true);
         	Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             return;
         }
         
-        Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase())).ifPresentOrElse(punishment ->
-    	Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true), () -> {
-			Duration duration;
+        Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase()))
+				.ifPresentOrElse(punishment -> {
+					type.getAlreadyPunishedMessage().sendMessage(sender, true);
+					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+				}, () -> {
+					Duration duration;
 
-			try {
-				duration = StringUtils.phraseToDuration(args[1],
-						ChronoUnit.SECONDS, ChronoUnit.MINUTES,
-						ChronoUnit.HOURS, ChronoUnit.DAYS,
-						ChronoUnit.WEEKS, ChronoUnit.MONTHS,
-						ChronoUnit.YEARS);
-			} catch (IllegalStateException ex1) {
-				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-				Message.valueOf(type.name() + "_ARGUMENTS").sendMessage(sender, true);
-				return;
-			}
+					try {
+						duration = StringUtils.phraseToDuration(args[1],
+								ChronoUnit.SECONDS, ChronoUnit.MINUTES,
+								ChronoUnit.HOURS, ChronoUnit.DAYS,
+								ChronoUnit.WEEKS, ChronoUnit.MONTHS,
+								ChronoUnit.YEARS);
+					} catch (IllegalStateException ex1) {
+						Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
+						sender.sendMessage(ChatColor.GRAY + getSyntax());
+						return;
+					}
 
-			StringBuilder reasonBuilder = new StringBuilder();
+					String message = org.apache.commons.lang.StringUtils.join(args, " ", 2, args.length);
+					Instant expiry = Instant.now().plus(duration);
 
-			for (int i = 2; i < args.length; i++)
-				reasonBuilder.append(args[i]);
+					Punishment punishment = new Punishment(
+						UUID.randomUUID(),
+						target.getUniqueId(),
+							Optional.of(sender)
+									.filter(Player.class::isInstance)
+									.map(Player.class::cast)
+									.map(Player::getUniqueId)
+									.orElse(null),
+						type,
+						message,
+						false);
 
-            String message = org.apache.commons.lang.StringUtils.join(args, " ", 2, args.length);
-			Instant expiry = Instant.now().plus(duration);
+					punishment.setExpiry(expiry);
+					PunishmentManager.getInstance().invoke(punishment);
+					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 
-			Punishment punishment = new Punishment(
-					UUID.randomUUID(),
-					target.getUniqueId(),
-					Optional.of(((Player) sender).getUniqueId()).orElse(null),
-					type,
-					message,
-					false);
+					/*Instant one = Instant.now();
+					Instant two = punishment.getExpiry();
+					Duration res = Duration.between(one, two);*/
 
-			punishment.setExpiry(expiry);
-
-			PunishmentManager.getInstance().invoke(punishment);
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		    Instant one = Instant.now();
-		    Instant two = punishment.getExpiry();
-		    Duration res = Duration.between(one, two);
-			Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE")
-					.sendFormattedMessage(sender, true, target.getName(), StringUtils.formatTime(res));
-		});
+					type.getPunishSuccessfulMessage().sendFormattedMessage(sender, true, target.getName(), StringUtils.formatTime(duration));
+					/*Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE")
+							.sendFormattedMessage(sender, true, target.getName(), StringUtils.formatTime(res));*/
+				});
     }
 }

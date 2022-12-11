@@ -10,6 +10,7 @@ import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -74,48 +75,42 @@ public class PunishPermanentlyCommand extends BasePlusCommand {
 		}
 
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-		
-        if (!target.hasPlayedBefore()) {
+
+		if (!target.hasPlayedBefore()) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        	Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
-            return;
-        }
-        
-        if (type.equals(PunishmentType.MUTE) || type.equals(PunishmentType.BAN)) {
-        	if (Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()),
-        			PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).orElse(null) != null) {
-        		Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(sender, true);
-    			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-    			return;
-        	}
-        }
-        
-        if (type.equals(PunishmentType.KICK)) {
-        	if (!target.isOnline()) {
-    			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-        		Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
-        		return;
-        	}
-        }
-        
-            StringBuilder reasonBuilder = new StringBuilder();
-            
-            for (int i = 1; i < args.length; i++) 
-            	reasonBuilder.append(args[i]);
-                        
-            String message = StringUtils.join(args, " ", 1, args.length);
-            Punishment punishment = new Punishment(
+			Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
+			return;
+		}
+
+		if (!type.isConstrictive() && !target.isOnline()) {
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
+			return;
+
+		}
+
+		Punishments.getInstance().getActivePunishment(target.getUniqueId(), type, PunishmentType.valueOf("TEMP" + type.name())).ifPresentOrElse(punishment -> {
+			type.getAlreadyPunishedMessage().sendMessage(sender, true);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+		}, () -> {
+			String message = StringUtils.join(args, " ", 1, args.length);
+			Punishment punishment = new Punishment(
 					UUID.randomUUID(),
 					target.getUniqueId(),
-					Optional.of(((Player) sender).getUniqueId()).orElse(null),
+					Optional.of(sender)
+							.filter(Player.class::isInstance)
+							.map(Player.class::cast)
+							.map(Player::getUniqueId)
+							.orElse(null),
 					type,
 					message,
 					false);
-            
-	        	PunishmentManager.getInstance().invoke(punishment);
-				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-	            Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(sender, true, target.getName());
-    }
+
+			PunishmentManager.getInstance().invoke(punishment);
+			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+			type.getPunishSuccessfulMessage().sendFormattedMessage(sender, true, target.getName(), punishment.getReason());
+		});
+	}
 
 	@Override
 	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
