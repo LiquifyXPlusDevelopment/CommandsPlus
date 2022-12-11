@@ -27,9 +27,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @CommandAutoRegistration.Command(value = {"tempmute", "tempban"})
-public class TempPunishCommand extends BasePlusCommand {
+public class PunishTemporarilyCommand extends BasePlusCommand {
 
-	public TempPunishCommand() {
+	public PunishTemporarilyCommand() {
 		super(false, "tempmute", "tempban");
 	}
 

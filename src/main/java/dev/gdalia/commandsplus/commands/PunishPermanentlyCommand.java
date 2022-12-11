@@ -24,10 +24,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @CommandAutoRegistration.Command(value = {"ban", "kick", "warn", "mute"})
-public class PermaPunishCommand extends BasePlusCommand {
+public class PunishPermanentlyCommand extends BasePlusCommand {
 
 
-	public PermaPunishCommand() {
+	public PunishPermanentlyCommand() {
 		super(false, "ban", "kick", "warn", "mute");
 	}
 
