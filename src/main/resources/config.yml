@@ -8,7 +8,8 @@
 #                                                              #
 ################################################################
 
-PREFIX: "&7Commands&b+ &f» "
+version: 2.1
+plugin-prefix: "&7Commands&b+ &f» "
 ban-command: "ban {player} no alts online!"
 kick-command: "kick {player} no alts online!"
 

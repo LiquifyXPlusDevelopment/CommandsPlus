@@ -88,13 +88,13 @@ public class CheckCommand extends BasePlusCommand {
 
 		anyActivePunishment.ifPresentOrElse(punishment -> {
 			Message.playSound(requester, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			requester.sendMessage(CentredMessage.generate("&7&m                    |&e " + profile.getPlayerName() + " punish log &7&m|                    &r"));
+			requester.sendMessage(CentredMessage.generate("&7&m                    |&e " + profile.playerName() + " punish log &7&m|                    &r"));
 			requester.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
 			if (!async)
 				Optional.ofNullable(punishment.getExecutor())
 					.ifPresent(uuid -> requester.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecutor()).getName())));
 			else ProfileManager.getInstance().getProfile(punishment.getExecutor())
-					.ifPresent(punishExecutor -> Message.fixColor("&eExecuted by: &b" + punishExecutor.getPlayerName()));
+					.ifPresent(punishExecutor -> Message.fixColor("&eExecuted by: &b" + punishExecutor.playerName()));
 			requester.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
 
 			Optional.ofNullable(punishment.getExpiry()).ifPresent(instant -> {

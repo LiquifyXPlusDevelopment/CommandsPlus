@@ -18,7 +18,7 @@ public enum Message {
 	ALTS_BANNED("&7You have &c&lBanned &6{0} &7alts."),
 	ALTS_KICKED("&7You have &c&lKicked &6{0} &7alts."),
 	ALTS_ONLINE("&6{0} &7has the following alts online:"),
-	ALTS_CHECK_FAILED("&7The player &6{0} &7has no alts."),
+	ALTS_CHECK_FAILED("&7The player &6{0} &7has no alts online."),
 
 	//MISCELLANEOUS
 	BUILDMODE_MSG("&7You have {0} &7your buildmode."),
@@ -117,7 +117,7 @@ public enum Message {
 	CONTACT_AN_ADMIN("&cConfig reasons is not right, please contact an admin."),
 	DESCRIBE_PLAYER("&cPlease describe a player."),
 	PLAYER_NOT_ONLINE("&cPlayer is not online."),
-	PLAYER_NOT_EXIST("&cPlayer does not exist in Mojang's database."),
+	PLAYER_NOT_EXIST("&cCould not fetch player name (are you sure it exists?)."),
 	STAFFCHAT_TOGGLE("&7You have {0} &7your staffchat."),
 	TPALL("&7You have teleported everyone to &6{0}&7."),
 	TPHERE("&6{0} &7has been teleported to you."),

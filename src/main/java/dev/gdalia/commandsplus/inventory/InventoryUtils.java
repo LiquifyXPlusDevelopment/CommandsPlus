@@ -74,15 +74,15 @@ public class InventoryUtils {
                 .ifPresent(reportComment -> new CommentsUI(checker).deleteInitializeCommentsGUI(report.getConvicted(), report, comment));
     }
 
-    public void invokePunishment(InventoryClickEvent event, PunishmentType type, String message, Player target, Player checker) {
+    public void invokePermanentPunishment(InventoryClickEvent event, PunishmentType type, String message, Player target, Player checker) {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
                 .filter(player -> target.isOnline())
                 .ifPresent(clickable -> {
                     if (type.equals(PunishmentType.MUTE) || type.equals(PunishmentType.BAN)) {
-                        if (Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()),
+                        if (Punishments.getInstance().getActivePunishment(target.getUniqueId(), type,
                                 PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).orElse(null) != null) {
-                            Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(checker, true);
+                            type.getAlreadyPunishedMessage().sendMessage(checker, true);
                             Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
                             checker.closeInventory();
                             return;
@@ -90,26 +90,29 @@ public class InventoryUtils {
                     }
 
                     Punishment punishment = new Punishment(
-                            UUID.randomUUID(),
-                            target.getUniqueId(),
-                            Optional.of((checker).getUniqueId()).orElse(null),
-                            type,
-                            message,
-                            false);
+                        UUID.randomUUID(),
+                        target.getUniqueId(),
+                        Optional.of((checker).getUniqueId()).orElse(null),
+                        type,
+                        message,
+                        false);
 
                     PunishmentManager.getInstance().invoke(punishment);
                     Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-                    Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE").sendFormattedMessage(checker, true, target.getName());
+
+                    type.getPunishSuccessfulMessage().sendFormattedMessage(checker, true, target.getName(), punishment.getReason());
                     checker.closeInventory();
                 });
     }
 
-    public void invokeInstantPunishment(InventoryClickEvent event, PunishmentType type, String time, String message, Player target, Player checker) {
+    public void invokeTemporaryPunishment(InventoryClickEvent event, PunishmentType type, String time, String message, Player target, Player checker) {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
                 .filter(player -> target.isOnline())
                 .ifPresent(clickable -> Punishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase())).ifPresentOrElse(punishment -> {
-                        Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase()).sendMessage(checker, true); checker.closeInventory();}, () -> {
+                    type.getAlreadyPunishedMessage().sendMessage(checker, true);
+                    checker.closeInventory();
+                }, () -> {
                     Duration duration;
 
                     try {
@@ -138,16 +141,12 @@ public class InventoryUtils {
 
                     PunishmentManager.getInstance().invoke(punishment);
                     Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-                    Instant one = Instant.now();
-                    Instant two = punishment.getExpiry();
-                    Duration res = Duration.between(one, two);
-                    Message.valueOf("PLAYER_" + type.getNameAsPunishMsg().toUpperCase() + "_MESSAGE")
-                            .sendFormattedMessage(checker, true, target.getName(), StringUtils.formatTime(res));
+                    type.getPunishSuccessfulMessage().sendFormattedMessage(checker, true, target.getName(), StringUtils.formatTime(duration));
                     checker.closeInventory();
                 }));
     }
 
-    public String activePunishment(PunishmentType firstType, PunishmentType secondType, UUID target) {
+    public String activePunishmentStateString(PunishmentType firstType, PunishmentType secondType, UUID target) {
         Optional<Punishment> anyActivePunishment = Punishments
                 .getInstance()
                 .getAnyActivePunishment(target)

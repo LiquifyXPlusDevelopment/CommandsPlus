@@ -91,7 +91,7 @@ public class Main extends JavaPlugin {
 	}
 	
 	public String getPluginPrefix() {
-		return Message.fixColor(getConfig().getString("PREFIX"));
+		return Message.fixColor(getConfig().getString("plugin-prefix"));
 	}
 	
 	public static class MetadataValues {

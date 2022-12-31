@@ -86,7 +86,7 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(
                         "&r",
                         "&7Name: &e" + target.getName(),
-                        "&7Punishable: " + InventoryUtils.getInstance().activePunishment(PunishmentType.BAN, PunishmentType.TEMPBAN, targetUniqueId)
+                        "&7Punishable: " + InventoryUtils.getInstance().activePunishmentStateString(PunishmentType.BAN, PunishmentType.TEMPBAN, targetUniqueId)
                 ).create()));
 
         gui.setItem(1, new GuiItem(new ItemBuilder(
@@ -126,7 +126,7 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(
                         "&r",
                         "&7Name: &e" + target.getName(),
-                        "&7Punishable: " + InventoryUtils.getInstance().activePunishment(PunishmentType.MUTE, PunishmentType.TEMPMUTE, targetUniqueId)
+                        "&7Punishable: " + InventoryUtils.getInstance().activePunishmentStateString(PunishmentType.MUTE, PunishmentType.TEMPMUTE, targetUniqueId)
                 ).create()));
 
         gui.setItem(1, new GuiItem(new ItemBuilder(
@@ -314,11 +314,11 @@ public record PunishUI(@Getter Player requester) {
                         "&cPlease notice that this action is undoable.")
                 .create(), event -> {
             if (time == null) {
-                InventoryUtils.getInstance().invokePunishment(event, type, reasonObject, target.getPlayer(), requester);
+                InventoryUtils.getInstance().invokePermanentPunishment(event, type, reasonObject, target.getPlayer(), requester);
                 return;
             }
 
-            InventoryUtils.getInstance().invokeInstantPunishment(event, type, time, reasonObject, target.getPlayer(), requester);
+            InventoryUtils.getInstance().invokeTemporaryPunishment(event, type, time, reasonObject, target.getPlayer(), requester);
         }));
 
         gui.open(requester);

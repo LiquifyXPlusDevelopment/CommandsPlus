@@ -20,7 +20,7 @@ public class ProfileManager {
     private final Map<String, Profile> profiles = new HashMap<>();
 
     private boolean containsKey(String name) {
-        return profiles.containsKey(name);
+        return profiles.containsKey(name.toLowerCase());
     }
 
     private boolean containsUser(UUID uuid) {
@@ -30,7 +30,7 @@ public class ProfileManager {
     }
 
     private Profile pullProfile(String name) {
-        return profiles.get(name);
+        return profiles.get(name.toLowerCase());
     }
 
     private Profile pullProfile(UUID uuid) {
@@ -41,11 +41,11 @@ public class ProfileManager {
     }
 
     private void pushProfile(String name, Profile profile) {
-        profiles.put(name, profile);
+        profiles.put(name.toLowerCase(), profile);
     }
 
     private void removeProfile(String name) {
-        profiles.remove(name);
+        profiles.remove(name.toLowerCase());
     }
 
     /**
@@ -139,7 +139,7 @@ public class ProfileManager {
      * @return a player profile.
      */
     public Optional<Profile> createProfile(String name) {
-        Optional<Profile> profile = MojangUtils.fetchProfile(name);
+        Optional<Profile> profile = MojangUtils.fetchAshconProfile(name);
         
         if (profile.isPresent()) {
             Optional<Profile> oldProfile = Optional.ofNullable(pullProfile(name));
@@ -155,16 +155,16 @@ public class ProfileManager {
     }
 
     public Optional<Profile> createProfile(UUID uuid) {
-        Optional<Profile> profile = MojangUtils.fetchProfile(uuid);
+        Optional<Profile> profile = MojangUtils.fetchAshconProfile(uuid.toString());
 
         if (profile.isPresent()) {
-            Optional<Profile> oldProfile = Optional.ofNullable(pullProfile(profile.get().getPlayerName()));
+            Optional<Profile> oldProfile = Optional.ofNullable(pullProfile(profile.get().playerName()));
             if (oldProfile.isPresent() && profile.get().signature().equals(oldProfile.get().signature())
                     && profile.get().value().equals(oldProfile.get().value()))
                 return oldProfile;
 
-            if (containsKey(profile.get().getPlayerName())) removeProfile(profile.get().getPlayerName());
-            pushProfile(profile.get().getPlayerName(), profile.get());
+            if (containsKey(profile.get().playerName())) removeProfile(profile.get().playerName());
+            pushProfile(profile.get().playerName(), profile.get());
         }
 
         return profile;

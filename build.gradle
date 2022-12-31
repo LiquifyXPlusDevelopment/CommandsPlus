@@ -9,26 +9,21 @@ version = '1.2-SNAPSHOT'
 repositories {
     mavenCentral()
     maven {
-        name = "LiquifyPkgs"
-        url = "https://gitlab.com/api/v4/groups/15460704/-/packages/maven"
-        credentials(HttpHeaderCredentials) {
-            name = "Private-Token"
-            value = project.findProperty("gitlab.key") ?: System.getenv("CORE_REPO_TOKEN")
-        }
-        authentication {
-            header(HttpHeaderAuthentication)
+        url = uri("https://maven.pkg.github.com/LiquifyXProjectPlus/anvillibplus")
+        credentials {
+            username = project.findProperty("gpr.user") as String ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") as String ?: System.getenv("TOKEN")
         }
     }
 
     maven {url = 'https://repo.papermc.io/repository/maven-public/'}
-
 }
 
 dependencies {
+    implementation 'dev.projectplus.integrations:anvillibplus:1.0-SNAPSHOT'
     implementation 'dev.triumphteam:triumph-gui:3.1.3'
-    compileOnly 'org.jetbrains:annotations:23.0.0'
+    compileOnly 'org.jetbrains:annotations:23.1.0'
     compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
-    compileOnly 'net.liquifymc.integrations:LiquifyAnvilGUI:1.0-SNAPSHOT'
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 }

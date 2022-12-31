@@ -45,7 +45,7 @@ public class AltsCommand extends BasePlusCommand {
 			return;
 		}
 
-		Player target = Bukkit.getPlayer(args[0]);
+		Player target = Bukkit.getPlayerExact(args[0]);
 
 		InetAddress address = target.getAddress().getAddress();
 		List<? extends Player> alts = Bukkit.getOnlinePlayers().stream()
@@ -59,7 +59,7 @@ public class AltsCommand extends BasePlusCommand {
 			return;
 		}
 
-		if (alts.isEmpty()) {
+		if (alts.isEmpty() && List.of("check", "kickall", "banall").contains(args[1].toLowerCase())) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			Message.ALTS_CHECK_FAILED.sendFormattedMessage(player, true, target.getName());
 			return;
@@ -95,7 +95,7 @@ public class AltsCommand extends BasePlusCommand {
 			}
 			default -> {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-				sender.sendMessage(Message.fixColor("&7/alts [&ePlayer&7] [&eCheck&7/&eBanall&7/&eKickall&7]"));
+				player.sendMessage(ChatColor.GRAY + getSyntax());
 			}
 		}
 	}

@@ -20,8 +20,7 @@ public class Punishment {
 	@Getter
 	@NotNull
 	private final UUID punished;
-	
-	
+
 	@Getter
 	@Nullable
 	private final UUID executor;

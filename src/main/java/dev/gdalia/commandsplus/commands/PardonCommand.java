@@ -84,7 +84,7 @@ public class PardonCommand extends BasePlusCommand {
 			}
 
 			Punishments.getInstance()
-				.getActivePunishment(profile.get().getPlayerUUID(), type, PunishmentType.valueOf("TEMP" + type))
+				.getActivePunishment(profile.get().playerUUID(), type, PunishmentType.valueOf("TEMP" + type))
 				.ifPresentOrElse(punishment -> {
 					Optional<UUID> removedBy = Stream.of(sender)
 							.filter(Player.class::isInstance)
@@ -94,7 +94,7 @@ public class PardonCommand extends BasePlusCommand {
 
 					Bukkit.getScheduler().runTask(Main.getInstance(), () -> PunishmentManager.getInstance().revoke(punishment, removedBy.orElse(null)));
 					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-					type.getRevokeMessage().sendFormattedMessage(sender, true, profile.get().getPlayerName());
+					type.getRevokeMessage().sendFormattedMessage(sender, true, profile.get().playerName());
 
 					Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
 						OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(profile.get().playerUUID());

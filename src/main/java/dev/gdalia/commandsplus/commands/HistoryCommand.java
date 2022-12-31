@@ -94,14 +94,14 @@ public class HistoryCommand extends BasePlusCommand {
 		}
 
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-		sender.sendMessage(CentredMessage.generate("&7&m                    |&e " + profile.getPlayerName() + " punish log &7&m|                    &r"));
+		sender.sendMessage(CentredMessage.generate("&7&m                    |&e " + profile.playerName() + " punish log &7&m|                    &r"));
 		history.forEach(punishment -> {
 			sender.sendMessage(Message.fixColor("&ePunishment Id: &b" + punishment.getPunishmentUniqueId().toString()));
 			if (!async)
 				Optional.ofNullable(punishment.getExecutor())
 					.ifPresent(uuid -> sender.sendMessage(Message.fixColor("&eExecuted by: &b" + Bukkit.getOfflinePlayer(punishment.getExecutor()).getName())));
 			else ProfileManager.getInstance().getProfile(punishment.getExecutor())
-					.ifPresent(profileExecutor -> Message.fixColor("&eExecuted by: &b" + profileExecutor.getPlayerName()));
+					.ifPresent(profileExecutor -> Message.fixColor("&eExecuted by: &b" + profileExecutor.playerName()));
 			sender.sendMessage(Message.fixColor("&eType: &b" + punishment.getType().getDisplayName()));
 
 			if (!List.of(PunishmentType.KICK, PunishmentType.WARN).contains(punishment.getType())) {

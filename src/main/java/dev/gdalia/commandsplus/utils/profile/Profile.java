@@ -7,9 +7,11 @@ import org.jetbrains.annotations.Nullable;
 import java.time.Instant;
 import java.util.UUID;
 
-public record Profile(@Getter @NotNull UUID playerUUID, @Getter @NotNull String playerName,
-                      @Getter @NotNull Instant pulledOut, @Getter @Nullable String value,
-                      @Getter @Nullable String signature) {
+public record Profile(@NotNull UUID playerUUID,
+                      @NotNull String playerName,
+                      @NotNull Instant pulledOut,
+                      @Nullable String value,
+                      @Nullable String signature) {
 
     @Override
     public String toString() {
