@@ -6,6 +6,7 @@ import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
+import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.profile.Profile;
@@ -74,36 +75,35 @@ public class PardonCommand extends BasePlusCommand {
 		}
 
 
-		runAsync(sender, () -> {
-			Optional<Profile> profile = ProfileManager.getInstance().getProfile(args[0]);
-
-			if (profile.isEmpty()) {
+		ProfileManager.getInstance().getProfileAsync(args[0]).whenComplete((profile, throwable) -> {
+			if (throwable != null) {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 				Message.PLAYER_NOT_EXIST.sendMessage(sender, true);
 				return;
 			}
 
 			Punishments.getInstance()
-				.getActivePunishment(profile.get().playerUUID(), type, PunishmentType.valueOf("TEMP" + type))
-				.ifPresentOrElse(punishment -> {
-					Optional<UUID> removedBy = Stream.of(sender)
-							.filter(Player.class::isInstance)
-							.map(Player.class::cast)
-							.map(Player::getUniqueId)
-							.findAny();
+				.getActivePunishment(
+				profile.playerUUID(),
+				type, PunishmentType.valueOf("TEMP" + type.name()))
+			.ifPresentOrElse(punishment -> {
+				Optional<UUID> removedBy = Stream.of(sender)
+					.filter(Player.class::isInstance)
+					.map(Player.class::cast)
+					.map(Player::getUniqueId)
+					.findAny();
 
-					Bukkit.getScheduler().runTask(Main.getInstance(), () -> PunishmentManager.getInstance().revoke(punishment, removedBy.orElse(null)));
-					Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-					type.getRevokeMessage().sendFormattedMessage(sender, true, profile.get().playerName());
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+				type.getRevokeMessage().sendFormattedMessage(sender, true, profile.playerName());
 
-					Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-						OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(profile.get().playerUUID());
-						if (offlinePlayer.isOnline() && type.equals(PunishmentType.MUTE) || type.equals(PunishmentType.TEMPMUTE)) {
-							Message.valueOf("TARGET_" + cmd.getName().toUpperCase()).sendFormattedMessage(offlinePlayer.getPlayer(), true, sender.getName());
-						}
-					});
+				Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+					PunishmentManager.getInstance().revoke(punishment, removedBy.orElse(null));
 
-				}, () -> type.getNotPunishedMessage().sendMessage(sender, true));
+					Player target = Bukkit.getPlayer(profile.playerUUID());
+					if (!type.isKickable() && target != null)
+						Message.PUNISH_REVOKE_UNMUTE_MESSAGE.sendFormattedMessage(target, true, sender.getName());
+				});
+			}, () -> type.getNotPunishedMessage().sendMessage(sender, true));
 		});
 	}
 }
