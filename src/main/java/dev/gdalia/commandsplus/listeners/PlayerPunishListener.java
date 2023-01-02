@@ -21,14 +21,13 @@ public class PlayerPunishListener implements Listener {
 		PunishmentType type = event.getPunishment().getType();
 		OfflinePlayer player = Bukkit.getOfflinePlayer(event.getPunishment().getPunished());
 
-		if (!player.isOnline()) return;
-		if (List.of(PunishmentType.BAN, PunishmentType.TEMPBAN, PunishmentType.KICK).contains(type)) {
-
+		if (!player.isOnline() || player.getPlayer() == null) return;
+		if (type.isKickable()) {
 			String typeName = type.name().toLowerCase();
 			List<String> message = Main.getInstance().getConfig().getStringList("punishments-lang." + typeName + "-template");
 			StringBuilder sb = new StringBuilder();
-						
-			if (event.getPunishment().getExpiry() == null) {
+
+			if (type.isPermanent()) {
 				message.forEach(msg -> sb.append(msg.replace("%reason%", event.getPunishment().getReason())).append("\n"));
 				player.getPlayer().kickPlayer(Message.fixColor(sb.toString()));
 				return;
@@ -36,7 +35,7 @@ public class PlayerPunishListener implements Listener {
 			
 		    Instant one = Instant.now();
 		    Instant two = event.getPunishment().getExpiry();
-		    Duration res = Duration.between(one, two);
+		    Duration res = Duration.between(one, two).plusSeconds(1);
 			
 			message.forEach(msg -> sb.append(msg
 					.replace("%time%", StringUtils.formatTime(res))
@@ -45,7 +44,7 @@ public class PlayerPunishListener implements Listener {
 			player.getPlayer().kickPlayer(Message.fixColor(sb.toString()));
 		}
 		
-		if (List.of(PunishmentType.MUTE, PunishmentType.TEMPMUTE).contains(type)) {
+		if (type.isConstrictive() && !type.isKickable()) {
 			if (!type.isPermanent()) {
 			    Instant one = Instant.now();
 			    Instant two = event.getPunishment().getExpiry();
