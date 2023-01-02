@@ -3,8 +3,12 @@ package dev.gdalia.commandsplus.utils.profile;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.gdalia.commandsplus.Main;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,10 +25,18 @@ public class MojangUtils {
             MOJANG_URL = "https://api.mojang.com/users/profiles/minecraft/";
 
     public static Optional<Profile> fetchAshconProfile(String nameOrStringUuid) {
-        try {
-            URL url = new URL(ASHCON_URL + nameOrStringUuid);
-            InputStreamReader reader = new InputStreamReader(url.openStream());
+        try (InputStream url = new URL(ASHCON_URL + nameOrStringUuid).openStream()) {
+            InputStreamReader reader = new InputStreamReader(url);
             JsonObject response = JsonParser.parseReader(reader).getAsJsonObject();
+
+            if (response.has("error")) {
+                if (response.get("code").getAsInt() == 404)
+                    return Optional.empty();
+                if (response.get("code").getAsInt() == 429) {
+                    return fetchMojangProfile(nameOrStringUuid);
+                }
+            }
+
             JsonObject textures = response.get("textures")
                     .getAsJsonObject().get("raw").getAsJsonObject();
 
@@ -40,9 +52,7 @@ public class MojangUtils {
                     value,
                     signature));
 
-        } catch (Exception e) {
-            Main.getInstance().getLogger().log(Level.WARNING, "Could not connect to Ashcon's api, were you rate-limited?");
-            Main.getInstance().getLogger().log(Level.INFO, "Switching over Mojang's api to see if your IP were rate-limited.");
+        } catch (Exception e1) {
             return Optional.empty();
         }
     }
@@ -52,10 +62,10 @@ public class MojangUtils {
             URL url = new URL(MOJANG_URL + nameOrStringUuid);
             InputStreamReader reader = new InputStreamReader(url.openStream());
             JsonObject response = JsonParser.parseReader(reader).getAsJsonObject();
+
             String username = response.get("name").getAsString();
             UUID uuid = fromString(response.get("id").getAsString());
 
-            Main.getInstance().getLogger().log(Level.INFO, "Mojang's api seems to be available and responsive, so no textures fetched right now.");
             return Optional.of(new Profile(
                     uuid,
                     username,
@@ -65,7 +75,6 @@ public class MojangUtils {
 
         } catch (Exception e) {
             Main.getInstance().getLogger().log(Level.WARNING, "Couldn't retrieve connection from Mojang's api, seems like you were rate-limited.");
-            Main.getInstance().getLogger().info("switching over OfflinePlayer fetching, this could result with quite lag per command requested.");
             return Optional.empty();
         }
     }
@@ -74,11 +83,5 @@ public class MojangUtils {
     private static UUID fromString(String input) {
         return UUID.fromString(input.replaceFirst(
                 "(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5"));
-    }
-
-    public enum QueriedResult {
-        BAD_REQUEST_NAME,
-        USER_NOT_EXIST,
-        CONNECTION_FAILED;
     }
 }
