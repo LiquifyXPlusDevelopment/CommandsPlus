@@ -124,8 +124,11 @@ public enum Message {
 	TYPE_AN_COMMENT("&7Please type in the chat a comment."),
 	UNFREEZE_PLAYER("&7You unfroze &6{0}&7."),
 	UNFREEZE_TARGET("&7You have been unfrozen by &6{0}&7."),
-	VANISH_TOGGLE("&7Vanish mode is now {0}&7.");
+	VANISH_TOGGLE("&7Vanish mode is now {0}&7."),
 
+	//FLAGS
+	FLAG_UNKNOWN("&cUnknown tag '{0}'!"),
+	FLAG_OVERRIDE_OPTIONAL("use '-o' to override existing punishment.");
 	@Getter
 	private final String
 			defaultMessage;

@@ -61,8 +61,13 @@ public enum Permission {
 	PERMISSION_REPORT_COMMENT_SUBMIT(Category.REPORT,"commandsplus.report.comment.submit"),
 	PERMISSION_REPORT_COMMENT_DELETE(Category.REPORT,"commandsplus.report.comment.delete"),
 	PERMISSION_REPORT_VIEW_PLAYER(Category.REPORT, "commandsplus.report.view-player"),
-	PERMISSION_REPORT_ALERT(Category.REPORT,"commandsplus.report.alert");
+	PERMISSION_REPORT_ALERT(Category.REPORT,"commandsplus.report.alert"),
 
+	//FLAGS
+	PERMISSION_FLAGS_SILENT(Category.MISCELLANEOUS, "commandsplus.flags.silent"),
+	PERMISSION_FLAGS_OVERRIDE(Category.MISCELLANEOUS, "commandsplus.flags.override"),
+	PERMISSION_FLAGS_FAKE_MESSAGE(Category.MISCELLANEOUS, "commandsplus.flags.fake-message"),
+	PERMISSION_FLAGS_NO_NAME(Category.MISCELLANEOUS, "commandsplus.flags.no-name");
 
 	@Getter
 	private final Category category;
