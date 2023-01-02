@@ -1,6 +1,5 @@
 package dev.gdalia.commandsplus.ui;
 
-import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.inventory.InventoryUtils;
 import dev.gdalia.commandsplus.inventory.ItemBuilder;
 import dev.gdalia.commandsplus.models.ReasonManager;
@@ -11,8 +10,6 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import lombok.Getter;
-import net.liquifymc.integrations.anvil.inventory.AnvilInventory;
-import net.liquifymc.integrations.anvil.slots.AnvilSlot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -96,9 +93,7 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 to choose punishment&6&l TEMP-BAN&7.")
-                .create(), event -> {
-            openTimeGUI(targetUniqueId, PunishmentType.TEMPBAN);
-        }));
+                .create(), event -> openTimeGUI(targetUniqueId, PunishmentType.TEMPBAN)));
 
         gui.open(requester);
     }
@@ -135,9 +130,7 @@ public record PunishUI(@Getter Player requester) {
                 .addLoreLines(
                         "&r",
                         "&6Left-Click&7 to choose punishment&a&l TEMP-MUTE&7.")
-                .create(), event -> {
-            openTimeGUI(targetUniqueId, PunishmentType.TEMPMUTE);
-            }));
+                .create(), event -> openTimeGUI(targetUniqueId, PunishmentType.TEMPMUTE)));
 
         gui.open(requester);
     }
@@ -240,42 +233,9 @@ public record PunishUI(@Getter Player requester) {
                 .getReasons()
                 .forEach((key, reasonObject) -> gui.addItem(new GuiItem(new ItemBuilder(reasonObject.getIcon(), "&7" + type.getDisplayName().toLowerCase() + " for: &6" + reasonObject.getDisplayName())
                 .addLoreLines(" &r")
-                .addLoreLines(reasonObject.getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
+                .addLoreLines(reasonObject.getLore().stream().map(x -> "Reason: &e" + x).toArray(String[]::new))
                 .addLoreLines("Click to choose this " + type.getDisplayName().toLowerCase() + " reason.")
-                .create(), event -> {
-            invokeInitializePunishGUI(targetUniqueId, type, reasonObject.getLore().toString().replace("[", "").replace("]", ""), time);
-        })));
-
-        gui.setItem(4, new GuiItem(new ItemBuilder(
-                Material.NAME_TAG,
-                "&e&lCUSTOM")
-                .addLoreLines(
-                        "&r",
-                        "&6Left-Click&7 to enter a &e&lCUSTOM&7 reason."
-                ).create(), event -> {
-            AnvilInventory inventory = new AnvilInventory(requester, inv -> {
-                String reason = inv.getName();
-
-                if (inv.getSlot().equals(AnvilSlot.OUTPUT) && reason.length() < 25) {
-                    invokeInitializePunishGUI(targetUniqueId, type, reason, time);
-
-                    inv.setWillClose(true);
-                    inv.setWillDestroy(true);
-                } else {
-                    inv.setWillClose(false);
-                    inv.setWillDestroy(false);
-                }
-            }, Main.getInstance());
-
-            inventory.setSlot(AnvilSlot.INPUT_LEFT, new ItemBuilder(Material.NAME_TAG, "Enter a valid reason").addLoreLines(
-                    "&7",
-                    "&cIF YOU HAVE CLICKED ON THE OUTPUT AND NOTHING HAS CHANGED SO YOU NEED TO CHECK THE RULES.",
-                    "&7",
-                    "&7Rules:",
-                    "&6 - Don't make the name length higher than 25.",
-                    "&7").create());
-            inventory.open(Message.fixColor("Custom Reason"));
-        }));
+                .create(), event -> invokeInitializePunishGUI(targetUniqueId, type, reasonObject.getLore().toString().replace("[", "").replace("]", ""), time))));
 
         gui.open(requester);
     }
