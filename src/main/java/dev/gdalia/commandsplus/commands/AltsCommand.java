@@ -37,23 +37,21 @@ public class AltsCommand extends BasePlusCommand {
 			return;
 		}
 
-		if (Bukkit.getOnlinePlayers().stream()
-				.map(Player::getName)
-				.noneMatch(args[0]::equalsIgnoreCase)) {
+		Player target = Bukkit.getPlayerExact(args[0]);
+
+		if (target == null) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
 			return;
 		}
-
-		Player target = Bukkit.getPlayerExact(args[0]);
 
 		InetAddress address = target.getAddress().getAddress();
 		List<? extends Player> alts = Bukkit.getOnlinePlayers().stream()
 				.filter(x -> x.getAddress().getAddress().equals(address))
 				.filter(x -> !x.getName().equals(target.getName()))
 				.toList();
-		
-		if (args.length <= 1) {
+
+		if (args.length == 1) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
 			player.sendMessage(ChatColor.GRAY + getSyntax());
 			return;

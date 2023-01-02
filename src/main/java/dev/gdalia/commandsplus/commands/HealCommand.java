@@ -50,24 +50,27 @@ public class HealCommand extends BasePlusCommand {
 
 	@Override
 	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		Player player = (Player) sender;
-		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) {
-			player = Bukkit.getPlayerExact(args[0]);
-		} else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
-			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-			Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
-			return;
+		Player target = (Player) sender;
+
+		if (args.length >= 1) {
+			if (Bukkit.getPlayerExact(args[0]) != null) {
+				target = Bukkit.getPlayerExact(args[0]);
+			} else {
+				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+				Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
+				return;
+			}
 		}
 
-		double playerMaxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+		double playerMaxHealth = target.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 
-		if (!player.equals(sender)) {
+		if (target == sender) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-			Message.HEAL_TARGET.sendFormattedMessage(sender, true, player.getName(), String.valueOf(playerMaxHealth));
-			Message.HEAL_BY_PLAYER.sendFormattedMessage(player, true, String.valueOf(playerMaxHealth), sender.getName());
+			Message.HEAL_TARGET.sendFormattedMessage(sender, true, target.getName(), String.valueOf(playerMaxHealth));
+			Message.HEAL_BY_PLAYER.sendFormattedMessage(target, true, String.valueOf(playerMaxHealth), sender.getName());
 		} else Message.HEAL_PLAYER.sendFormattedMessage(sender, true, String.valueOf(playerMaxHealth));
 
-		player.setHealth(playerMaxHealth);
+		target.setHealth(playerMaxHealth);
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 	}
 }

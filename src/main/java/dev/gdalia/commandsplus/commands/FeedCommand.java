@@ -49,21 +49,21 @@ public class FeedCommand extends BasePlusCommand {
 
 	@Override
 	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		Player player = (Player) sender;
+		Player target = (Player) sender;
 
-		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) player = Bukkit.getPlayer(args[0]);
+		if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) != null) target = Bukkit.getPlayer(args[0]);
 		else if (args.length >= 1 && Bukkit.getPlayerExact(args[0]) == null) {
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
 			return;
 		}
 		
-		if (!player.equals(sender)) {
-			Message.FEED_TARGET.sendFormattedMessage(sender, true, player.getName());
-			Message.FEED_BY_TARGET.sendFormattedMessage(player, true, sender.getName());
+		if (target != sender) {
+			Message.FEED_TARGET.sendFormattedMessage(sender, true, target.getName());
+			Message.FEED_BY_TARGET.sendFormattedMessage(target, true, sender.getName());
 		} else Message.FEED_PLAYER.sendMessage(sender, true);
 
-		player.setFoodLevel(20);
+		target.setFoodLevel(20);
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 	}
 }

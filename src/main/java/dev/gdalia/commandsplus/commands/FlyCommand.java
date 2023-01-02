@@ -55,10 +55,10 @@ public class FlyCommand extends BasePlusCommand {
 	
 	@Override
 	public void runCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		Player player = (Player) sender;
+		Player target = (Player) sender;
 
 		if (args.length >= 1) {
-			if (Bukkit.getPlayerExact(args[0]) != null) player = Bukkit.getPlayerExact(args[0]);
+			if (Bukkit.getPlayerExact(args[0]) != null) target = Bukkit.getPlayerExact(args[0]);
 			else {
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 				Message.PLAYER_NOT_ONLINE.sendMessage(sender, true);
@@ -66,14 +66,14 @@ public class FlyCommand extends BasePlusCommand {
 			}
 		}
     	
-		boolean negation = !player.getAllowFlight();
-		player.setAllowFlight(negation);
-		player.setFlying(negation);
+		boolean negation = !target.getAllowFlight();
+		target.setAllowFlight(negation);
+		target.setFlying(negation);
 		
-		if (!player.equals(sender)) {
-			Message.FLIGHT_TOGGLE_BY_OTHER.sendFormattedMessage(player, true, StringUtils.getStatusString(player.getAllowFlight()), sender.getName());
-			Message.FLIGHT_MSG_TO_OTHER.sendFormattedMessage(sender, true, StringUtils.getStatusString(player.getAllowFlight()), player.getName());
-		} else Message.FLIGHT_TOGGLE.sendFormattedMessage(sender, true, StringUtils.getStatusString(player.getAllowFlight()));
+		if (!target.equals(sender)) {
+			Message.FLIGHT_TOGGLE_BY_OTHER.sendFormattedMessage(target, true, StringUtils.getStatusString(target.getAllowFlight()), sender.getName());
+			Message.FLIGHT_MSG_TO_OTHER.sendFormattedMessage(sender, true, StringUtils.getStatusString(target.getAllowFlight()), target.getName());
+		} else Message.FLIGHT_TOGGLE.sendFormattedMessage(sender, true, StringUtils.getStatusString(target.getAllowFlight()));
 		Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 	}
 }

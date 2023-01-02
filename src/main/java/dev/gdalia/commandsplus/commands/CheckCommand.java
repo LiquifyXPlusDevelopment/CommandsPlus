@@ -5,9 +5,9 @@ import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
-import dev.gdalia.commandsplus.utils.chat.CentredMessage;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
 import dev.gdalia.commandsplus.utils.StringUtils;
+import dev.gdalia.commandsplus.utils.chat.CentredMessage;
 import dev.gdalia.commandsplus.utils.profile.Profile;
 import dev.gdalia.commandsplus.utils.profile.ProfileManager;
 import org.bukkit.Bukkit;
@@ -22,7 +22,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @CommandAutoRegistration.Command(value = "check")
 public class CheckCommand extends BasePlusCommand {
@@ -65,8 +64,8 @@ public class CheckCommand extends BasePlusCommand {
 			return;
 		}
 
-		if (Optional.ofNullable(Bukkit.getPlayerExact(args[0])).isPresent()) {
-			Player target = Bukkit.getPlayerExact(args[0]);
+		Player target = Bukkit.getPlayerExact(args[0]);
+		if (target != null) {
 			Profile tempProfile = new Profile(target.getUniqueId(), target.getName(), Instant.now(), null, null);
 			checkAction(sender, tempProfile, false);
 			return;

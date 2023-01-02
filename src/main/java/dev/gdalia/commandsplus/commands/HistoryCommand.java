@@ -66,8 +66,8 @@ public class HistoryCommand extends BasePlusCommand {
 			return;
 		}
 
-		if (Optional.ofNullable(Bukkit.getPlayerExact(args[0])).isPresent()) {
-			Player target = Bukkit.getPlayerExact(args[0]);
+		Player target = Bukkit.getPlayerExact(args[0]);
+		if (target != null) {
 			Profile tempProfile = new Profile(target.getUniqueId(), target.getName(), Instant.now(), null, null);
 			historyAction(sender, tempProfile, false);
 			return;
