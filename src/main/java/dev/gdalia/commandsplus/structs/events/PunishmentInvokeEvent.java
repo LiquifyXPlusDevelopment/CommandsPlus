@@ -1,5 +1,6 @@
 package dev.gdalia.commandsplus.structs.events;
 
+import dev.gdalia.commandsplus.structs.Flag;
 import dev.gdalia.commandsplus.structs.events.body.PunishmentEvent;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,9 @@ public class PunishmentInvokeEvent extends PunishmentEvent {
 
 	@Getter
 	private final Punishment punishment;
+
+	@Getter
+	private final Flag[] flags;
 
 	public static HandlerList getHandlerList() {
 		return HANDLERS;

@@ -1,6 +1,7 @@
 package dev.gdalia.commandsplus.models;
 
 import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.structs.Flag;
 import dev.gdalia.commandsplus.structs.events.PunishmentInvokeEvent;
 import dev.gdalia.commandsplus.structs.events.PunishmentRevokeEvent;
 import dev.gdalia.commandsplus.structs.exceptions.PunishmentRevokeConvertException;
@@ -20,7 +21,7 @@ public class PunishmentManager {
 
 	@Getter
 	private static final PunishmentManager instance = new PunishmentManager();
-	public void invoke(Punishment punishment) {
+	public void invoke(Punishment punishment, Flag[] flags) {
 		Config config = Main.getInstance().getPunishmentsConfig();
 
 		Punishments.getInstance().getActivePunishment(punishment.getPunished(), punishment.getType()).ifPresent(activePunish ->
@@ -41,7 +42,7 @@ public class PunishmentManager {
 		section.set(ConfigFields.PunishFields.REASON, punishment.getReason());
 		config.saveConfig();
 
-		Bukkit.getPluginManager().callEvent(new PunishmentInvokeEvent(punishment));
+		Bukkit.getPluginManager().callEvent(new PunishmentInvokeEvent(punishment, flags));
 	}
 
 	public void revoke(Punishment punishment, @Nullable UUID whoRemoved) {
