@@ -159,7 +159,7 @@ public class Punishments {
 
 	/**
 	 * This generally returns all Server Punishments, since this is the punishment "manager",
-	 * this will give a feeded Immutable List of server punishments.
+	 * this will give a fed Immutable List of server punishments.
 	 * @return an immutable {@link List<Punishment>} of all server punishments.
 	 */
 	public List<Punishment> getServerPunishments() {
