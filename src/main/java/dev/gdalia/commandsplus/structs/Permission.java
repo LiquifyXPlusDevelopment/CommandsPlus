@@ -64,10 +64,11 @@ public enum Permission {
 	PERMISSION_REPORT_ALERT(Category.REPORT,"commandsplus.report.alert"),
 
 	//FLAGS
-	PERMISSION_FLAGS_SILENT(Category.MISCELLANEOUS, "commandsplus.flags.silent"),
-	PERMISSION_FLAGS_OVERRIDE(Category.MISCELLANEOUS, "commandsplus.flags.override"),
-	PERMISSION_FLAGS_FAKE_MESSAGE(Category.MISCELLANEOUS, "commandsplus.flags.fake-message"),
-	PERMISSION_FLAGS_NO_NAME(Category.MISCELLANEOUS, "commandsplus.flags.no-name");
+	PERMISSION_FLAGS_SILENT(Category.FLAGS, "commandsplus.flags.silent"),
+	PERMISSION_FLAGS_OVERRIDE(Category.FLAGS, "commandsplus.flags.override"),
+	PERMISSION_FLAGS_FAKE_MESSAGE(Category.FLAGS, "commandsplus.flags.fake-message"),
+	PERMISSION_FLAGS_NO_NAME(Category.FLAGS, "commandsplus.flags.no-name"),
+	PERMISSION_FLAGS_CONFIRM(Category.FLAGS, "commandsplus.flags.confirm");
 
 	@Getter
 	private final Category category;
@@ -85,7 +86,7 @@ public enum Permission {
 		REPORT,
 		GAMEMODE,
 		ADMINISTRATION,
-		MISCELLANEOUS;
-
+		MISCELLANEOUS,
+		FLAGS;
 	}
 }
