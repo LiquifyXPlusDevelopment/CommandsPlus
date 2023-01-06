@@ -1,5 +1,6 @@
 package dev.gdalia.commandsplus.commands;
 
+import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.PunishmentManager;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
@@ -148,7 +149,7 @@ public class PunishTemporarilyCommand extends BasePlusCommand {
 					false);
 
 			punishment.setExpiry(expiry);
-			punishAction(sender, punishment, profile.playerName(), flagList);
+			Bukkit.getScheduler().runTask(Main.getInstance(), () -> punishAction(sender, punishment, profile.playerName(), flagList));
 		});
     }
 
