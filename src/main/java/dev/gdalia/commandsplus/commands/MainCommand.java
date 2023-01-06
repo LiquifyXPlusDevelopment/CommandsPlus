@@ -50,7 +50,7 @@ public class MainCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+	public @Nullable Map<Integer, List<TabCompletion>> getTabCompletions() {
 		return Map.of(1, List.of(
 				new TabCompletion(List.of("help"), Permission.PERMISSION_ADMIN_HELP),
 				new TabCompletion(List.of("reload"), Permission.PERMISSION_ADMIN_RELOAD)

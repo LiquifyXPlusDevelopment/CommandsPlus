@@ -45,7 +45,7 @@ public class StaffChatCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+	public @Nullable Map<Integer, List<TabCompletion>> getTabCompletions() {
 		return null;
 	}
 

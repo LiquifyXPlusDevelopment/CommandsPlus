@@ -44,7 +44,7 @@ public class FreezeCommand extends BasePlusCommand {
 		return false;
 	}
 	@Override
-	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+	public @Nullable Map<Integer, List<TabCompletion>> getTabCompletions() {
 		return null;
 	}
 

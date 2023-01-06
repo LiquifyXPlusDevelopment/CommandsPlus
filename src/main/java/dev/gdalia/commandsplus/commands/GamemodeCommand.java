@@ -46,7 +46,7 @@ public class GamemodeCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+	public @Nullable Map<Integer, List<TabCompletion>> getTabCompletions() {
 		return Map.of(1, List.of(
 				new TabCompletion(List.of("s", "0"), Permission.PERMISSION_GAMEMODE_SURVIVAL),
 				new TabCompletion(List.of("a", "2"), Permission.PERMISSION_GAMEMODE_ADVENTURE),

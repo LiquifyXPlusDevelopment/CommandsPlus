@@ -99,7 +99,7 @@ public class AltsCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public Map<Integer, List<TabCompletion>> tabCompletions() {
+	public Map<Integer, List<TabCompletion>> getTabCompletions() {
 		return Map.of(2, List.of(new TabCompletion(List.of("check", "banall", "kickall"), getRequiredPermission())));
 	}
 	@Override

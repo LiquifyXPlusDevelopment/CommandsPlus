@@ -44,7 +44,7 @@ public class FlySpeedCommand extends BasePlusCommand {
 		return true;
 	}
 	@Override
-	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+	public @Nullable Map<Integer, List<TabCompletion>> getTabCompletions() {
 		int[] listOfNumbers = new int[]{1,2,3,4,5,6,7,8,9,10};
 		List<String> listOfNumbersString = Arrays.stream(listOfNumbers).mapToObj(String::valueOf).toList();
 		return Map.of(1, List.of(new TabCompletion(listOfNumbersString, getRequiredPermission())));

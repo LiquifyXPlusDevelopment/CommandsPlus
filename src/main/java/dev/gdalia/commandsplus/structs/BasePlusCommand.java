@@ -1,9 +1,7 @@
 package dev.gdalia.commandsplus.structs;
 
-import dev.gdalia.commandsplus.Main;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,7 +24,6 @@ public abstract class BasePlusCommand implements TabExecutor {
 
     public BasePlusCommand(boolean allowOverride, String... commandsNameArray) {
         this.commandName = commandsNameArray;
-        //GLIDA WAS HERE.
         for (String commandName : commandsNameArray) {
             if (getCommandMap().containsKey(commandName) && !allowOverride) continue;
             getCommandMap().put(commandName, this);
@@ -44,7 +41,7 @@ public abstract class BasePlusCommand implements TabExecutor {
     public abstract void runCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args);
 
     @Nullable
-    public abstract Map<Integer, List<TabCompletion>> tabCompletions();
+    public abstract Map<Integer, List<TabCompletion>> getTabCompletions();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -62,19 +59,16 @@ public abstract class BasePlusCommand implements TabExecutor {
         return true;
     }
 
-    public void runAsync(CommandSender sender, Runnable runnable) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), runnable);
-    }
-
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (getRequiredPermission() != null && !getRequiredPermission().hasPermission(sender)) return null;
         if (isPlayerCommand() && !(sender instanceof Player)) return null;
-        if (tabCompletions() == null) return null;
-        if (!tabCompletions().containsKey(args.length)) return null;
+        if (getTabCompletions() == null) return null;
+        if (!getTabCompletions().containsKey(args.length)) return null;
 
-        return tabCompletions().get(args.length).stream()
+        return getTabCompletions().get(args.length)
+                .stream()
                 .filter(tabCompletion -> tabCompletion.getRequiredPermission().hasPermission(sender))
                 .flatMap(x -> x.getCompletion().stream())
                 .toList();
