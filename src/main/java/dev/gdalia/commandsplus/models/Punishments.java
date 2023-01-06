@@ -12,6 +12,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.time.Instant;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * TODO think about better ideas to make this even more better and cooler to use.
@@ -44,16 +45,22 @@ public class Punishments {
 		ConfigurationSection cs = pConfig.getConfigurationSection(punishmentUuid.toString());
 		if (cs == null) return Optional.empty();
 
+		UUID executor =
+				cs.getString(ConfigFields.PunishFields.EXECUTOR) != null && StringUtils.isUniqueId(cs.getString(ConfigFields.PunishFields.EXECUTOR)) ?
+				UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.EXECUTOR))) :
+				null;
+
 		final Punishment[] punishment = new Punishment[1];
 		try {
 			punishment[0] = new Punishment(
 					punishmentUuid,
 					UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.PUNISHED))),
-					UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.EXECUTOR))),
+					executor,
 					PunishmentType.valueOf(cs.getString(ConfigFields.PunishFields.TYPE)),
 					Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.REASON)),
 					cs.getBoolean(ConfigFields.PunishFields.OVERRIDE));
 		} catch (NullPointerException e1) {
+			Main.getInstance().getLogger().log(Level.SEVERE, "Couldn't load punishment " + punishmentUuid.toString());
 			return Optional.empty();
 		}
 		Optional.ofNullable(cs.get(ConfigFields.PunishFields.EXPIRY))
