@@ -4,6 +4,7 @@ import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.PunishmentManager;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
+import dev.gdalia.commandsplus.structs.Flag;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
@@ -20,10 +21,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @CommandAutoRegistration.Command(value = {"ban", "kick", "warn", "mute"})
 public class PunishPermanentlyCommand extends BasePlusCommand {
@@ -45,7 +43,7 @@ public class PunishPermanentlyCommand extends BasePlusCommand {
 
 	@Override
 	public Permission getRequiredPermission() {
-		return Permission.PERMISSION_PUNISH;
+		return null;
 	}
 
 	@Override
@@ -54,7 +52,7 @@ public class PunishPermanentlyCommand extends BasePlusCommand {
 	}
 
 	@Override
-	public @Nullable Map<Integer, List<TabCompletion>> tabCompletions() {
+	public @Nullable Map<Integer, List<TabCompletion>> getTabCompletions() {
 		return null;
 	}
 
@@ -86,26 +84,47 @@ public class PunishPermanentlyCommand extends BasePlusCommand {
 			return;
 		}
 
-		String reason = StringUtils.join(args, " ", 1, args.length);
+		int startIndex = 1;
+		List<Flag> flagList = new ArrayList<>();
+		for (int i = 1; i < args.length; i++) {
+
+			String flagStr = args[i];
+
+			if (flagStr.length() == 2 && Flag.isAFlag(flagStr)) {
+				char typeChar = flagStr.charAt(1);
+				Optional<Flag> futureFlag = Flag.getByChar(typeChar);
+				startIndex++;
+
+				if (futureFlag.isEmpty()) {
+					Message.FLAG_UNKNOWN.sendFormattedMessage(sender, true, flagStr);
+					return;
+				}
+
+				if (!flagList.contains(futureFlag.get()))
+					flagList.add(futureFlag.get());
+			}
+		}
+
+		String reason = StringUtils.join(args, " ", startIndex, args.length);
 		UUID executor = Optional.of(sender)
-				.filter(Player.class::isInstance)
-				.map(Player.class::cast)
-				.map(Player::getUniqueId)
-				.orElse(null);
+			.filter(Player.class::isInstance)
+			.map(Player.class::cast)
+			.map(Player::getUniqueId)
+			.orElse(null);
 
 
 
 		if (Bukkit.getPlayerExact(args[0]) != null) {
 			Player target = Bukkit.getPlayerExact(args[0]);
 			Punishment punishment = new Punishment(
-					UUID.randomUUID(),
-					target.getUniqueId(),
-					executor,
-					type,
-					reason,
-					false);
+				UUID.randomUUID(),
+				target.getUniqueId(),
+				executor,
+				type,
+				reason,
+				false);
 
-			punishAction(sender, punishment, target.getName(), false);
+			punishAction(sender, punishment, target.getName(), flagList);
 			return;
 		}
 
@@ -117,29 +136,35 @@ public class PunishPermanentlyCommand extends BasePlusCommand {
 			}
 
 			Punishment punishment = new Punishment(
-					UUID.randomUUID(),
-					profile.playerUUID(),
-					executor,
-					type,
-					reason,
-					false);
+				UUID.randomUUID(),
+				profile.playerUUID(),
+				executor,
+				type,
+				reason,
+				false);
 
-			punishAction(sender, punishment, profile.playerName(), true);
+			Bukkit.getScheduler().runTask(Main.getInstance(), () -> punishAction(sender, punishment, profile.playerName(), flagList));
 		});
 	}
 
-	public void punishAction(CommandSender requester, Punishment punishment, String targetName, boolean isAsync) {
+	public void punishAction(CommandSender requester, Punishment punishment, String targetName, List<Flag> flags) {
+		Optional<Punishment> activePunishment =
 		Punishments.getInstance().getActivePunishment(
-				punishment.getPunished(),
-				punishment.getType(), PunishmentType.valueOf("TEMP" + punishment.getType().name()))
-				.ifPresentOrElse(unused -> {
-					punishment.getType().getAlreadyPunishedMessage().sendMessage(requester, true);
-					Message.playSound(requester, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-				}, () -> {
-					if (isAsync) Bukkit.getScheduler().runTask(Main.getInstance(), () -> PunishmentManager.getInstance().invoke(punishment));
-					else PunishmentManager.getInstance().invoke(punishment);
-					Message.playSound(requester, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-					punishment.getType().getPunishSuccessfulMessage().sendFormattedMessage(requester, true, targetName, punishment.getReason());
-				});
+			punishment.getPunished(),
+			punishment.getType(), PunishmentType.valueOf("TEMP" + punishment.getType().name()));
+
+		if (activePunishment.isPresent() && !flags.contains(Flag.OVERRIDE)) {
+			punishment.getType().getAlreadyPunishedMessage().sendMessage(requester, true);
+			if (Flag.OVERRIDE.getRequiredPermission().hasPermission(requester)) {
+				Message.FLAG_OVERRIDE_OPTIONAL.sendMessage(requester, false);
+				Message.playSound(requester, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+			}
+
+			return;
+		}
+
+		PunishmentManager.getInstance().invoke(punishment, flags.toArray(Flag[]::new));
+		Message.playSound(requester, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+		punishment.getType().getPunishSuccessfulMessage().sendFormattedMessage(requester, true, targetName, punishment.getReason());
 	}
 }

@@ -3,6 +3,7 @@ package dev.gdalia.commandsplus.inventory;
 import dev.gdalia.commandsplus.models.PunishmentManager;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.models.ReportManager;
+import dev.gdalia.commandsplus.structs.Flag;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
@@ -97,7 +98,7 @@ public class InventoryUtils {
                         message,
                         false);
 
-                    PunishmentManager.getInstance().invoke(punishment);
+                    PunishmentManager.getInstance().invoke(punishment, new Flag[0]);
                     Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 
                     type.getPunishSuccessfulMessage().sendFormattedMessage(checker, true, target.getName(), punishment.getReason());
@@ -139,7 +140,7 @@ public class InventoryUtils {
 
                     punishment.setExpiry(expiry);
 
-                    PunishmentManager.getInstance().invoke(punishment);
+                    PunishmentManager.getInstance().invoke(punishment, new Flag[0]);
                     Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
                     type.getPunishSuccessfulMessage().sendFormattedMessage(checker, true, target.getName(), StringUtils.formatTime(duration));
                     checker.closeInventory();
