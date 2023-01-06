@@ -64,7 +64,7 @@ public enum Message {
 
 	//PUNISH - BAN
 	PUNISH_BAN_ALREADY_BANNED("&cThat player is already banned."),
-	PUNISH_BAN_SUBMITTED("&7You have&c&lPERMANENTLY &7banned &6{0} &7for &6{1}&7."),
+	PUNISH_BAN_SUBMITTED("&7You have &c&lPERMANENTLY &7banned &6{0} &7for &6{1}&7."),
 	PUNISH_BAN_NOT_BANNED("&cThat player is not banned."),
 	PUNISH_BAN_BROADCAST("&6{0} &ehas been &c&lPERMANENTLY &ebanned from the server by &6{1}&e.\n&eReason: &a{2}&e."),
 
@@ -89,9 +89,9 @@ public enum Message {
 	PUNISH_MUTE_BROADCAST("&6{0} &ehas been &c&lPERMANENTLY &emuted by &6{1}&e.\n&eReason: &a{2}"),
 
 	//PUNISH - TEMPMUTE
-	PUNISH_TEMPMUTE_SUBMITTED("&7You have &cTemporarily&7 muted &6{0}&7 for &6{1}&7."),
-	PUNISH_TEMPMUTE_MESSAGE("&cYou have been temporarily muted for &6{0}&c.\n&cReason: &e{1}&c."),
-	PUNISH_TEMPMUTE_CHAT_DENIED("&cYou are temporarily muted, your mute will expire in &6{0}&c."),
+	PUNISH_TEMPMUTE_SUBMITTED("&7You have &9&lTEMPORARILY &7muted &6{0}&7 for &6{1}&7."),
+	PUNISH_TEMPMUTE_MESSAGE("&cYou have been &9&lTEMPORARILY &cmuted for &6{0}&c.\n&cReason: &e{1}&c."),
+	PUNISH_TEMPMUTE_CHAT_DENIED("&cYou are &9&lTEMPORARILY &cmuted, your mute will expire in &6{0}&c."),
 	PUNISH_TEMPMUTE_ALREADY_MUTED("&cThat player is already temporarily muted."),
 	PUNISH_TEMPMUTE_BROADCAST("&6{0} &ehas been &9&lTEMPORARILY &emuted by &6{1}&e for &a{2}&e.\n&eReason: &a{3}"),
 
@@ -127,8 +127,8 @@ public enum Message {
 	VANISH_TOGGLE("&7Vanish mode is now {0}&7."),
 
 	//FLAGS
-	FLAG_UNKNOWN("&cUnknown tag '{0}'!"),
-	FLAG_OVERRIDE_OPTIONAL("use '-o' to override existing punishment.");
+	FLAG_UNKNOWN("&cUnknown flag {0}!"),
+	FLAG_OVERRIDE_OPTIONAL("&7[INFO] &eUse '-o' to override existing punishment.");
 	@Getter
 	private final String
 			defaultMessage;
