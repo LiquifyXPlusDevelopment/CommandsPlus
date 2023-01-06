@@ -3,6 +3,7 @@ package dev.gdalia.commandsplus.models;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.structs.Flag;
 import dev.gdalia.commandsplus.structs.events.PunishmentInvokeEvent;
+import dev.gdalia.commandsplus.structs.events.PunishmentOverrideEvent;
 import dev.gdalia.commandsplus.structs.events.PunishmentRevokeEvent;
 import dev.gdalia.commandsplus.structs.exceptions.PunishmentRevokeConvertException;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
@@ -24,8 +25,10 @@ public class PunishmentManager {
 	public void invoke(Punishment punishment, Flag[] flags) {
 		Config config = Main.getInstance().getPunishmentsConfig();
 
-		Punishments.getInstance().getActivePunishment(punishment.getPunished(), punishment.getType()).ifPresent(activePunish ->
-				Punishments.getInstance().writeTo(activePunish, ConfigFields.PunishFields.OVERRIDE, true, false));
+		Punishments.getInstance().getActivePunishment(punishment.getPunished(), punishment.getType()).ifPresent(activePunish -> {
+			Punishments.getInstance().writeTo(activePunish, ConfigFields.PunishFields.OVERRIDE, true, false);
+			Bukkit.getPluginManager().callEvent(new PunishmentOverrideEvent(punishment, activePunish));
+		});
 
 		ConfigurationSection section = config.createSection(punishment.getPunishmentUniqueId().toString());
 
