@@ -35,7 +35,7 @@ public class PunishCommand extends BasePlusCommand {
 
     @Override
     public Permission getRequiredPermission() {
-        return Permission.PERMISSION_PUNISH;
+        return Permission.PERMISSION_PUNISH_GUI;
     }
 
     @Override
