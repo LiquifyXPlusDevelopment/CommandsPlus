@@ -10,7 +10,8 @@ public enum Permission {
 	/*GROUP SPLITTING*/
 
 	//Punishment Perms
-	PERMISSION_PUNISH(Category.PUNISHMENT,"commandsplus.punish"),
+	PERMISSION_PUNISH_GENERAL(Category.PUNISHMENT,"commandsplus.punish.offline"),
+	PERMISSION_PUNISH_OFFLINE(Category.PUNISHMENT,"commandsplus.punish.offline"),
 	PERMISSION_BAN(Category.PUNISHMENT,"commandsplus.punish.ban"),
 	PERMISSION_KICK(Category.PUNISHMENT, "commandsplus.punish.kick"),
 	PERMISSION_WARN(Category.PUNISHMENT, "commandsplus.punish.warn"),
