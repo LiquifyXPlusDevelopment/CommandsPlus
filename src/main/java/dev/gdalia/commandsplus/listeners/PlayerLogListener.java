@@ -60,7 +60,7 @@ public class PlayerLogListener implements Listener {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 
-		if (player.isOp() || Permission.PERMISSION_ADMIN.hasPermission(player)) {
+		if (player.isOp() || Permission.PERMISSION_ADMIN_RELOAD.hasPermission(player)) {
 			UpdateChecker.get()
 				.getLastResult()
 				.filter(UpdateChecker.UpdateResult::requiresUpdate)
