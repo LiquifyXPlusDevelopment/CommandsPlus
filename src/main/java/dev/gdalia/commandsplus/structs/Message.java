@@ -83,15 +83,15 @@ public enum Message {
 	//PUNISH - MUTE
 	PUNISH_MUTE_SUBMITTED("&7You have &c&lPERMANENTLY&7 muted &6{0}&7."),
 	PUNISH_MUTE_ALREADY_MUTED("&cThat player is already muted."),
-	PUNISH_MUTE_MESSAGE("&cYou are now &c&lPERMANENTLY &7muted."),
+	PUNISH_MUTE_MESSAGE("7cYou are now &c&lPERMANENTLY &7muted."),
 	PUNISH_MUTE_NOT_MUTED("&cThat player is not muted."),
-	PUNISH_MUTE_CHAT_DENIED("&cYou are &c&lPERMANENTLY &7muted, no more chat for you."),
+	PUNISH_MUTE_CHAT_DENIED("&7You are &c&lPERMANENTLY &7muted, no more chat for you."),
 	PUNISH_MUTE_BROADCAST("&6{0} &ehas been &c&lPERMANENTLY &emuted by &6{1}&e.\n&eReason: &a{2}"),
 
 	//PUNISH - TEMPMUTE
 	PUNISH_TEMPMUTE_SUBMITTED("&7You have &9&lTEMPORARILY &7muted &6{0}&7 for &6{1}&7."),
-	PUNISH_TEMPMUTE_MESSAGE("&cYou have been &9&lTEMPORARILY &cmuted for &6{0}&c.\n&cReason: &e{1}&c."),
-	PUNISH_TEMPMUTE_CHAT_DENIED("&cYou are &9&lTEMPORARILY &cmuted, your mute will expire in &6{0}&c."),
+	PUNISH_TEMPMUTE_MESSAGE("&7You have been &9&lTEMPORARILY &cmuted for &6{0}&c.\n&cReason: &e{1}&c."),
+	PUNISH_TEMPMUTE_CHAT_DENIED("&7You are &9&lTEMPORARILY &cmuted, your mute will expire in &6{0}&c."),
 	PUNISH_TEMPMUTE_ALREADY_MUTED("&cThat player is already temporarily muted."),
 	PUNISH_TEMPMUTE_BROADCAST("&6{0} &ehas been &9&lTEMPORARILY &emuted by &6{1}&e for &a{2}&e.\n&eReason: &a{3}"),
 
