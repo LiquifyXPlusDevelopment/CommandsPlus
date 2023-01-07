@@ -63,6 +63,7 @@ public class Punishments {
 			Main.getInstance().getLogger().log(Level.SEVERE, "Couldn't load punishment " + punishmentUuid.toString());
 			return Optional.empty();
 		}
+
 		Optional.ofNullable(cs.get(ConfigFields.PunishFields.EXPIRY))
 		        .filter(Long.class::isInstance)
 		        .map(String::valueOf)
@@ -112,9 +113,10 @@ public class Punishments {
 	 */	
 	public Optional<Punishment> getActivePunishment(UUID playerUniqueId, PunishmentType... type) {
         return getHistory(playerUniqueId).stream()
-                .filter(punishment -> (type.length == 0) || Arrays.asList(type).contains(punishment.getType()))
+				.filter(punishment -> !List.of(PunishmentType.KICK, PunishmentType.WARN).contains(punishment.getType()))
+				.filter(punishment -> (type.length == 0) || Arrays.asList(type).contains(punishment.getType()))
 				.filter(punishment -> punishment.getExpiry() == null || punishment.getExpiry().isAfter(Instant.now()))
-				.filter(punishment -> !(punishment instanceof PunishmentRevoke))
+				.filter(punishment -> !PunishmentRevoke.class.isInstance(punishment))
 				.filter(punishment -> punishment.getType().isConstrictive())
                 .filter(punishment -> {
                     ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
@@ -127,8 +129,7 @@ public class Punishments {
 		return getActivePunishment(
 				playerUniqueId,
 				Arrays.stream(PunishmentType.values())
-						.filter(x -> !List.of(PunishmentType.KICK, PunishmentType.WARN).contains(x))
-						.toArray(PunishmentType[]::new));
+				.toArray(PunishmentType[]::new));
 	}
 
 	/**
