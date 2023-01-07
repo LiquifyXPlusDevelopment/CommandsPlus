@@ -151,7 +151,8 @@ public class PunishPermanentlyCommand extends BasePlusCommand {
 		Optional<Punishment> activePunishment =
 		Punishments.getInstance().getActivePunishment(
 			punishment.getPunished(),
-			punishment.getType(), PunishmentType.valueOf("TEMP" + punishment.getType().name()));
+			punishment.getType(),
+			PunishmentType.canBeType("TEMP" + punishment.getType().name()) ? PunishmentType.valueOf("TEMP" + punishment.getType().name()) : punishment.getType());
 
 		if (activePunishment.isPresent() && !flags.contains(Flag.OVERRIDE)) {
 			punishment.getType().getAlreadyPunishedMessage().sendMessage(requester, true);
