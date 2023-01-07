@@ -41,7 +41,7 @@ public class MainCommand extends BasePlusCommand {
 
 	@Override
 	public Permission getRequiredPermission() {
-		return Permission.PERMISSION_ADMIN;
+		return null;
 	}
 
 	@Override
