@@ -55,8 +55,8 @@ public record ReportHistoryUI(@Getter Player checker) {
                             "Status: &6" + report.getStatus().name(),
                             "Date: &e" + StringUtils.createFullerTimeFormatter(report.getSentAt()),
                             " &r",
-                            "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
-                            "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
+                            "Reporter: &a" + Reporter.getName() + InventoryUtils.getInstance().getStatus(Reporter),
+                            "Reported: &c" + Reported.getName() + InventoryUtils.getInstance().getStatus(Reported))
                     .addLoreLines(report.getReason().getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
                     .addLoreLines(
                             " &r",
@@ -138,8 +138,8 @@ public record ReportHistoryUI(@Getter Player checker) {
                         "Status: &6" + report.getStatus().name(),
                         "Date: &e" + StringUtils.createFullerTimeFormatter(report.getSentAt()),
                         " &r",
-                        "Reporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
-                        "Reported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"))
+                        "Reporter: &a" + Reporter.getName() + InventoryUtils.getInstance().getStatus(Reporter),
+                        "Reported: &c" + Reported.getName() + InventoryUtils.getInstance().getStatus(Reported))
                 .addLoreLines(report.getReason().getLore().stream().map(x -> x = "Reason: &e" + x).toArray(String[]::new))
                 .addLoreLines(
                         " &r",
@@ -186,16 +186,16 @@ public record ReportHistoryUI(@Getter Player checker) {
                 "&eData")
                 .addLoreLines(
                         " &r",
-                        "&eReported: &c" + Reported.getName() + (Reported.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
-                        " Gamemode: &b" + (Reported.isOnline() ? Reported.getPlayer().getGameMode().name().toLowerCase() : ""),
+                        "&eReported: &c" + Reported.getName() + InventoryUtils.getInstance().getStatus(Reported),
+                        " GameMode: &b" + (Reported.isOnline() ? Reported.getPlayer().getGameMode().name().toLowerCase() : ""),
                         " Health: &c" + (Reported.isOnline() ? Reported.getPlayer().getHealth() + "/" + Reported.getPlayer().getMaxHealth() : ""),
                         " Food: &6" + (Reported.isOnline() ? Reported.getPlayer().getFoodLevel() : ""),
                         " UUID: &8" + Reported.getUniqueId(),
-                        " IP: &e" + (Reported.isOnline() ? Reported.getPlayer().getAddress() : ""),
+                        " IP: &e" + InventoryUtils.getInstance().getAddress(Reported),
                         " &r",
-                        "&eReporter: &a" + Reporter.getName() + (Reporter.isOnline() ? " &7{&aonline&7}" : " &7{&coffline&7}"),
+                        "&eReporter: &a" + Reporter.getName() + InventoryUtils.getInstance().getStatus(Reporter),
                         " UUID: &8" + Reporter.getUniqueId(),
-                        " IP: &e" + (Reporter.isOnline() ? Reporter.getPlayer().getAddress() : ""),
+                        " IP: &e" + InventoryUtils.getInstance().getAddress(Reporter),
                         " &r",
                         "&6Left click&7 to print in chat.")
                 .create()));

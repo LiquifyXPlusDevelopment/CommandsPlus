@@ -14,6 +14,7 @@ import dev.gdalia.commandsplus.ui.CommentsUI;
 import dev.gdalia.commandsplus.ui.ReportHistoryUI;
 import dev.gdalia.commandsplus.utils.StringUtils;
 import lombok.Getter;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -153,5 +154,16 @@ public class InventoryUtils {
                 .getAnyActivePunishment(target)
                 .filter(punishment -> punishment.getType().equals(firstType) || punishment.getType().equals(secondType));
         return anyActivePunishment.isEmpty() ? "&a&lYES" : "&c&lNO";
+    }
+
+    public String getStatus(OfflinePlayer player) {
+        return player.isOnline() ? " &7{&aONLINE&7}" : " &7{&cOFFLINE&7}";
+    }
+
+    public Object getAddress(OfflinePlayer player) {
+        Player onlinePlayer = player.getPlayer();
+        if (onlinePlayer == null) return "";
+
+        return player.isOnline() ? onlinePlayer.getAddress() : "";
     }
 }
