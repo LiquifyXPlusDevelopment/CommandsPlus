@@ -67,26 +67,31 @@ public enum Message {
 	PUNISH_BAN_SUBMITTED("&7You have &c&lPERMANENTLY &7banned &6{0} &7for &6{1}&7."),
 	PUNISH_BAN_NOT_BANNED("&cThat player is not banned."),
 	PUNISH_BAN_BROADCAST("&6{0} &ehas been &c&lPERMANENTLY &ebanned from the server by &6{1}&e.\n&eReason: &a{2}&e."),
+	PUNISH_BAN_BROADCAST_NO_NAME("&6{0} &ehas been &c&lPERMANENTLY &ebanned from the server.\n&eReason: &a{1}&e."),
 
 	//PUNISH - TEMPBAN
 	PUNISH_TEMPBAN_ALREADY_BANNED("&cThat player is already temporarily banned."),
 	PUNISH_TEMPBAN_SUBMITTED("&7You have &9&lTEMPORARILY &7banned &6{0}&7 for &6{1}&7."),
 	PUNISH_TEMPBAN_BROADCAST("&6{0} &ehas been &9&lTEMPORARILY &ebanned from the server by &6{1} &efor &a{2}&e.\n&eReason: &a{3}"),
+	PUNISH_TEMPBAN_BROADCAST_NO_NAME("&6{0} &ehas been &9&lTEMPORARILY &ebanned from the server &efor &a{1}&e.\n&eReason: &a{2}"),
 
 	//PUNISH - NON-CONSTRICTIVE
 	PUNISH_WARN_SUBMITTED("&7You have warned &6{0} &7for &a{1}&7."),
 	PUNISH_WARN_MESSAGE("&7You have been warned by &6{0} &7for &a{1}&7."),
-	PUNISH_WARN_BROADCAST("&6{0} &ewas warned by &6{1} &efor &a{3}&e."),
+	PUNISH_WARN_BROADCAST("&6{0} &ehas been warned by &6{1} &efor &a{3}&e."),
+	PUNISH_WARN_BROADCAST_NO_NAME("&6{0} &ehas been warned for &a{3}&e."),
 	PUNISH_KICK_SUBMITTED("&7You have kicked &6{0} &7from the server for &a{1}&7."),
-	PUNISH_KICK_BROADCAST("&6{0} &ehas been kicked from the server by &6{1}&e for &a{2}&e.\n&eReason: &a{3}"),
+	PUNISH_KICK_BROADCAST("&6{0} &ehas been kicked from the server by &6{1}&e.\n&eReason: &a{3}"),
+	PUNISH_KICK_BROADCAST_NO_NAME("&6{0} &ehas been kicked from the server.\n&eReason: &a{2}"),
 
 	//PUNISH - MUTE
 	PUNISH_MUTE_SUBMITTED("&7You have &c&lPERMANENTLY&7 muted &6{0}&7."),
 	PUNISH_MUTE_ALREADY_MUTED("&cThat player is already muted."),
-	PUNISH_MUTE_MESSAGE("7cYou are now &c&lPERMANENTLY &7muted."),
+	PUNISH_MUTE_MESSAGE("&7You are now &c&lPERMANENTLY &7muted."),
 	PUNISH_MUTE_NOT_MUTED("&cThat player is not muted."),
 	PUNISH_MUTE_CHAT_DENIED("&7You are &c&lPERMANENTLY &7muted, no more chat for you."),
 	PUNISH_MUTE_BROADCAST("&6{0} &ehas been &c&lPERMANENTLY &emuted by &6{1}&e.\n&eReason: &a{2}"),
+	PUNISH_MUTE_BROADCAST_NO_NAME("&6{0} &ehas been &c&lPERMANENTLY &emuted.\n&eReason: &a{1}"),
 
 	//PUNISH - TEMPMUTE
 	PUNISH_TEMPMUTE_SUBMITTED("&7You have &9&lTEMPORARILY &7muted &6{0}&7 for &6{1}&7."),
@@ -94,6 +99,7 @@ public enum Message {
 	PUNISH_TEMPMUTE_CHAT_DENIED("&7You are &9&lTEMPORARILY &cmuted, your mute will expire in &6{0}&c."),
 	PUNISH_TEMPMUTE_ALREADY_MUTED("&cThat player is already temporarily muted."),
 	PUNISH_TEMPMUTE_BROADCAST("&6{0} &ehas been &9&lTEMPORARILY &emuted by &6{1}&e for &a{2}&e.\n&eReason: &a{3}"),
+	PUNISH_TEMPMUTE_BROADCAST_NO_NAME("&6{0} &ehas been &9&lTEMPORARILY &emuted for &a{1}&e.\n&eReason: &a{2}"),
 
 	//PUNISH - REVOKE
 	PUNISH_REVOKE_UNBAN("&7You have unbanned &6{0}&7."),

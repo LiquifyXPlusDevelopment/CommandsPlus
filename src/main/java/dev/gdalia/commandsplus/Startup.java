@@ -1,6 +1,6 @@
 package dev.gdalia.commandsplus;
 
-import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
 import dev.gdalia.commandsplus.models.ReasonManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
@@ -54,7 +54,7 @@ public class Startup {
         main.getPunishmentsConfig().getKeys(false)
                 .stream()
                 .map(UUID::fromString)
-                .peek(uuid -> Punishments.getInstance().getPunishment(uuid))
+                .peek(uuid -> FlatFilePunishments.getInstance().getPunishment(uuid))
                 .close();
 
         //Reports
@@ -80,7 +80,7 @@ public class Startup {
     }
 
     public void loadManagers() {
-        Punishments.setInstance(new Punishments());
+        FlatFilePunishments.setInstance(new FlatFilePunishments());
         Reports.setInstance(new Reports());
         ReasonManager.setInstance(new ReasonManager());
         ProfileManager.setInstance(new ProfileManager());

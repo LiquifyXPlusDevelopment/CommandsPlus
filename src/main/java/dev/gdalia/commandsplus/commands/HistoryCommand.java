@@ -1,6 +1,6 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
@@ -86,7 +86,7 @@ public class HistoryCommand extends BasePlusCommand {
 	}
 
 	private void historyAction(CommandSender sender, Profile profile, boolean async) {
-		List<Punishment> history = Punishments.getInstance().getHistory(profile.playerUUID());
+		List<Punishment> history = FlatFilePunishments.getInstance().getHistory(profile.playerUUID());
 		if (history.isEmpty()) {
 			Message.PUNISH_HISTORY_EMPTY.sendMessage(sender, true);
 			Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);

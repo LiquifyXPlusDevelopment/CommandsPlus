@@ -19,6 +19,32 @@ disable_welcome_message: false
 #If you want to disable the sounds just change to true.
 disable_sounds: false
 
+#-------------------------------------------------------------------------------------------------#
+# Currently we use only 4 types of database drivers: MYSQL, MARIADB, MONGODB, SQLITE & FLATFILE.  #
+# MYSQL =    A Query system used mostly for consistent data saving, uses lightweight traffic      #
+#            and does not tank performance much, it can be used as default a preference.          #
+#                                                                                                 #
+# MARIADB =  A better forked version of MySQL, it works precisely like MySQL with better          #
+#            performance, better speed and tasks without the old-school MySQL post-processing.    #
+#                                                                                                 #
+# MONGODB =  MongoDB is a NoSQL system, that is based on querying Json files with a system        #
+#            called Bson. Recommended to use since it is so much cleaner in terms of perfection.  #
+#                                                                                                 #
+# SQLITE =   SQLite is a system that does not need a connection to save data, instead is saves    #
+#            data locally as per file per table, acting like a with no connection needed.         #
+#                                                                                                 #
+# FLATFILE = Flat File system is basically saving all your data inside either json or YML, which  #
+#            was not tested in terms of performance, but is predicted to dictate memory which     #
+#            could result in lag, memory leaks, and more issues that were not tested officially.  #
+#-------------------------------------------------------------------------------------------------#
+database:
+  type: MYSQL
+  host: "localhost"
+  port: 2212
+  username: "user"
+  password: "password"
+  table-prefix: ""
+
 chat:
    locked: false
    clear-template:

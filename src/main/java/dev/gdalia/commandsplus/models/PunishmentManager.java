@@ -1,6 +1,7 @@
 package dev.gdalia.commandsplus.models;
 
 import dev.gdalia.commandsplus.Main;
+import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
 import dev.gdalia.commandsplus.structs.Flag;
 import dev.gdalia.commandsplus.structs.events.PunishmentInvokeEvent;
 import dev.gdalia.commandsplus.structs.events.PunishmentOverrideEvent;
@@ -25,8 +26,8 @@ public class PunishmentManager {
 	public void invoke(Punishment punishment, Flag[] flags) {
 		Config config = Main.getInstance().getPunishmentsConfig();
 
-		Punishments.getInstance().getActivePunishment(punishment.getPunished(), punishment.getType()).ifPresent(activePunish -> {
-			Punishments.getInstance().writeTo(activePunish, ConfigFields.PunishFields.OVERRIDE, true, false);
+		FlatFilePunishments.getInstance().getActivePunishment(punishment.getPunished(), punishment.getType()).ifPresent(activePunish -> {
+			FlatFilePunishments.getInstance().upsert(activePunish, ConfigFields.PunishFields.OVERRIDE, true, false);
 			Bukkit.getPluginManager().callEvent(new PunishmentOverrideEvent(punishment, activePunish));
 		});
 
@@ -53,23 +54,23 @@ public class PunishmentManager {
 		executor[0] = "CONSOLE";
 		Optional.ofNullable(whoRemoved).ifPresent(uuid -> executor[0] = uuid.toString());
 
-		Punishments.getInstance().writeTo(
+		FlatFilePunishments.getInstance().upsert(
 				punishment.getPunishmentUniqueId(),
 				ConfigFields.PunishFields.REMOVED_BY,
 				executor[0],
 				false);
 
-		Punishments.getInstance().writeTo(
+		FlatFilePunishments.getInstance().upsert(
 				punishment.getPunishmentUniqueId(),
 				ConfigFields.PunishFields.EXPIRY,
 				Instant.now().toEpochMilli(),
 				true);
 
-		if (!Punishments.getInstance().convertToRevokedPunishment(punishment))
+		if (!FlatFilePunishments.getInstance().convertToRevokedPunishment(punishment))
 			throw new PunishmentRevokeConvertException("couldn't convert punishment into revoked punishment, check console details.");
 
-		if (Punishments.getInstance().getPunishment(punishment.getPunishmentUniqueId()).isEmpty() ||
-			!(Punishments.getInstance().getPunishment(punishment.getPunishmentUniqueId()).get() instanceof PunishmentRevoke punishmentRevoke)) {
+		if (FlatFilePunishments.getInstance().getPunishment(punishment.getPunishmentUniqueId()).isEmpty() ||
+			!(FlatFilePunishments.getInstance().getPunishment(punishment.getPunishmentUniqueId()).get() instanceof PunishmentRevoke punishmentRevoke)) {
 			throw new PunishmentRevokeConvertException("couldn't convert punishment into revoked punishment, check console details.");
 		}
 

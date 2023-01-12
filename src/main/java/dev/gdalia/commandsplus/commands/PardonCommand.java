@@ -2,17 +2,14 @@ package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
-import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import dev.gdalia.commandsplus.utils.CommandAutoRegistration;
-import dev.gdalia.commandsplus.utils.profile.Profile;
 import dev.gdalia.commandsplus.utils.profile.ProfileManager;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -82,7 +79,7 @@ public class PardonCommand extends BasePlusCommand {
 				return;
 			}
 
-			Punishments.getInstance()
+			FlatFilePunishments.getInstance()
 				.getActivePunishment(
 				profile.playerUUID(),
 				type, PunishmentType.valueOf("TEMP" + type.name()))

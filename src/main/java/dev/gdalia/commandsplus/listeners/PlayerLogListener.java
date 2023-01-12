@@ -3,7 +3,7 @@ package dev.gdalia.commandsplus.listeners;
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.Main.PlayerCollection;
 import dev.gdalia.commandsplus.inventory.InventoryUtils;
-import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
@@ -30,7 +30,7 @@ public class PlayerLogListener implements Listener {
 	public void onPreJoin(AsyncPlayerPreLoginEvent event) {
 		UUID uniqueId = event.getUniqueId();
 				
-		Punishments.getInstance().getActivePunishment(uniqueId, PunishmentType.TEMPBAN, PunishmentType.BAN).ifPresent(punishment -> {			
+		FlatFilePunishments.getInstance().getActivePunishment(uniqueId, PunishmentType.TEMPBAN, PunishmentType.BAN).ifPresent(punishment -> {
 			event.setLoginResult(Result.KICK_BANNED);
 			
 			String typeName = punishment.getType().name().toLowerCase();

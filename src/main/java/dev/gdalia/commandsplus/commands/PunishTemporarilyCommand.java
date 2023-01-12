@@ -2,7 +2,7 @@ package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Flag;
 import dev.gdalia.commandsplus.structs.Message;
@@ -14,7 +14,6 @@ import dev.gdalia.commandsplus.utils.StringUtils;
 import dev.gdalia.commandsplus.utils.profile.ProfileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -155,9 +154,9 @@ public class PunishTemporarilyCommand extends BasePlusCommand {
 
 	public void punishAction(CommandSender requester, Punishment punishment, String targetName, List<Flag> flags) {
 		Optional<Punishment> activePunishment =
-				Punishments.getInstance().getActivePunishment(
+				FlatFilePunishments.getInstance().getActivePunishment(
 						punishment.getPunished(),
-						punishment.getType(), PunishmentType.valueOf("TEMP" + punishment.getType().name()));
+						punishment.getType(), PunishmentType.valueOf( punishment.getType().name().replace("TEMP", "")));
 
 		if (activePunishment.isPresent() && !flags.contains(Flag.OVERRIDE)) {
 			punishment.getType().getAlreadyPunishedMessage().sendMessage(requester, true);

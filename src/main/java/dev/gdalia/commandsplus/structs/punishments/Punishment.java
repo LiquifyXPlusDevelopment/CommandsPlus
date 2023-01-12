@@ -1,18 +1,25 @@
 package dev.gdalia.commandsplus.structs.punishments;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
 import java.util.UUID;
 
-
+@Entity
 @RequiredArgsConstructor
 public class Punishment {
 
+	@Id
+	@GeneratedValue
+	@UuidGenerator(style = UuidGenerator.Style.RANDOM)
 	@Getter
 	@NotNull
 	private final UUID punishmentUniqueId;

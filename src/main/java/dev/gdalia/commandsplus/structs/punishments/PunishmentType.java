@@ -17,6 +17,7 @@ public enum PunishmentType {
 			Message.PUNISH_REVOKE_UNBAN,
 			Message.PUNISH_BAN_NOT_BANNED,
 			Message.PUNISH_BAN_BROADCAST,
+			Message.PUNISH_BAN_BROADCAST_NO_NAME,
 			Permission.PERMISSION_BAN),
 
 	TEMPBAN(false, true, true,
@@ -26,6 +27,7 @@ public enum PunishmentType {
 			Message.PUNISH_REVOKE_UNBAN,
 			Message.PUNISH_BAN_NOT_BANNED,
 			Message.PUNISH_TEMPBAN_BROADCAST,
+			Message.PUNISH_TEMPBAN_BROADCAST_NO_NAME,
 			Permission.PERMISSION_TEMPBAN),
 
 	MUTE(true, false, true,
@@ -35,6 +37,7 @@ public enum PunishmentType {
 			Message.PUNISH_REVOKE_UNMUTE,
 			Message.PUNISH_MUTE_NOT_MUTED,
 			Message.PUNISH_MUTE_BROADCAST,
+			Message.PUNISH_MUTE_BROADCAST_NO_NAME,
 			Permission.PERMISSION_MUTE),
 
 	TEMPMUTE(false, false, true,
@@ -44,6 +47,7 @@ public enum PunishmentType {
 			Message.PUNISH_REVOKE_UNMUTE,
 			Message.PUNISH_MUTE_NOT_MUTED,
 			Message.PUNISH_TEMPMUTE_BROADCAST,
+			Message.PUNISH_TEMPMUTE_BROADCAST_NO_NAME,
 			Permission.PERMISSION_TEMPMUTE),
 
 	KICK(false, true,false,
@@ -53,6 +57,7 @@ public enum PunishmentType {
 			null,
 			null,
 			Message.PUNISH_KICK_BROADCAST,
+			Message.PUNISH_KICK_BROADCAST_NO_NAME,
 			Permission.PERMISSION_KICK),
 
 	WARN(false,false,false,
@@ -62,6 +67,7 @@ public enum PunishmentType {
 			null,
 			null,
 			Message.PUNISH_WARN_BROADCAST,
+			Message.PUNISH_WARN_BROADCAST_NO_NAME,
 			Permission.PERMISSION_KICK);
 
 	@Getter
@@ -81,7 +87,8 @@ public enum PunishmentType {
 		punishTargetMessage,
 		revokeMessage,
 		notPunishedMessage,
-		broadcastMessage;
+		broadcastMessage,
+		broadcastMessageNoName;
 
 	@Getter
 	private final Permission
