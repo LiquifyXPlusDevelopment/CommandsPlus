@@ -1,23 +1,40 @@
-################################################################
-#                                                              #
-#          █▀▀ █▀█ █▀▄▀█ █▀▄▀█ ▄▀█ █▄ █ █▀▄ █▀ ▄█▄             #
-#          █▄▄ █▄█ █ ▀ █ █ ▀ █ █▀█ █ ▀█ █▄▀ ▄█  ▀              #
-#                                                              #
-#█▄▄ █▄█   █▀▀ █▀▄ ▄▀█ █   █ ▄▀█   ▄▀ █▀█ █▀▀ █ █▀█ ▀█▀ █ █▀▄▀█#
-#█▄█  █    █▄█ █▄▀ █▀█ █▄▄ █ █▀█ ▄▀   █▄█ █▀  █ █▀▄  █  █ █ ▀ █#
-#                                                              #
-################################################################
+#  ░█████╗░░█████╗░███╗░░░███╗███╗░░░███╗░█████╗░███╗░░██╗██████╗░░██████╗██████╗░██╗░░░░░██╗░░░██╗░██████╗
+#  ██╔══██╗██╔══██╗████╗░████║████╗░████║██╔══██╗████╗░██║██╔══██╗██╔════╝██╔══██╗██║░░░░░██║░░░██║██╔════╝
+#  ██║░░╚═╝██║░░██║██╔████╔██║██╔████╔██║███████║██╔██╗██║██║░░██║╚█████╗░██████╔╝██║░░░░░██║░░░██║╚█████╗░
+#  ██║░░██╗██║░░██║██║╚██╔╝██║██║╚██╔╝██║██╔══██║██║╚████║██║░░██║░╚═══██╗██╔═══╝░██║░░░░░██║░░░██║░╚═══██╗
+#  ╚█████╔╝╚█████╔╝██║░╚═╝░██║██║░╚═╝░██║██║░░██║██║░╚███║██████╔╝██████╔╝██║░░░░░███████╗╚██████╔╝██████╔╝
+#  ░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░╚═════╝░╚═╝░░░░░╚══════╝░╚═════╝░╚═════╝░
+#  █▄▄ █▄█   █▀▀ █▀▄ ▄▀█ █░░ █ ▄▀█   █▄░█   █▀█ █▀▀ █ █▀█ ▀█▀ █ █▀▄▀█
+#  █▄█ ░█░   █▄█ █▄▀ █▀█ █▄▄ █ █▀█   █░▀█   █▄█ █▀░ █ █▀▄ ░█░ █ █░▀░█
 
-version: 2.1
-plugin-prefix: "&7Commands&b+ &f» "
-ban-command: "ban {player} no alts online!"
-kick-command: "kick {player} no alts online!"
+#-------------------------------------------------------------------------------------------------#
+# This is CommandsPlus general section, most settings here effect different sides of the way      #
+# CommandsPlus act, since config version 2.0 a lot of features were overridden or deleted.        #
+# The support for config versions lower than 2.0 will not be helped in discord or GitHub!         #
+#               Since Config Version = 2.1 (Do not ask why the version jump).                     #
+#-------------------------------------------------------------------------------------------------#
+general:
+  version: 2.1
+  plugin-prefix: "&7Commands&b+ &f» "
+  feedback-sound: true
 
-#If you want to disable the welcome message just change to true.
-disable_welcome_message: false
+  gui-and-ui:
+    bordering: GRAY_STAINED_GLASS_PANE
+    fast-syncing: true
+    allow-quick-close: true
 
-#If you want to disable the sounds just change to true.
-disable_sounds: false
+  alts:
+    mass-ban-command: "ban {player} no alts online!"
+    mass-kick-command: "kick {player} no alts online!"
+
+  join-and-quit-messages:
+    join:
+      enabled: true
+      message: '&7[&e+&7] &a%player%'
+
+    quit:
+      enabled: true
+      message: '&7[&0-&7] &a%player%'
 
 #-------------------------------------------------------------------------------------------------#
 # Currently we use only 4 types of database drivers: MYSQL, MARIADB, MONGODB, SQLITE & FLATFILE.  #
@@ -30,62 +47,114 @@ disable_sounds: false
 # MONGODB =  MongoDB is a NoSQL system, that is based on querying Json files with a system        #
 #            called Bson. Recommended to use since it is so much cleaner in terms of perfection.  #
 #                                                                                                 #
-# SQLITE =   SQLite is a system that does not need a connection to save data, instead is saves    #
-#            data locally as per file per table, acting like a with no connection needed.         #
+# SQLITE =   SQLite is a system that does not need a connection to save data, instead is          #
+#            saves data locally as per file per table, acting like a local SQL system.            #
 #                                                                                                 #
 # FLATFILE = Flat File system is basically saving all your data inside either json or YML, which  #
 #            was not tested in terms of performance, but is predicted to dictate memory which     #
 #            could result in lag, memory leaks, and more issues that were not tested officially.  #
+#                                                                                                 #
+# host must be an IPv4, without any string additions, and port must be a solid integer.           #
+# username and password should be the ones you got from your providing database service.          #
+# collection-prefix is a prefix used to identify the database's assigned to commandsplus          #
+# collection-prefix is assigned both for MySQL as a table name and for MongoDB's  collections.    #
 #-------------------------------------------------------------------------------------------------#
 database:
   type: MYSQL
   host: "localhost"
   port: 2212
-  username: "user"
-  password: "password"
-  table-prefix: ""
+  username: "root"
+  password: "root"
+  collection-prefix: "cp_"
 
-chat:
-   locked: false
-   clear-template:
-      - "&5&l&m----------------------------"
+#---------------------------------------------------------------------------------------------#
+# Caching section is used to do multitasking caching, due to regulations in Java these days,  #
+# we can be allowed to cache or wait the time the database response could give, same goes to  #
+# fetching data from Mojang's user data api, that is giving us the work of offline players    #
+# putting "allow-caching" to true will activate caching to its fullest, giving you instant    #
+# response over a lot of data and information of punishments, reports and Mojang data.        #
+# Time referring keys are based on milliseconds, not Minecraft Ticks!                         #
+#---------------------------------------------------------------------------------------------#
+caching:
+  allow-caching: true
+  allow-circulating-demand: true
+
+  mojang-fetching:
+    max-cache-time: 300000
+
+    # uses Ashcon's bundle fetcher, which reduces api rate limits due to GitHub workers.
+    # Ashcon Credit: https://github.com/Electroid/mojang-api
+    use-ashcon-fetcher: true
+
+    # If user uses '-f' flag in a command, this will result in refetching player data from Mojang's api.
+    allow-refetch-with-flag: true
+
+  punishments:
+    max-cache-time: 300000
+
+    # true = fully fetching a whole punishment, not just specific values of it.
+    # Pros: more secure, less problematic in terms of identification and caching.
+    # Cons: takes like a millisecond longer due to Hibernates JPA nature.
+    use-full-fetch: true
+
+    # This is good when the database is no longer responsive to the plugin, So you
+    # can decide if players should pass the LoginEvent without the punishment check.
+    allow-join-when-fetch-failed: false
+
+  reports:
+    max-cache-time: 300000
+
+    # true = fully fetching a whole punishment, not just specific values of it.
+    # Pros: more secure, less problematic in terms of identification and caching.
+    # Cons: takes like a millisecond longer due to Hibernates JPA nature.
+    use-full-fetch: true
+
+#-------------------------------------------------------------------------------------------------#
+# Template section is designed as listed text lines, since most of them appear on kick screen.    #
+# Those templates are used for messages that could be edited and simply be reloaded with command. #
+# The templates could do translate color and format codes from Minecraft's default format table.  #
+#   Default Format Table (Unofficial Site): https://minecraft.fandom.com/wiki/Formatting_codes    #
+#            Please do mind that the character '§' is being replaced with '&'.                    #
+#-------------------------------------------------------------------------------------------------#
+templates:
+    clear-chat-broadcast:
+    - "&5&l&m----------------------------"
+    - ""
+    - "&d&lChat has been cleared"
+    - ""
+    - "&5&l&m----------------------------"
+
+    punishments:
+      ban-screen:
+      - "&cYou are banned from &6yourserver.example&c."
       - ""
-      - "&d&lChat has been cleared"
+      - "&7Reason: &f%reason%"
       - ""
-      - "&5&l&m----------------------------"
+      - "&7Expiry: &f%expiry%"
+      - ""
+      - "&7If you feel this punishment is unjustified, fill out a support ticket at &6www.yourwebsite.com."
 
-punishments-lang:
-    tempban-template:
-       - "&cYou are temporarily banned from &6yourserver.example&c."
-       - ""
-       - "&7Expiry: &f%time%"
-       - ""
-       - "&7Reason: &f%reason%"
-       - ""
-       - "&7If you feel this punishment is unjustified, fill out a support ticket at &6www.yourwebsite.com."
-       
-    ban-template:
-       - "&cYou are permanently banned from &6yourserver.example&c."
-       - ""
-       - "&7Reason: &f%reason%"
-       - ""
-       - "&7If you feel this punishment is unjustified, fill out a support ticket at &6www.yourwebsite.com."
-        
-    kick-template:
-        - "&cYou have been kicked from &6yourserver.example&c."
-        - ""
-        - "&7Reason: &f%reason%"
+      kick-screen:
+      - "&cYou have been kicked from &6yourserver.example&c."
+      - ""
+      - "&7Reason: &f%reason%"
 
+    reports:
+      staff-broadcast:
+      - "&7&m-----&6&lNew Report&7&m-----"
+      - "&7Reported: &c%REPORTED%"
+      - "&7Reporter: &a%REPORTER%"
+      - "&7Type: &e%TYPE%"
+      - "&7Status: &e%STATUS%"
+      - "&7&m---------------------"
 
-report-lang:
-  staff-template:
-    - "&7&m-----&6&lNew Report&7&m-----"
-    - "&7Reported: &c%REPORTED%"
-    - "&7Reporter: &a%REPORTER%"
-    - "&7Type: &e%TYPE%"
-    - "&7Status: &e%STATUS%"
-    - "&7&m---------------------"
-
+#-------------------------------------------------------------------------------------------------#
+# Reasons could be created very easily with just specifying some small details and aspects.       #
+# Required values are the name of the reason in topper section, display name, lore and icon.      #
+# display name is plain text, lore is a list of texts for multi line privilege, and icons are     #
+# based on Spigot's (Bukkit ex collaborator) Material Enum constant, which could be listed        #
+# in the following link: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html        #
+#-------------------------------------------------------------------------------------------------#
 reasons:
   fly-hacks:
     display-name: "Fly"

@@ -23,7 +23,7 @@ public class HelpPageSystem {
 		Arrays.asList(this.Messages).add(string);
 	}
 
-	public void ShowPage(CommandSender sender, int Page) {
+	public void showPage(CommandSender sender, int Page) {
 		int theLastPageFix = (Messages.length / MaxLinesPerPage);
 		try {
 			sender.sendMessage(Message.fixColor("&6&lCommandsPlus Help Menu " + Page + "/" + (MaxLinesPerPage * theLastPageFix - MaxLinesPerPage < theLastPageFix ? theLastPageFix : theLastPageFix + 1)));

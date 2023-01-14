@@ -3,7 +3,6 @@ package dev.gdalia.commandsplus.models;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -72,5 +71,10 @@ public interface Punishments {
      * @param value          the object to insert.
      * @param instSave       If the method should save once the key and value being written.
      */
-    public void upsert(UUID punishmentUuid, String key, Object value, boolean instSave);
+    void update(UUID punishmentUuid, String key, Object value, boolean instSave);
+
+    void insertOrReplace(Punishment punishment);
+
+    void init();
+
 }

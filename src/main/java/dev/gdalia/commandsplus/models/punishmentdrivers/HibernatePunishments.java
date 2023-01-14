@@ -3,13 +3,21 @@ package dev.gdalia.commandsplus.models.punishmentdrivers;
 import dev.gdalia.commandsplus.models.Punishments;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.SessionFactory;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class HibernatePunishments implements Punishments {
+@RequiredArgsConstructor
+public class HibernatePunishments implements PunishmentDao {
 
+    private final SessionFactory sessionFactory;
+
+    @Override
+    public void init() {
+    }
 
     @Override
     public Optional<Punishment> getPunishment(UUID punishmentUuid) {
@@ -33,6 +41,11 @@ public class HibernatePunishments implements Punishments {
 
     @Override
     public void upsert(UUID punishmentUuid, String key, Object value, boolean instSave) {
+
+    }
+
+    @Override
+    public void insertOrReplace(Punishment punishment) {
 
     }
 }

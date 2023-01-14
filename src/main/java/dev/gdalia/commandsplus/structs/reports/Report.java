@@ -1,5 +1,6 @@
 package dev.gdalia.commandsplus.structs.reports;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -10,23 +11,28 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-
+@Entity
 @RequiredArgsConstructor
 public class Report {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @NotNull
     private final UUID reportUuid;
 
     @Getter
+    @Column(updatable = false)
     @NotNull
     private final UUID convicted;
 
     @Getter
+    @Column(updatable = false)
     @NotNull
     private final UUID reporter;
 
     @Getter
+    @Column(updatable = false)
     @NotNull
     private final Instant sentAt;
 

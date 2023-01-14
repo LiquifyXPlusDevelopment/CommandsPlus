@@ -75,7 +75,7 @@ public class MainCommand extends BasePlusCommand {
 
 				int page = (args.length == 1 || !StringUtils.isNumeric(args[1]) || Integer.parseInt(args[1]) == 0) ? 1 : Integer.parseInt(args[1]);
 
-				hps.ShowPage(sender, page);
+				hps.showPage(sender, page);
 				Message.playSound(sender, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
 			}
 			case "reload" -> {

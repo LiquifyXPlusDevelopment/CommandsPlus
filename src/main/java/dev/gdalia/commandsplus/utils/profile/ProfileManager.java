@@ -1,10 +1,11 @@
 package dev.gdalia.commandsplus.utils.profile;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,35 +18,39 @@ public class ProfileManager {
     @Setter
     private static ProfileManager instance;
 
-    private final Map<String, Profile> profiles = new HashMap<>();
+    private final Cache<String, Profile> profiles = CacheBuilder.newBuilder()
+            .concurrencyLevel(6)
+            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .build();
+
+    private Map<String, Profile> getImmutableProfileList() {
+        return Map.copyOf(profiles.asMap());
+    }
 
     private boolean containsKey(String name) {
-        return profiles.containsKey(name.toLowerCase());
+        return profiles.getIfPresent(name.toLowerCase()) != null;
     }
 
     private boolean containsUser(UUID uuid) {
-        return profiles.values()
+        return getImmutableProfileList().values()
                 .stream()
                 .anyMatch(profile -> profile.playerUUID().equals(uuid));
     }
 
     private Profile pullProfile(String name) {
-        return profiles.get(name.toLowerCase());
+        return profiles.getIfPresent(name);
     }
 
     private Profile pullProfile(UUID uuid) {
-        return profiles.values()
+        return getImmutableProfileList().values()
                 .stream()
                 .filter(profile -> profile.playerUUID().equals(uuid))
-                .findAny().orElseThrow();
+                .findAny()
+                .orElse(null);
     }
 
     private void pushProfile(String name, Profile profile) {
         profiles.put(name.toLowerCase(), profile);
-    }
-
-    private void removeProfile(String name) {
-        profiles.remove(name.toLowerCase());
     }
 
     /**
@@ -147,7 +152,6 @@ public class ProfileManager {
                     && profile.get().value().equals(oldProfile.get().value()))
                 return oldProfile;
 
-            if (containsKey(name)) removeProfile(name);
             pushProfile(name, profile.get());
         }
 
@@ -163,7 +167,6 @@ public class ProfileManager {
                     && profile.get().value().equals(oldProfile.get().value()))
                 return oldProfile;
 
-            if (containsKey(profile.get().playerName())) removeProfile(profile.get().playerName());
             pushProfile(profile.get().playerName(), profile.get());
         }
 

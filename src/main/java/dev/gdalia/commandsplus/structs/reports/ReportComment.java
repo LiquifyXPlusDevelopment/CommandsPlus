@@ -41,6 +41,7 @@ public class ReportComment implements ConfigurationSerializable {
         return data;
     }
 
+    @SuppressWarnings("unused")
     public static ReportComment deserialize(Map<String, Object> data) {
         return new ReportComment(
                 Bukkit.getOfflinePlayer(UUID.fromString(data.get("sender").toString())),
