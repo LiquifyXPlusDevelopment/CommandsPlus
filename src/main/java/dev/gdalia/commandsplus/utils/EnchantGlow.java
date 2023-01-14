@@ -15,6 +15,8 @@ import java.util.Set;
 
 public class EnchantGlow extends Enchantment {
 
+	private static final NamespacedKey ENCHANT_GLOW = new NamespacedKey(Main.getInstance(), "glow");
+
 	private static Enchantment glow;
 
 	public EnchantGlow(NamespacedKey id) {
@@ -62,16 +64,19 @@ public class EnchantGlow extends Enchantment {
 	}
 
 	public static Enchantment getGlow() {
-		try {
-			Field f = Enchantment.class.getDeclaredField("acceptingNew");
-			f.setAccessible(true);
-			f.set(null, true);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (glow == null) {
+			try {
+				Field f = Enchantment.class.getDeclaredField("acceptingNew");
+				f.setAccessible(true);
+				f.set(null, true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			glow = new EnchantGlow(ENCHANT_GLOW);
+			if (Enchantment.getByKey(ENCHANT_GLOW) == null)
+				Enchantment.registerEnchantment(glow);
 		}
-		
-		glow = new EnchantGlow(new NamespacedKey(Main.getInstance(), "glow"));
-		if (Enchantment.getByKey(NamespacedKey.fromString("glow", Main.getInstance())) == null) Enchantment.registerEnchantment(glow);
 		return glow;
 	}
 

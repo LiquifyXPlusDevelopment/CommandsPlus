@@ -107,7 +107,8 @@ public class Main extends JavaPlugin {
 		textComponent.addExtra(clickableText);
 		return updateAvailableClickable();
 	}
-	
+
+	// some hard core static abuz here
 	public static class PlayerCollection {
 		@Getter
 		private final static List<UUID>

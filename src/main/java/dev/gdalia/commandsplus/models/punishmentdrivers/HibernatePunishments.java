@@ -1,6 +1,6 @@
 package dev.gdalia.commandsplus.models.punishmentdrivers;
 
-import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.PunishmentDao;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class HibernatePunishments implements PunishmentDao {
     }
 
     @Override
-    public void upsert(UUID punishmentUuid, String key, Object value, boolean instSave) {
+    public void update(UUID punishmentUuid, String key, Object value, boolean instSave) {
 
     }
 

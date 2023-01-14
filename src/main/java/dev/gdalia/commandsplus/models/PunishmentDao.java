@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface Punishments {
+public interface PunishmentDao {
 
     /**
      * Finds a punishment inside the database by the following UUID.
@@ -40,7 +40,7 @@ public interface Punishments {
     Optional<Punishment> getActivePunishment(UUID playerUniqueId, PunishmentType... type);
 
     /**
-     * Checks and gets any active punishment that a user/player currently has, similar to {@link Punishments#getActivePunishment(UUID, PunishmentType...)}
+     * Checks and gets any active punishment that a user/player currently has, similar to {@link PunishmentDao#getActivePunishment(UUID, PunishmentType...)}
      * but allows to look for any active one without selected few.
      *
      * @param playerUniqueId The user/player unique ID.

@@ -54,13 +54,13 @@ public class PunishmentManager {
 		executor[0] = "CONSOLE";
 		Optional.ofNullable(whoRemoved).ifPresent(uuid -> executor[0] = uuid.toString());
 
-		FlatFilePunishments.getInstance().upsert(
+		FlatFilePunishments.getInstance().update(
 				punishment.getPunishmentUniqueId(),
 				ConfigFields.PunishFields.REMOVED_BY,
 				executor[0],
 				false);
 
-		FlatFilePunishments.getInstance().upsert(
+		FlatFilePunishments.getInstance().update(
 				punishment.getPunishmentUniqueId(),
 				ConfigFields.PunishFields.EXPIRY,
 				Instant.now().toEpochMilli(),

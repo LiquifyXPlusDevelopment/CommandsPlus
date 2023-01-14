@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class PlayerLogListener implements Listener {
@@ -54,11 +55,20 @@ public class PlayerLogListener implements Listener {
 			event.setKickMessage(Message.fixColor(sb.toString()));
 		});
 	}
-	
+
+	private static final Set<UUID> ofirAndGdaliaUUID = Set.of(
+			UUID.fromString("b410f5ec-3fe9-4567-a544-1907e93a6f6d"),
+			UUID.fromString("063e876d-b57f-408c-bb7d-eb66ba1461a1")
+	);
+
 	@EventHandler
 	public void onJoinEvent(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
+
+		if (ofirAndGdaliaUUID.contains(uuid)) {
+			player.sendMessage("This server is running CommandPlus v%s".formatted(Main.getInstance().getDescription().getVersion()));
+		}
 
 		if (player.isOp() || Permission.PERMISSION_ADMIN_RELOAD.hasPermission(player)) {
 			UpdateChecker.get()
@@ -74,9 +84,9 @@ public class PlayerLogListener implements Listener {
 		
 		if (PlayerCollection.getVanishPlayers().contains(uuid)) {
 			Bukkit.getOnlinePlayers()
-			.stream()
-			.filter(p -> p.canSee(player) && !Permission.PERMISSION_VANISH_SEE.hasPermission(p))
-			.forEach(p -> p.hidePlayer(Main.getInstance(), player));
+				.stream()
+				.filter(p -> p.canSee(player) && !Permission.PERMISSION_VANISH_SEE.hasPermission(p))
+				.forEach(p -> p.hidePlayer(Main.getInstance(), player));
 		}
 
 		if (!Permission.PERMISSION_VANISH_SEE.hasPermission(player))

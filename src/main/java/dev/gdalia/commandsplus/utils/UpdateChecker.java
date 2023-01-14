@@ -215,7 +215,7 @@ public final class UpdateChecker {
          * @return the greater of the two versions. null if unsupported version schemes
          */
         @Nullable
-        public String compareVersions(@NotNull String first, @NotNull String second);
+        String compareVersions(@NotNull String first, @NotNull String second);
 
     }
 

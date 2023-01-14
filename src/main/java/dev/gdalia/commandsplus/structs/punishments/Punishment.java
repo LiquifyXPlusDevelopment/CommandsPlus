@@ -14,7 +14,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = { @JsonCreator })
 public class Punishment {
 
 	@Id

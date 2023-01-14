@@ -2,7 +2,7 @@ package dev.gdalia.commandsplus.models.punishmentdrivers;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.ConfigFields;
-import dev.gdalia.commandsplus.models.Punishments;
+import dev.gdalia.commandsplus.models.PunishmentDao;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentRevoke;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
@@ -19,7 +19,7 @@ import java.util.logging.Level;
 /**
  * TODO think about better ideas to make this even more better and cooler to use.
  */
-public class FlatFilePunishments implements Punishments {
+public class FlatFilePunishments implements PunishmentDao {
 
 	@Getter
 	@Setter
@@ -30,6 +30,7 @@ public class FlatFilePunishments implements Punishments {
 	private final Config pConfig = Main.getInstance().getPunishmentsConfig();
 
 	public Optional<Punishment> getPunishment(UUID punishmentUuid) {
+		// I am too shamen
 		if (punishments.containsKey(punishmentUuid))
 			return Optional.of(punishments.get(punishmentUuid));
 
@@ -129,7 +130,7 @@ public class FlatFilePunishments implements Punishments {
 	 * @param value the object to insert.
 	 * @param instSave If the method should save once the key and value being written.
 	 */
-	public void upsert(UUID punishmentUuid, String key, Object value, boolean instSave) {
+	public void update(UUID punishmentUuid, String key, Object value, boolean instSave) {
 		Optional<ConfigurationSection> cs = Optional.ofNullable(pConfig.getConfigurationSection(punishmentUuid.toString()));
 		cs.ifPresentOrElse(configurationSection -> {
 			configurationSection.set(key, value);
@@ -137,7 +138,7 @@ public class FlatFilePunishments implements Punishments {
 		}, () -> {
 			pConfig.createSection(punishmentUuid.toString());
 			pConfig.saveConfig();
-			upsert(punishmentUuid, key, value, instSave);
+			update(punishmentUuid, key, value, instSave);
 		});
 	}
 
@@ -151,7 +152,7 @@ public class FlatFilePunishments implements Punishments {
 	}
 	
 	/**
-	 * same as {@link FlatFilePunishments#upsert(UUID, String, Object, boolean)}, the usage here
+	 * same as {@link FlatFilePunishments#update(UUID, String, Object, boolean)}, the usage here
 	 * is for shortening code calls whenever possible
 	 * 
 	 * @param punishment The punishment to write into, if existing.
@@ -160,7 +161,7 @@ public class FlatFilePunishments implements Punishments {
 	 * @param instSave If the method should save once the key and value being written.
 	 */
 	public void upsert(Punishment punishment, String key, Object value, boolean instSave) {
-		upsert(punishment.getPunishmentUniqueId(), key, value, instSave);
+		update(punishment.getPunishmentUniqueId(), key, value, instSave);
 	}
 
 	public boolean convertToRevokedPunishment(Punishment punishment) {

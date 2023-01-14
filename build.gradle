@@ -24,6 +24,7 @@ dependencies {
     implementation 'org.hibernate:hibernate-core:6.1.6.Final'
     compileOnly 'org.jetbrains:annotations:23.1.0'
     compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
+    implementation 'org.mongojack:mongojack:4.8.0'
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
