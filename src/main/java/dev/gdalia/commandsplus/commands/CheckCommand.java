@@ -1,6 +1,6 @@
 package dev.gdalia.commandsplus.commands;
 
-import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
+import dev.gdalia.commandsplus.models.drivers.FlatFilePunishmentDao;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
@@ -83,7 +83,7 @@ public class CheckCommand extends BasePlusCommand {
 	}
 
 	private void checkAction(CommandSender requester, Profile profile, boolean async) {
-		Optional<Punishment> anyActivePunishment = FlatFilePunishments.getInstance().getAnyActivePunishment(profile.playerUUID());
+		Optional<Punishment> anyActivePunishment = FlatFilePunishmentDao.getInstance().getAnyActivePunishment(profile.playerUUID());
 
 		anyActivePunishment.ifPresentOrElse(punishment -> {
 			Message.playSound(requester, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);

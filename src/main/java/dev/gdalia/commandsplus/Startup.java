@@ -1,6 +1,6 @@
 package dev.gdalia.commandsplus;
 
-import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
+import dev.gdalia.commandsplus.models.drivers.FlatFilePunishmentDao;
 import dev.gdalia.commandsplus.models.ReasonManager;
 import dev.gdalia.commandsplus.models.Reports;
 import dev.gdalia.commandsplus.structs.Message;
@@ -37,24 +37,45 @@ public class Startup {
         main.saveDefaultConfig();
 
         //Language
-        main.setLanguageConfig(Config.getConfig("language", null, false));
+        main.setLanguageConfig(Config.getConfig("language"));
         Arrays.stream(Message.values()).forEach(message -> main.getLanguageConfig().addDefault(message.name(), message.getDefaultMessage()));
         main.getLanguageConfig().saveConfig();
-
-        //Reports & Punishments
-        main.setPunishmentsConfig(Config.getConfig("punishments", null, false));
-        main.setReportsConfig(Config.getConfig("reports", null, false));
 
         //Success message
         Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lLoaded all configs!"));
     }
 
     public void loadDataBase() {
+        switch (Main.getInstance().getConfig().getString("database.type", "FLATFILE")) {
+            case "MYSQL" -> {
+            }
+
+            case "MARIADB" -> {
+
+            }
+
+            case "MONGODB" -> {
+
+            }
+
+            case "SQLITE" -> {
+
+            }
+
+            case "FLATFILE" -> {
+
+            }
+        }
+        //Reports & Punishments
+        main.setPunishmentsConfig(Config.getConfig("punishments"));
+        main.setReportsConfig(Config.getConfig("reports"));
+
+
         //Punishments
         main.getPunishmentsConfig().getKeys(false)
                 .stream()
                 .map(UUID::fromString)
-                .peek(uuid -> FlatFilePunishments.getInstance().getPunishment(uuid))
+                .peek(uuid -> FlatFilePunishmentDao.getInstance().getPunishment(uuid))
                 .close();
 
         //Reports
@@ -64,6 +85,7 @@ public class Startup {
                 .peek(uuid -> Reports.getInstance().getReport(uuid))
                 .close();
 
+        //Success message
         Bukkit.getConsoleSender().sendMessage(Message.fixColor("&a&lLoaded info from database!"));
     }
 
@@ -80,7 +102,7 @@ public class Startup {
     }
 
     public void loadManagers() {
-        FlatFilePunishments.setInstance(new FlatFilePunishments());
+        FlatFilePunishmentDao.setInstance(new FlatFilePunishmentDao());
         Reports.setInstance(new Reports());
         ReasonManager.setInstance(new ReasonManager());
         ProfileManager.setInstance(new ProfileManager());

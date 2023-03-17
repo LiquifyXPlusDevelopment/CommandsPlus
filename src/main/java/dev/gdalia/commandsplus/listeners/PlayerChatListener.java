@@ -2,7 +2,7 @@ package dev.gdalia.commandsplus.listeners;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.inventory.InventoryUtils;
-import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
+import dev.gdalia.commandsplus.models.drivers.FlatFilePunishmentDao;
 import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
@@ -52,7 +52,7 @@ public class PlayerChatListener implements Listener {
 					event.setCancelled(true);
 				});
 
-		FlatFilePunishments.getInstance().getActivePunishment(e.getUniqueId(), PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresent(punishment -> {
+		FlatFilePunishmentDao.getInstance().getActivePunishment(e.getUniqueId(), PunishmentType.MUTE, PunishmentType.TEMPMUTE).ifPresent(punishment -> {
 			Message.playSound(e, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
 			event.setCancelled(true);
 			

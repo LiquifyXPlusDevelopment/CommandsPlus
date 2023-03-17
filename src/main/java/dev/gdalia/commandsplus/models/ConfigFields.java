@@ -2,7 +2,7 @@ package dev.gdalia.commandsplus.models;
 
 public class ConfigFields {
 
-	public static class PunishFields {
+	public static class TypeFields {
 		
 		public static final String 
 			PUNISHED = "punished", //UUID

@@ -2,7 +2,7 @@ package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
+import dev.gdalia.commandsplus.models.drivers.FlatFilePunishmentDao;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Flag;
 import dev.gdalia.commandsplus.structs.Message;
@@ -149,7 +149,7 @@ public class PunishPermanentlyCommand extends BasePlusCommand {
 
 	public void punishAction(CommandSender requester, Punishment punishment, String targetName, List<Flag> flags) {
 		Optional<Punishment> activePunishment =
-		FlatFilePunishments.getInstance().getActivePunishment(
+		FlatFilePunishmentDao.getInstance().getActivePunishment(
 			punishment.getPunished(),
 			punishment.getType(),
 			PunishmentType.canBeType("TEMP" + punishment.getType().name()) ? PunishmentType.valueOf("TEMP" + punishment.getType().name()) : punishment.getType());

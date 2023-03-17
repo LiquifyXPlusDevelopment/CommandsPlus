@@ -1,19 +1,19 @@
-package dev.gdalia.commandsplus.models.punishmentdrivers;
+package dev.gdalia.commandsplus.models.drivers;
 
 import dev.gdalia.commandsplus.models.PunishmentDao;
 import dev.gdalia.commandsplus.structs.punishments.Punishment;
 import dev.gdalia.commandsplus.structs.punishments.PunishmentType;
+import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.SessionFactory;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public class HibernatePunishments implements PunishmentDao {
+public class JPAPunishmentDao implements PunishmentDao {
 
-    private final SessionFactory sessionFactory;
+    private final EntityManagerFactory emf;
 
     @Override
     public void init() {

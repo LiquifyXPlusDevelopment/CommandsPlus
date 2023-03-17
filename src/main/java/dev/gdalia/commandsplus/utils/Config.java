@@ -57,7 +57,7 @@ public class Config extends YamlConfiguration {
 	@Getter
 	private File file;
 	
-	public Config(String name, @Nullable String folder, boolean loadFromDefault) {
+	private Config(String name, @Nullable String folder, boolean loadFromDefault) {
 		setName(name);
 		setFolder(folder);
 		configs.put(folder == null ? name : folder + File.separator + name, this);
@@ -68,6 +68,15 @@ public class Config extends YamlConfiguration {
 		String path = folder == null ? name : folder + File.separator + name;
 		return configs.containsKey(path) ? configs.get(name) : new Config(name, folder, loadFromDefault);
 	}
+
+	public static Config getConfig(String name, boolean loadFromDefault) {
+		return configs.containsKey(name) ? configs.get(name) : new Config(name, null, loadFromDefault);
+	}
+
+	public static Config getConfig(String name) {
+		return configs.containsKey(name) ? configs.get(name) : new Config(name, null, false);
+	}
+
 
 	@SneakyThrows
 	public void reloadConfig() {

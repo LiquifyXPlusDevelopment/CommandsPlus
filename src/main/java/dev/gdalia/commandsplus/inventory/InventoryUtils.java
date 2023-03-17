@@ -1,7 +1,7 @@
 package dev.gdalia.commandsplus.inventory;
 
 import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
+import dev.gdalia.commandsplus.models.drivers.FlatFilePunishmentDao;
 import dev.gdalia.commandsplus.models.ReportManager;
 import dev.gdalia.commandsplus.structs.Flag;
 import dev.gdalia.commandsplus.structs.Message;
@@ -82,7 +82,7 @@ public class InventoryUtils {
                 .filter(player -> target.isOnline())
                 .ifPresent(clickable -> {
                     if (type.equals(PunishmentType.MUTE) || type.equals(PunishmentType.BAN)) {
-                        if (FlatFilePunishments.getInstance().getActivePunishment(target.getUniqueId(), type,
+                        if (FlatFilePunishmentDao.getInstance().getActivePunishment(target.getUniqueId(), type,
                                 PunishmentType.valueOf("TEMP" + type.name().toUpperCase())).orElse(null) != null) {
                             type.getAlreadyPunishedMessage().sendMessage(checker, true);
                             Message.playSound(checker, Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
@@ -111,7 +111,7 @@ public class InventoryUtils {
         Optional.of(event.getClick())
                 .filter(clickType -> clickType.equals(ClickType.LEFT))
                 .filter(player -> target.isOnline())
-                .ifPresent(clickable -> FlatFilePunishments.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase())).ifPresentOrElse(punishment -> {
+                .ifPresent(clickable -> FlatFilePunishmentDao.getInstance().getActivePunishment(target.getUniqueId(), PunishmentType.valueOf(type.name().toUpperCase()), PunishmentType.valueOf(type.name().replace("TEMP", "").toUpperCase())).ifPresentOrElse(punishment -> {
                     type.getAlreadyPunishedMessage().sendMessage(checker, true);
                     checker.closeInventory();
                 }, () -> {
@@ -149,7 +149,7 @@ public class InventoryUtils {
     }
 
     public String activePunishmentStateString(PunishmentType firstType, PunishmentType secondType, UUID target) {
-        Optional<Punishment> anyActivePunishment = FlatFilePunishments
+        Optional<Punishment> anyActivePunishment = FlatFilePunishmentDao
                 .getInstance()
                 .getAnyActivePunishment(target)
                 .filter(punishment -> punishment.getType().equals(firstType) || punishment.getType().equals(secondType));

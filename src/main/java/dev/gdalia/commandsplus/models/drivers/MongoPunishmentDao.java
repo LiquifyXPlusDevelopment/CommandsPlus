@@ -1,4 +1,4 @@
-package dev.gdalia.commandsplus.models.punishmentdrivers;
+package dev.gdalia.commandsplus.models.drivers;
 
 import com.mongodb.client.model.*;
 import dev.gdalia.commandsplus.models.PunishmentDao;
@@ -23,7 +23,6 @@ public class MongoPunishmentDao implements PunishmentDao {
     public void init() {
         // TODO if not using getPunishment by punishment uuid much this can be removed
         collection.createIndex(Indexes.ascending("punishmentUniqueId"), new IndexOptions().unique(true).background(true));
-
     }
 
     @Override

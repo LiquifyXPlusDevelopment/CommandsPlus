@@ -2,7 +2,7 @@ package dev.gdalia.commandsplus.commands;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.PunishmentManager;
-import dev.gdalia.commandsplus.models.punishmentdrivers.FlatFilePunishments;
+import dev.gdalia.commandsplus.models.drivers.FlatFilePunishmentDao;
 import dev.gdalia.commandsplus.structs.BasePlusCommand;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.structs.Permission;
@@ -79,7 +79,7 @@ public class PardonCommand extends BasePlusCommand {
 				return;
 			}
 
-			FlatFilePunishments.getInstance()
+			FlatFilePunishmentDao.getInstance()
 				.getActivePunishment(
 				profile.playerUUID(),
 				type, PunishmentType.valueOf("TEMP" + type.name()))

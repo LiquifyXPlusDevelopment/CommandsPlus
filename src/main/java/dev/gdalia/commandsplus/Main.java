@@ -1,6 +1,8 @@
 package dev.gdalia.commandsplus;
 
+import dev.gdalia.commandsplus.models.PunishmentDao;
 import dev.gdalia.commandsplus.runnables.ActionBarVanishTask;
+import dev.gdalia.commandsplus.service.executor.DataBaseExecutorService;
 import dev.gdalia.commandsplus.structs.Message;
 import dev.gdalia.commandsplus.utils.Config;
 import dev.gdalia.commandsplus.utils.UpdateChecker;
@@ -55,6 +57,11 @@ public class Main extends JavaPlugin {
     		languageConfig,
 			punishmentsConfig,
 			reportsConfig;
+
+	@Getter
+	@Setter(value = AccessLevel.PACKAGE)
+	private PunishmentDao
+			punishmentServiceExecutor;
     
 	public void onEnable() {
 		//MAIN INSTANCE

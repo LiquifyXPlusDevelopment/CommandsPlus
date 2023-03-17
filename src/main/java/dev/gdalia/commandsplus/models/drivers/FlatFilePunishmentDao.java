@@ -1,4 +1,4 @@
-package dev.gdalia.commandsplus.models.punishmentdrivers;
+package dev.gdalia.commandsplus.models.drivers;
 
 import dev.gdalia.commandsplus.Main;
 import dev.gdalia.commandsplus.models.ConfigFields;
@@ -19,11 +19,11 @@ import java.util.logging.Level;
 /**
  * TODO think about better ideas to make this even more better and cooler to use.
  */
-public class FlatFilePunishments implements PunishmentDao {
+public class FlatFilePunishmentDao implements PunishmentDao {
 
 	@Getter
 	@Setter
-	private static FlatFilePunishments instance;
+	private static FlatFilePunishmentDao instance;
 
 	private final HashMap<UUID, Punishment> punishments = new HashMap<>();
 	
@@ -38,31 +38,31 @@ public class FlatFilePunishments implements PunishmentDao {
 		if (cs == null) return Optional.empty();
 
 		UUID executor =
-				cs.getString(ConfigFields.PunishFields.EXECUTOR) != null && StringUtils.isUniqueId(cs.getString(ConfigFields.PunishFields.EXECUTOR)) ?
-				UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.EXECUTOR))) :
+				cs.getString(ConfigFields.TypeFields.EXECUTOR) != null && StringUtils.isUniqueId(cs.getString(ConfigFields.TypeFields.EXECUTOR)) ?
+				UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.TypeFields.EXECUTOR))) :
 				null;
 
 		final Punishment[] punishment = new Punishment[1];
 		try {
 			punishment[0] = new Punishment(
 					punishmentUuid,
-					UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.PUNISHED))),
+					UUID.fromString(Objects.requireNonNull(cs.getString(ConfigFields.TypeFields.PUNISHED))),
 					executor,
-					PunishmentType.valueOf(cs.getString(ConfigFields.PunishFields.TYPE)),
-					Objects.requireNonNull(cs.getString(ConfigFields.PunishFields.REASON)),
-					cs.getBoolean(ConfigFields.PunishFields.OVERRIDE));
+					PunishmentType.valueOf(cs.getString(ConfigFields.TypeFields.TYPE)),
+					Objects.requireNonNull(cs.getString(ConfigFields.TypeFields.REASON)),
+					cs.getBoolean(ConfigFields.TypeFields.OVERRIDE));
 		} catch (NullPointerException e1) {
 			Main.getInstance().getLogger().log(Level.SEVERE, "Couldn't load punishment " + punishmentUuid.toString());
 			return Optional.empty();
 		}
 
-		Optional.ofNullable(cs.get(ConfigFields.PunishFields.EXPIRY))
+		Optional.ofNullable(cs.get(ConfigFields.TypeFields.EXPIRY))
 		        .filter(Long.class::isInstance)
 		        .map(String::valueOf)
 		        .map(Long::parseLong)
 				.ifPresent(expiry -> punishment[0].setExpiry(Instant.ofEpochMilli(expiry)));
 
-		Optional.ofNullable(cs.get(ConfigFields.PunishFields.REMOVED_BY))
+		Optional.ofNullable(cs.get(ConfigFields.TypeFields.REMOVED_BY))
 				.filter(String.class::isInstance)
 				.map(String::valueOf)
 				.ifPresent(s -> {
@@ -99,7 +99,7 @@ public class FlatFilePunishments implements PunishmentDao {
                 .filter(punishment -> {
                     ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
                     if (cs == null) return false;
-                    return !cs.contains(ConfigFields.PunishFields.OVERRIDE) && !cs.contains(ConfigFields.PunishFields.REMOVED_BY);
+                    return !cs.contains(ConfigFields.TypeFields.OVERRIDE) && !cs.contains(ConfigFields.TypeFields.REMOVED_BY);
                 }).findAny();
     }
 
@@ -152,7 +152,7 @@ public class FlatFilePunishments implements PunishmentDao {
 	}
 	
 	/**
-	 * same as {@link FlatFilePunishments#update(UUID, String, Object, boolean)}, the usage here
+	 * same as {@link FlatFilePunishmentDao#update(UUID, String, Object, boolean)}, the usage here
 	 * is for shortening code calls whenever possible
 	 * 
 	 * @param punishment The punishment to write into, if existing.
@@ -168,9 +168,9 @@ public class FlatFilePunishments implements PunishmentDao {
 		if (!getServerPunishments().contains(punishment)) return false;
 
 		ConfigurationSection cs = pConfig.getConfigurationSection(punishment.getPunishmentUniqueId().toString());
-		if (cs.get(ConfigFields.PunishFields.REMOVED_BY) == null) return false;
+		if (cs.get(ConfigFields.TypeFields.REMOVED_BY) == null) return false;
 
-		Optional<UUID> uuid = Optional.ofNullable(cs.getString(ConfigFields.PunishFields.REMOVED_BY))
+		Optional<UUID> uuid = Optional.ofNullable(cs.getString(ConfigFields.TypeFields.REMOVED_BY))
 				.filter(StringUtils::isUniqueId)
 				.map(UUID::fromString);
 
